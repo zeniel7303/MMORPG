@@ -61,24 +61,24 @@ char* RingBuffer::CanParsing()
 {
 	dataInBuffer = GetDataInBuffer();
 
-	//¸µ¹öÆÛ ¾È¿¡ µ¥ÀÌÅÍ°¡ 2ÀÌ»ó ÀÖ´Â°¡? (ÆĞÅ¶ »çÀÌÁî ÀĞÀ» ¼ö ÀÖ´Â ÃÖ¼ÒÇÑÀÇ Å©±â = 2)
+	//ë§ë²„í¼ ì•ˆì— ë°ì´í„°ê°€ 2ì´ìƒ ìˆëŠ”ê°€? (íŒ¨í‚· ì‚¬ì´ì¦ˆ ì½ì„ ìˆ˜ ìˆëŠ” ìµœì†Œí•œì˜ í¬ê¸° = 2)
 	if (dataInBuffer >= 2)
 	{
 		return Parsing();
 	}
 
-	//µ¥ÀÌÅÍ°¡ ¾ø°Å³ª 1µé¾î¿Í¼­ Å©±âÁ¶Â÷ ¾Ë ¼ö ¾øÀ» °æ¿ì
+	//ë°ì´í„°ê°€ ì—†ê±°ë‚˜ 1ë“¤ì–´ì™€ì„œ í¬ê¸°ì¡°ì°¨ ì•Œ ìˆ˜ ì—†ì„ ê²½ìš°
 	return nullptr;
 }
 
 char* RingBuffer::Parsing()
 {
-	//¹öÆÛÀÇ ³¡ÁöÁ¡ºÎÅÍ ÀĞ´Â ÁöÁ¡±îÁöÀÇ »çÀÌÁî
+	//ë²„í¼ì˜ ëì§€ì ë¶€í„° ì½ëŠ” ì§€ì ê¹Œì§€ì˜ ì‚¬ì´ì¦ˆ
 	int remainedSize = (int)(bufferEndPoint - readPoint);
-	//ÆÄ½ÌÇÒ µ¥ÀÌÅÍ´Â ÀĞ´Â ÁöÁ¡ºÎÅÍ ÀĞ¾î¿Â´Ù.
+	//íŒŒì‹±í•  ë°ì´í„°ëŠ” ì½ëŠ” ì§€ì ë¶€í„° ì½ì–´ì˜¨ë‹¤.
 	char* parsingData = readPoint;
 
-	//¹öÆÛÀÇ ³¡ÁöÁ¡ºÎÅÍ ÀĞ´Â ÁöÁ¡±îÁö »çÀÌÁî°¡ 1¹Û¿¡ ¾ø´Â °æ¿ì -> ÀÌ¾îÁà¾ßÇÑ´Ù.
+	//ë²„í¼ì˜ ëì§€ì ë¶€í„° ì½ëŠ” ì§€ì ê¹Œì§€ ì‚¬ì´ì¦ˆê°€ 1ë°–ì— ì—†ëŠ” ê²½ìš° -> ì´ì–´ì¤˜ì•¼í•œë‹¤.
 	if (remainedSize == 1)
 	{
 		char* tempBuffer = bufferStartPoint - 1;
@@ -88,7 +88,7 @@ char* RingBuffer::Parsing()
 
 		return parsingData;
 	}
-	//¹öÆÛÀÇ ³¡ÁöÁ¡ºÎÅÍ ÀĞ´Â ÁöÁ¡ÀÌ °°´Ù = ¹öÆÛÀÇ Ã¹ÁöÁ¡À¸·Î ÀĞ´Â ÁöÁ¡À» ¿Å°Ü¾ßÇÑ´Ù.
+	//ë²„í¼ì˜ ëì§€ì ë¶€í„° ì½ëŠ” ì§€ì ì´ ê°™ë‹¤ = ë²„í¼ì˜ ì²«ì§€ì ìœ¼ë¡œ ì½ëŠ” ì§€ì ì„ ì˜®ê²¨ì•¼í•œë‹¤.
 	else if (remainedSize == 0)
 	{
 		readPoint = bufferStartPoint;
@@ -104,10 +104,10 @@ char* RingBuffer::Parsing()
 
 	readPoint += packetSize;
 	
-	if (this->GetDataInBuffer() > 0)
-	{
-		printf("%d \n", this->GetDataInBuffer());
-	}
+	//if (this->GetDataInBuffer() > 0)
+	//{
+		//printf("%d \n", this->GetDataInBuffer());
+	//}
 
 	return parsingData;
 }
@@ -120,14 +120,14 @@ DWORD RingBuffer::GetWriteableSize()
 	}
 	else if (readPoint == writePoint)
 	{
-		//readPoint¿Í writePoint°¡ °°Àºµ¥
-		//µ¥ÀÌÅÍ°¡ ÀÖ´Â °æ¿ì == ÇÑ¹ÙÄû µ¹¾Æ¼­ °°¾ÆÁü
+		//readPointì™€ writePointê°€ ê°™ì€ë°
+		//ë°ì´í„°ê°€ ìˆëŠ” ê²½ìš° == í•œë°”í€´ ëŒì•„ì„œ ê°™ì•„ì§
 		if (this->GetDataInBuffer() > 0)
 		{
 			return 0;
 		}
-		//readPoint¿Í writePoint°¡ °°Àºµ¥
-		//µ¥ÀÌÅÍ°¡ ¾ø´Â °æ¿ì == ringBuffer°¡ µ¥ÀÌÅÍ¸¦ ¹Ş´Â ½ÃÁ¡ÀÌ°Å³ª Ã³¸®ÇÒ°Ô ¾øÀ½(¹®Á¦X)
+		//readPointì™€ writePointê°€ ê°™ì€ë°
+		//ë°ì´í„°ê°€ ì—†ëŠ” ê²½ìš° == ringBufferê°€ ë°ì´í„°ë¥¼ ë°›ëŠ” ì‹œì ì´ê±°ë‚˜ ì²˜ë¦¬í• ê²Œ ì—†ìŒ(ë¬¸ì œX)
 		else
 		{
 			return bufferEndPoint - writePoint;
