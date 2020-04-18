@@ -127,6 +127,7 @@
     <ClCompile Include="MySQLClass.cpp" />
     <ClCompile Include="RPGServer.cpp" />
     <ClCompile Include="CriticalSectionClass.cpp" />
+    <ClCompile Include="Section.cpp" />
     <ClCompile Include="ServerLogicThread.cpp" />
     <ClCompile Include="ListenClass.cpp" />
     <ClCompile Include="Session.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="CircBuf.h" />
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="CriticalSectionClass.h" />
+    <ClInclude Include="Section.h" />
     <ClInclude Include="ServerLogicThread.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="SharedQueue.h" />

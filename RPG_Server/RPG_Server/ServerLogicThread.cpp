@@ -267,6 +267,9 @@ void ServerLogicThread::ParsingMonster()
 		Packet* packet = packetQueuePair->packet;
 		Monster* monster = packetQueuePair->monster;
 
+		//해당 몬스터가 죽어있다면 패스
+		if (monster->GetIsDeath()) continue;
+
 		switch (static_cast<SendCommand>(packet->cmd))
 		{
 		case SendCommand::MONSTER_ATTACK:

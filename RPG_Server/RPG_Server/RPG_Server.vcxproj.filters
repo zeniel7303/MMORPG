@@ -97,6 +97,9 @@
     <Filter Include="소스 파일\Library\MYSQL">
       <UniqueIdentifier>{de374d28-35d5-43f6-a438-eeb062e6f819}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\Server\Section">
+      <UniqueIdentifier>{4f7869c8-97ca-4b0e-b061-06b31b4049e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IOCPClass.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="RPGServer.cpp">
       <Filter>소스 파일\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Section.cpp">
+      <Filter>소스 파일\Application\Server\Section</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="RPGServer.h">
       <Filter>소스 파일\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Section.h">
+      <Filter>소스 파일\Application\Server\Section</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

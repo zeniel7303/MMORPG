@@ -126,7 +126,7 @@ void MonsterLogicThread::LoopRun()
 			monster->Update();
 		}
 
-		Sleep(1000 / 30);
+		Sleep(1000 / 10);
 	}
 }
 

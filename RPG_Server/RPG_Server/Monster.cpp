@@ -30,7 +30,7 @@ void Monster::Reset()
 
 void Monster::Update()
 {
-	m_currentTime += 1.0f / 30.0f;
+	m_currentTime += 1.0f / 10.0f;
 
 	FSM();
 
