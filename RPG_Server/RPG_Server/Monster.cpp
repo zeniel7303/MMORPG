@@ -193,9 +193,9 @@ Packet* Monster::Hit(User* _user, int _damage)
 		m_isDeath = true;
 	}
 
-	return monsterHitPacket;
-
 	m_locker.LeaveLock();
+
+	return monsterHitPacket;
 }
 
 void Monster::FSM()

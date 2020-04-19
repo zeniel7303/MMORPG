@@ -92,55 +92,74 @@ void ServerLogicThread::ParsingUser()
 					//일반적인 서버의 패킷 처리 스위치문
 					switch (static_cast<RecvCommand>(packet->cmd))
 					{
+						//채팅 패킷
+						//바로 해당 존에 SendAll
 					case RecvCommand::CHATTING:
 						user->GetZone()->SendAll(reinterpret_cast<char*>(packet), packet->size);
 						break;
+						//HeartBeahChecked 성공 패킷 받을 시
 					case RecvCommand::CHECK_ALIVE:
 						user->SetIsChecking(false);
 						user->HeartBeatChecked();
 						break;
+						//회원가입 시도시
 					case RecvCommand::REGISTER_ACCOUNT:
 						RegisterUser(user, packet);
 						break;
+						//로그인 시도시
 					case RecvCommand::LOGIN:
 						LogInUser(user, packet);
 						break;
+						//접속 시 유저 정보 요청 시
 					case RecvCommand::REQUIRE_INFO:
 						user->SendInfo();
 						break;
+						//게임 시작 후 첫 존 입장 시 받는 패킷
+						//스폰 위치, 타일 지정, 존에 있었다면 해당 존에서는 Exit처리
+						//해당 존에 접속 중인 유저들에게 입장했다고 알려줌
 					case RecvCommand::TRY_ENTER_ZONE:
 						EnterZone(user, packet);
 						break;
+						//접속 중인 유저들 리스트 보내줌
 					case RecvCommand::ENTER_ZONE_SUCCESS:
 						EnterZoneSuccess(user);
 						break;
+						//유저 이동
 					case RecvCommand::USER_MOVE:
 						UpdateUserPosition(user, packet);
 						break;
+						//유저 이동
 					case RecvCommand::USER_MOVE_FINISH:
 						UpdateUserPosition(user, packet);
 						break;
+						//공격 실패 시(몬스터가 죽었거나 범위 밖으로 나갔을 때)
 					case RecvCommand::USER_ATTACK_FAILED:
 						UserAttackFailed(user, packet);
 						break;
+						//공격 성공 시
 					case RecvCommand::USER_ATTACK_MONSTER:
 						UserAttack(user, packet);
 						break;
+						//유저 부활 시
 					case RecvCommand::USER_REVIVE:
 						UserRevive(user);
 						break;
+						//
 					case RecvCommand::ENTER_FIELD_ZONE:
 						printf("[ Try To Enter Field Zone ]\n");
 						EnterZone(user, packet);
 						break;
+						//
 					case RecvCommand::ENTER_VILLAGE_ZONE:
 						printf("[ Try To Enter Village Zone ]\n");
 						EnterZone(user, packet);
 						break;
+						//접속 끊을 시
 					case RecvCommand::EXIT_USER:
 						UpdateUser(user, packet);
 						user->Disconnect();
 						break;
+						//HeartBeatCheck 6회 후 유저 업데이트 요청 시
 					case RecvCommand::UPDATE_INFO:
 						UpdateUser(user, packet);
 						break;
@@ -185,7 +204,6 @@ void ServerLogicThread::ParsingUser()
 
 		if (packet == nullptr) continue;
 		
-
 		//테스트용 임시
 		if (packet->cmd == 1234)
 		{

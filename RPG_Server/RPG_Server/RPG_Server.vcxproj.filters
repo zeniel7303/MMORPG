@@ -162,6 +162,9 @@
     <ClCompile Include="Section.cpp">
       <Filter>소스 파일\Application\Server\Section</Filter>
     </ClCompile>
+    <ClCompile Include="SectionManager.cpp">
+      <Filter>소스 파일\Application\Server\Section</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IOCPClass.h">
@@ -267,6 +270,9 @@
       <Filter>소스 파일\Application</Filter>
     </ClInclude>
     <ClInclude Include="Section.h">
+      <Filter>소스 파일\Application\Server\Section</Filter>
+    </ClInclude>
+    <ClInclude Include="SectionManager.h">
       <Filter>소스 파일\Application\Server\Section</Filter>
     </ClInclude>
   </ItemGroup>

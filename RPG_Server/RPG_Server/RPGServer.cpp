@@ -42,6 +42,7 @@ void RPGServer::Init()
 	m_zoneManager.Init();
 	ServerLogicThread::getSingleton()->Init(&m_sessionManager, &m_zoneManager);
 	m_heartBeatThread.Init(&m_sessionManager);
+
 	m_listenClass.Init(&m_IOCPClass, &m_sessionManager, "192.168.0.13", 30002);
 
 	WaitForSingleObject(m_listenClass.GetHandle(), INFINITE);
