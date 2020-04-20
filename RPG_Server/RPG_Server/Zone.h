@@ -8,6 +8,7 @@
 #include "User.h"
 #include "ZoneTilesData.h"
 #include "MonsterLogicThread.h"
+#include "SectorManager.h"
 
 //=====================================================
 
@@ -28,6 +29,8 @@ private:
 	ZoneTilesData m_zoneTilesData;
 
 	MonsterLogicThread m_monsterLogicThread;
+
+	SectorManager m_sectorManager;
 
 	CriticalSectionClass m_locker;
 

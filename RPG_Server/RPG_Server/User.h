@@ -7,6 +7,7 @@
 #include "packet.h"
 
 #include "ZoneTilesData.h"
+#include "Sector.h"
 
 //=====================================================
 
@@ -28,6 +29,8 @@ class User : public Session, public Unit
 {
 private:
 	INFO				m_basicInfo;
+
+	Sector*				m_sector;
 
 	Tile*				m_tile;
 

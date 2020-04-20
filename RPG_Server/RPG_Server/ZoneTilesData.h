@@ -31,5 +31,6 @@ public:
 	int GetMapSizeX();
 	int GetMapSizeY();
 	Tile* GetTile(int _x, int _y);
+	Tile** GetTiles(int _x, int _y);
 };
 

@@ -23,6 +23,8 @@ void Zone::GetMap(const char* _name)
 {
 	m_zoneTilesData.GetMap(_name);
 
+	m_sectorManager.Init(&m_zoneTilesData);
+
 	m_monsterLogicThread.Init(this, &m_zoneTilesData);
 	m_monsterLogicThread.ThreadClass<MonsterLogicThread>::Start(&m_monsterLogicThread);
 }

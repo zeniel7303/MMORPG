@@ -113,3 +113,34 @@ Tile* ZoneTilesData::GetTile(int _x, int _y)
 
 	return &m_Map[_y][_x];
 }
+
+Tile** ZoneTilesData::GetTiles(int _x, int _y)
+{
+	Tile** tempTiles;
+	
+	tempTiles = new Tile*[10];
+
+	for (int y = (_y * 10); y < (_y * 10) + 10; y++)
+	{
+		tempTiles[y % 10] = new Tile[10];
+
+		for (int x = (_x * 10); x < (_x * 10) + 10; x++)
+		{
+			tempTiles[y % 10][x % 10] = m_Map[y][x];
+		}
+	}
+
+	/*printf("\n");
+
+	for (int j = 0; j < 10; j++)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			printf("(%d,%d) ", tempTiles[j][i].GetX(), tempTiles[j][i].GetY());
+		}
+
+		printf("\n");
+	}*/
+
+	return tempTiles;
+}

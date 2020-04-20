@@ -65,6 +65,8 @@ void User::HeartBeatChecked()
 		Session::Send(UpdateInfoPacket);
 
 		m_heartBeatCheckedCount = 0;
+
+		printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
 	}
 	else
 	{

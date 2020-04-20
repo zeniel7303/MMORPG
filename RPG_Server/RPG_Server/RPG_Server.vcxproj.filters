@@ -97,7 +97,7 @@
     <Filter Include="소스 파일\Library\MYSQL">
       <UniqueIdentifier>{de374d28-35d5-43f6-a438-eeb062e6f819}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Server\Section">
+    <Filter Include="소스 파일\Application\Server\Sector">
       <UniqueIdentifier>{4f7869c8-97ca-4b0e-b061-06b31b4049e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -159,11 +159,11 @@
     <ClCompile Include="RPGServer.cpp">
       <Filter>소스 파일\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Section.cpp">
-      <Filter>소스 파일\Application\Server\Section</Filter>
+    <ClCompile Include="Sector.cpp">
+      <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClCompile>
-    <ClCompile Include="SectionManager.cpp">
-      <Filter>소스 파일\Application\Server\Section</Filter>
+    <ClCompile Include="SectorManager.cpp">
+      <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +269,11 @@
     <ClInclude Include="RPGServer.h">
       <Filter>소스 파일\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Section.h">
-      <Filter>소스 파일\Application\Server\Section</Filter>
+    <ClInclude Include="Sector.h">
+      <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClInclude>
-    <ClInclude Include="SectionManager.h">
-      <Filter>소스 파일\Application\Server\Section</Filter>
+    <ClInclude Include="SectorManager.h">
+      <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
