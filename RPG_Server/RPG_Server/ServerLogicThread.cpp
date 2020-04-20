@@ -97,7 +97,7 @@ void ServerLogicThread::ParsingUser()
 					case RecvCommand::CHATTING:
 						user->GetZone()->SendAll(reinterpret_cast<char*>(packet), packet->size);
 						break;
-						//HeartBeahChecked 성공 패킷 받을 시
+						//HeartBeatChecked 성공 패킷 받을 시
 					case RecvCommand::CHECK_ALIVE:
 						user->SetIsChecking(false);
 						user->HeartBeatChecked();
