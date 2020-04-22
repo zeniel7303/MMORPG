@@ -22,6 +22,8 @@
 
 class User;
 class Zone;
+class SectorManager;
+class Sector;
 
 struct PacketQueuePair
 {
@@ -54,6 +56,10 @@ private:
 
 	Zone*					m_zone;
 	ZoneTilesData*			m_zoneTilesData;
+	SectorManager*			m_sectorManager;
+
+	Sector*					m_sector;
+	Sector*					m_sectors[8];
 
 	User*					m_target;
 
@@ -74,11 +80,12 @@ private:
 	float					m_maxTime;
 
 public:
-	Monster(Zone* _zone, ZoneTilesData* _zoneTilesData,
+	Monster(Zone* _zone, ZoneTilesData* _zoneTilesData, SectorManager* _sectorManager,
 		SharedQueue<PacketQueuePair>& _queue) : packetQueue(_queue)
 	{
 		m_zone = _zone;
-		m_zoneTilesData = _zoneTilesData; 
+		m_zoneTilesData = _zoneTilesData;
+		m_sectorManager = _sectorManager;
 	};
 
 	~Monster();
@@ -100,9 +107,13 @@ public:
 	void PathFindStart(Tile* _targetTile);
 	bool PathMove();
 
+	void UpdateSector();
+
 	MonsterInfo GetInfo() { return m_info; }
 	MonsterData GetData() { return m_data; }
 	Zone* GetZone() { return m_zone; }
+	Sector* GetSector() { return m_sector; }
+	Sector** GetSectors() { return m_sectors; }
 	User* GetTarget() { return m_target; }
 
 	bool GetIsDeath() { return m_isDeath; }

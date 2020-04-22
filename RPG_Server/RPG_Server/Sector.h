@@ -1,9 +1,11 @@
 #pragma once
+#include "ManagerFrame.h"
+
 #include "Tile.h"
 #include "User.h"
 #include "Monster.h"
 
-class Sector
+class Sector : public Manager<User> ,public Manager<Monster>
 {
 private:
 	std::list<User*> userList;
@@ -17,7 +19,7 @@ public:
 	Sector(Tile** _tiles, int _num);
 	~Sector();
 
-	void Init();
+	bool SectorRangeCheck(Tile* _tile);
 
 	int GetSectorNum() { return m_sectorNum; }
 };

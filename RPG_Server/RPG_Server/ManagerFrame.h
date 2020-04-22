@@ -10,14 +10,14 @@
 //=====================================================
 
 template<typename T>
-class Manger
+class Manager
 {
 protected:
 	list<T*> m_itemList;
 
 public:
-	Manger() {}
-	~Manger() {}
+	Manager() {}
+	~Manager() {}
 
 	void AddItem(T* _t);
 	bool DeleteItem(T* _t);
@@ -26,13 +26,13 @@ public:
 };
 
 template<class T>
-void Manger<T>::AddItem(T * _t)
+void Manager<T>::AddItem(T * _t)
 {
 	m_itemList.push_back(_t);
 }
 
 template<class T>
-bool Manger<T>::DeleteItem(T * _t)
+bool Manager<T>::DeleteItem(T * _t)
 {
 	typename list<T*>::iterator deleteiter =
 		find(m_itemList.begin(), m_itemList.end(), _t);
@@ -45,7 +45,7 @@ bool Manger<T>::DeleteItem(T * _t)
 }
 
 template<class T>
-list<T*>* Manger<T>::GetItemList()
+list<T*>* Manager<T>::GetItemList()
 {
 	return &m_itemList;
 }

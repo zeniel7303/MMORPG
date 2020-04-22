@@ -1,6 +1,8 @@
 #include "Monster.h"
 #include "User.h"
 #include "Zone.h"
+#include "SectorManager.h"
+#include "Sector.h"
 
 Monster::~Monster()
 {
@@ -67,6 +69,8 @@ void Monster::Spawn()
 		static_cast<int>(m_info.position.y));
 	m_nowTile = m_homeTile;
 
+	UpdateSector();
+
 	m_info.state = STATE::SPAWN;
 
 	m_isDeath = false;
@@ -106,7 +110,7 @@ void Monster::Attack()
 	float magnitude = VECTOR2(m_info.position - m_target->GetInfo()->unitInfo.position).Magnitude();
 
 	//머니까 따라감
-	if (magnitude > m_data.attackDistance/* * m_data.attackDistance*/)
+	if (magnitude > m_data.attackDistance * m_data.attackDistance)
 	{
 		m_targetTile = m_target->GetTile();
 
@@ -242,7 +246,7 @@ void Monster::FSM()
 			float magnitude_1 = VECTOR2(m_info.position - m_target->GetInfo()->unitInfo.position).Magnitude();
 
 			//사정거리 내면 공격
-			if (magnitude_1 <= m_data.attackDistance/* * m_data.attackDistance*/)
+			if (magnitude_1 <= m_data.attackDistance * m_data.attackDistance)
 			{
 				m_info.state = STATE::ATTACK;
 				break;
@@ -251,7 +255,7 @@ void Monster::FSM()
 			float magnitude_2 = VECTOR2(m_info.position - m_spawnPosition).Magnitude();
 
 			//귀환거리보다 멀어질경우 귀환
-			if (magnitude_2 > m_data.returnDistance/* * m_data.returnDistance*/)
+			if (magnitude_2 > m_data.returnDistance * m_data.returnDistance)
 			{
 				m_targetTile = m_homeTile;
 				PathFindStart(m_targetTile);
@@ -352,6 +356,12 @@ bool Monster::PathMove()
 			m_targetPosition = *m_tileList.begin();
 			m_tileList.erase(m_tileList.begin());
 
+			//현재 섹터 범위 체크
+			if (!m_sector->SectorRangeCheck(m_nowTile))
+			{
+				UpdateSector();
+			}
+
 			MonsterPositionPacket* monsterPositionPacket =
 				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
 					GetBuffer(sizeof(MonsterPositionPacket)));
@@ -370,4 +380,19 @@ bool Monster::PathMove()
 		}
 	}
 	return true;
+}
+
+void Monster::UpdateSector()
+{
+	Sector* prevSector = m_sector;
+	if (prevSector != nullptr)
+	{
+		//printf("[ Exit User (Prev Sector) ]");
+		prevSector->Manager<Monster>::DeleteItem(this);
+	}
+
+	m_sector = m_sectorManager->
+		GetSector(m_info.position.x, m_info.position.y);
+
+	m_sector->Manager<Monster>::AddItem(this);
 }

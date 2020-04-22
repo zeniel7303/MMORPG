@@ -10,7 +10,25 @@ Sector::~Sector()
 {
 }
 
-void Sector::Init()
+bool Sector::SectorRangeCheck(Tile* _tile)
 {
+	bool check = false;
 
+	for (int x = 0; x < 10; x++)
+	{
+		for (int y = 0; y < 10; y++)
+		{
+			if (m_tiles[x][y].GetX() == _tile->GetX() &&
+				m_tiles[x][y].GetY() == _tile->GetY())
+			{
+				check = true;
+
+				break;
+			}
+		}
+
+		if (check) break;
+	}
+
+	return check;
 }

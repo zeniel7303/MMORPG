@@ -12,10 +12,11 @@ MonsterLogicThread::~MonsterLogicThread()
 
 }
 
-void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData)
+void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData, SectorManager* _sectorManager)
 {
 	m_zone = _zone;
 	m_zoneTilesData = _zoneTilesData;
+	m_sectorManager = _sectorManager;
 
 	Tile** tileMap = _zoneTilesData->GetMap();
 
@@ -42,7 +43,7 @@ void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData)
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
 			MonsterData monsterData;
-			monster = new Monster(m_zone, m_zoneTilesData, *packetQueue);
+			monster = new Monster(m_zone, m_zoneTilesData, m_sectorManager, *packetQueue);
 
 			if (!MYSQLCLASS->GetMonsterInfo(monsterInfo.monsterType, 
 				monsterData.hp.currentValue, monsterData.hp.maxValue,

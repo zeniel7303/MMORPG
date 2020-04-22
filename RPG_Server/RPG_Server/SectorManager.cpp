@@ -12,31 +12,49 @@ void SectorManager::Init(ZoneTilesData* _data)
 {
 	zonetilesData = *_data;
 
-	for (int j = 0; j < 10; j++)
+	for (int j = 0; j < SIZE; j++)
 	{
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < SIZE; i++)
 		{
 			Sector* sector;
-			sector = new Sector(zonetilesData.GetTiles(j, i), i + j * 10);
+			sector = new Sector(zonetilesData.GetTiles(i, j), i + j * SIZE);
 
-			m_sectorMap.insert(make_pair(i + j * 10, sector));
+			m_sectorMap.insert(make_pair(i + j * SIZE, sector));
 		}
 	}
 }
 
 Sector* SectorManager::GetSector(int _x, int _y)
 {
-	int x = _x / 10;
-	int y = _y / 10;
+	m_locker.EnterLock();
 
-	map<WORD, Sector*>::iterator iter = m_sectorMap.find(x + y * 10);
+	int x = _x / SIZE;
+	int y = _y / SIZE;
+
+	map<WORD, Sector*>::iterator iter = m_sectorMap.find(x + y * SIZE);
 	if (iter == m_sectorMap.end()) return nullptr;
+
+	m_locker.LeaveLock();
+
+	return iter->second;
+}
+
+Sector* SectorManager::GetSector(int _num)
+{
+	m_locker.EnterLock();
+
+	map<WORD, Sector*>::iterator iter = m_sectorMap.find(_num);
+	if (iter == m_sectorMap.end()) return nullptr;
+
+	m_locker.LeaveLock();
 
 	return iter->second;
 }
 
 Sector** SectorManager::GetNeighborSectors(Sector* _sectors[], Sector* _sector)
 {
+	m_locker.EnterLock();
+
 	int tempNum = _sector->GetSectorNum();
 
 	for (int i = 0; i < 3; i++)
@@ -44,7 +62,7 @@ Sector** SectorManager::GetNeighborSectors(Sector* _sectors[], Sector* _sector)
 		for (int j = 0; j < 3; j++)
 		{
 			map<WORD, Sector*>::iterator iter 
-				= m_sectorMap.find(tempNum + (-11 + i) + (j * 10));
+				= m_sectorMap.find(tempNum + (-11 + i) + (j * SIZE));
 
 			if (iter != m_sectorMap.end())
 			{
@@ -52,6 +70,15 @@ Sector** SectorManager::GetNeighborSectors(Sector* _sectors[], Sector* _sector)
 			}
 		}
 	}
+
+	/*for (int i = 0; i < 9; i++)
+	{
+		printf("%d ", _sectors[i]->GetSectorNum());
+	}
+
+	printf("\n=======================================\n");*/
+
+	m_locker.LeaveLock();
 
 	return _sectors;
 }

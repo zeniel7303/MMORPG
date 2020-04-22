@@ -15,7 +15,7 @@
 
 //=====================================================
 
-class SessionManager : public Manger<Session>
+class SessionManager : public Manager<Session>
 {
 private:
 	CriticalSectionClass	m_locker;

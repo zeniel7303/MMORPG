@@ -18,7 +18,7 @@
 
 //=====================================================
 
-class Zone : public Manger<User>
+class Zone : public Manager<User>
 {
 private:
 	WORD m_zoneNum;
@@ -38,6 +38,9 @@ private:
 
 	SendBuffer* m_sendBuffer;
 
+	Sector*		m_exitSectors[5];
+	Sector*		m_enterSectors[5];
+
 	time_t		start, end;
 
 public:
@@ -46,10 +49,16 @@ public:
 
 	void Init(int _num, VECTOR2 _spawnPosition);
 	void GetMap(const char* _name);
-
-	void SendAll(char * _buffer, int _size);
+	void ZoneSendAll(char * _buffer, int _size);
+	//한 섹터를 기준으로 주변 8섹터 모두에게 SendAll해주는 용도
+	//ex) 유저 섹터 기준으로 주변 섹터 SendAll
+	void SectorSendAll(Sector* _sector, Sector** _sectors, char * _buffer, int _size);
+	//섹터들에게 직접 SendAll해주는 용도
+	//ex) 유저 섹터 변동 시 해당 유저 범위 밖 섹터들에게 나간것을 알려주는 SendAll
+	void SectorSendAll(Sector** _sectors, char * _buffer, int _size);
 
 	void SendUserList(User* _user);
+	void SendUserList_InRange(User* _user);
 
 	void EnterTestClient(User* _user);
 	void EnterUser(User* _user);
@@ -61,6 +70,12 @@ public:
 	bool UserAttack(User * _user, int _monsterIndex);
 
 	void RespawnUser(User* _user);
+
+	void UpdateUserSector(User* _user);
+	void ExitSector(User* _user, int _nowNum, int _prevNum, char* _packet, int _size);
+	void SendInvisibleUserList(User* _user);
+	void EnterSector(User* _user, int _nowNum, int _prevNum, char* _packet, int _size);
+	void SendVisibleUserList(User* _user);
 
 	WORD GetZoneNum() { return m_zoneNum; }
 

@@ -1,5 +1,6 @@
 #include "User.h"
 #include "Zone.h"
+#include "Sector.h"
 
 User::User()
 {
@@ -17,6 +18,8 @@ void User::Init()
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
 	m_isTestClient = false;
+
+	m_sector = nullptr;
 }
 
 void User::OnConnect(SOCKET _socket)
@@ -52,6 +55,9 @@ void User::Reset()
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
 	m_isTestClient = false;
+
+	m_sector = nullptr;
+	m_basicInfo.unitInfo.zoneNum = 0;
 }
 
 void User::HeartBeatChecked()
@@ -99,7 +105,7 @@ void User::Death()
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
 	userNumPacket->Init(SendCommand::USER_DEATH, sizeof(UserNumPacket));
 
-	m_zone->SendAll(reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 }
 
 void User::Respawn(VECTOR2 _spawnPosition)
@@ -124,7 +130,7 @@ void User::Respawn(VECTOR2 _spawnPosition)
 
 	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
-	m_zone->SendAll(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
+	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
 
 void User::Hit(int _index, int _damage)
@@ -144,7 +150,7 @@ void User::Hit(int _index, int _damage)
 	userHitPacket->monsterIndex = _index;
 	userHitPacket->damage = damage;
 	userHitPacket->Init(SendCommand::USER_HIT, sizeof(UserHitPacket));
-	m_zone->SendAll(reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
+	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
 
 	if (m_basicInfo.unitInfo.hp.currentValue <= 0)
 	{
@@ -193,7 +199,7 @@ void User::LevelUp()
 	userNumPacket->Init(SendCommand::USER_LEVEL_UP, sizeof(UserNumPacket));
 	Session::GetSendBuffer()->Write(userNumPacket->size);
 
-	m_zone->SendAll(reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 
 	//다시 레벨업 체크
 	if (m_basicInfo.unitInfo.exp.currentValue >= m_basicInfo.unitInfo.exp.maxValue)

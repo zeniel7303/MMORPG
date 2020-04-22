@@ -7,7 +7,6 @@
 #include "packet.h"
 
 #include "ZoneTilesData.h"
-#include "Sector.h"
 
 //=====================================================
 
@@ -24,6 +23,7 @@ struct INFO
 };
 
 class Zone;
+class Sector;
 
 class User : public Session, public Unit
 {
@@ -31,7 +31,8 @@ private:
 	INFO				m_basicInfo;
 
 	Sector*				m_sector;
-
+	Sector*				m_sectors[8];
+		
 	Tile*				m_tile;
 
 	//===============================================
@@ -73,7 +74,7 @@ public:
 	void TestClientEnterZone(Zone* _zone, int _zoneNum);
 	//Zone 입장 시
 	void EnterZone(Zone* _zone, int _zoneNum, VECTOR2 _spawnPosition);
-	//User의 포지션 
+	//User의 포지션(이동시 호출됨)
 	void SetPosition(Position& _position);
 
 	bool LogInUser(LogInPacket* _packet);
@@ -87,6 +88,10 @@ public:
 	INFO* GetInfo() { return &m_basicInfo; }
 	Zone* GetZone() { return m_zone; }
 	void SetZone(Zone* _zone) { m_zone = _zone; }
+
+	Sector* GetSector() { return m_sector; }
+	void SetSector(Sector* _sector) { m_sector = _sector; }
+	Sector** GetSectors() { return m_sectors; }
 
 	bool GetIsDeath() { return m_basicInfo.unitInfo.state == STATE::DEATH; }
 	

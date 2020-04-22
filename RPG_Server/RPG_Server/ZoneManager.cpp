@@ -20,6 +20,11 @@ void ZoneManager::Init()
 	m_fieldZone->Init(2, VECTOR2(77, 75));
 	m_fieldZone->GetMap("Field.fmap");
 	m_zoneMap.insert(make_pair(m_fieldZone->GetZoneNum(), m_fieldZone));
+
+	Zone* m_testZone = new Zone();
+	m_testZone->Init(999, VECTOR2(48, 48));
+	m_testZone->GetMap("TestScene.fmap");
+	m_zoneMap.insert(make_pair(m_testZone->GetZoneNum(), m_testZone));
 }
 
 Zone* ZoneManager::GetZone(int _num)
