@@ -6,7 +6,7 @@
 
 #include "packet.h"
 
-#include "ZoneTilesData.h"
+#include "FieldTilesData.h"
 
 //=====================================================
 
@@ -22,7 +22,7 @@ struct INFO
 	UnitInfo	unitInfo;
 };
 
-class Zone;
+class Field;
 class Sector;
 
 class User : public Session, public Unit
@@ -31,16 +31,14 @@ private:
 	INFO				m_basicInfo;
 
 	Sector*				m_sector;
-	Sector*				m_sectors[8];
-		
+
 	Tile*				m_tile;
 
 	//===============================================
 
-	Zone*				m_zone;
-	ZoneTilesData*		m_zoneTilesData;
+	Field*				m_field;
+	FieldTilesData*		m_fieldTilesData;
 
-	bool				m_startCheckingHeartBeat;
 	bool				m_isTestClient;
 
 public:
@@ -71,9 +69,9 @@ public:
 	//유저의 정보 보내기
 	void SendInfo();
 	//테스트용
-	void TestClientEnterZone(Zone* _zone, int _zoneNum);
-	//Zone 입장 시
-	void EnterZone(Zone* _zone, int _zoneNum, VECTOR2 _spawnPosition);
+	void TestClientEnterField(Field* _Field, int _fieldNum);
+	//Field 입장 시
+	void EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition);
 	//User의 포지션(이동시 호출됨)
 	void SetPosition(Position& _position);
 
@@ -84,19 +82,17 @@ public:
 	void LogInDuplicated();
 	void LogInSuccess();
 
+	bool CompareSector(Sector* _sector);
+
 	Tile* GetTile() { return m_tile; }
 	INFO* GetInfo() { return &m_basicInfo; }
-	Zone* GetZone() { return m_zone; }
-	void SetZone(Zone* _zone) { m_zone = _zone; }
+	Field* GetField() { return m_field; }
+	void SetField (Field* _field) { m_field = _field; }
 
 	Sector* GetSector() { return m_sector; }
 	void SetSector(Sector* _sector) { m_sector = _sector; }
-	Sector** GetSectors() { return m_sectors; }
 
 	bool GetIsDeath() { return m_basicInfo.unitInfo.state == STATE::DEATH; }
-	
-	void StartCheckingHeartBeat() { m_startCheckingHeartBeat = true; }
-	bool GetStartCheckingHeartBeat() { return m_startCheckingHeartBeat; }
 
 	bool GetIsTestClient() { return m_isTestClient; }
 };												 

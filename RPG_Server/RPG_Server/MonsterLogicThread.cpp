@@ -1,5 +1,5 @@
 #include "MonsterLogicThread.h"
-#include "Zone.h"
+#include "Field.h"
 #include "ServerLogicThread.h"
 
 MonsterLogicThread::MonsterLogicThread()
@@ -12,13 +12,13 @@ MonsterLogicThread::~MonsterLogicThread()
 
 }
 
-void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData, SectorManager* _sectorManager)
+void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, SectorManager* _sectorManager)
 {
-	m_zone = _zone;
-	m_zoneTilesData = _zoneTilesData;
+	m_field = _field;
+	m_fieldTilesData = _fieldTilesData;
 	m_sectorManager = _sectorManager;
 
-	Tile** tileMap = _zoneTilesData->GetMap();
+	Tile** tileMap = m_fieldTilesData->GetMap();
 
 	//ServerLogicThread의 SharedQueue을 알아온다.
 	SharedQueue<PacketQueuePair>* packetQueue =
@@ -27,9 +27,9 @@ void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData, Sector
 	int monsterCount = 0;
 	Monster* monster;
 
-	for (int y = 0; y < _zoneTilesData->GetMapSizeY(); y++)
+	for (int y = 0; y < m_fieldTilesData->GetMapSizeY(); y++)
 	{
-		for (int x = 0; x < _zoneTilesData->GetMapSizeX(); x++)
+		for (int x = 0; x < m_fieldTilesData->GetMapSizeX(); x++)
 		{
 			WORD spawnIndex = tileMap[y][x].GetSpawnMonsterIndex();
 
@@ -43,7 +43,7 @@ void MonsterLogicThread::Init(Zone* _zone, ZoneTilesData* _zoneTilesData, Sector
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
 			MonsterData monsterData;
-			monster = new Monster(m_zone, m_zoneTilesData, m_sectorManager, *packetQueue);
+			monster = new Monster(m_field, m_fieldTilesData, m_sectorManager, *packetQueue);
 
 			if (!MYSQLCLASS->GetMonsterInfo(monsterInfo.monsterType, 
 				monsterData.hp.currentValue, monsterData.hp.maxValue,
@@ -139,14 +139,12 @@ void MonsterLogicThread::SendMonsterList(User* _user)
 
 	monsterInfoListPacket->monsterNum = m_monsterMap.size();
 
-	map<int, Monster*>::iterator iterEnd = m_monsterMap.end();
+	int i = 0;
 	Monster* monster;
 
-	int i = 0;
-	map<int, Monster*>::iterator iter;
-	for (iter = m_monsterMap.begin(); iter != iterEnd; iter++)
+	for (const auto& element : m_monsterMap)
 	{
-		monster = iter->second;
+		monster = element.second;
 
 		monsterInfoListPacket->info[i] = monster->GetInfo();
 
@@ -156,12 +154,50 @@ void MonsterLogicThread::SendMonsterList(User* _user)
 	monsterInfoListPacket->size = (sizeof(MonsterInfo) * monsterInfoListPacket->monsterNum)
 									+ sizeof(WORD) + sizeof(Packet);
 
-	monsterInfoListPacket->Init(SendCommand::MONSTER_INFO_LIST, monsterInfoListPacket->size);
+	monsterInfoListPacket->Init(SendCommand::Zone2C_MONSTER_INFO_LIST, monsterInfoListPacket->size);
 
 	_user->GetSendBuffer()->Write(monsterInfoListPacket->size);
 	_user->Send(reinterpret_cast<char*>(monsterInfoListPacket), monsterInfoListPacket->size);
 
+	SendMonsterList_InRange(_user);
+
 	printf("[ MONSTER LIST 전송 완료 ]\n");
+}
+
+void MonsterLogicThread::SendMonsterList_InRange(User* _user)
+{
+	int tempNum = 0;
+
+	MonsterInfoListPacket* monsterInfoListPacket_InRange =
+		reinterpret_cast<MonsterInfoListPacket*>(_user->GetSendBuffer()->
+			GetBuffer(sizeof(MonsterInfoListPacket)));
+
+	monsterInfoListPacket_InRange->monsterNum = 0;
+
+	/*for (int i = 0; i < 9; i++)
+	{
+		Sector* tempSector = _user->GetSector()->GetRoundSectors()[i];
+		std::list<Monster*> tempList = *tempSector->Manager<Monster>::GetItemList();
+
+		if (tempSector == nullptr) continue;
+
+		if (tempList.size() <= 0) continue;
+
+		for (const auto& element : tempList)
+		{
+			monsterInfoListPacket_InRange->info[tempNum] = element->GetInfo();
+
+			tempNum++;
+			monsterInfoListPacket_InRange->monsterNum++;
+		}
+	}*/
+
+	monsterInfoListPacket_InRange->size = (sizeof(MonsterInfo) * monsterInfoListPacket_InRange->monsterNum)
+		+ sizeof(WORD) + sizeof(Packet);
+	monsterInfoListPacket_InRange->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_IN_RANGE, monsterInfoListPacket_InRange->size);
+
+	_user->GetSendBuffer()->Write(monsterInfoListPacket_InRange->size);
+	_user->Send(reinterpret_cast<char*>(monsterInfoListPacket_InRange), monsterInfoListPacket_InRange->size);
 }
 
 Monster* MonsterLogicThread::GetMonster(int _num)

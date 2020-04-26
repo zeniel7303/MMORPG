@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "RPGServer.h"
+#include "ZoneServer.h"
 
 int main()
 {
@@ -9,8 +9,8 @@ int main()
 
 	//======================================================
 
-	RPGServer* rpgServer = new RPGServer();
-	rpgServer->Init();
+	ZoneServer* zoneServer = new ZoneServer();
+	zoneServer->Init();
 
 	WSACleanup();
 

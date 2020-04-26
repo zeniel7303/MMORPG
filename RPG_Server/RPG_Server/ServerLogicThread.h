@@ -9,7 +9,7 @@
 #include "SharedQueue.h"
 
 #include "SessionManager.h"
-#include "ZoneManager.h"
+#include "FieldManager.h"
 
 //=====================================================
 
@@ -25,7 +25,7 @@ class ServerLogicThread : public ThreadClass<ServerLogicThread>,
 {
 private:
 	SessionManager*					m_sessionManager;
-	ZoneManager*					m_zoneManager;
+	FieldManager*					m_fieldManager;
 
 	SharedQueue<PacketQueuePair>	m_monsterPacketQueue;
 
@@ -37,26 +37,26 @@ public:
 	~ServerLogicThread();
 
 	void Init(SessionManager* _sessionManager,
-			ZoneManager* _zoneManager);
+		FieldManager* _fieldManager);
 
 	void LoopRun();
 
 	void ParsingUser();
 	void ParsingMonster();
 
-	void EnterZone(User* _user, Packet* _packet);
-	void EnterZoneSuccess(User* _user);
-	void UpdateUserPosition(User* _user, Packet* _packet);
-	void UserAttackFailed(User* _user, Packet* _packet);
-	void UserAttack(User* _user, Packet* _packet);
-	void UserRevive(User* _user);
+	void OnPacket_EnterField(User* _user, Packet* _packet);
+	void OnPacket_EnterFieldSuccess(User* _user);
+	void OnPacket_UpdateUserPosition(User* _user, Packet* _packet);
+	void OnPacket_UserAttackFailed(User* _user, Packet* _packet);
+	void OnPacket_UserAttack(User* _user, Packet* _packet);
+	void OnPacket_UserRevive(User* _user);
 
-	void MonsterAttack(Monster* _monster, Packet* _packet);
+	void OnPacket_MonsterAttack(Monster* _monster, Packet* _packet);
 
-	void RegisterUser(User* _user, Packet* _packet);
-	void LogInUser(User* _user, Packet* _packet);
+	void OnPacket_RegisterUser(User* _user, Packet* _packet);
+	void OnPacket_LogInUser(User* _user, Packet* _packet);
 
-	void UpdateUser(User* _user, Packet* _packet);
+	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 
 	SharedQueue<PacketQueuePair>* GetSharedQueue() { return &m_monsterPacketQueue; }
 };

@@ -33,20 +33,28 @@ struct IsConnectedPacket : Packet
 	bool isConnected;
 };
 
+//Zone2Login
+//Zone2Client/C
+
+//struct C2ZS_SessionInfoPacket : Packet
+//{
+//	BasicInfo info;
+//};
+
 struct SessionInfoPacket : Packet
 {
 	BasicInfo info;
 };
 
-struct EnterZonePacket : Packet
+struct EnterFieldPacket : Packet
 {
-	unsigned short zoneNum;
+	unsigned short fieldNum;
 	VECTOR2 position;
 };
 
-struct ZoneNumPacket : Packet
+struct FieldNumPacket : Packet
 {
-	WORD zoneNum;
+	WORD fieldNum;
 };
 
 struct UserListPacket : Packet

@@ -125,7 +125,7 @@
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterLogicThread.cpp" />
     <ClCompile Include="MySQLClass.cpp" />
-    <ClCompile Include="RPGServer.cpp" />
+    <ClCompile Include="ZoneServer.cpp" />
     <ClCompile Include="CriticalSectionClass.cpp" />
     <ClCompile Include="Sector.cpp" />
     <ClCompile Include="SectorManager.cpp" />
@@ -139,9 +139,9 @@
     <ClCompile Include="RingBuffer.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="WorkerThread.cpp" />
-    <ClCompile Include="Zone.cpp" />
-    <ClCompile Include="ZoneManager.cpp" />
-    <ClCompile Include="ZoneTilesData.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FieldManager.cpp" />
+    <ClCompile Include="FieldTilesData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeartBeatThread.h" />
@@ -150,7 +150,7 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterLogicThread.h" />
     <ClInclude Include="MySQLClass.h" />
-    <ClInclude Include="RPGServer.h" />
+    <ClInclude Include="ZoneServer.h" />
     <ClInclude Include="CircBuf.h" />
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="CriticalSectionClass.h" />
@@ -177,9 +177,9 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="WorkerThread.h" />
     <ClInclude Include="UnitInfo.h" />
-    <ClInclude Include="Zone.h" />
-    <ClInclude Include="ZoneManager.h" />
-    <ClInclude Include="ZoneTilesData.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="FieldManager.h" />
+    <ClInclude Include="FieldTilesData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
