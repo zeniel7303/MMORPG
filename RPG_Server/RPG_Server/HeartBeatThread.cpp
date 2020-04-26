@@ -23,7 +23,7 @@ void HeartBeatThread::Init(SessionManager* _sessionManager)
 void HeartBeatThread::LoopRun()
 {
 	Packet* checkAlivePacket = new Packet();
-	checkAlivePacket->Init(SendCommand::CHECK_ALIVE, sizeof(Packet));
+	checkAlivePacket->Init(SendCommand::Zone2C_CHECK_ALIVE, sizeof(Packet));
 
 	while (1)
 	{
@@ -47,7 +47,7 @@ void HeartBeatThread::HeartBeat(Packet* _packet)
 		user = dynamic_cast<User*>(_session);
 
 		//유저가 채킹중이 아니고, 유저가 채킹에 대한 준비가 되었는가(게임에 확실히 접속했는가)
-		//Zone 입장에 성공했을 경우 채킹에 준비되었다고 처리했다.
+		//입장에 성공했을 경우 채킹에 준비되었다고 처리했다.
 		if (!user->GetIsChecking() && user->GetStartCheckingHeartBeat())
 		{
 			user->SetIsChecking(true);

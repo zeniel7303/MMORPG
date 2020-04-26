@@ -41,7 +41,7 @@ struct Position : VECTOR2
 
 struct UnitInfo
 {
-	WORD zoneNum;
+	WORD fieldNum;
 
 	int level;
 

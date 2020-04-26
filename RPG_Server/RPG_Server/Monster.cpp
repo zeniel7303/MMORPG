@@ -1,6 +1,6 @@
 #include "Monster.h"
 #include "User.h"
-#include "Zone.h"
+#include "Field.h"
 #include "SectorManager.h"
 #include "Sector.h"
 
@@ -64,7 +64,7 @@ void Monster::Spawn()
 	m_info.hp.currentValue = m_info.hp.maxValue;
 
 	m_info.position = m_spawnPosition;
-	m_homeTile = m_zoneTilesData->GetTile(
+	m_homeTile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_info.position.x),
 		static_cast<int>(m_info.position.y));
 	m_nowTile = m_homeTile;
@@ -80,7 +80,7 @@ void Monster::Spawn()
 		reinterpret_cast<MonsterInfoPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(MonsterInfoPacket)));
 	monsterInfoPacket->info = m_info;
-	monsterInfoPacket->Init(SendCommand::MONSTER_INFO, sizeof(MonsterInfoPacket));
+	monsterInfoPacket->Init(SendCommand::Zone2C_MONSTER_INFO, sizeof(MonsterInfoPacket));
 
 	m_sendBuffer->Write(monsterInfoPacket->size);
 	packetQueue.AddItem(PacketQueuePair(this, monsterInfoPacket));
@@ -121,7 +121,7 @@ void Monster::Attack()
 
 		return;
 	}
-	if (m_target->GetInfo()->unitInfo.zoneNum != m_zone->GetZoneNum() 
+	if (m_target->GetInfo()->unitInfo.fieldNum != m_field->GetFieldNum() 
 		|| m_target->GetIsDeath())
 	{
 		m_targetTile = m_homeTile;
@@ -139,7 +139,7 @@ void Monster::Attack()
 
 		monsterAttackPacket->monsterIndex = m_info.index;
 		monsterAttackPacket->damage = m_data.attackDamage;
-		monsterAttackPacket->Init(SendCommand::MONSTER_ATTACK, sizeof(MonsterAttackPacket));
+		monsterAttackPacket->Init(SendCommand::Zone2C_MONSTER_ATTACK, sizeof(MonsterAttackPacket));
 
 		m_sendBuffer->Write(monsterAttackPacket->size);
 		packetQueue.AddItem(PacketQueuePair(this, monsterAttackPacket));
@@ -165,7 +165,7 @@ Packet* Monster::Hit(User* _user, int _damage)
 		monsterHitPacket->monsterIndex = m_info.index;
 		monsterHitPacket->userIndex = _user->GetInfo()->userInfo.userID;
 		monsterHitPacket->damage = 0;
-		monsterHitPacket->Init(SendCommand::MONSTER_HIT_FAIL, sizeof(MonsterHitPacket));
+		monsterHitPacket->Init(SendCommand::Zone2C_MONSTER_HIT_FAIL, sizeof(MonsterHitPacket));
 
 		m_sendBuffer->Write(monsterHitPacket->size);
 		return monsterHitPacket;
@@ -188,7 +188,7 @@ Packet* Monster::Hit(User* _user, int _damage)
 	monsterHitPacket->monsterIndex = m_info.index;
 	monsterHitPacket->userIndex = _user->GetInfo()->userInfo.userID;
 	monsterHitPacket->damage = _damage;
-	monsterHitPacket->Init(SendCommand::MONSTER_HIT, sizeof(MonsterHitPacket));
+	monsterHitPacket->Init(SendCommand::Zone2C_MONSTER_HIT, sizeof(MonsterHitPacket));
 
 	m_sendBuffer->Write(monsterHitPacket->size);
 
@@ -218,7 +218,7 @@ void Monster::FSM()
 				int randX = (rand() % m_data.patrolRange * 2) - m_data.patrolRange;
 				int randY = (rand() % m_data.patrolRange * 2) - m_data.patrolRange;
 
-				m_targetTile = m_zoneTilesData->
+				m_targetTile = m_fieldTilesData->
 					GetTile(m_homeTile->GetX() + randX, m_homeTile->GetY() + randY);
 			}
 
@@ -346,7 +346,7 @@ bool Monster::PathMove()
 	if (distance <= 0.1f)
 	{
 		m_info.position = m_targetPosition;
-		m_nowTile = m_zoneTilesData->GetTile(
+		m_nowTile = m_fieldTilesData->GetTile(
 			static_cast<int>(m_info.position.x),
 			static_cast<int>(m_info.position.y));
 
@@ -357,10 +357,7 @@ bool Monster::PathMove()
 			m_tileList.erase(m_tileList.begin());
 
 			//현재 섹터 범위 체크
-			if (!m_sector->SectorRangeCheck(m_nowTile))
-			{
-				UpdateSector();
-			}
+			UpdateSector();
 
 			MonsterPositionPacket* monsterPositionPacket =
 				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
@@ -368,7 +365,7 @@ bool Monster::PathMove()
 
 			monsterPositionPacket->monsterIndex = m_info.index;
 			monsterPositionPacket->position = m_info.position;
-			monsterPositionPacket->Init(SendCommand::MONSTER_MOVE, sizeof(MonsterPositionPacket));
+			monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
 			
 			m_sendBuffer->Write(monsterPositionPacket->size);
 			packetQueue.AddItem(PacketQueuePair(this, monsterPositionPacket));
@@ -384,15 +381,35 @@ bool Monster::PathMove()
 
 void Monster::UpdateSector()
 {
-	Sector* prevSector = m_sector;
-	if (prevSector != nullptr)
+	//처음 스폰됐다.
+	if(m_sector == nullptr)
 	{
-		//printf("[ Exit User (Prev Sector) ]");
-		prevSector->Manager<Monster>::DeleteItem(this);
+		m_sector = m_sectorManager->
+			GetSector(m_info.position.x, m_info.position.y);
+
+		m_sector->Manager<Monster>::AddItem(this);
 	}
+	else
+	{
+		Sector* nowSector = m_sectorManager->
+			GetSector(m_nowTile->GetX(), m_nowTile->GetY());
 
-	m_sector = m_sectorManager->
-		GetSector(m_info.position.x, m_info.position.y);
+		//현재 섹터와 저장되어있던 나의 섹터가 다름
+		if (nowSector != m_sector)
+		{
+			Sector* prevSector = m_sector;
+			if (prevSector != nullptr)
+			{
+				//printf("[ Exit User (Prev Sector) ]");
+				prevSector->Manager<Monster>::DeleteItem(this);
+			}
 
-	m_sector->Manager<Monster>::AddItem(this);
+			m_sector = m_sectorManager->
+				GetSector(m_info.position.x, m_info.position.y);
+
+			m_sector->Manager<Monster>::AddItem(this);
+		}
+
+		//같으면 처리 X
+	}
 }

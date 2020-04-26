@@ -1,5 +1,5 @@
 #include "User.h"
-#include "Zone.h"
+#include "Field.h"
 #include "Sector.h"
 
 User::User()
@@ -14,7 +14,7 @@ void User::Init()
 {
 	Session::Init();
 
-	m_zone = nullptr;
+	m_field = nullptr;
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
 	m_isTestClient = false;
@@ -30,7 +30,7 @@ void User::OnConnect(SOCKET _socket)
 		reinterpret_cast<IsConnectedPacket*>(GetSendBuffer()->
 			GetBuffer(sizeof(IsConnectedPacket)));
 
-	isConnectedPacket->Init(SendCommand::ISCONNECTED, sizeof(IsConnectedPacket));
+	isConnectedPacket->Init(SendCommand::Zone2C_ISCONNECTED, sizeof(IsConnectedPacket));
 	isConnectedPacket->isConnected = m_isConnected;
 
 	Session::Send(isConnectedPacket);
@@ -51,22 +51,24 @@ void User::Reset()
 {
 	Session::Reset();
 
-	m_zone = nullptr;
+	m_field = nullptr;
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
 	m_isTestClient = false;
 
 	m_sector = nullptr;
-	m_basicInfo.unitInfo.zoneNum = 0;
+	m_basicInfo.unitInfo.fieldNum = 0;
 }
 
 void User::HeartBeatChecked()
 {
+	SetIsChecking(false);
+
 	if (m_heartBeatCheckedCount >= 6)
 	{
 		Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(Packet)));
-		UpdateInfoPacket->Init(SendCommand::UPDATE_INFO, sizeof(Packet));
+		UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
 
 		Session::Send(UpdateInfoPacket);
 
@@ -103,9 +105,9 @@ void User::Death()
 			GetBuffer(sizeof(UserNumPacket)));
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
-	userNumPacket->Init(SendCommand::USER_DEATH, sizeof(UserNumPacket));
+	userNumPacket->Init(SendCommand::Zone2C_USER_DEATH, sizeof(UserNumPacket));
 
-	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 }
 
 void User::Respawn(VECTOR2 _spawnPosition)
@@ -116,21 +118,21 @@ void User::Respawn(VECTOR2 _spawnPosition)
 	m_basicInfo.unitInfo.mp.currentValue = m_basicInfo.unitInfo.mp.maxValue;
 
 	Unit::SetUnitPosition(_spawnPosition.x, _spawnPosition.y);
-	m_tile = m_zoneTilesData->GetTile(
+	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
 	SessionInfoPacket* sessionInfoPacket =
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
-	sessionInfoPacket->Init(SendCommand::USER_REVIVE, sizeof(SessionInfoPacket));
+	sessionInfoPacket->Init(SendCommand::Zone2C_USER_REVIVE, sizeof(SessionInfoPacket));
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
 	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo = m_unitInfo;
 
 	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
-	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
+	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
 
 void User::Hit(int _index, int _damage)
@@ -149,8 +151,8 @@ void User::Hit(int _index, int _damage)
 	userHitPacket->userIndex = m_basicInfo.userInfo.userID;
 	userHitPacket->monsterIndex = _index;
 	userHitPacket->damage = damage;
-	userHitPacket->Init(SendCommand::USER_HIT, sizeof(UserHitPacket));
-	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
+	userHitPacket->Init(SendCommand::Zone2C_USER_HIT, sizeof(UserHitPacket));
+	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
 
 	if (m_basicInfo.unitInfo.hp.currentValue <= 0)
 	{
@@ -167,7 +169,7 @@ void User::PlusExp(int _exp)
 			GetBuffer(sizeof(UserExpPacket)));
 
 	userExpPacket->exp = _exp;
-	userExpPacket->Init(SendCommand::USER_PLUS_EXP, sizeof(UserExpPacket));
+	userExpPacket->Init(SendCommand::Zone2C_USER_PLUS_EXP, sizeof(UserExpPacket));
 	Session::GetSendBuffer()->Write(userExpPacket->size);
 
 	Session::Send(reinterpret_cast<char*>(userExpPacket), userExpPacket->size);
@@ -196,10 +198,10 @@ void User::LevelUp()
 			GetBuffer(sizeof(UserNumPacket)));
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
-	userNumPacket->Init(SendCommand::USER_LEVEL_UP, sizeof(UserNumPacket));
+	userNumPacket->Init(SendCommand::Zone2C_USER_LEVEL_UP, sizeof(UserNumPacket));
 	Session::GetSendBuffer()->Write(userNumPacket->size);
 
-	m_zone->SectorSendAll(m_sector, m_sectors, reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 
 	//다시 레벨업 체크
 	if (m_basicInfo.unitInfo.exp.currentValue >= m_basicInfo.unitInfo.exp.maxValue)
@@ -214,7 +216,7 @@ void User::SendInfo()
 	SessionInfoPacket* sessionInfoPacket =
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
-	sessionInfoPacket->Init(SendCommand::REGISTER_USER, sizeof(SessionInfoPacket));
+	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_USER, sizeof(SessionInfoPacket));
 	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
 	//======================================================
@@ -230,14 +232,6 @@ void User::SendInfo()
 		Disconnect();
 	}
 
-	/*m_basicInfo.userInfo.userID = m_index;
-	strcpy_s(m_basicInfo.userInfo.userName, "TestPlayer");
-
-	m_basicInfo.unitInfo.zoneNum = 0;
-	Unit::SetUnitInfo(IDLE, 1,
-		100, 100, 100, 100, 100, 0, 20, 0);
-	Unit::SetUnitPosition(0, 0);*/
-
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
 	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
 
@@ -249,51 +243,51 @@ void User::SendInfo()
 }
 
 //테스트용
-void User::TestClientEnterZone(Zone* _zone, int _zoneNum)
+void User::TestClientEnterField(Field* _field, int _fieldNum)
 {
-	m_zone = _zone;
-	m_basicInfo.unitInfo.zoneNum = m_zone->GetZoneNum();
+	m_field = _field;
+	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
 
 	m_isTestClient = true;
 }
 
-//받아온 Zone의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
-void User::EnterZone(Zone* _zone, int _zoneNum, VECTOR2 _spawnPosition)
+//받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
+void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 {
-	EnterZonePacket* enterZonePacket =
-		reinterpret_cast<EnterZonePacket*>(Session::GetSendBuffer()->
-			GetBuffer(sizeof(EnterZonePacket)));
-	enterZonePacket->zoneNum = _zoneNum;
+	EnterFieldPacket* enterFieldPacket =
+		reinterpret_cast<EnterFieldPacket*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(EnterFieldPacket)));
+	enterFieldPacket->fieldNum = _fieldNum;
 
-	enterZonePacket->position = _spawnPosition;
+	enterFieldPacket->position = _spawnPosition;
 	m_basicInfo.unitInfo.position.x = _spawnPosition.x;
 	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
 
-	enterZonePacket->Init(SendCommand::ENTER_ZONE, sizeof(EnterZonePacket));
-	Session::GetSendBuffer()->Write(enterZonePacket->size);
+	enterFieldPacket->Init(SendCommand::Zone2C_ENTER_FIELD, sizeof(EnterFieldPacket));
+	Session::GetSendBuffer()->Write(enterFieldPacket->size);
 
-	m_zone = _zone;
-	m_basicInfo.unitInfo.zoneNum = m_zone->GetZoneNum();
-	m_zoneTilesData = m_zone->GetTilesData();
+	m_field = _field;
+	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
+	m_fieldTilesData = m_field->GetTilesData();
 
-	m_tile = m_zoneTilesData->GetTile(
+	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
-	Session::Send(reinterpret_cast<char*>(enterZonePacket), enterZonePacket->size);
+	Session::Send(reinterpret_cast<char*>(enterFieldPacket), enterFieldPacket->size);
 
-	printf("[ ENTER_ZONE 전송 완료 ]\n");
+	printf("[ ENTER_FIELD 전송 완료 ]\n");
 }
 
 void User::SetPosition(Position& _position)
 {
 	float distance = VECTOR2(m_basicInfo.unitInfo.position - _position).Magnitude();
 
-	/*printf("[%d User : SetPosition (%f, %f) - dir : %f ]\n",
-		m_basicInfo.userInfo.userID, _position.x, _position.y, distance);*/
+	printf("[%d User : SetPosition (%f, %f) - dir : %f ]\n",
+		m_basicInfo.userInfo.userID, _position.x, _position.y, distance);
 
 	m_basicInfo.unitInfo.position = _position;
-	m_tile = m_zoneTilesData->GetTile(
+	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 }
@@ -310,7 +304,7 @@ bool User::LogInUser(LogInPacket* _packet)
 	{
 		Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(Packet)));
-		LogInFailed->Init(SendCommand::LOGIN_FAILED, sizeof(Packet));
+		LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
 		printf("[ Login Failed ] \n");
 
 		Session::Send(LogInFailed);
@@ -326,7 +320,7 @@ void User::RegisterUser(RegisterUserPacket* _packet)
 	{
 		Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(Packet)));
-		RegisterSuccessPacket->Init(SendCommand::REGISTER_USER_SUCCESS, sizeof(Packet));
+		RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
 
 		Session::Send(RegisterSuccessPacket);
 	}
@@ -335,7 +329,7 @@ void User::RegisterUser(RegisterUserPacket* _packet)
 	{
 		Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(Packet)));
-		RegisterFailedPacket->Init(SendCommand::REGISTER_USER_FAILED, sizeof(Packet));
+		RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
 
 		Session::Send(RegisterFailedPacket);
 	}
@@ -345,7 +339,7 @@ void User::LogInDuplicated()
 {
 	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
-	LogInFailed->Init(SendCommand::LOGIN_FAILED_DUPLICATED, sizeof(Packet));
+	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
 
 	Session::Send(LogInFailed);
 }
@@ -354,8 +348,22 @@ void User::LogInSuccess()
 {
 	Packet* LogInSuccess = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
-	LogInSuccess->Init(SendCommand::LOGIN_SUCCESS, sizeof(Packet));
+	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(Packet));
 	printf("[ Login Success ] \n");
 
 	Session::Send(LogInSuccess);
+}
+
+bool User::CompareSector(Sector* _sector)
+{
+	if (m_sector == nullptr) return false;
+
+	if (m_sector == _sector)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

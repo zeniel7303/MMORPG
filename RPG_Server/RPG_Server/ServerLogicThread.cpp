@@ -9,10 +9,10 @@ ServerLogicThread::~ServerLogicThread()
 }
 
 void ServerLogicThread::Init(SessionManager* _sessionManager,
-							ZoneManager* _zoneManager)
+							FieldManager* _fieldManager)
 {
 	m_sessionManager = _sessionManager;
-	m_zoneManager = _zoneManager;
+	m_fieldManager = _fieldManager;
 
 	ThreadClass<ServerLogicThread>::Start(this);
 
@@ -184,9 +184,9 @@ void ServerLogicThread::ParsingUser()
 		if (!user->GetIsConnected())
 		{
 			//존에 있었다면 해당 존에서 먼저 나간 후
-			if (user->GetZone() != nullptr)
+			if (user->GetField() != nullptr)
 			{
-				user->GetZone()->ExitUser(user);
+				user->GetField()->ExitUser(user);
 			}
 
 			//shutdown 이후 close
@@ -208,11 +208,11 @@ void ServerLogicThread::ParsingUser()
 			//테스트용 패킷 처리
 			if (packet->cmd == 1234)
 			{
-				ZoneNumPacket* zoneNumPacket = static_cast<ZoneNumPacket*>(packet);
+				FieldNumPacket* fieldNumPacket = static_cast<FieldNumPacket*>(packet);
 
-				Zone* zone = m_zoneManager->GetZone(zoneNumPacket->zoneNum);
+				Field* field = m_fieldManager->GetField(fieldNumPacket->fieldNum);
 
-				zone->EnterTestClient(user);
+				field->EnterTestClient(user);
 			}
 			else if (packet->cmd == 12345)
 			{
@@ -225,75 +225,75 @@ void ServerLogicThread::ParsingUser()
 				{
 					//채팅 패킷
 					//바로 해당 존에 SendAll
-				case RecvCommand::CHATTING:
-					user->GetZone()->
-						SectorSendAll(user->GetSector(), user->GetSectors(), reinterpret_cast<char*>(packet), packet->size);
+				case RecvCommand::C2Zone_CHATTING:
+					user->GetField()->
+						SectorSendAll(user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(packet), packet->size);
 					break;
 					//HeartBeatChecked 성공 패킷 받을 시
-				case RecvCommand::CHECK_ALIVE:
-					user->SetIsChecking(false);
+				case RecvCommand::C2Zone_CHECK_ALIVE:
 					user->HeartBeatChecked();
 					break;
 					//회원가입 시도시
-				case RecvCommand::REGISTER_ACCOUNT:
-					RegisterUser(user, packet);
+				case RecvCommand::C2Zone_REGISTER_ACCOUNT:
+					OnPacket_RegisterUser(user, packet);
 					break;
 					//로그인 시도시
-				case RecvCommand::LOGIN:
-					LogInUser(user, packet);
+				case RecvCommand::C2Zone_LOGIN:
+					//이런 형식으로 패킷 함수들을 명명하자.
+					OnPacket_LogInUser(user, packet);
 					break;
 					//접속 시 유저 정보 요청 시
-				case RecvCommand::REQUIRE_INFO:
+				case RecvCommand::C2Zone_REQUIRE_INFO:
 					user->SendInfo();
 					break;
 					//게임 시작 후 첫 존 입장 시 받는 패킷
 					//스폰 위치, 타일 지정, 존에 있었다면 해당 존에서는 Exit처리
 					//해당 존에 접속 중인 유저들에게 입장했다고 알려줌
-				case RecvCommand::TRY_ENTER_ZONE:
-					EnterZone(user, packet);
+				case RecvCommand::C2Zone_TRY_ENTER_FIELD:
+					OnPacket_EnterField(user, packet);
 					break;
 					//접속 중인 유저들 리스트 보내줌
-				case RecvCommand::ENTER_ZONE_SUCCESS:
-					EnterZoneSuccess(user);
+				case RecvCommand::C2Zone_ENTER_FIELD_SUCCESS:
+					OnPacket_EnterFieldSuccess(user);
 					break;
 					//유저 이동
-				case RecvCommand::USER_MOVE:
-					UpdateUserPosition(user, packet);
+				case RecvCommand::C2Zone_USER_MOVE:
+					OnPacket_UpdateUserPosition(user, packet);
 					break;
 					//유저 이동
-				case RecvCommand::USER_MOVE_FINISH:
-					UpdateUserPosition(user, packet);
+				case RecvCommand::C2Zone_USER_MOVE_FINISH:
+					OnPacket_UpdateUserPosition(user, packet);
 					break;
 					//공격 실패 시(몬스터가 죽었거나 범위 밖으로 나갔을 때)
-				case RecvCommand::USER_ATTACK_FAILED:
-					UserAttackFailed(user, packet);
+				case RecvCommand::C2Zone_USER_ATTACK_FAILED:
+					OnPacket_UserAttackFailed(user, packet);
 					break;
 					//공격 성공 시
-				case RecvCommand::USER_ATTACK_MONSTER:
-					UserAttack(user, packet);
+				case RecvCommand::C2Zone_USER_ATTACK_MONSTER:
+					OnPacket_UserAttack(user, packet);
 					break;
 					//유저 부활 시
-				case RecvCommand::USER_REVIVE:
-					UserRevive(user);
+				case RecvCommand::C2Zone_USER_REVIVE:
+					OnPacket_UserRevive(user);
 					break;
 					//
-				case RecvCommand::ENTER_FIELD_ZONE:
-					printf("[ Try To Enter Field Zone ]\n");
-					EnterZone(user, packet);
+				case RecvCommand::C2Zone_ENTER_FIELD:
+					printf("[ Try To Enter Field ]\n");
+					OnPacket_EnterField(user, packet);
 					break;
 					//
-				case RecvCommand::ENTER_VILLAGE_ZONE:
-					printf("[ Try To Enter Village Zone ]\n");
-					EnterZone(user, packet);
+				case RecvCommand::C2Zone_ENTER_VILLAGE:
+					printf("[ Try To Enter Village ]\n");
+					OnPacket_EnterField(user, packet);
 					break;
 					//접속 끊을 시
-				case RecvCommand::EXIT_USER:
-					UpdateUser(user, packet);
+				case RecvCommand::C2Zone_EXIT_USER:
+					OnPacket_UpdateUser(user, packet);
 					user->Disconnect();
 					break;
 					//HeartBeatCheck 6회 후 유저 업데이트 요청 시
-				case RecvCommand::UPDATE_INFO:
-					UpdateUser(user, packet);
+				case RecvCommand::C2Zone_UPDATE_INFO:
+					OnPacket_UpdateUser(user, packet);
 					break;
 				}
 			}
@@ -316,90 +316,88 @@ void ServerLogicThread::ParsingMonster()
 
 		switch (static_cast<SendCommand>(packet->cmd))
 		{
-		case SendCommand::MONSTER_ATTACK:
-			MonsterAttack(monster, packet);
+		case SendCommand::Zone2C_MONSTER_ATTACK:
+			OnPacket_MonsterAttack(monster, packet);
 			break;
 		default:
 			/*printf("=======================================\n");
 			printf("Monster %d : ", monster->GetInfo().index);*/
-			monster->GetZone()->
-				SectorSendAll(monster->GetSector(), monster->GetSectors(), reinterpret_cast<char*>(packet), packet->size);
+			monster->GetField()->
+				SectorSendAll(monster->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(packet), packet->size);
 			break;
 		}
 	}
 }
 
-void ServerLogicThread::EnterZone(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_EnterField(User* _user, Packet* _packet)
 {
-	ZoneNumPacket* zoneNumPacket = static_cast<ZoneNumPacket*>(_packet);
+	FieldNumPacket* fieldNumPacket = static_cast<FieldNumPacket*>(_packet);
 
-	Zone* zone = m_zoneManager->GetZone(zoneNumPacket->zoneNum);
-	if (zone == nullptr) return;
+	Field* field = m_fieldManager->GetField(fieldNumPacket->fieldNum);
+	if (field == nullptr) return;
 
-	Zone* prevZone = m_zoneManager->GetZone(_user->GetInfo()->unitInfo.zoneNum);
-	if (prevZone != nullptr)
+	Field* prevField = m_fieldManager->GetField(_user->GetInfo()->unitInfo.fieldNum);
+	if (prevField != nullptr)
 	{
-		printf("[ Exit User (Prev Zone) ]");
-		prevZone->ExitUser(_user);
+		printf("[ Exit User (Prev Field) ]");
+		prevField->ExitUser(_user);
 	}
 
-	zone->EnterUser(_user);
+	field->EnterUser(_user);
 }
 
-void ServerLogicThread::EnterZoneSuccess(User* _user)
+void ServerLogicThread::OnPacket_EnterFieldSuccess(User* _user)
 {
 	_user->StartCheckingHeartBeat();
 
-	Zone* zone = _user->GetZone();
+	Field* field = _user->GetField();
 
-	zone->SendUserList(_user);
+	field->SendUserList(_user);
 }
 
-void ServerLogicThread::UpdateUserPosition(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_UpdateUserPosition(User* _user, Packet* _packet)
 {
 	UserPositionPacket* userPositionPacket = static_cast<UserPositionPacket*>(_packet);
 
-	Zone* zone = _user->GetZone();
+	Field* field = _user->GetField();
 
 	_user->SetPosition(userPositionPacket->position);
 
-	//기존 섹터 범위에서 나갔는지 체크(false면 나간 것)
-	if (!_user->GetSector()->SectorRangeCheck(_user->GetTile()))
-	{
-		zone->UpdateUserSector(_user);
-	}
+	field->UpdateUserSector(_user);
 
-	zone->SectorSendAll(_user->GetSector(), _user->GetSectors(), reinterpret_cast<char*>(_packet), _packet->size);
+	//field->FieldSendAll(reinterpret_cast<char*>(_packet), _packet->size);
+
+	field->SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(_packet), _packet->size);
 }
 
-void ServerLogicThread::UserAttackFailed(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_UserAttackFailed(User* _user, Packet* _packet)
 {
 	UserAttackPacket * userAttackPacket = static_cast<UserAttackPacket*>(_packet);
 
-	Zone* zone = _user->GetZone();
-	zone->SectorSendAll(_user->GetSector(), _user->GetSectors(), reinterpret_cast<char*>(_packet), _packet->size);
+	Field* field = _user->GetField();
+	field->SectorSendAll( _user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(_packet), _packet->size);
 }
 
-void ServerLogicThread::UserAttack(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_UserAttack(User* _user, Packet* _packet)
 {
 	UserAttackPacket * userAttackPacket = static_cast<UserAttackPacket*>(_packet);
 
-	Zone* zone = _user->GetZone();
+	Field* field = _user->GetField();
 
-	if (zone->UserAttack(_user, userAttackPacket->monsterIndex))
+	if (field->UserAttack(_user, userAttackPacket->monsterIndex))
 	{
-		zone->SectorSendAll(_user->GetSector(), _user->GetSectors(), reinterpret_cast<char*>(_packet), _packet->size);
+		field->SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(_packet), _packet->size);
 	}
 }
 
-void ServerLogicThread::UserRevive(User* _user)
+void ServerLogicThread::OnPacket_UserRevive(User* _user)
 {
-	Zone* zone = _user->GetZone();
+	Field* field = _user->GetField();
 
-	zone->RespawnUser(_user);
+	field->RespawnUser(_user);
 }
 
-void ServerLogicThread::MonsterAttack(Monster* _monster, Packet* _packet)
+void ServerLogicThread::OnPacket_MonsterAttack(Monster* _monster, Packet* _packet)
 {
 	MonsterAttackPacket * monsterAttackPacket = static_cast<MonsterAttackPacket*>(_packet);
 
@@ -409,14 +407,14 @@ void ServerLogicThread::MonsterAttack(Monster* _monster, Packet* _packet)
 	user->Hit(monsterAttackPacket->monsterIndex, monsterAttackPacket->damage);
 }
 
-void ServerLogicThread::RegisterUser(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_RegisterUser(User* _user, Packet* _packet)
 {
 	RegisterUserPacket* registerUserPacket = static_cast<RegisterUserPacket*>(_packet);
 
 	_user->RegisterUser(registerUserPacket);
 }
 
-void ServerLogicThread::LogInUser(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_LogInUser(User* _user, Packet* _packet)
 {
 	LogInPacket* logInPacket = static_cast<LogInPacket*>(_packet);
 
@@ -437,7 +435,7 @@ void ServerLogicThread::LogInUser(User* _user, Packet* _packet)
 	}
 }
 
-void ServerLogicThread::UpdateUser(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_UpdateUser(User* _user, Packet* _packet)
 {
 	SessionInfoPacket* sessionInfoPacket = static_cast<SessionInfoPacket*>(_packet);
 

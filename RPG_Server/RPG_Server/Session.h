@@ -53,6 +53,7 @@ protected:
 
 	bool					m_isConnected;
 	bool					m_isCheckingHeartBeat;
+	bool					m_startCheckingHeartBeat;
 	int						m_heartBeatCheckedCount;
 
 private:
@@ -86,4 +87,7 @@ public:
 
 	bool GetIsChecking() { return m_isCheckingHeartBeat; }
 	void SetIsChecking(bool _bool) { m_isCheckingHeartBeat = _bool; }
+
+	void StartCheckingHeartBeat() { m_startCheckingHeartBeat = true; }
+	bool GetStartCheckingHeartBeat() { return m_startCheckingHeartBeat; }
 };

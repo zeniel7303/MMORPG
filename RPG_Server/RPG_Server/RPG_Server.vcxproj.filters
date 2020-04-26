@@ -76,12 +76,6 @@
     <Filter Include="소스 파일\Application\Server">
       <UniqueIdentifier>{982d0083-00ae-4447-a0af-015f19d14956}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Server\Zone">
-      <UniqueIdentifier>{32e89043-d9e6-4081-ad39-f452bf1ceb0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Application\Server\Zone\Manager">
-      <UniqueIdentifier>{9c025ee9-6c7d-45d8-981b-9617116a5f43}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Application\Server\Thread">
       <UniqueIdentifier>{c6f08c71-f17c-4ef1-8b1e-81974b1262c2}</UniqueIdentifier>
     </Filter>
@@ -99,6 +93,12 @@
     </Filter>
     <Filter Include="소스 파일\Application\Server\Sector">
       <UniqueIdentifier>{4f7869c8-97ca-4b0e-b061-06b31b4049e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Application\Server\Field">
+      <UniqueIdentifier>{32e89043-d9e6-4081-ad39-f452bf1ceb0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Application\Server\Field\Manager">
+      <UniqueIdentifier>{9c025ee9-6c7d-45d8-981b-9617116a5f43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,12 +123,6 @@
     <ClCompile Include="Unit.cpp">
       <Filter>소스 파일\Application\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Zone.cpp">
-      <Filter>소스 파일\Application\Server\Zone</Filter>
-    </ClCompile>
-    <ClCompile Include="ZoneManager.cpp">
-      <Filter>소스 파일\Application\Server\Zone\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="ListenClass.cpp">
       <Filter>소스 파일\Library\ListenClass</Filter>
     </ClCompile>
@@ -147,23 +141,29 @@
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\Application\Unit\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="ZoneTilesData.cpp">
-      <Filter>소스 파일\Application\Server\Zone</Filter>
-    </ClCompile>
     <ClCompile Include="HeartBeatThread.cpp">
       <Filter>소스 파일\Library\Thread</Filter>
     </ClCompile>
     <ClCompile Include="MySQLClass.cpp">
       <Filter>소스 파일\Library\MYSQL</Filter>
     </ClCompile>
-    <ClCompile Include="RPGServer.cpp">
-      <Filter>소스 파일\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Sector.cpp">
       <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClCompile>
     <ClCompile Include="SectorManager.cpp">
       <Filter>소스 파일\Application\Server\Sector</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneServer.cpp">
+      <Filter>소스 파일\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>소스 파일\Application\Server\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldManager.cpp">
+      <Filter>소스 파일\Application\Server\Field\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldTilesData.cpp">
+      <Filter>소스 파일\Application\Server\Field</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,12 +221,6 @@
     <ClInclude Include="UnitInfo.h">
       <Filter>소스 파일\Application\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Zone.h">
-      <Filter>소스 파일\Application\Server\Zone</Filter>
-    </ClInclude>
-    <ClInclude Include="ZoneManager.h">
-      <Filter>소스 파일\Application\Server\Zone\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>소스 파일\Application\Tile</Filter>
     </ClInclude>
@@ -244,9 +238,6 @@
     </ClInclude>
     <ClInclude Include="MonsterLogicThread.h">
       <Filter>소스 파일\Application\Server\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="ZoneTilesData.h">
-      <Filter>소스 파일\Application\Server\Zone</Filter>
     </ClInclude>
     <ClInclude Include="SharedQueue.h">
       <Filter>소스 파일\Library\Util\SharedQueue</Filter>
@@ -266,14 +257,23 @@
     <ClInclude Include="SendBuffer.h">
       <Filter>소스 파일\Library\Util\Buffer\TempBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="RPGServer.h">
-      <Filter>소스 파일\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Sector.h">
       <Filter>소스 파일\Application\Server\Sector</Filter>
     </ClInclude>
     <ClInclude Include="SectorManager.h">
       <Filter>소스 파일\Application\Server\Sector</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneServer.h">
+      <Filter>소스 파일\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>소스 파일\Application\Server\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldManager.h">
+      <Filter>소스 파일\Application\Server\Field\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldTilesData.h">
+      <Filter>소스 파일\Application\Server\Field</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
