@@ -2,8 +2,11 @@
 #include <time.h>
 #include <algorithm>
 
-#include "ManagerFrame.h"
+#include "ManagerFrame_List.h"
 #include "SendBuffer.h"
+
+#include "PathFinding.h"
+//#include "ThreadClass.h"
 
 #include "User.h"
 #include "FieldTilesData.h"
@@ -18,30 +21,30 @@
 
 //=====================================================
 
-class Field : public Manager<User>
+class Field : public Manager_List<User>, public ThreadClass<Field>
 {
 private:
-	WORD m_fieldNum;
-	VECTOR2 m_spawnPosition;
+	WORD					m_fieldNum;
+	VECTOR2					m_spawnPosition;
 
 	//==================================================
 
-	FieldTilesData m_fieldTilesData;
+	FieldTilesData			m_fieldTilesData;
 
-	MonsterLogicThread m_monsterLogicThread;
+	MonsterLogicThread		m_monsterLogicThread;
 
-	SectorManager m_sectorManager;
+	SectorManager			m_sectorManager;
 
-	CriticalSectionClass m_locker;
+	CriticalSectionClass	m_locker;
 
 	//==================================================
 
-	SendBuffer* m_sendBuffer;
+	SendBuffer*				m_sendBuffer;
 
-	std::vector<Sector*> m_leaveSectorsVec;
-	std::vector<Sector*> m_enterSectorsVec;
+	std::vector<Sector*>	m_leaveSectorsVec;
+	std::vector<Sector*>	m_enterSectorsVec;
 
-	time_t		start, end;
+	time_t					start, end;
 
 public:
 	Field();
@@ -52,12 +55,10 @@ public:
 	void FieldSendAll(char * _buffer, int _size);
 
 	void SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int _size);
-	//void SectorSendAll(Sector** _sectors, char * _buffer, int _size);
 
 	void SendUserList(User* _user);
 	void SendUserList_InRange(User* _user);
 
-	void EnterTestClient(User* _user);
 	void EnterUser(User* _user);
 	void SendEnterUserInfo(User* _user);
 
@@ -77,6 +78,11 @@ public:
 	void EnterSector(User* _user);
 	void SendVisibleUserList(User* _user);
 	void SendVisibleMonsterList(User* _user);
+
+	void EnterTestClient(User* _user, int _num);
+	void MoveTestClient(User* _user, list<VECTOR2>* _list);
+
+	void LoopRun();
 
 	WORD GetFieldNum() { return m_fieldNum; }
 

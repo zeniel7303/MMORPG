@@ -3,6 +3,7 @@
 
 #include "Unit.h"
 #include "Session.h"
+#include "PathFinding.h"
 
 #include "packet.h"
 
@@ -28,18 +29,27 @@ class Sector;
 class User : public Session, public Unit
 {
 private:
+	//int                m_tempsize[10000];
+
+	//VECTOR2				m_targetPosition;
 	INFO				m_basicInfo;
 
 	Sector*				m_sector;
 
 	Tile*				m_tile;
 
-	//===============================================
-
 	Field*				m_field;
 	FieldTilesData*		m_fieldTilesData;
 
+	//===============================================
+
+	//Dummy용
+	PathFinding			m_pathFinding;
+
 	bool				m_isTestClient;
+
+	VECTOR2				m_targetPosition;
+	list<VECTOR2>		m_tileList;
 
 public:
 	User();
@@ -68,8 +78,6 @@ public:
 
 	//유저의 정보 보내기
 	void SendInfo();
-	//테스트용
-	void TestClientEnterField(Field* _Field, int _fieldNum);
 	//Field 입장 시
 	void EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition);
 	//User의 포지션(이동시 호출됨)
@@ -84,8 +92,15 @@ public:
 
 	bool CompareSector(Sector* _sector);
 
+	//테스트용
+	void TestClientEnterField(Field* _Field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition);
+	void TestPathFind(list<VECTOR2>* _list);
+	void TestMove();
+	bool PathMove();
+
 	Tile* GetTile() { return m_tile; }
 	INFO* GetInfo() { return &m_basicInfo; }
+
 	Field* GetField() { return m_field; }
 	void SetField (Field* _field) { m_field = _field; }
 
@@ -95,5 +110,6 @@ public:
 	bool GetIsDeath() { return m_basicInfo.unitInfo.state == STATE::DEATH; }
 
 	bool GetIsTestClient() { return m_isTestClient; }
+	list<VECTOR2>* GetPathList() { return &m_tileList; }
 };												 
 

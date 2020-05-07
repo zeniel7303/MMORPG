@@ -1,5 +1,6 @@
 #pragma once
 
+//unsigned short
 enum class RecvCommand : WORD
 {
 	C2Zone_REQUIRE_INFO = 101,
@@ -27,7 +28,9 @@ enum class RecvCommand : WORD
 
 	C2Zone_LOGIN = 7001,
 
-	C2Zone_TEST = 1234,
+	C2Zone_ENTER_TEST_USER = 10001,
+	C2Zone_MOVE_TEST_USER = 10011,
+
 	C2Zone_TEST2 = 12345
 };
 
@@ -80,5 +83,8 @@ enum class SendCommand : WORD
 
 	Zone2C_LOGIN_SUCCESS = 7100,
 	Zone2C_LOGIN_FAILED = 7110,
-	Zone2C_LOGIN_FAILED_DUPLICATED = 7120
+	Zone2C_LOGIN_FAILED_DUPLICATED = 7120,
+
+	Zone2C_REGISTER_TEST_USER = 10000,
+	Zone2C_UPDATE_STATE_TEST_USER = 10010
 };

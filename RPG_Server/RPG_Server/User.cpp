@@ -242,15 +242,6 @@ void User::SendInfo()
 	printf("[ REGISTER_USER 전송 완료 ]\n");
 }
 
-//테스트용
-void User::TestClientEnterField(Field* _field, int _fieldNum)
-{
-	m_field = _field;
-	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
-
-	m_isTestClient = true;
-}
-
 //받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
 void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 {
@@ -283,8 +274,8 @@ void User::SetPosition(Position& _position)
 {
 	float distance = VECTOR2(m_basicInfo.unitInfo.position - _position).Magnitude();
 
-	printf("[%d User : SetPosition (%f, %f) - dir : %f ]\n",
-		m_basicInfo.userInfo.userID, _position.x, _position.y, distance);
+	/*printf("[%d User : SetPosition (%f, %f) - dir : %f ]\n",
+		m_basicInfo.userInfo.userID, _position.x, _position.y, distance);*/
 
 	m_basicInfo.unitInfo.position = _position;
 	m_tile = m_fieldTilesData->GetTile(
@@ -366,4 +357,195 @@ bool User::CompareSector(Sector* _sector)
 	{
 		return false;
 	}
+}
+
+//테스트용
+void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition)
+{
+	m_isTestClient = true;
+
+	m_field = _field;
+	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
+	m_fieldTilesData = m_field->GetTilesData();
+
+	m_basicInfo.userInfo.userID = _dummyNum;
+	strcpy_s(m_basicInfo.userInfo.userName, "TestPlayer");
+
+	Unit::SetUnitInfo(IDLE, 1,
+		100, 100, 100, 100, 100, 0, 20, 0);
+	Unit::SetUnitPosition(0, 0);
+
+	m_basicInfo.unitInfo.position.x = _spawnPosition.x;
+	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
+
+	m_tile = m_fieldTilesData->GetTile(
+		static_cast<int>(m_basicInfo.unitInfo.position.x),
+		static_cast<int>(m_basicInfo.unitInfo.position.y));
+
+	SessionInfoPacket* sessionInfoPacket =
+		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(SessionInfoPacket)));
+	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_TEST_USER, sizeof(SessionInfoPacket));
+	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+
+	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
+	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
+
+	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
+}
+
+void User::TestPathFind(list<VECTOR2>* _list)
+{
+	//메모리 릭 의심
+	/*
+	//길찾기를 부분은 클라이언트 부분으로.
+	m_pathFinding.PathFind(&m_tileList, m_tile, _tile);
+
+	//20.05.04
+	//erase(begin())하면 m_targetPosition의 정보가 같이 사라졌다.
+	//현재는 iter부분 제외하고 단순히 front 및 pop_front를 사용하면 해결됨.
+	m_targetPosition = m_tileList.front();
+	m_tileList.pop_front();
+	*/
+
+	m_tileList = *_list;
+
+	m_targetPosition = m_tileList.front();
+	m_tileList.pop_front();
+
+	m_basicInfo.unitInfo.state = STATE::MOVE;
+}
+
+void User::TestMove()
+{
+	//printf("[ 1 ( %f, %f ) ]\n",  m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
+
+	VECTOR2 temp1;
+	VECTOR2 temp2;
+	temp2.x = m_basicInfo.unitInfo.position.x;
+	temp2.y = m_basicInfo.unitInfo.position.y;
+	//============================================================================
+	VECTOR2 tempVec2 = VECTOR2(m_targetPosition - m_basicInfo.unitInfo.position);
+	float magnitude = tempVec2.Magnitude();
+
+	if (magnitude <= 3.5f * (1.0f / 30.0f) || magnitude == 0.0f)
+	{
+		temp1 = m_targetPosition;
+
+		m_basicInfo.unitInfo.position.x = temp1.x;
+		m_basicInfo.unitInfo.position.y = temp1.y;
+	}
+		
+	//두 직선, 벡터의 관계(사이각,회전각) 구하기
+	//https://darkpgmr.tistory.com/121
+	//VECTOR2(m_targetPosition - m_info.position) / magnitude 이 부분
+
+	//https://www.youtube.com/watch?v=WxWJorOVIj8
+	//https://www.youtube.com/watch?v=-gokuNjpyNg
+
+	temp2 = temp2 + tempVec2 / magnitude * 3.5f * (1.0f / 30.0f);
+	//각도 * 이동속도 * 시간
+
+	m_basicInfo.unitInfo.position.x = temp2.x;
+	m_basicInfo.unitInfo.position.y = temp2.y;
+
+	//printf("[ 2 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
+}
+
+bool User::PathMove()
+{
+	VECTOR2 temp;
+	temp.x = m_basicInfo.unitInfo.position.x;
+	temp.y = m_basicInfo.unitInfo.position.y;
+
+	float distance = VECTOR2(temp - m_targetPosition).SqrMagnitude();
+
+	//목표 좌표에 도착
+	if (distance <= 0.1f)
+	{
+		//printf("1 \n");
+
+		m_basicInfo.unitInfo.position.x = m_targetPosition.x;
+		m_basicInfo.unitInfo.position.y = m_targetPosition.y;
+		m_tile = m_fieldTilesData->GetTile(
+			static_cast<int>(m_basicInfo.unitInfo.position.x),
+			static_cast<int>(m_basicInfo.unitInfo.position.y));
+
+		m_field->UpdateUserSector(this);
+
+		//printf("[ 3 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
+
+		/*printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+			m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);*/
+
+		//남은 타일리스트가 있다면
+		if (m_tileList.size() > 0)
+		{
+			//printf("2 \n");
+
+			m_targetPosition = m_tileList.front();
+			m_tileList.pop_front();
+
+			UserPositionPacket* userPositionPacket =
+				reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
+					GetBuffer(sizeof(UserPositionPacket)));
+			userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
+			userPositionPacket->position = m_basicInfo.unitInfo.position;
+
+			userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
+			Session::GetSendBuffer()->Write(userPositionPacket->size);
+
+			m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
+				reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
+
+			/*MonsterPositionPacket* monsterPositionPacket =
+				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
+					GetBuffer(sizeof(MonsterPositionPacket)));
+
+			monsterPositionPacket->monsterIndex = m_info.index;
+			monsterPositionPacket->position = m_info.position;
+			monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
+
+			m_sendBuffer->Write(monsterPositionPacket->size);
+			packetQueue.AddItem(PacketQueuePair(this, monsterPositionPacket));*/
+		}
+		//남은 타일리스트가 없다면
+		else
+		{
+			//printf("3 \n");
+
+			UserPositionPacket* userPositionPacket =
+				reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
+					GetBuffer(sizeof(UserPositionPacket)));
+			userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
+			userPositionPacket->position = m_basicInfo.unitInfo.position;
+
+			userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
+			Session::GetSendBuffer()->Write(userPositionPacket->size);
+
+			m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
+				reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
+
+			TestClientStatePacket* testClientStatePacket =
+				reinterpret_cast<TestClientStatePacket*>(m_sendBuffer->
+					GetBuffer(sizeof(TestClientStatePacket)));
+			testClientStatePacket->state = STATE::IDLE;
+			testClientStatePacket->vec2 =
+			{ m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y };
+			testClientStatePacket->Init(SendCommand::Zone2C_UPDATE_STATE_TEST_USER, sizeof(TestClientStatePacket));
+
+			Session::GetSendBuffer()->Write(testClientStatePacket->size);
+
+			Session::Send(reinterpret_cast<char*>(testClientStatePacket), testClientStatePacket->size);
+
+			printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+				m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
+
+			return false;
+		}
+	}
+
+	//printf("4 \n");
+
+	return true;
 }

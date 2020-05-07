@@ -4,7 +4,7 @@
 
 #include "Session.h"
 #include "ObjectPool.h"
-#include "ManagerFrame.h"
+#include "ManagerFrame_List.h"
 #include "CriticalSectionClass.h"
 
 //=====================================================
@@ -15,7 +15,7 @@
 
 //=====================================================
 
-class SessionManager : public Manager<Session>
+class SessionManager : public Manager_List<Session>
 {
 private:
 	CriticalSectionClass	m_locker;

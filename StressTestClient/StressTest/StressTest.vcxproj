@@ -116,14 +116,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="IOCPClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RingBuffer.cpp" />
+    <ClCompile Include="WorkerThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircBuf.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="IOCPClass.h" />
     <ClInclude Include="RingBuffer.h" />
     <ClInclude Include="ThreadClass.h" />
+    <ClInclude Include="WorkerThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

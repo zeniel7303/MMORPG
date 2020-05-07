@@ -171,7 +171,6 @@ void ServerLogicThread::ParsingUser()
 	});
 	*/
 
-	//일반적인 For문
 	list<Session*>::iterator iterEnd = vSessionList->end();
 
 	User* user;
@@ -206,28 +205,20 @@ void ServerLogicThread::ParsingUser()
 		if (packet != nullptr)
 		{
 			//테스트용 패킷 처리
-			if (packet->cmd == 1234)
-			{
-				FieldNumPacket* fieldNumPacket = static_cast<FieldNumPacket*>(packet);
-
-				Field* field = m_fieldManager->GetField(fieldNumPacket->fieldNum);
-
-				field->EnterTestClient(user);
-			}
-			else if (packet->cmd == 12345)
+			if (packet->cmd == 12345)
 			{
 				printf("Test Checking \n");
 			}
 			else
 			{
-				//일반적인 서버의 패킷 처리 스위치문
 				switch (static_cast<RecvCommand>(packet->cmd))
 				{
 					//채팅 패킷
 					//바로 해당 존에 SendAll
 				case RecvCommand::C2Zone_CHATTING:
 					user->GetField()->
-						SectorSendAll(user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(packet), packet->size);
+						SectorSendAll(user->GetSector()->GetRoundSectorsVec(), 
+							reinterpret_cast<char*>(packet), packet->size);
 					break;
 					//HeartBeatChecked 성공 패킷 받을 시
 				case RecvCommand::C2Zone_CHECK_ALIVE:
@@ -239,7 +230,6 @@ void ServerLogicThread::ParsingUser()
 					break;
 					//로그인 시도시
 				case RecvCommand::C2Zone_LOGIN:
-					//이런 형식으로 패킷 함수들을 명명하자.
 					OnPacket_LogInUser(user, packet);
 					break;
 					//접속 시 유저 정보 요청 시
@@ -276,12 +266,12 @@ void ServerLogicThread::ParsingUser()
 				case RecvCommand::C2Zone_USER_REVIVE:
 					OnPacket_UserRevive(user);
 					break;
-					//
+					//필드 이동
 				case RecvCommand::C2Zone_ENTER_FIELD:
 					printf("[ Try To Enter Field ]\n");
 					OnPacket_EnterField(user, packet);
 					break;
-					//
+					//필드 이동
 				case RecvCommand::C2Zone_ENTER_VILLAGE:
 					printf("[ Try To Enter Village ]\n");
 					OnPacket_EnterField(user, packet);
@@ -294,6 +284,12 @@ void ServerLogicThread::ParsingUser()
 					//HeartBeatCheck 6회 후 유저 업데이트 요청 시
 				case RecvCommand::C2Zone_UPDATE_INFO:
 					OnPacket_UpdateUser(user, packet);
+					break;
+				case RecvCommand::C2Zone_ENTER_TEST_USER:
+					OnPacket_EnterTestUser(user, packet);
+					break;
+				case RecvCommand::C2Zone_MOVE_TEST_USER:
+					OnPacket_MoveTestUser(user, packet);
 					break;
 				}
 			}
@@ -364,8 +360,6 @@ void ServerLogicThread::OnPacket_UpdateUserPosition(User* _user, Packet* _packet
 	_user->SetPosition(userPositionPacket->position);
 
 	field->UpdateUserSector(_user);
-
-	//field->FieldSendAll(reinterpret_cast<char*>(_packet), _packet->size);
 
 	field->SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(_packet), _packet->size);
 }
@@ -443,4 +437,32 @@ void ServerLogicThread::OnPacket_UpdateUser(User* _user, Packet* _packet)
 	_user->GetInfo()->userInfo = sessionInfoPacket->info.userInfo;
 
 	_user->UpdateInfo();
+}
+
+void ServerLogicThread::OnPacket_EnterTestUser(User* _user, Packet* _packet)
+{
+	TestClientEnterPacket* testClientEnterPacket = static_cast<TestClientEnterPacket*>(_packet);
+
+	Field* field = m_fieldManager->GetField(testClientEnterPacket->fieldNum);
+
+	field->EnterTestClient(_user, testClientEnterPacket->userNum);
+}
+
+void ServerLogicThread::OnPacket_MoveTestUser(User* _user, Packet* _packet)
+{
+	TestClientMovePacket* testClientMovePacket = static_cast<TestClientMovePacket*>(_packet);
+
+	std::list<VECTOR2> tempList;
+	
+	for (int i = 0; i < testClientMovePacket->tileCount; i++)
+	{
+		VECTOR2 tempVec2 = { testClientMovePacket->position[i].x , 
+			testClientMovePacket->position[i].y };
+
+		tempList.push_back(tempVec2);
+	}
+
+	Field* field = _user->GetField();
+
+	field->MoveTestClient(_user, &tempList);
 }

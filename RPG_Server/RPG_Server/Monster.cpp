@@ -329,12 +329,12 @@ void Monster::FSM()
 
 void Monster::PathFindStart(Tile* _targetTile)
 {
-	PathFinding::PathFind(m_tileList, m_nowTile, _targetTile);
+	PathFinding::PathFind(&m_tileList, m_nowTile, _targetTile);
 
 	if (m_tileList.size() == 0) return;
 
-	m_targetPosition = *m_tileList.begin();
-	m_tileList.erase(m_tileList.begin());
+	m_targetPosition = m_tileList.front();
+	m_tileList.pop_front();
 	m_currentTime = 0;
 }
 
@@ -353,8 +353,8 @@ bool Monster::PathMove()
 		//남은 타일리스트가 있다면
 		if (m_tileList.size() > 0)
 		{
-			m_targetPosition = *m_tileList.begin();
-			m_tileList.erase(m_tileList.begin());
+			m_targetPosition = m_tileList.front();
+			m_tileList.pop_front();
 
 			//현재 섹터 범위 체크
 			UpdateSector();
@@ -387,7 +387,7 @@ void Monster::UpdateSector()
 		m_sector = m_sectorManager->
 			GetSector(m_info.position.x, m_info.position.y);
 
-		m_sector->Manager<Monster>::AddItem(this);
+		m_sector->Manager_List<Monster>::AddItem(this);
 	}
 	else
 	{
@@ -401,13 +401,12 @@ void Monster::UpdateSector()
 			if (prevSector != nullptr)
 			{
 				//printf("[ Exit User (Prev Sector) ]");
-				prevSector->Manager<Monster>::DeleteItem(this);
+				prevSector->Manager_List<Monster>::DeleteItem(this);
 			}
 
-			m_sector = m_sectorManager->
-				GetSector(m_info.position.x, m_info.position.y);
-
-			m_sector->Manager<Monster>::AddItem(this);
+			m_sector = nowSector;
+			
+			m_sector->Manager_List<Monster>::AddItem(this);
 		}
 
 		//같으면 처리 X

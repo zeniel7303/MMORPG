@@ -79,9 +79,6 @@
     <Filter Include="소스 파일\Application\Server\Thread">
       <UniqueIdentifier>{c6f08c71-f17c-4ef1-8b1e-81974b1262c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Unit\Monster">
-      <UniqueIdentifier>{a1cd7bc2-210f-4212-a05a-fa8024e1a623}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Library\Util\SharedQueue">
       <UniqueIdentifier>{475fdf28-ad75-4ff6-aab8-d7d1d0d8c6ab}</UniqueIdentifier>
     </Filter>
@@ -99,6 +96,9 @@
     </Filter>
     <Filter Include="소스 파일\Application\Server\Field\Manager">
       <UniqueIdentifier>{9c025ee9-6c7d-45d8-981b-9617116a5f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Application\Unit\Monster">
+      <UniqueIdentifier>{a1cd7bc2-210f-4212-a05a-fa8024e1a623}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +230,6 @@
     <ClInclude Include="Vector.h">
       <Filter>소스 파일\Application\Packet</Filter>
     </ClInclude>
-    <ClInclude Include="ManagerFrame.h">
-      <Filter>소스 파일\Library\Util</Filter>
-    </ClInclude>
     <ClInclude Include="ServerLogicThread.h">
       <Filter>소스 파일\Application\Server\Thread</Filter>
     </ClInclude>
@@ -274,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="FieldTilesData.h">
       <Filter>소스 파일\Application\Server\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerFrame_List.h">
+      <Filter>소스 파일\Library\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerFrame_UnMap.h">
+      <Filter>소스 파일\Library\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

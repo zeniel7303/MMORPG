@@ -5,13 +5,13 @@
 class PathFinding
 {
 public:
-	static void PathFind(list<VECTOR2>& _pathList, Tile* _startTile, Tile* _finishTile)
+	void PathFind(list<VECTOR2>* _pathList, Tile* _startTile, Tile* _finishTile)
 	{
 		//openList = 주변에 갈 수 있는 길들을 담은 List
 		//clostList = 오픈리스트에서 F의 값이 가장 작은 Tile들을 담은 리스트 (갈 수 있는 길)
 
 		//초기화 및 openList, closeList 생성
-		_pathList.clear();
+		_pathList->clear();
 		list<Tile*> openList;
 		list<Tile*> closeList;
 
@@ -64,7 +64,7 @@ public:
 		//(위에서 currentTile이 _finishTile을 가리키고 있기때문에 그대로 다시 역순으로 _pathList에 담으면된다.)
 		while (1)
 		{
-			_pathList.push_back(VECTOR2(static_cast<float>(currentTile->GetX()), 
+			_pathList->push_back(VECTOR2(static_cast<float>(currentTile->GetX()), 
 				static_cast<float>(currentTile->GetY())));
 
 			currentTile = currentTile->GetParentTile();
@@ -73,10 +73,10 @@ public:
 		}
 
 		//역순으로 담겨있으므로 reverse해준다.
-		reverse(_pathList.begin(), _pathList.end());
+		reverse(_pathList->begin(), _pathList->end());
 		//_pathList의 가장 앞부분은 _startTile이므로 삭제한다.
 		//(현재 서 있는 지점이 _startTile이므로 이동하는데 필요없다.)
-		_pathList.pop_front();
+		_pathList->pop_front();
 		//_pathList.erase(_pathList.begin());
 
 		//지금까지 길찾기에 사용됐던 타일들 초기화한다.

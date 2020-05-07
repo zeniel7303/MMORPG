@@ -1,15 +1,14 @@
 #pragma once
-#include "ManagerFrame.h"
+#include "ManagerFrame_List.h"
 
 #include "User.h"
 #include "Monster.h"
 
-class Sector : public Manager<User> ,public Manager<Monster>
+class Sector : public Manager_List<User> ,public Manager_List<Monster>
 {
 private:
 	int m_sectorNum;
 
-	//Sector* m_roundSectors[9];
 	std::vector<Sector*> m_roundSectorsVec;
 
 public:

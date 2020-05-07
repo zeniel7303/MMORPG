@@ -19,6 +19,8 @@ void Field::Init(int _num, VECTOR2 _spawnPosition)
 	m_leaveSectorsVec.resize(9);
 	m_enterSectorsVec.resize(9);
 
+	ThreadClass<Field>::Start(this);
+
 	printf("[ %d Field Init ,", _num);
 }
 
@@ -36,10 +38,7 @@ void Field::FieldSendAll(char * _buffer, int _size)
 {
 	for (const auto& element : m_itemList)
 	{
-		if (!element->GetIsTestClient())
-		{
-			element->Send(_buffer, _size);
-		}
+		element->Send(_buffer, _size);
 	}
 }
 
@@ -51,16 +50,13 @@ void Field::SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int
 	{
 		if (element_1 == nullptr) continue;
 
-		std::list<User*> tempList = *element_1->Manager<User>::GetItemList();
+		std::list<User*> tempList = *element_1->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
 		for (const auto& element_2 : tempList)
 		{
-			if (!element_2->GetIsTestClient())
-			{
-				element_2->Send(_buffer, _size);
-			}
+			element_2->Send(_buffer, _size);
 		}
 	}
 }
@@ -77,10 +73,8 @@ void Field::SendUserList(User* _user)
 
 	for (const auto& element : m_itemList)
 	{
-		if (element->GetIsTestClient()) continue;
-
 		userListPacket->info[i].userInfo = element->GetInfo()->userInfo;
-		userListPacket->info[i].unitInfo = element->GetInfo()->unitInfo;
+		userListPacket->info[i].position = element->GetInfo()->unitInfo.position;
 
 		i++;
 		userListPacket->userNum++;
@@ -114,42 +108,19 @@ void Field::SendUserList_InRange(User* _user)
 
 	for (const auto& tempSector : tempVec)
 	{
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
+		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
 		for (const auto& tempUser : tempList)
 		{
-			if (tempUser->GetIsTestClient()) continue;
-
 			userListPacket_InRange->info[tempNum].userInfo = tempUser->GetInfo()->userInfo;
-			userListPacket_InRange->info[tempNum].unitInfo = tempUser->GetInfo()->unitInfo;
+			userListPacket_InRange->info[tempNum].position = tempUser->GetInfo()->unitInfo.position;
 
 			tempNum++;
 			userListPacket_InRange->userNum++;
 		}
 	}
-
-	/*for (int i = 0; i < 9; i++)
-	{
-		Sector* tempSector = _user->GetSector()->GetRoundSectors()[i];
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
-
-		if (tempSector == nullptr) continue;
-
-		if (tempList.size() <= 0) continue;
-
-		for (const auto& element : tempList)
-		{
-			if (element->GetIsTestClient()) continue;
-
-			userListPacket_InRange->info[tempNum].userInfo = element->GetInfo()->userInfo;
-			userListPacket_InRange->info[tempNum].unitInfo = element->GetInfo()->unitInfo;
-
-			tempNum++;
-			userListPacket_InRange->userNum++;
-		}
-	}*/
 
 	userListPacket_InRange->size = (sizeof(BasicInfo) * userListPacket_InRange->userNum)
 		+ sizeof(WORD) + sizeof(Packet);
@@ -157,21 +128,6 @@ void Field::SendUserList_InRange(User* _user)
 
 	_user->GetSendBuffer()->Write(userListPacket_InRange->size);
 	_user->Send(reinterpret_cast<char*>(userListPacket_InRange), userListPacket_InRange->size);
-}
-
-//테스트용
-void Field::EnterTestClient(User* _user)
-{
-	_user->TestClientEnterField(this, m_fieldNum);
-
-	m_locker.EnterLock();
-
-	AddItem(_user);
-
-	m_locker.LeaveLock();
-
-	printf("[%d Field : Test Client Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("user count : %d) ]\n", (int)m_itemList.size());
 }
 
 void Field::EnterUser(User* _user)
@@ -196,7 +152,7 @@ void Field::EnterUser(User* _user)
 		_user->EnterField(this, m_fieldNum, m_spawnPosition);
 	}
 
-	m_locker.EnterLock();
+	//m_locker.EnterLock();
 
 	AddItem(_user);
 
@@ -204,7 +160,7 @@ void Field::EnterUser(User* _user)
 
 	SendEnterUserInfo(_user);
 
-	m_locker.LeaveLock();
+	//m_locker.LeaveLock();
 
 	printf("[%d Field : User Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
 	printf("user count : %d) ]\n", (int)m_itemList.size());
@@ -222,8 +178,6 @@ void Field::SendEnterUserInfo(User* _user)
 
 	for (const auto& element : m_itemList)
 	{
-		if (element->GetIsTestClient()) continue;
-
 		if (element->GetInfo()->userInfo.userID ==
 			sessionInfoPacket->info.userInfo.userID) continue;
 
@@ -241,55 +195,31 @@ void Field::SendEnterUserInfo(User* _user)
 
 	for (const auto& tempSector : tempVec)
 	{
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
+		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
 		for (const auto& tempUser : tempList)
 		{
-			if (tempUser->GetIsTestClient()) continue;
-
 			if (tempUser->GetInfo()->userInfo.userID ==
 				userNumPacket_InRange->userIndex) continue;
 
 			tempUser->Send(reinterpret_cast<char*>(userNumPacket_InRange), userNumPacket_InRange->size);
 		}
 	}
-
-	/*for (int i = 0; i < 9; i++)
-	{
-		Sector* tempSector = _user->GetSector()->GetRoundSectors()[i];
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
-
-		if (tempSector == nullptr) continue;
-
-		if (tempList.size() <= 0) continue;
-
-		for (const auto& element : tempList)
-		{
-			if (element == nullptr) break;
-
-			if (element->GetIsTestClient()) continue;
-
-			if (element->GetInfo()->userInfo.userID ==
-				userNumPacket_InRange->userIndex) continue;
-
-			element->Send(reinterpret_cast<char*>(userNumPacket_InRange), userNumPacket_InRange->size);
-		}
-	}*/
 }
 
 void Field::ExitUser(User* _user)
 {
-	m_locker.EnterLock();
+	//m_locker.EnterLock();
 
 	DeleteItem(_user);
 
-	_user->GetSector()->Manager<User>::DeleteItem(_user);
+	_user->GetSector()->Manager_List<User>::DeleteItem(_user);
 
 	SendExitUserInfo(_user->GetInfo()->userInfo.userID);
 
-	m_locker.LeaveLock();
+	//m_locker.LeaveLock();
 
 	printf("[%d Field] : User Delete - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
 	printf("user count : %d)\n", (int)m_itemList.size());
@@ -353,10 +283,10 @@ void Field::UpdateUserSector(User* _user)
 	{
 		printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
 			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());
-		prevSector->Manager<User>::DeleteItem(_user);
+		prevSector->Manager_List<User>::DeleteItem(_user);
 
 		_user->SetSector(nowSector);
-		_user->GetSector()->Manager<User>::AddItem(_user);
+		_user->GetSector()->Manager_List<User>::AddItem(_user);
 
 		m_locker.EnterLock();
 
@@ -383,7 +313,7 @@ void Field::UpdateUserSector(User* _user)
 	}
 
 	_user->SetSector(nowSector);
-	_user->GetSector()->Manager<User>::AddItem(_user);
+	_user->GetSector()->Manager_List<User>::AddItem(_user);
 
 	return;
 }
@@ -421,18 +351,16 @@ void Field::SendInvisibleUserList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager<User>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<User>::GetItemList()->size() <= 0) continue;
 
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
+		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
 			if (element == nullptr) break;
 
-			if (element->GetIsTestClient()) continue;
-
 			userListPacket_Invisible->info[tempNum].userInfo = element->GetInfo()->userInfo;
-			userListPacket_Invisible->info[tempNum].unitInfo = element->GetInfo()->unitInfo;
+			userListPacket_Invisible->info[tempNum].position = element->GetInfo()->unitInfo.position;
 
 			tempNum++;
 			userListPacket_Invisible->userNum++;
@@ -461,9 +389,9 @@ void Field::SendInvisibleMonsterList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager<Monster>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<Monster>::GetItemList()->size() <= 0) continue;
 
-		std::list<Monster*> tempList = *tempSector->Manager<Monster>::GetItemList();
+		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
@@ -492,19 +420,15 @@ void Field::EnterSector(User* _user)
 	userPositionPacket_Enter->position = _user->GetInfo()->unitInfo.position;
 	m_sendBuffer->Write(userPositionPacket_Enter->size);
 
-	/*UserNumPacket* userNumPacket_Enter =
-		reinterpret_cast<UserNumPacket*>(m_sendBuffer->
-			GetBuffer(sizeof(UserNumPacket)));
-	userNumPacket_Enter->Init(SendCommand::Zone2C_ENTER_SECTOR_USER_INFO, sizeof(UserNumPacket));
-	userNumPacket_Enter->userIndex = _user->GetInfo()->userInfo.userID;
-	m_sendBuffer->Write(userNumPacket_Enter->size);*/
-
 	//내가 들어온 섹터 범위 내의 다른 유저들에게 자신이 들어왔다고 알려주는 함수
 	SectorSendAll(&m_enterSectorsVec, 
 		reinterpret_cast<char*>(userPositionPacket_Enter), userPositionPacket_Enter->size);
 
 	//내가 들어온 섹터 범위 내의 다른 유저들의 리스트를 보내주는 함수(클라에서 보이게 하기 위해)
 	SendVisibleUserList(_user);
+
+	//내가 들어온 섹터 범위 내의 몬스터들의 리스트를 보내주는 함수(클라에서 보이게 하기 위해)
+	SendVisibleMonsterList(_user);
 }
 
 void Field::SendVisibleUserList(User* _user)
@@ -520,21 +444,22 @@ void Field::SendVisibleUserList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager<User>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<User>::GetItemList()->size() <= 0) continue;
 
-		std::list<User*> tempList = *tempSector->Manager<User>::GetItemList();
+		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
 			if (element == nullptr) break;
 
-			if (element->GetIsTestClient()) continue;
-
 			userListPacket_Visible->info[tempNum].userInfo = element->GetInfo()->userInfo;
-			userListPacket_Visible->info[tempNum].unitInfo = element->GetInfo()->unitInfo;
+			userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
 
 			tempNum++;
 			userListPacket_Visible->userNum++;
+
+			/*printf("send %d user, posi : %f, %f \n", element->GetInfo()->userInfo.userID,
+				element->GetInfo()->unitInfo.position.x, element->GetInfo()->unitInfo.position.y);*/
 		}
 	}
 
@@ -560,9 +485,9 @@ void Field::SendVisibleMonsterList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager<Monster>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<Monster>::GetItemList()->size() <= 0) continue;
 
-		std::list<Monster*> tempList = *tempSector->Manager<Monster>::GetItemList();
+		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
@@ -579,4 +504,49 @@ void Field::SendVisibleMonsterList(User* _user)
 
 	_user->GetSendBuffer()->Write(monsterInfoListPacket_Visible->size);
 	_user->Send(reinterpret_cast<char*>(monsterInfoListPacket_Visible), monsterInfoListPacket_Visible->size);
+}
+
+//테스트용
+void Field::EnterTestClient(User* _user, int _num)
+{
+	_user->TestClientEnterField(this, m_fieldNum, _num, m_spawnPosition);
+
+	AddItem(_user);
+
+	UpdateUserSector(_user);
+
+	SendEnterUserInfo(_user);
+
+	printf("[%d Field : Test Client Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
+	printf("user count : %d) ]\n", (int)m_itemList.size());
+}
+
+void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
+{
+	_user->TestPathFind(_list);
+}
+
+void Field::LoopRun()
+{
+	while (1)
+	{
+		for (const auto& element : m_itemList)
+		{
+			if (!element->GetIsTestClient())
+			{
+				continue;
+			}
+
+			switch (element->GetInfo()->unitInfo.state)
+			{
+			case STATE::MOVE:
+				element->TestMove();
+
+				if (element->PathMove()) break;
+
+				element->GetInfo()->unitInfo.state = STATE::IDLE;
+				break;
+			}
+		}
+	}
 }

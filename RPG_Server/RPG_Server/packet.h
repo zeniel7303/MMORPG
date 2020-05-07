@@ -11,6 +11,12 @@ struct BasicInfo
 	UserInfo userInfo;
 };
 
+struct Info_PacketUse
+{
+	UserInfo userInfo;
+	Position position;
+};
+
 struct Packet
 {
 	Packet()
@@ -61,7 +67,7 @@ struct UserListPacket : Packet
 {
 	WORD userNum;
 
-	BasicInfo info[100];
+	Info_PacketUse info[500];
 };
 
 struct UserPositionPacket : Packet
@@ -142,6 +148,25 @@ struct LogInPacket : Packet
 {
 	char id[15];
 	char password[15];
+};
+
+struct TestClientEnterPacket : Packet
+{
+	int userNum;
+	int fieldNum;
+};
+
+struct TestClientStatePacket : Packet
+{
+	STATE state;
+	VECTOR2 vec2;
+};
+
+struct TestClientMovePacket : Packet
+{
+	int userIndex;
+	WORD tileCount;
+	Position position[20];
 };
 
 #pragma pack(pop)

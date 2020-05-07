@@ -146,7 +146,8 @@
   <ItemGroup>
     <ClInclude Include="HeartBeatThread.h" />
     <ClInclude Include="IpEndPoint.h" />
-    <ClInclude Include="ManagerFrame.h" />
+    <ClInclude Include="ManagerFrame_List.h" />
+    <ClInclude Include="ManagerFrame_UnMap.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterLogicThread.h" />
     <ClInclude Include="MySQLClass.h" />

@@ -120,6 +120,7 @@ void SectorManager::GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector
 	}
 
 	//선택정렬
+	//불필요
 	/*for (int i = 0; i < (*_sectorsVec).size(); i++)
 	{
 		int minNum = (*_sectorsVec)[i]->GetSectorNum();

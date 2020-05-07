@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\IOCP">
+      <UniqueIdentifier>{8428b526-8c8a-464e-9ae2-4b0faa143695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -23,6 +26,12 @@
     </ClCompile>
     <ClCompile Include="RingBuffer.cpp">
       <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="IOCPClass.cpp">
+      <Filter>소스 파일\IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkerThread.cpp">
+      <Filter>소스 파일\IOCP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="CircBuf.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCPClass.h">
+      <Filter>소스 파일\IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkerThread.h">
+      <Filter>소스 파일\IOCP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

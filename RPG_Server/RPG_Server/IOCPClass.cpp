@@ -51,7 +51,7 @@ void IOCPClass::Reset()
 void IOCPClass::AddSocket(SOCKET _socket, unsigned long long _value)
 {
 	m_hIOCP = CreateIoCompletionPort(
-		(HANDLE)_socket,
+		reinterpret_cast <HANDLE>(_socket),
 		m_hIOCP,
 		_value,
 		0);
