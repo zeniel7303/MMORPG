@@ -41,7 +41,7 @@ void ZoneServer::Init()
 	m_sessionManager.Init(&m_objectPool);
 	m_fieldManager.Init();
 	ServerLogicThread::getSingleton()->Init(&m_sessionManager, &m_fieldManager);
-	m_heartBeatThread.Init(&m_sessionManager);
+	//m_heartBeatThread.Init(&m_sessionManager);
 
 	m_listenClass.Init(&m_IOCPClass, &m_sessionManager, "192.168.0.13", 30002);
 

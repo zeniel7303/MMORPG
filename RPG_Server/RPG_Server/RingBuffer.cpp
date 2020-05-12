@@ -64,7 +64,14 @@ char* RingBuffer::CanParsing()
 	//링버퍼 안에 데이터가 2이상 있는가? (패킷 사이즈 읽을 수 있는 최소한의 크기 = 2)
 	if (dataInBuffer >= 2)
 	{
-		return Parsing();
+		//링버퍼 안에 PacketSize를 읽어올 수 있으므로 그 이상만큼 들어와있는 데이터가 존재한다면 Parsing();
+		if (dataInBuffer >= GetPacketSize())
+		{
+			return Parsing();
+		}
+		
+		//데이터가 2이상있지만 패킷 사이즈만큼 충분히 받지 못할 경우
+		return nullptr;
 	}
 
 	//데이터가 없거나 1들어와서 크기조차 알 수 없을 경우

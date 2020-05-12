@@ -1,5 +1,5 @@
 ﻿  Dummy.cpp
-d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(114): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(113): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(122): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DummyClient.vcxproj -> D:\작업관련\SourceTree\MMORPG\DummyClient\Debug\DummyClient.exe
+d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(116): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(115): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\dummyclient\dummyclient\dummy.cpp(124): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+LINK : fatal error LNK1168: D:\작업관련\SourceTree\MMORPG\DummyClient\Debug\DummyClient.exe을(를) 쓰기용으로 열 수 없습니다.

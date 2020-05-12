@@ -16,7 +16,7 @@ private:
 
 	PathFinding pathFind;
 	list<VECTOR2> tileList;
-	VECTOR2 targetPosition;
+	VECTOR2 m_targetPosition;
 	FieldTilesData tilesData;
 
 public:
@@ -27,5 +27,7 @@ public:
 	void OnConnect(SOCKET _socket);
 	void RandomTask();
 	void FSM();
+	void Move();
+	bool PathMove();
 };
 

@@ -35,7 +35,7 @@ void User::OnConnect(SOCKET _socket)
 
 	Session::Send(isConnectedPacket);
 
-	printf("[ isConnectedPacket 전송 완료 ]\n");
+	//printf("[ isConnectedPacket 전송 완료 ]\n");
 }
 
 void User::Disconnect()
@@ -64,23 +64,26 @@ void User::HeartBeatChecked()
 {
 	SetIsChecking(false);
 
-	if (m_heartBeatCheckedCount >= 6)
+	if (m_heartBeatCheckedCount >= 3)
 	{
-		Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
-			GetBuffer(sizeof(Packet)));
-		UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
+		if (!m_isTestClient)
+		{
+			Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+				GetBuffer(sizeof(Packet)));
+			UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
 
-		Session::Send(UpdateInfoPacket);
+			Session::Send(UpdateInfoPacket);
+		}
 
 		m_heartBeatCheckedCount = 0;
 
-		printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
+		//printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
 	}
 	else
 	{
 		m_heartBeatCheckedCount++;
 
-		printf("[ HeartBeat Checking Success : %d ]\n", m_heartBeatCheckedCount);
+		//printf("[ HeartBeat Checking Success : %d ]\n", m_heartBeatCheckedCount);
 	}
 }
 
@@ -443,7 +446,7 @@ void User::TestMove()
 	//https://www.youtube.com/watch?v=WxWJorOVIj8
 	//https://www.youtube.com/watch?v=-gokuNjpyNg
 
-	temp2 = temp2 + tempVec2 / magnitude * 3.5f * (1.0f / 30.0f);
+	temp2 = temp2 + tempVec2 / magnitude * 3.5f * (1.0f / 10.0f);
 	//각도 * 이동속도 * 시간
 
 	m_basicInfo.unitInfo.position.x = temp2.x;
@@ -473,6 +476,18 @@ bool User::PathMove()
 
 		m_field->UpdateUserSector(this);
 
+		UserPositionPacket* userPositionPacket =
+			reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
+				GetBuffer(sizeof(UserPositionPacket)));
+		userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
+		userPositionPacket->position = m_basicInfo.unitInfo.position;
+
+		userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
+		Session::GetSendBuffer()->Write(userPositionPacket->size);
+
+		m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
+			reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
+
 		//printf("[ 3 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
 
 		/*printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
@@ -485,18 +500,6 @@ bool User::PathMove()
 
 			m_targetPosition = m_tileList.front();
 			m_tileList.pop_front();
-
-			UserPositionPacket* userPositionPacket =
-				reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
-					GetBuffer(sizeof(UserPositionPacket)));
-			userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
-			userPositionPacket->position = m_basicInfo.unitInfo.position;
-
-			userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
-			Session::GetSendBuffer()->Write(userPositionPacket->size);
-
-			m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
-				reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
 
 			/*MonsterPositionPacket* monsterPositionPacket =
 				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
@@ -514,18 +517,6 @@ bool User::PathMove()
 		{
 			//printf("3 \n");
 
-			UserPositionPacket* userPositionPacket =
-				reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
-					GetBuffer(sizeof(UserPositionPacket)));
-			userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
-			userPositionPacket->position = m_basicInfo.unitInfo.position;
-
-			userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
-			Session::GetSendBuffer()->Write(userPositionPacket->size);
-
-			m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
-				reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
-
 			TestClientStatePacket* testClientStatePacket =
 				reinterpret_cast<TestClientStatePacket*>(m_sendBuffer->
 					GetBuffer(sizeof(TestClientStatePacket)));
@@ -538,8 +529,8 @@ bool User::PathMove()
 
 			Session::Send(reinterpret_cast<char*>(testClientStatePacket), testClientStatePacket->size);
 
-			printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-				m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
+			/*printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+				m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);*/
 
 			return false;
 		}

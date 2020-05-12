@@ -101,7 +101,7 @@ void Monster::Move()
 	//https://www.youtube.com/watch?v=WxWJorOVIj8
 	//https://www.youtube.com/watch?v=-gokuNjpyNg
 
-	m_info.position = m_info.position + tempVec2 / magnitude * m_data.moveSpeed * (1.0f / 30.0f);
+	m_info.position = m_info.position + tempVec2 / magnitude * m_data.moveSpeed * (1.0f / 10.0f);
 	//각도 * 이동속도 * 시간
 }
 
@@ -215,8 +215,8 @@ void Monster::FSM()
 
 			while (m_targetTile == m_nowTile)
 			{
-				int randX = (rand() % m_data.patrolRange * 2) - m_data.patrolRange;
-				int randY = (rand() % m_data.patrolRange * 2) - m_data.patrolRange;
+				int randX = (rand() % (m_data.patrolRange * 2)) - m_data.patrolRange;
+				int randY = (rand() % (m_data.patrolRange * 2)) - m_data.patrolRange;
 
 				m_targetTile = m_fieldTilesData->
 					GetTile(m_homeTile->GetX() + randX, m_homeTile->GetY() + randY);

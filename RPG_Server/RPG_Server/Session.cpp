@@ -16,10 +16,10 @@ void Session::Init()
 	m_sendOverlapped.session = this;
 
 	m_recvBuffer = new RingBuffer();
-	m_recvBuffer->Init(65535, 10000);
+	m_recvBuffer->Init(65535, 30000);
 
 	m_sendBuffer = new SendBuffer();
-	m_sendBuffer->Init(10000);
+	m_sendBuffer->Init(30000);
 
 	m_recvBytes = 0;
 	m_flags = 0;
@@ -176,28 +176,41 @@ void Session::Send(Packet* _packet)
 
 void Session::Send(char* _data, DWORD _bytes)
 {
-	m_sendDataBuffer.buf = _data;
-	m_sendDataBuffer.len = _bytes;
+	//m_sendDataBuffer.buf = _data;
+	//m_sendDataBuffer.len = _bytes;
 
-	if (WSASend(
-		m_socket,
-		&m_sendDataBuffer,
-		1,
-		&m_sendBytes,
-		0,
-		&m_sendOverlapped,
-		NULL)
-		== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
+	//if (WSASend(
+	//	m_socket,
+	//	&m_sendDataBuffer,
+	//	1,
+	//	&m_sendBytes,
+	//	0,
+	//	&m_sendOverlapped,
+	//	NULL)
+	//	== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
+	//{
+	//	int num = WSAGetLastError();
+	//	if (num != WSA_IO_PENDING)
+	//	{
+	//		printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
+
+	//		//printf("6 \n");
+	//		Disconnect();
+	//	}
+	//}
+
+	Packet* tempPacket = reinterpret_cast<Packet*>(_data);
+	if (tempPacket->size >= 10000)
 	{
-		int num = WSAGetLastError();
-		if (num != WSA_IO_PENDING)
-		{
-			printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
-
-			//printf("6 \n");
-			Disconnect();
-		}
+		printf("cmd : %d \n", tempPacket->cmd);
 	}
+
+	send(m_socket, _data, _bytes, 0);
+
+	/*if (*(u_short*)(_data + 2) == 10010)
+	{
+		printf("send command  :  %d \n", *(u_short*)(_data + 2));
+	}*/
 }
 
 void Session::ReSend()

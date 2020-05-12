@@ -17,6 +17,12 @@ struct Info_PacketUse
 	Position position;
 };
 
+struct Info_PacketUser_Light
+{
+	int userID;
+	Position position;
+};
+
 struct Packet
 {
 	Packet()
@@ -68,6 +74,13 @@ struct UserListPacket : Packet
 	WORD userNum;
 
 	Info_PacketUse info[500];
+};
+
+struct UserListPacket_Light : Packet
+{
+	WORD userNum;
+
+	Info_PacketUser_Light info[500];
 };
 
 struct UserPositionPacket : Packet

@@ -16,10 +16,10 @@ void Session::Init()
 	m_sendOverlapped.session = this;
 
 	m_recvBuffer = new RingBuffer();
-	m_recvBuffer->Init(65535, 10000);
+	m_recvBuffer->Init(65535, 30000);
 
 	m_sendBuffer = new SendBuffer();
-	m_sendBuffer->Init(10000);
+	m_sendBuffer->Init(30000);
 
 	m_recvBytes = 0;
 	m_flags = 0;
@@ -220,12 +220,20 @@ void Session::ReSend()
 
 void Session::Parsing()
 {
-	Packet* packet = reinterpret_cast<Packet*>(GetRecvBuffer()->CanParsing());
+	//현재 이 방법은 뭉쳐 들어올 경우 뒤의 패킷이 처리가 안된다. (while문으로 뭉쳐 들어온 경우를 처리해줘야한다.)
+	//20200512 처리함.
 
-	if (packet != nullptr)
+	while (1)
 	{
+		Packet* packet = reinterpret_cast<Packet*>(GetRecvBuffer()->CanParsing());
+
+		if (packet == nullptr) break;
+
 		switch (static_cast<RecvCommand>(packet->cmd))
 		{
+		case RecvCommand::Zone2C_CHECK_ALIVE:
+			Send(reinterpret_cast<char*>(packet), packet->size);
+			break;
 		case RecvCommand::Zone2C_REGISTER_TEST_USER:
 		{
 			SessionInfoPacket* sessionInfoPacket = static_cast<SessionInfoPacket*>(packet);
@@ -235,7 +243,7 @@ void Session::Parsing()
 
 			m_basicInfo.unitInfo.state = STATE::IDLE;
 		}
-			break;
+		break;
 		case RecvCommand::Zone2C_UPDATE_STATE_TEST_USER:
 		{
 			TestClientStatePacket* testClientStatePacket = static_cast<TestClientStatePacket*>(packet);
@@ -245,7 +253,8 @@ void Session::Parsing()
 			m_basicInfo.unitInfo.position.x = testClientStatePacket->vec2.x;
 			m_basicInfo.unitInfo.position.y = testClientStatePacket->vec2.y;
 		}
-			break;
+		break;
 		}
 	}
+	
 }

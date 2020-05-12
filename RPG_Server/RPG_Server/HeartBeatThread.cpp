@@ -29,7 +29,7 @@ void HeartBeatThread::LoopRun()
 	{
 		HeartBeat(checkAlivePacket);
 
-		Sleep(5000);
+		Sleep(10000);
 	}
 }
 

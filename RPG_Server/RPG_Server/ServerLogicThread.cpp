@@ -195,8 +195,6 @@ void ServerLogicThread::ParsingUser()
 			m_sessionManager->DeleteSession(user);
 			m_sessionManager->DeleteSessionID(user->GetInfo()->userInfo.userID);
 
-			printf("[ 접속자 수 : %d ] \n", m_sessionManager->GetItemList()->size());
-
 			continue;
 		}
 
@@ -446,6 +444,8 @@ void ServerLogicThread::OnPacket_EnterTestUser(User* _user, Packet* _packet)
 	Field* field = m_fieldManager->GetField(testClientEnterPacket->fieldNum);
 
 	field->EnterTestClient(_user, testClientEnterPacket->userNum);
+
+	//_user->StartCheckingHeartBeat();
 }
 
 void ServerLogicThread::OnPacket_MoveTestUser(User* _user, Packet* _packet)

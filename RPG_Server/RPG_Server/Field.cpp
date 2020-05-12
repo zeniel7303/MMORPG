@@ -80,7 +80,7 @@ void Field::SendUserList(User* _user)
 		userListPacket->userNum++;
 	}
 
-	userListPacket->size = (sizeof(BasicInfo) * userListPacket->userNum)
+	userListPacket->size = (sizeof(Info_PacketUse) * userListPacket->userNum)
 							+ sizeof(WORD) + sizeof(Packet);
 	userListPacket->Init(SendCommand::Zone2C_USER_LIST, userListPacket->size);
 
@@ -89,7 +89,7 @@ void Field::SendUserList(User* _user)
 
 	SendUserList_InRange(_user);
 
-	printf("[ USER LIST 전송 완료 ]\n");
+	//printf("[ USER LIST 전송 완료 ]\n");
 
 	m_monsterLogicThread.SendMonsterList(_user);
 }
@@ -98,9 +98,9 @@ void Field::SendUserList_InRange(User* _user)
 {
 	int tempNum = 0;
 
-	UserListPacket* userListPacket_InRange =
-		reinterpret_cast<UserListPacket*>(_user->GetSendBuffer()->
-			GetBuffer(sizeof(UserListPacket)));
+	UserListPacket_Light* userListPacket_InRange =
+		reinterpret_cast<UserListPacket_Light*>(_user->GetSendBuffer()->
+			GetBuffer(sizeof(UserListPacket_Light)));
 
 	userListPacket_InRange->userNum = 0;
 
@@ -114,7 +114,7 @@ void Field::SendUserList_InRange(User* _user)
 
 		for (const auto& tempUser : tempList)
 		{
-			userListPacket_InRange->info[tempNum].userInfo = tempUser->GetInfo()->userInfo;
+			userListPacket_InRange->info[tempNum].userID = tempUser->GetInfo()->userInfo.userID;
 			userListPacket_InRange->info[tempNum].position = tempUser->GetInfo()->unitInfo.position;
 
 			tempNum++;
@@ -122,7 +122,7 @@ void Field::SendUserList_InRange(User* _user)
 		}
 	}
 
-	userListPacket_InRange->size = (sizeof(BasicInfo) * userListPacket_InRange->userNum)
+	userListPacket_InRange->size = (sizeof(Info_PacketUser_Light) * userListPacket_InRange->userNum)
 		+ sizeof(WORD) + sizeof(Packet);
 	userListPacket_InRange->Init(SendCommand::Zone2C_USER_LIST_IN_RANGE, userListPacket_InRange->size);
 
@@ -163,7 +163,7 @@ void Field::EnterUser(User* _user)
 	//m_locker.LeaveLock();
 
 	printf("[%d Field : User Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("user count : %d) ]\n", (int)m_itemList.size());
+	printf("접속자 수  : %d) ]\n", (int)m_itemList.size());
 }
 
 void Field::SendEnterUserInfo(User* _user)
@@ -222,7 +222,7 @@ void Field::ExitUser(User* _user)
 	//m_locker.LeaveLock();
 
 	printf("[%d Field] : User Delete - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("user count : %d)\n", (int)m_itemList.size());
+	printf("접속자 수  : %d)\n", (int)m_itemList.size());
 }
 
 void Field::SendExitUserInfo(int _num)
@@ -281,33 +281,40 @@ void Field::UpdateUserSector(User* _user)
 
 	if (prevSector != nullptr)
 	{
-		printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
-			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());
+		//m_locker.EnterLock();
+
+		/*printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
+			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());*/
 		prevSector->Manager_List<User>::DeleteItem(_user);
 
 		_user->SetSector(nowSector);
 		_user->GetSector()->Manager_List<User>::AddItem(_user);
 
-		m_locker.EnterLock();
-
 		std::vector<Sector*> prevSectorsNeighbor = *prevSector->GetRoundSectorsVec();
 		std::vector<Sector*> nowSectorsNeighbor = *nowSector->GetRoundSectorsVec();
 
-		std::set_difference(
+		auto iter1 = std::set_difference(
 			prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
 			nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
 			m_leaveSectorsVec.begin());
 
-		std::set_difference(
+		m_leaveSectorsVec.resize(iter1 - m_leaveSectorsVec.begin());
+
+		auto iter2 = std::set_difference(
 			nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
 			prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
 			m_enterSectorsVec.begin());
+
+		m_enterSectorsVec.resize(iter2 - m_enterSectorsVec.begin());
 
 		LeaveSector(_user);
 
 		EnterSector(_user);
 
-		m_locker.LeaveLock();
+		//m_locker.LeaveLock();
+
+		m_leaveSectorsVec.resize(9);
+		m_enterSectorsVec.resize(9);
 
 		return;
 	}
@@ -342,9 +349,9 @@ void Field::SendInvisibleUserList(User* _user)
 {
 	int tempNum = 0;
 
-	UserListPacket* userListPacket_Invisible =
-		reinterpret_cast<UserListPacket*>(_user->GetSendBuffer()->
-			GetBuffer(sizeof(UserListPacket)));
+	UserListPacket_Light* userListPacket_Invisible =
+		reinterpret_cast<UserListPacket_Light*>(_user->GetSendBuffer()->
+			GetBuffer(sizeof(UserListPacket_Light)));
 	userListPacket_Invisible->userNum = 0;
 
 	for (const auto& tempSector : m_leaveSectorsVec)
@@ -359,7 +366,7 @@ void Field::SendInvisibleUserList(User* _user)
 		{
 			if (element == nullptr) break;
 
-			userListPacket_Invisible->info[tempNum].userInfo = element->GetInfo()->userInfo;
+			userListPacket_Invisible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
 			userListPacket_Invisible->info[tempNum].position = element->GetInfo()->unitInfo.position;
 
 			tempNum++;
@@ -367,7 +374,7 @@ void Field::SendInvisibleUserList(User* _user)
 		}
 	}
 
-	userListPacket_Invisible->size = (sizeof(BasicInfo) * userListPacket_Invisible->userNum)
+	userListPacket_Invisible->size = (sizeof(Info_PacketUser_Light) * userListPacket_Invisible->userNum)
 		+ sizeof(WORD) + sizeof(Packet);
 	userListPacket_Invisible->Init(SendCommand::Zone2C_USER_LIST_INVISIBLE, userListPacket_Invisible->size);
 
@@ -435,9 +442,9 @@ void Field::SendVisibleUserList(User* _user)
 {
 	int tempNum = 0;
 
-	UserListPacket* userListPacket_Visible =
-		reinterpret_cast<UserListPacket*>(_user->GetSendBuffer()->
-			GetBuffer(sizeof(UserListPacket)));
+	UserListPacket_Light* userListPacket_Visible =
+		reinterpret_cast<UserListPacket_Light*>(_user->GetSendBuffer()->
+			GetBuffer(sizeof(UserListPacket_Light)));
 	userListPacket_Visible->userNum = 0;
 
 	for (const auto& tempSector : m_enterSectorsVec)
@@ -452,7 +459,7 @@ void Field::SendVisibleUserList(User* _user)
 		{
 			if (element == nullptr) break;
 
-			userListPacket_Visible->info[tempNum].userInfo = element->GetInfo()->userInfo;
+			userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
 			userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
 
 			tempNum++;
@@ -463,7 +470,7 @@ void Field::SendVisibleUserList(User* _user)
 		}
 	}
 
-	userListPacket_Visible->size = (sizeof(BasicInfo) * userListPacket_Visible->userNum)
+	userListPacket_Visible->size = (sizeof(Info_PacketUser_Light) * userListPacket_Visible->userNum)
 		+ sizeof(WORD) + sizeof(Packet);
 	userListPacket_Visible->Init(SendCommand::Zone2C_USER_LIST_VISIBLE, userListPacket_Visible->size);
 
@@ -518,7 +525,7 @@ void Field::EnterTestClient(User* _user, int _num)
 	SendEnterUserInfo(_user);
 
 	printf("[%d Field : Test Client Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("user count : %d) ]\n", (int)m_itemList.size());
+	printf("접속자 수  : %d) ]\n", (int)m_itemList.size());
 }
 
 void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
@@ -528,7 +535,7 @@ void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
 
 void Field::LoopRun()
 {
-	while (1)
+	/*while (1)
 	{
 		for (const auto& element : m_itemList)
 		{
@@ -548,5 +555,7 @@ void Field::LoopRun()
 				break;
 			}
 		}
-	}
+
+		Sleep(1000 / 10);
+	}*/
 }

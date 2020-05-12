@@ -85,7 +85,7 @@ void ListenClass::LoopRun()
 
 		m_sessionManager->AddSessionList(tempSession);
 
-		printf("[ 立加磊 荐 : %d ] \n", m_sessionManager->GetItemList()->size());
-		printf("socket : %d \n", tempSession->GetSocket());
+		//printf("[ 立加磊 荐 : %d ] \n", m_sessionManager->GetItemList()->size());
+		//printf("socket : %d \n", tempSession->GetSocket());
 	}
 }

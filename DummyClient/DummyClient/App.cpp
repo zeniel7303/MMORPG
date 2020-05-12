@@ -1,7 +1,5 @@
 #include "App.h"
 
-
-
 App::App()
 {
 }
@@ -45,10 +43,12 @@ void App::Begin(IpEndPoint& _ipEndPoint)
 		dummy->Connect(_ipEndPoint);
 		iocp.AddSocket(dummy->GetSocket(), (unsigned long long)dummy);
 
-		Sleep(100);
+		Sleep(50);
 
 		dummy->OnConnect(dummy->GetSocket());
 	}
+
+	//Sleep(3000);
 
 	ThreadClass<App>::Start(this);
 }
