@@ -108,7 +108,7 @@ bool MySQLClass::OverlappedCheck(const char* id, const char* password, int &_use
 
 bool MySQLClass::InsertData(const char* id, const char* password)
 {
-	m_lock.EnterLock();
+	//m_lock.EnterLock();
 
 	MYSQL_ROW mysql_row;
 
@@ -141,14 +141,14 @@ bool MySQLClass::InsertData(const char* id, const char* password)
 
 		mysql_query(&connect, str3);
 
-		m_lock.LeaveLock();
+		//m_lock.LeaveLock();
 
 		return true;
 	}
 	//해당 id가 존재함 - 회원가입 불가능
 	else
 	{
-		m_lock.LeaveLock();
+		//m_lock.LeaveLock();
 
 		return false;
 	}

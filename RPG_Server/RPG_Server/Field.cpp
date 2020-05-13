@@ -528,34 +528,34 @@ void Field::EnterTestClient(User* _user, int _num)
 	printf("접속자 수  : %d) ]\n", (int)m_itemList.size());
 }
 
-void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
+/*void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
 {
 	_user->TestPathFind(_list);
 }
 
 void Field::LoopRun()
 {
-	/*while (1)
-	{
-		for (const auto& element : m_itemList)
-		{
-			if (!element->GetIsTestClient())
-			{
-				continue;
-			}
+	//while (1)
+	//{
+	//	for (const auto& element : m_itemList)
+	//	{
+	//		if (!element->GetIsTestClient())
+	//		{
+	//			continue;
+	//		}
 
-			switch (element->GetInfo()->unitInfo.state)
-			{
-			case STATE::MOVE:
-				element->TestMove();
+	//		switch (element->GetInfo()->unitInfo.state)
+	//		{
+	//		case STATE::MOVE:
+	//			element->TestMove();
 
-				if (element->PathMove()) break;
+	//			if (element->PathMove()) break;
 
-				element->GetInfo()->unitInfo.state = STATE::IDLE;
-				break;
-			}
-		}
+	//			element->GetInfo()->unitInfo.state = STATE::IDLE;
+	//			break;
+	//		}
+	//	}
 
-		Sleep(1000 / 10);
-	}*/
-}
+	//	Sleep(1000 / 10);
+	//}
+}*/

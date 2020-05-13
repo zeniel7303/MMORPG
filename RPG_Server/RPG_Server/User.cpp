@@ -397,10 +397,9 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
 
-void User::TestPathFind(list<VECTOR2>* _list)
+/*void User::TestPathFind(list<VECTOR2>* _list)
 {
 	//메모리 릭 의심
-	/*
 	//길찾기를 부분은 클라이언트 부분으로.
 	m_pathFinding.PathFind(&m_tileList, m_tile, _tile);
 
@@ -409,7 +408,6 @@ void User::TestPathFind(list<VECTOR2>* _list)
 	//현재는 iter부분 제외하고 단순히 front 및 pop_front를 사용하면 해결됨.
 	m_targetPosition = m_tileList.front();
 	m_tileList.pop_front();
-	*/
 
 	m_tileList = *_list;
 
@@ -539,4 +537,4 @@ bool User::PathMove()
 	//printf("4 \n");
 
 	return true;
-}
+}*/

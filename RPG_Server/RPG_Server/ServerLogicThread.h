@@ -59,7 +59,7 @@ public:
 	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
-	void OnPacket_MoveTestUser(User* _user, Packet* _packet);
+	//void OnPacket_MoveTestUser(User* _user, Packet* _packet);
 
 	SharedQueue<PacketQueuePair>* GetSharedQueue() { return &m_monsterPacketQueue; }
 };

@@ -94,9 +94,9 @@ public:
 
 	//테스트용
 	void TestClientEnterField(Field* _Field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition);
-	void TestPathFind(list<VECTOR2>* _list);
+	/*void TestPathFind(list<VECTOR2>* _list);
 	void TestMove();
-	bool PathMove();
+	bool PathMove();*/
 
 	Tile* GetTile() { return m_tile; }
 	INFO* GetInfo() { return &m_basicInfo; }

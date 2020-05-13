@@ -286,9 +286,9 @@ void ServerLogicThread::ParsingUser()
 				case RecvCommand::C2Zone_ENTER_TEST_USER:
 					OnPacket_EnterTestUser(user, packet);
 					break;
-				case RecvCommand::C2Zone_MOVE_TEST_USER:
+				/*case RecvCommand::C2Zone_MOVE_TEST_USER:
 					OnPacket_MoveTestUser(user, packet);
-					break;
+					break;*/
 				}
 			}
 		}
@@ -448,7 +448,7 @@ void ServerLogicThread::OnPacket_EnterTestUser(User* _user, Packet* _packet)
 	//_user->StartCheckingHeartBeat();
 }
 
-void ServerLogicThread::OnPacket_MoveTestUser(User* _user, Packet* _packet)
+/*void ServerLogicThread::OnPacket_MoveTestUser(User* _user, Packet* _packet)
 {
 	TestClientMovePacket* testClientMovePacket = static_cast<TestClientMovePacket*>(_packet);
 
@@ -465,4 +465,4 @@ void ServerLogicThread::OnPacket_MoveTestUser(User* _user, Packet* _packet)
 	Field* field = _user->GetField();
 
 	field->MoveTestClient(_user, &tempList);
-}
+}*/

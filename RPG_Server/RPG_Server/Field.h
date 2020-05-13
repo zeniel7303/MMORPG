@@ -21,7 +21,7 @@
 
 //=====================================================
 
-class Field : public Manager_List<User>, public ThreadClass<Field>
+class Field : public Manager_List<User>
 {
 private:
 	WORD					m_fieldNum;
@@ -80,9 +80,9 @@ public:
 	void SendVisibleMonsterList(User* _user);
 
 	void EnterTestClient(User* _user, int _num);
-	void MoveTestClient(User* _user, list<VECTOR2>* _list);
+	/*void MoveTestClient(User* _user, list<VECTOR2>* _list);
 
-	void LoopRun();
+	void LoopRun();*/
 
 	WORD GetFieldNum() { return m_fieldNum; }
 
