@@ -1,0 +1,174 @@
+fileFormatVersion: 2
+guid: aba8851411952f34999cda23f8f48f61
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Mutant_Head
+    100004: Mutant_HeadTop_End
+    100006: Mutant_Hips
+    100008: Mutant_LeftArm
+    100010: Mutant_LeftFoot
+    100012: Mutant_LeftForeArm
+    100014: Mutant_LeftHand
+    100016: Mutant_LeftLeg
+    100018: Mutant_LeftShoulder
+    100020: Mutant_LeftToe_End
+    100022: Mutant_LeftToeBase
+    100024: Mutant_LeftUpLeg
+    100026: Mutant_Neck
+    100028: Mutant_RightArm
+    100030: Mutant_RightFoot
+    100032: Mutant_RightForeArm
+    100034: Mutant_RightHand
+    100036: Mutant_RightHandIndex1
+    100038: Mutant_RightHandIndex2
+    100040: Mutant_RightHandIndex3
+    100042: Mutant_RightHandIndex4
+    100044: Mutant_RightHandPinky1
+    100046: Mutant_RightHandPinky2
+    100048: Mutant_RightHandPinky3
+    100050: Mutant_RightHandPinky4
+    100052: Mutant_RightHandThumb1
+    100054: Mutant_RightHandThumb2
+    100056: Mutant_RightHandThumb3
+    100058: Mutant_RightHandThumb4
+    100060: Mutant_RightLeg
+    100062: Mutant_RightShoulder
+    100064: Mutant_RightToe_End
+    100066: Mutant_RightToeBase
+    100068: Mutant_RightUpLeg
+    100070: Mutant_Spine
+    100072: Mutant_Spine1
+    100074: Mutant_Spine2
+    100076: MutantMesh
+    400000: //RootNode
+    400002: Mutant_Head
+    400004: Mutant_HeadTop_End
+    400006: Mutant_Hips
+    400008: Mutant_LeftArm
+    400010: Mutant_LeftFoot
+    400012: Mutant_LeftForeArm
+    400014: Mutant_LeftHand
+    400016: Mutant_LeftLeg
+    400018: Mutant_LeftShoulder
+    400020: Mutant_LeftToe_End
+    400022: Mutant_LeftToeBase
+    400024: Mutant_LeftUpLeg
+    400026: Mutant_Neck
+    400028: Mutant_RightArm
+    400030: Mutant_RightFoot
+    400032: Mutant_RightForeArm
+    400034: Mutant_RightHand
+    400036: Mutant_RightHandIndex1
+    400038: Mutant_RightHandIndex2
+    400040: Mutant_RightHandIndex3
+    400042: Mutant_RightHandIndex4
+    400044: Mutant_RightHandPinky1
+    400046: Mutant_RightHandPinky2
+    400048: Mutant_RightHandPinky3
+    400050: Mutant_RightHandPinky4
+    400052: Mutant_RightHandThumb1
+    400054: Mutant_RightHandThumb2
+    400056: Mutant_RightHandThumb3
+    400058: Mutant_RightHandThumb4
+    400060: Mutant_RightLeg
+    400062: Mutant_RightShoulder
+    400064: Mutant_RightToe_End
+    400066: Mutant_RightToeBase
+    400068: Mutant_RightUpLeg
+    400070: Mutant_Spine
+    400072: Mutant_Spine1
+    400074: Mutant_Spine2
+    400076: MutantMesh
+    2100000: mutant_M
+    4300000: MutantMesh
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: MutantMesh
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

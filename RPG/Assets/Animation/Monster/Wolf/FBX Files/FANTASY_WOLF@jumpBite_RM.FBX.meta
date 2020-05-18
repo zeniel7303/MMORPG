@@ -1,0 +1,502 @@
+fileFormatVersion: 2
+guid: e2dc3caca8f9aec4c9982c28f03f8d83
+ModelImporter:
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: FantasyWolf_
+  - first:
+      1: 100004
+    second: FantasyWolf_ Head
+  - first:
+      1: 100006
+    second: FantasyWolf_ L Calf
+  - first:
+      1: 100008
+    second: FantasyWolf_ L Clavicle
+  - first:
+      1: 100010
+    second: FantasyWolf_ L Finger0
+  - first:
+      1: 100012
+    second: FantasyWolf_ L Foot
+  - first:
+      1: 100014
+    second: FantasyWolf_ L Forearm
+  - first:
+      1: 100016
+    second: FantasyWolf_ L Hand
+  - first:
+      1: 100018
+    second: FantasyWolf_ L HorseLink
+  - first:
+      1: 100020
+    second: FantasyWolf_ L Thigh
+  - first:
+      1: 100022
+    second: FantasyWolf_ L UpperArm
+  - first:
+      1: 100024
+    second: FantasyWolf_ Neck
+  - first:
+      1: 100026
+    second: FantasyWolf_ Neck1
+  - first:
+      1: 100028
+    second: FantasyWolf_ Neck2
+  - first:
+      1: 100030
+    second: FantasyWolf_ Pelvis
+  - first:
+      1: 100032
+    second: FantasyWolf_ Ponytail1
+  - first:
+      1: 100034
+    second: FantasyWolf_ R Calf
+  - first:
+      1: 100036
+    second: FantasyWolf_ R Clavicle
+  - first:
+      1: 100038
+    second: FantasyWolf_ R Finger0
+  - first:
+      1: 100040
+    second: FantasyWolf_ R Foot
+  - first:
+      1: 100042
+    second: FantasyWolf_ R Forearm
+  - first:
+      1: 100044
+    second: FantasyWolf_ R Hand
+  - first:
+      1: 100046
+    second: FantasyWolf_ R HorseLink
+  - first:
+      1: 100048
+    second: FantasyWolf_ R Thigh
+  - first:
+      1: 100050
+    second: FantasyWolf_ R UpperArm
+  - first:
+      1: 100052
+    second: FantasyWolf_ Spine
+  - first:
+      1: 100054
+    second: FantasyWolf_ Spine1
+  - first:
+      1: 100056
+    second: FantasyWolf_ Tail
+  - first:
+      1: 100058
+    second: FantasyWolf_ Tail1
+  - first:
+      1: 100060
+    second: FantasyWolf_ Tail2
+  - first:
+      1: 100062
+    second: FantasyWolf_ Tail3
+  - first:
+      1: 100064
+    second: FantasyWolf_ Tail4
+  - first:
+      1: 100066
+    second: FantasyWolf_ Tail5
+  - first:
+      1: 100068
+    second: ROOT_
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: FantasyWolf_
+  - first:
+      4: 400004
+    second: FantasyWolf_ Head
+  - first:
+      4: 400006
+    second: FantasyWolf_ L Calf
+  - first:
+      4: 400008
+    second: FantasyWolf_ L Clavicle
+  - first:
+      4: 400010
+    second: FantasyWolf_ L Finger0
+  - first:
+      4: 400012
+    second: FantasyWolf_ L Foot
+  - first:
+      4: 400014
+    second: FantasyWolf_ L Forearm
+  - first:
+      4: 400016
+    second: FantasyWolf_ L Hand
+  - first:
+      4: 400018
+    second: FantasyWolf_ L HorseLink
+  - first:
+      4: 400020
+    second: FantasyWolf_ L Thigh
+  - first:
+      4: 400022
+    second: FantasyWolf_ L UpperArm
+  - first:
+      4: 400024
+    second: FantasyWolf_ Neck
+  - first:
+      4: 400026
+    second: FantasyWolf_ Neck1
+  - first:
+      4: 400028
+    second: FantasyWolf_ Neck2
+  - first:
+      4: 400030
+    second: FantasyWolf_ Pelvis
+  - first:
+      4: 400032
+    second: FantasyWolf_ Ponytail1
+  - first:
+      4: 400034
+    second: FantasyWolf_ R Calf
+  - first:
+      4: 400036
+    second: FantasyWolf_ R Clavicle
+  - first:
+      4: 400038
+    second: FantasyWolf_ R Finger0
+  - first:
+      4: 400040
+    second: FantasyWolf_ R Foot
+  - first:
+      4: 400042
+    second: FantasyWolf_ R Forearm
+  - first:
+      4: 400044
+    second: FantasyWolf_ R Hand
+  - first:
+      4: 400046
+    second: FantasyWolf_ R HorseLink
+  - first:
+      4: 400048
+    second: FantasyWolf_ R Thigh
+  - first:
+      4: 400050
+    second: FantasyWolf_ R UpperArm
+  - first:
+      4: 400052
+    second: FantasyWolf_ Spine
+  - first:
+      4: 400054
+    second: FantasyWolf_ Spine1
+  - first:
+      4: 400056
+    second: FantasyWolf_ Tail
+  - first:
+      4: 400058
+    second: FantasyWolf_ Tail1
+  - first:
+      4: 400060
+    second: FantasyWolf_ Tail2
+  - first:
+      4: 400062
+    second: FantasyWolf_ Tail3
+  - first:
+      4: 400064
+    second: FantasyWolf_ Tail4
+  - first:
+      4: 400066
+    second: FantasyWolf_ Tail5
+  - first:
+      4: 400068
+    second: ROOT_
+  - first:
+      74: 7400000
+    second: Take 001
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Inbetween bone
+      rotation in copied configuration does not match rotation in animation file:\n\t'FantasyWolf_
+      L HorseLink' : rotation error = 60.457825 deg\n\t'FantasyWolf_ R HorseLink'
+      : rotation error = 60.457203 deg\n\t'FantasyWolf_ Neck1' : rotation error =
+      0.817008 deg\n\t'FantasyWolf_ Neck2' : rotation error = 0.817009 deg\n"
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\n\t'FantasyWolf_ L HorseLink' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'FantasyWolf_
+      R HorseLink' is inbetween humanoid transforms and has rotation animation that
+      will be discarded.\n\t'FantasyWolf_ Neck1' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n\t'FantasyWolf_ Neck2' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  copyAvatar: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: FANTASY_WOLF(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: -0.00000017261834, z: -0.00000017261834, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FantasyWolf
+      parentName: FANTASY_WOLF(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ROOT_
+      parentName: FANTASY_WOLF(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FantasyWolf_
+      parentName: ROOT_
+      position: {x: -0, y: 0.4992443, z: 0.904}
+      rotation: {x: 0.49999967, y: -0.50000036, z: 0.49999967, w: 0.50000036}
+      scale: {x: 1, y: 1, z: 1}
+    - name: FantasyWolf_ Pelvis
+      parentName: FantasyWolf_
+      position: {x: -0.9040002, y: -0.000002503395, z: 1.539068}
+      rotation: {x: 0.5, y: -0.5, z: -0.5, w: -0.5}
+      scale: {x: 1.0000004, y: 1.0000012, z: 1.0000001}
+    - name: FantasyWolf_ L Thigh
+      parentName: FantasyWolf_ Pelvis
+      position: {x: 0.00000015258789, y: 0.00000022888183, z: 0.15284963}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      scale: {x: 0.9999998, y: 0.9999999, z: 1}
+    - name: FantasyWolf_ L Calf
+      parentName: FantasyWolf_ L Thigh
+      position: {x: -0.37699234, y: 0.000000019073486, z: 0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000013, z: 1.0000006}
+    - name: FantasyWolf_ L HorseLink
+      parentName: FantasyWolf_ L Calf
+      position: {x: -0.3439344, y: -0.000000076293944, z: -0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999999, y: 1, z: 1.0000002}
+    - name: FantasyWolf_ L Foot
+      parentName: FantasyWolf_ L HorseLink
+      position: {x: -0.19927044, y: 0, z: 0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999997, y: 1.0000002, z: 0.99999976}
+    - name: FantasyWolf_ Spine
+      parentName: FantasyWolf_ Pelvis
+      position: {x: -0.20126012, y: -0.00023345946, z: 0.00000027943125}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000004}
+    - name: FantasyWolf_ Spine1
+      parentName: FantasyWolf_ Spine
+      position: {x: -0.29316193, y: -0.00030899048, z: -8.571078e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1}
+    - name: FantasyWolf_ L Clavicle
+      parentName: FantasyWolf_ Spine1
+      position: {x: -0.39075884, y: -0.031922456, z: 0.04910763}
+      rotation: {x: 0.7071068, y: -0.000000030908623, z: -0.7071068, w: 0.000000030908623}
+      scale: {x: 0.9999994, y: 0.99999934, z: 0.9999996}
+    - name: FantasyWolf_ L UpperArm
+      parentName: FantasyWolf_ L Clavicle
+      position: {x: -0.15524597, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000006}
+    - name: FantasyWolf_ L Forearm
+      parentName: FantasyWolf_ L UpperArm
+      position: {x: -0.3496108, y: -0.000000019073486, z: -0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000005, z: 1.0000007}
+    - name: FantasyWolf_ L Hand
+      parentName: FantasyWolf_ L Forearm
+      position: {x: -0.3400973, y: 0, z: 0.000000009536743}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: -0.7071068}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000002}
+    - name: FantasyWolf_ L Finger0
+      parentName: FantasyWolf_ L Hand
+      position: {x: -0.17104629, y: 0.009715576, z: -0.0066125486}
+      rotation: {x: 0, y: 0.3826835, z: 0, w: -0.9238795}
+      scale: {x: 0.9999986, y: 0.9999991, z: 0.999999}
+    - name: FantasyWolf_ Neck
+      parentName: FantasyWolf_ Spine1
+      position: {x: -0.38780174, y: -0.045820083, z: -0.00000012686738}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000012, z: 1.0000005}
+    - name: FantasyWolf_ Neck1
+      parentName: FantasyWolf_ Neck
+      position: {x: -0.17003448, y: -0.00013458251, z: -3.7296558e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.000001, z: 1.0000008}
+    - name: FantasyWolf_ Neck2
+      parentName: FantasyWolf_ Neck1
+      position: {x: -0.17003456, y: -0.00013450622, z: -3.7340214e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.000001, z: 1.0000001}
+    - name: FantasyWolf_ Head
+      parentName: FantasyWolf_ Neck2
+      position: {x: -0.17041649, y: 0.00013774872, z: -1.3184034e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999985, y: 0.9999991, z: 0.9999991}
+    - name: FantasyWolf_ Ponytail1
+      parentName: FantasyWolf_ Head
+      position: {x: 0.060723037, y: 0.050523147, z: -0.00000008123403}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000005}
+    - name: FantasyWolf_ R Clavicle
+      parentName: FantasyWolf_ Spine1
+      position: {x: -0.3907588, y: -0.031922225, z: -0.049107794}
+      rotation: {x: 0.7071068, y: -0.000000030908623, z: 0.7071068, w: -0.000000030908623}
+      scale: {x: 1.0000006, y: 0.99999994, z: 1.0000002}
+    - name: FantasyWolf_ R UpperArm
+      parentName: FantasyWolf_ R Clavicle
+      position: {x: -0.15524602, y: 0, z: -0.000000038146972}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999995, y: 1, z: 0.99999976}
+    - name: FantasyWolf_ R Forearm
+      parentName: FantasyWolf_ R UpperArm
+      position: {x: -0.34961087, y: 0.000000019073486, z: -0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000007, z: 1.0000002}
+    - name: FantasyWolf_ R Hand
+      parentName: FantasyWolf_ R Forearm
+      position: {x: -0.34009737, y: -0.000000038146972, z: 0}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000005}
+    - name: FantasyWolf_ R Finger0
+      parentName: FantasyWolf_ R Hand
+      position: {x: -0.17104635, y: 0.009715614, z: 0.0066125295}
+      rotation: {x: 0, y: 0.38268346, z: 0, w: 0.9238795}
+      scale: {x: 0.9999988, y: 0.99999976, z: 0.9999996}
+    - name: FantasyWolf_ R Thigh
+      parentName: FantasyWolf_ Pelvis
+      position: {x: -0.00000022888183, y: -0.00000022888183, z: -0.15284964}
+      rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+      scale: {x: 1.0000002, y: 1.0000007, z: 1.0000006}
+    - name: FantasyWolf_ R Calf
+      parentName: FantasyWolf_ R Thigh
+      position: {x: -0.37699217, y: 0.000000057220458, z: 0.000000014305114}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000002}
+    - name: FantasyWolf_ R HorseLink
+      parentName: FantasyWolf_ R Calf
+      position: {x: -0.34393445, y: 0, z: -0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.9999995, y: 0.9999999, z: 0.9999999}
+    - name: FantasyWolf_ R Foot
+      parentName: FantasyWolf_ R HorseLink
+      position: {x: -0.19927049, y: 0, z: 0.000000009536743}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
+    - name: FantasyWolf_ Tail
+      parentName: FantasyWolf_ Pelvis
+      position: {x: 0.22083831, y: -0.11629677, z: -0.000000047639915}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000007}
+    - name: FantasyWolf_ Tail1
+      parentName: FantasyWolf_ Tail
+      position: {x: -0.1569413, y: -0.00012489318, z: -3.4633557e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 0.9999999, z: 1.0000001}
+    - name: FantasyWolf_ Tail2
+      parentName: FantasyWolf_ Tail1
+      position: {x: -0.15694115, y: -0.00012489318, z: -3.4633557e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.000001, y: 1.0000002, z: 1.000001}
+    - name: FantasyWolf_ Tail3
+      parentName: FantasyWolf_ Tail2
+      position: {x: -0.1569413, y: -0.00012496948, z: -3.4633557e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000006, y: 1.0000001, z: 1.0000005}
+    - name: FantasyWolf_ Tail4
+      parentName: FantasyWolf_ Tail3
+      position: {x: -0.15694134, y: -0.00012512207, z: -3.4633557e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1}
+    - name: FantasyWolf_ Tail5
+      parentName: FantasyWolf_ Tail4
+      position: {x: -0.15694343, y: -0.00012504577, z: -3.4749972e-10}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1.0000001, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: ROOT_
+    hasTranslationDoF: 1
+    hasExtraRoot: 1
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: a9fb9f68694c53f4db0256de02a32f82,
+    type: 3}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,26 @@
+[
+  {
+    "QuestIsCleared" : "No",
+    "QuestIndex": "01",
+    "QuestTitle": "Quest_1",
+    "QuestText": "Test",
+    "QuestLevel": "1",
+    "QuestCategory": "Talk",
+    "QuestStartNPC": "npc1",
+    "QuestEndNPC": "npc1",
+    "QuestReward_EXP": "10",
+    "QuestReward_Gold": "10"
+  },
+  {
+    "QuestIsCleared": "No",
+    "QuestIndex": "02",
+    "QuestTitle": "Quest_2",
+    "QuestText": "Kill 1 Monster",
+    "QuestLevel": "1",
+    "QuestCategory": "Hunt",
+    "QuestStartNPC": "npc2",
+    "QuestEndNPC": "npc2",
+    "QuestReward_EXP": "10",
+    "QuestReward_Gold": "10"
+  }
+]

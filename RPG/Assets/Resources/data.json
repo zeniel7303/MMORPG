@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "name": "a",
+            "lives": 5,
+            "strength": 25.0
+        },
+        {
+            "name": "b",
+            "lives": 3,
+            "strength": 30.200000762939454
+        }
+    ]
+}
