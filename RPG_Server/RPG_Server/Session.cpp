@@ -199,11 +199,11 @@ void Session::Send(char* _data, DWORD _bytes)
 	//	}
 	//}
 
-	Packet* tempPacket = reinterpret_cast<Packet*>(_data);
+	/*Packet* tempPacket = reinterpret_cast<Packet*>(_data);
 	if (tempPacket->size >= 10000)
 	{
 		printf("cmd : %d \n", tempPacket->cmd);
-	}
+	}*/
 
 	send(m_socket, _data, _bytes, 0);
 

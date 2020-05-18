@@ -17,6 +17,8 @@ void User::Init()
 	m_field = nullptr;
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
+	m_isGetUserList = false;
+
 	m_isTestClient = false;
 
 	m_sector = nullptr;
@@ -54,6 +56,8 @@ void User::Reset()
 	m_field = nullptr;
 	m_startCheckingHeartBeat = false;
 	m_isCheckingHeartBeat = false;
+	m_isGetUserList = false;
+
 	m_isTestClient = false;
 
 	m_sector = nullptr;
@@ -488,8 +492,8 @@ bool User::PathMove()
 
 		//printf("[ 3 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
 
-		/*printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-			m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);*/
+		//printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+		//	m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
 
 		//남은 타일리스트가 있다면
 		if (m_tileList.size() > 0)
@@ -499,16 +503,16 @@ bool User::PathMove()
 			m_targetPosition = m_tileList.front();
 			m_tileList.pop_front();
 
-			/*MonsterPositionPacket* monsterPositionPacket =
-				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
-					GetBuffer(sizeof(MonsterPositionPacket)));
-
-			monsterPositionPacket->monsterIndex = m_info.index;
-			monsterPositionPacket->position = m_info.position;
-			monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
-
-			m_sendBuffer->Write(monsterPositionPacket->size);
-			packetQueue.AddItem(PacketQueuePair(this, monsterPositionPacket));*/
+			//MonsterPositionPacket* monsterPositionPacket =
+			//	reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
+			//		GetBuffer(sizeof(MonsterPositionPacket)));
+			//
+			//monsterPositionPacket->monsterIndex = m_info.index;
+			//monsterPositionPacket->position = m_info.position;
+			//monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
+			//
+			//m_sendBuffer->Write(monsterPositionPacket->size);
+			//packetQueue.AddItem(PacketQueuePair(this, monsterPositionPacket));
 		}
 		//남은 타일리스트가 없다면
 		else
@@ -527,8 +531,8 @@ bool User::PathMove()
 
 			Session::Send(reinterpret_cast<char*>(testClientStatePacket), testClientStatePacket->size);
 
-			/*printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-				m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);*/
+			//printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+			//	m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
 
 			return false;
 		}

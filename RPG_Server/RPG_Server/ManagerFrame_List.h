@@ -23,6 +23,8 @@ public:
 	bool DeleteItem(T* _t);
 
 	list<T*>* GetItemList();
+
+	bool FindItem(T* _t);
 };
 
 template<class T>
@@ -48,4 +50,15 @@ template<class T>
 list<T*>* Manager_List<T>::GetItemList()
 {
 	return &m_itemList;
+}
+
+template<class T>
+bool Manager_List<T>::FindItem(T* _t)
+{
+	typename list<T*>::iterator iter =
+		find(m_itemList.begin(), m_itemList.end(), _t);
+
+	if (iter == m_itemList.end()) return false;
+
+	return true;
 }

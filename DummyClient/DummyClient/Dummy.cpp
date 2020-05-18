@@ -2,7 +2,7 @@
 
 Dummy::Dummy(int _num, int _fieldNum, FieldTilesData* _data)
 {
-	dummyNum = _num + 1000;
+	dummyNum = _num;
 	fieldNum = _fieldNum;
 	tilesData = *_data;
 
@@ -10,7 +10,7 @@ Dummy::Dummy(int _num, int _fieldNum, FieldTilesData* _data)
 
 	Init();
 
-	intervalTime = (float)(rand() % 20) + 1;
+	intervalTime = (float)(rand() % 5) + 1;
 }
 
 Dummy::~Dummy()
@@ -188,7 +188,7 @@ void Dummy::FSM()
 
 		currentTime = 0.0f;
 
-		intervalTime = (float)(rand() % 20) + 1;
+		intervalTime = (float)(rand() % 5) + 1;
 	}
 		break;
 	case STATE::MOVE:

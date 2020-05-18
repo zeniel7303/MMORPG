@@ -19,8 +19,6 @@ void Field::Init(int _num, VECTOR2 _spawnPosition)
 	m_leaveSectorsVec.resize(9);
 	m_enterSectorsVec.resize(9);
 
-	ThreadClass<Field>::Start(this);
-
 	printf("[ %d Field Init ,", _num);
 }
 
@@ -56,6 +54,8 @@ void Field::SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int
 
 		for (const auto& element_2 : tempList)
 		{
+			if (!element_2->GetIsGetUserList()) continue;
+
 			element_2->Send(_buffer, _size);
 		}
 	}
@@ -89,7 +89,9 @@ void Field::SendUserList(User* _user)
 
 	SendUserList_InRange(_user);
 
-	//printf("[ USER LIST 전송 완료 ]\n");
+	printf("[ USER LIST 전송 완료 ]\n");
+
+	_user->SetIsGetUserList(true);
 
 	m_monsterLogicThread.SendMonsterList(_user);
 }
@@ -285,6 +287,7 @@ void Field::UpdateUserSector(User* _user)
 
 		/*printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
 			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());*/
+
 		prevSector->Manager_List<User>::DeleteItem(_user);
 
 		_user->SetSector(nowSector);
@@ -334,9 +337,12 @@ void Field::LeaveSector(User* _user)
 	userNumPacket_Exit->userIndex = _user->GetInfo()->userInfo.userID;
 	m_sendBuffer->Write(userNumPacket_Exit->size);
 
+	//20200516
+	//유니티 클라이언트에서 이 패킷을 받지 않아서 유령이 생기는 현상이 발생함. = m_leaveSectorsVec 내에 없었다는 의미
+	// -> Visible을 안받게 하면되나?
+
 	//자신이 있던 섹터 범위 내의 다른 유저들에게 자신이 나갔다고 알려주는 함수
-	SectorSendAll(&m_leaveSectorsVec, 
-		reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);
+	SectorSendAll(&m_leaveSectorsVec, reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);
 
 	//내가 있던 섹터 범위 내의 다른 유저들의 리스트를 보내주는 함수(클라에서 안보이게 하기 위해)
 	SendInvisibleUserList(_user);
@@ -373,6 +379,8 @@ void Field::SendInvisibleUserList(User* _user)
 			userListPacket_Invisible->userNum++;
 		}
 	}
+
+	if (userListPacket_Invisible->userNum <= 0) return;
 
 	userListPacket_Invisible->size = (sizeof(Info_PacketUser_Light) * userListPacket_Invisible->userNum)
 		+ sizeof(WORD) + sizeof(Packet);
@@ -428,8 +436,7 @@ void Field::EnterSector(User* _user)
 	m_sendBuffer->Write(userPositionPacket_Enter->size);
 
 	//내가 들어온 섹터 범위 내의 다른 유저들에게 자신이 들어왔다고 알려주는 함수
-	SectorSendAll(&m_enterSectorsVec, 
-		reinterpret_cast<char*>(userPositionPacket_Enter), userPositionPacket_Enter->size);
+	SectorSendAll(&m_enterSectorsVec, reinterpret_cast<char*>(userPositionPacket_Enter), userPositionPacket_Enter->size);
 
 	//내가 들어온 섹터 범위 내의 다른 유저들의 리스트를 보내주는 함수(클라에서 보이게 하기 위해)
 	SendVisibleUserList(_user);
@@ -459,6 +466,34 @@ void Field::SendVisibleUserList(User* _user)
 		{
 			if (element == nullptr) break;
 
+			//해당 Sector내의 유저가 이동중일 경우 검증 필요?
+			//(유령이 생길 가능성이 가장 큰 곳이라 생각됨)
+			/*if (element->GetInfo()->unitInfo.state == STATE::MOVE)
+			{
+				//어떻게 교차검증?
+				for (const auto& roundSector : *_user->GetSector()->GetRoundSectorsVec())
+				{
+					if (roundSector->Manager_List<User>::FindItem(element))
+					{
+						userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
+						userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
+
+						tempNum++;
+						userListPacket_Visible->userNum++;
+
+						break;
+					}
+				}
+			}
+			else
+			{
+				userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
+				userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
+
+				tempNum++;
+				userListPacket_Visible->userNum++;
+			}*/
+
 			userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
 			userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
 
@@ -469,6 +504,8 @@ void Field::SendVisibleUserList(User* _user)
 				element->GetInfo()->unitInfo.position.x, element->GetInfo()->unitInfo.position.y);*/
 		}
 	}
+
+	if (userListPacket_Visible->userNum <= 0) return;
 
 	userListPacket_Visible->size = (sizeof(Info_PacketUser_Light) * userListPacket_Visible->userNum)
 		+ sizeof(WORD) + sizeof(Packet);

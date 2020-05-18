@@ -67,7 +67,7 @@ char* RingBuffer::CanParsing()
 		//링버퍼 안에 PacketSize를 읽어올 수 있으므로 그 이상만큼 존재한다면 Parsing();
 		if (dataInBuffer >= GetPacketSize())
 		{
-			printf("size : %d \n", GetPacketSize());
+			//printf("size : %d \n", GetPacketSize());
 
 			return Parsing();
 		}

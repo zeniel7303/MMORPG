@@ -72,14 +72,12 @@ struct FieldNumPacket : Packet
 struct UserListPacket : Packet
 {
 	WORD userNum;
-
 	Info_PacketUse info[500];
 };
 
 struct UserListPacket_Light : Packet
 {
 	WORD userNum;
-
 	Info_PacketUser_Light info[500];
 };
 

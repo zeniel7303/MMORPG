@@ -29,9 +29,9 @@ class Sector;
 class User : public Session, public Unit
 {
 private:
-	//int                m_tempsize[10000];
+	//int               m_tempsize[10000];
 
-	//VECTOR2				m_targetPosition;
+	//VECTOR2			m_targetPosition;
 	INFO				m_basicInfo;
 
 	Sector*				m_sector;
@@ -40,6 +40,8 @@ private:
 
 	Field*				m_field;
 	FieldTilesData*		m_fieldTilesData;
+
+	bool				m_isGetUserList;
 
 	//===============================================
 
@@ -111,5 +113,10 @@ public:
 
 	bool GetIsTestClient() { return m_isTestClient; }
 	list<VECTOR2>* GetPathList() { return &m_tileList; }
+
+	void SetState(STATE _state) { m_basicInfo.unitInfo.state = _state; }
+
+	bool GetIsGetUserList() { return m_isGetUserList; }
+	void SetIsGetUserList(bool _bool) { m_isGetUserList = _bool; }
 };												 
 

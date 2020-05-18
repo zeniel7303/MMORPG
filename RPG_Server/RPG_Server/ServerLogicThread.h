@@ -46,7 +46,7 @@ public:
 
 	void OnPacket_EnterField(User* _user, Packet* _packet);
 	void OnPacket_EnterFieldSuccess(User* _user);
-	void OnPacket_UpdateUserPosition(User* _user, Packet* _packet);
+	void OnPacket_UpdateUserPosition(User* _user, Packet* _packet, bool _isFinish);
 	void OnPacket_UserAttackFailed(User* _user, Packet* _packet);
 	void OnPacket_UserAttack(User* _user, Packet* _packet);
 	void OnPacket_UserRevive(User* _user);

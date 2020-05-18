@@ -198,10 +198,14 @@ void ServerLogicThread::ParsingUser()
 			continue;
 		}
 
-		Packet* packet = reinterpret_cast<Packet*>(user->GetRecvBuffer()->CanParsing());
+		int tempNum = 10;
 
-		if (packet != nullptr)
+		while (1)
 		{
+			Packet* packet = reinterpret_cast<Packet*>(user->GetRecvBuffer()->CanParsing());
+
+			if (packet == nullptr) break;
+
 			//테스트용 패킷 처리
 			if (packet->cmd == 12345)
 			{
@@ -215,7 +219,7 @@ void ServerLogicThread::ParsingUser()
 					//바로 해당 존에 SendAll
 				case RecvCommand::C2Zone_CHATTING:
 					user->GetField()->
-						SectorSendAll(user->GetSector()->GetRoundSectorsVec(), 
+						SectorSendAll(user->GetSector()->GetRoundSectorsVec(),
 							reinterpret_cast<char*>(packet), packet->size);
 					break;
 					//HeartBeatChecked 성공 패킷 받을 시
@@ -246,11 +250,11 @@ void ServerLogicThread::ParsingUser()
 					break;
 					//유저 이동
 				case RecvCommand::C2Zone_USER_MOVE:
-					OnPacket_UpdateUserPosition(user, packet);
+					OnPacket_UpdateUserPosition(user, packet, false);
 					break;
 					//유저 이동
 				case RecvCommand::C2Zone_USER_MOVE_FINISH:
-					OnPacket_UpdateUserPosition(user, packet);
+					OnPacket_UpdateUserPosition(user, packet, true);
 					break;
 					//공격 실패 시(몬스터가 죽었거나 범위 밖으로 나갔을 때)
 				case RecvCommand::C2Zone_USER_ATTACK_FAILED:
@@ -290,6 +294,15 @@ void ServerLogicThread::ParsingUser()
 					OnPacket_MoveTestUser(user, packet);
 					break;*/
 				}
+			}
+
+			tempNum--;
+
+			if (tempNum <= 0)
+			{
+				tempNum = 10;
+
+				break;
 			}
 		}
 	}
@@ -349,9 +362,12 @@ void ServerLogicThread::OnPacket_EnterFieldSuccess(User* _user)
 	field->SendUserList(_user);
 }
 
-void ServerLogicThread::OnPacket_UpdateUserPosition(User* _user, Packet* _packet)
+void ServerLogicThread::OnPacket_UpdateUserPosition(User* _user, Packet* _packet, bool _isFinish)
 {
 	UserPositionPacket* userPositionPacket = static_cast<UserPositionPacket*>(_packet);
+
+	if (!_isFinish && _user->GetInfo()->unitInfo.state == STATE::IDLE) _user->SetState(STATE::MOVE);
+	else if(_isFinish) _user->SetState(STATE::IDLE);
 
 	Field* field = _user->GetField();
 

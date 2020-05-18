@@ -223,6 +223,8 @@ void Session::Parsing()
 	//현재 이 방법은 뭉쳐 들어올 경우 뒤의 패킷이 처리가 안된다. (while문으로 뭉쳐 들어온 경우를 처리해줘야한다.)
 	//20200512 처리함.
 
+	int tempNum = 20;
+
 	while (1)
 	{
 		Packet* packet = reinterpret_cast<Packet*>(GetRecvBuffer()->CanParsing());
@@ -254,6 +256,15 @@ void Session::Parsing()
 			m_basicInfo.unitInfo.position.y = testClientStatePacket->vec2.y;
 		}
 		break;
+		}
+
+		tempNum--;
+
+		if (tempNum <= 0)
+		{
+			tempNum = 20;
+
+			break;
 		}
 	}
 	

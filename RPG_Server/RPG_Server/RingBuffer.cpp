@@ -71,7 +71,7 @@ char* RingBuffer::CanParsing()
 		}
 		
 		//데이터가 2이상있지만 패킷 사이즈만큼 충분히 받지 못할 경우
-		return nullptr;
+		//return nullptr;
 	}
 
 	//데이터가 없거나 1들어와서 크기조차 알 수 없을 경우

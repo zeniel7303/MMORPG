@@ -168,9 +168,10 @@ Packet* Monster::Hit(User* _user, int _damage)
 		monsterHitPacket->Init(SendCommand::Zone2C_MONSTER_HIT_FAIL, sizeof(MonsterHitPacket));
 
 		m_sendBuffer->Write(monsterHitPacket->size);
-		return monsterHitPacket;
 
 		m_locker.LeaveLock();
+
+		return monsterHitPacket;
 	}
 
 	if (m_target == nullptr)
