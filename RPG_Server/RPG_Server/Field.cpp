@@ -19,7 +19,7 @@ void Field::Init(int _num, VECTOR2 _spawnPosition)
 	m_leaveSectorsVec.resize(9);
 	m_enterSectorsVec.resize(9);
 
-	printf("[ %d Field Init ,", _num);
+	printf("[ %d Field Init ] \n", _num);
 }
 
 void Field::GetMap(const char* _name)
@@ -27,7 +27,10 @@ void Field::GetMap(const char* _name)
 	m_fieldTilesData.GetMap(_name);
 
 	m_sectorManager.Init(&m_fieldTilesData);
-	
+}
+
+void Field::InitMonsterThread()
+{
 	m_monsterLogicThread.Init(this, &m_fieldTilesData, &m_sectorManager);
 	m_monsterLogicThread.ThreadClass<MonsterLogicThread>::Start(&m_monsterLogicThread);
 }

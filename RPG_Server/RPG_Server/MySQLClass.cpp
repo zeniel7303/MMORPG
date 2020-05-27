@@ -66,6 +66,8 @@ bool MySQLClass::OverlappedCheck(const char* id, const char* password, int &_use
 
 	MYSQL_ROW mysql_row;
 
+	//==============
+	//커넥션당 한 쿼리
 	char str1[256];
 	sprintf(str1, "select *from accounttable where ID = '%s'", id);
 
@@ -76,6 +78,7 @@ bool MySQLClass::OverlappedCheck(const char* id, const char* password, int &_use
 	}
 
 	result = mysql_store_result(&connect);
+	//==============
 
 	//해당 id 존재하지 않음
 	if ((mysql_row = mysql_fetch_row(result)) == NULL)

@@ -1,13 +1,13 @@
 #pragma once
 
-#pragma warning(disable:4996)
-
 #include "stdafx.h"
 #include "packet.h"
 
 #include "RingBuffer.h"
 #include "SendBuffer.h"
 //#include "CircBuf.h"
+
+#pragma warning(disable:4996)
 
 //세션은 로그인 정보 유지를 위해 사용한다.
 

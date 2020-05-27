@@ -100,6 +100,9 @@
     <Filter Include="소스 파일\Application\Unit\Monster">
       <UniqueIdentifier>{a1cd7bc2-210f-4212-a05a-fa8024e1a623}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\Connector">
+      <UniqueIdentifier>{ad96e86c-3077-4f32-8a87-dd94ed787bde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IOCPClass.cpp">
@@ -164,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="FieldTilesData.cpp">
       <Filter>소스 파일\Application\Server\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="ConnectorClass.cpp">
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="ManagerFrame_UnMap.h">
       <Filter>소스 파일\Library\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ConnectorClass.h">
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -48,7 +48,7 @@ void App::Begin(IpEndPoint& _ipEndPoint)
 		dummy->OnConnect(dummy->GetSocket());
 	}
 
-	//Sleep(3000);
+	Sleep(1000);
 
 	ThreadClass<App>::Start(this);
 }

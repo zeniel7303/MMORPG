@@ -2,6 +2,8 @@
 #include "Field.h"
 #include "Sector.h"
 
+#include "ConnectorClass.h"
+
 User::User()
 {
 }
@@ -93,13 +95,23 @@ void User::HeartBeatChecked()
 
 void User::UpdateInfo()
 {
-	printf("[ %d user - INFO UPDATE TO DATABASE ] \n", m_basicInfo.userInfo.userID);
+	printf("[ %d user - INFO UPDATE TO DATABASE START ] \n", m_basicInfo.userInfo.userID);
 
-	MYSQLCLASS->UpdateUserInfo(m_basicInfo.userInfo.userID, m_basicInfo.unitInfo.level,
+	UpdateUserPacket* updateUserPacket =
+		reinterpret_cast<UpdateUserPacket*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(UpdateUserPacket)));
+	updateUserPacket->Init(SendCommand::Zone2DB_UPDATE_USER, sizeof(UpdateUserPacket));
+	updateUserPacket->userIndex = m_basicInfo.userInfo.userID;
+	updateUserPacket->unitInfo = m_basicInfo.unitInfo;
+	updateUserPacket->socket = m_socket;
+
+	CONNECTOR->Send(updateUserPacket);
+
+	/*MYSQLCLASS->UpdateUserInfo(m_basicInfo.userInfo.userID, m_basicInfo.unitInfo.level,
 		m_basicInfo.unitInfo.hp.currentValue, m_basicInfo.unitInfo.hp.maxValue,
 		m_basicInfo.unitInfo.mp.currentValue, m_basicInfo.unitInfo.mp.maxValue,
 		m_basicInfo.unitInfo.exp.currentValue, m_basicInfo.unitInfo.exp.maxValue,
-		m_basicInfo.unitInfo.atk, m_basicInfo.unitInfo.def);
+		m_basicInfo.unitInfo.atk, m_basicInfo.unitInfo.def);*/
 }
 
 void User::Death()
@@ -217,18 +229,36 @@ void User::LevelUp()
 	}
 }
 
-//기본적인 유저의 정보를 보내준다. DB가 있으면 여기서 불러와서 보내줌.
-void User::SendInfo()
+void User::RequestUserInfo()
 {
+	RequireUserInfoPacket_DBAgent* RequireUserInfoPacket =
+		reinterpret_cast<RequireUserInfoPacket_DBAgent*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(RequireUserInfoPacket_DBAgent)));
+	RequireUserInfoPacket->Init(SendCommand::Zone2DB_REQUEST_USER_DATA, sizeof(RequireUserInfoPacket_DBAgent));
+	RequireUserInfoPacket->userIndex = m_basicInfo.userInfo.userID;
+	RequireUserInfoPacket->socket = m_socket;
+
+	CONNECTOR->Send(RequireUserInfoPacket);
+}
+
+//기본적인 유저의 정보를 보내준다. DB가 있으면 여기서 불러와서 보내줌.
+void User::SendInfo(GetSessionInfoPacket* _packet)
+{
+	int tempNum = m_basicInfo.userInfo.userID;
+	m_basicInfo.userInfo = _packet->info.userInfo;
+	m_basicInfo.userInfo.userID = tempNum;
+	m_basicInfo.unitInfo = _packet->info.unitInfo;
+
 	SessionInfoPacket* sessionInfoPacket =
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_USER, sizeof(SessionInfoPacket));
 	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
-	//======================================================
+	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
+	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
 
-	if (!MYSQLCLASS->GetUserInfo(m_basicInfo.userInfo.userID,
+	/*if (!MYSQLCLASS->GetUserInfo(m_basicInfo.userInfo.userID,
 		m_basicInfo.userInfo.userName, m_basicInfo.unitInfo.level,
 		m_basicInfo.unitInfo.hp.currentValue, m_basicInfo.unitInfo.hp.maxValue,
 		m_basicInfo.unitInfo.mp.currentValue, m_basicInfo.unitInfo.mp.maxValue,
@@ -240,13 +270,17 @@ void User::SendInfo()
 	}
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
-	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
-
-	//======================================================
+	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;*/
 
 	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 
 	printf("[ REGISTER_USER 전송 완료 ]\n");
+}
+
+void User::RequestUserInfoFailed()
+{
+	printf("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
+	Disconnect();
 }
 
 //받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
@@ -290,10 +324,19 @@ void User::SetPosition(Position& _position)
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 }
 
-bool User::LogInUser(LogInPacket* _packet)
+void User::LogInUser(LogInPacket* _packet)
 {
-	//해당 id 존재함 && password 일치함
-	if (MYSQLCLASS->OverlappedCheck(_packet->id, _packet->password, m_basicInfo.userInfo.userID))
+	LogInPacket_DBAgent* logInPacket_DBAgent =
+		reinterpret_cast<LogInPacket_DBAgent*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(LogInPacket_DBAgent)));
+	logInPacket_DBAgent->Init(SendCommand::Zone2DB_LOGIN, sizeof(LogInPacket_DBAgent));
+	logInPacket_DBAgent->socket = m_socket;
+	strcpy_s(logInPacket_DBAgent->id, _packet->id);
+	strcpy_s(logInPacket_DBAgent->password, _packet->password);
+
+	CONNECTOR->Send(logInPacket_DBAgent);
+
+	/*if (MYSQLCLASS->OverlappedCheck(_packet->id, _packet->password, m_basicInfo.userInfo.userID))
 	{
 		return true;
 	}
@@ -308,11 +351,22 @@ bool User::LogInUser(LogInPacket* _packet)
 		Session::Send(LogInFailed);
 
 		return false;
-	}
+	}*/
 }
 
 void User::RegisterUser(RegisterUserPacket* _packet)
 {
+	RegisterPacket_DBAgent* registerPacket_DBAgent =
+		reinterpret_cast<RegisterPacket_DBAgent*>(Session::GetSendBuffer()->
+			GetBuffer(sizeof(RegisterPacket_DBAgent)));
+	registerPacket_DBAgent->Init(SendCommand::Zone2DB_REGISTER, sizeof(RegisterPacket_DBAgent));
+	registerPacket_DBAgent->socket = m_socket;
+	strcpy_s(registerPacket_DBAgent->id, _packet->id);
+	strcpy_s(registerPacket_DBAgent->password, _packet->password);
+
+	CONNECTOR->Send(registerPacket_DBAgent);
+
+	/*
 	//true -> 중복이 없어서 회원가입 성공
 	if (MYSQLCLASS->InsertData(_packet->id, _packet->password))
 	{
@@ -331,6 +385,7 @@ void User::RegisterUser(RegisterUserPacket* _packet)
 
 		Session::Send(RegisterFailedPacket);
 	}
+	*/
 }
 
 void User::LogInDuplicated()
@@ -342,14 +397,44 @@ void User::LogInDuplicated()
 	Session::Send(LogInFailed);
 }
 
-void User::LogInSuccess()
+void User::LogInSuccess(int _num)
 {
+	m_basicInfo.userInfo.userID = _num;
+
 	Packet* LogInSuccess = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(Packet));
 	printf("[ Login Success ] \n");
 
 	Session::Send(LogInSuccess);
+}
+
+void User::LogInFailed()
+{
+	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+		GetBuffer(sizeof(Packet)));
+	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
+	printf("[ Login Failed ] \n");
+
+	Session::Send(LogInFailed);
+}
+
+void User::RegisterSuccess()
+{
+	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+		GetBuffer(sizeof(Packet)));
+	RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
+
+	Session::Send(RegisterSuccessPacket);
+}
+
+void User::RegisterFailed()
+{
+	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+		GetBuffer(sizeof(Packet)));
+	RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
+
+	Session::Send(RegisterFailedPacket);
 }
 
 bool User::CompareSector(Sector* _sector)
@@ -400,145 +485,3 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 
 	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
-
-/*void User::TestPathFind(list<VECTOR2>* _list)
-{
-	//메모리 릭 의심
-	//길찾기를 부분은 클라이언트 부분으로.
-	m_pathFinding.PathFind(&m_tileList, m_tile, _tile);
-
-	//20.05.04
-	//erase(begin())하면 m_targetPosition의 정보가 같이 사라졌다.
-	//현재는 iter부분 제외하고 단순히 front 및 pop_front를 사용하면 해결됨.
-	m_targetPosition = m_tileList.front();
-	m_tileList.pop_front();
-
-	m_tileList = *_list;
-
-	m_targetPosition = m_tileList.front();
-	m_tileList.pop_front();
-
-	m_basicInfo.unitInfo.state = STATE::MOVE;
-}
-
-void User::TestMove()
-{
-	//printf("[ 1 ( %f, %f ) ]\n",  m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
-
-	VECTOR2 temp1;
-	VECTOR2 temp2;
-	temp2.x = m_basicInfo.unitInfo.position.x;
-	temp2.y = m_basicInfo.unitInfo.position.y;
-	//============================================================================
-	VECTOR2 tempVec2 = VECTOR2(m_targetPosition - m_basicInfo.unitInfo.position);
-	float magnitude = tempVec2.Magnitude();
-
-	if (magnitude <= 3.5f * (1.0f / 30.0f) || magnitude == 0.0f)
-	{
-		temp1 = m_targetPosition;
-
-		m_basicInfo.unitInfo.position.x = temp1.x;
-		m_basicInfo.unitInfo.position.y = temp1.y;
-	}
-		
-	//두 직선, 벡터의 관계(사이각,회전각) 구하기
-	//https://darkpgmr.tistory.com/121
-	//VECTOR2(m_targetPosition - m_info.position) / magnitude 이 부분
-
-	//https://www.youtube.com/watch?v=WxWJorOVIj8
-	//https://www.youtube.com/watch?v=-gokuNjpyNg
-
-	temp2 = temp2 + tempVec2 / magnitude * 3.5f * (1.0f / 10.0f);
-	//각도 * 이동속도 * 시간
-
-	m_basicInfo.unitInfo.position.x = temp2.x;
-	m_basicInfo.unitInfo.position.y = temp2.y;
-
-	//printf("[ 2 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
-}
-
-bool User::PathMove()
-{
-	VECTOR2 temp;
-	temp.x = m_basicInfo.unitInfo.position.x;
-	temp.y = m_basicInfo.unitInfo.position.y;
-
-	float distance = VECTOR2(temp - m_targetPosition).SqrMagnitude();
-
-	//목표 좌표에 도착
-	if (distance <= 0.1f)
-	{
-		//printf("1 \n");
-
-		m_basicInfo.unitInfo.position.x = m_targetPosition.x;
-		m_basicInfo.unitInfo.position.y = m_targetPosition.y;
-		m_tile = m_fieldTilesData->GetTile(
-			static_cast<int>(m_basicInfo.unitInfo.position.x),
-			static_cast<int>(m_basicInfo.unitInfo.position.y));
-
-		m_field->UpdateUserSector(this);
-
-		UserPositionPacket* userPositionPacket =
-			reinterpret_cast<UserPositionPacket*>(m_sendBuffer->
-				GetBuffer(sizeof(UserPositionPacket)));
-		userPositionPacket->userIndex = m_basicInfo.userInfo.userID;
-		userPositionPacket->position = m_basicInfo.unitInfo.position;
-
-		userPositionPacket->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
-		Session::GetSendBuffer()->Write(userPositionPacket->size);
-
-		m_field->SectorSendAll(m_sector->GetRoundSectorsVec(),
-			reinterpret_cast<char*>(userPositionPacket), userPositionPacket->size);
-
-		//printf("[ 3 ( %f, %f ) ]\n", m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
-
-		//printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-		//	m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
-
-		//남은 타일리스트가 있다면
-		if (m_tileList.size() > 0)
-		{
-			//printf("2 \n");
-
-			m_targetPosition = m_tileList.front();
-			m_tileList.pop_front();
-
-			//MonsterPositionPacket* monsterPositionPacket =
-			//	reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
-			//		GetBuffer(sizeof(MonsterPositionPacket)));
-			//
-			//monsterPositionPacket->monsterIndex = m_info.index;
-			//monsterPositionPacket->position = m_info.position;
-			//monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
-			//
-			//m_sendBuffer->Write(monsterPositionPacket->size);
-			//packetQueue.AddItem(PacketQueuePair(this, monsterPositionPacket));
-		}
-		//남은 타일리스트가 없다면
-		else
-		{
-			//printf("3 \n");
-
-			TestClientStatePacket* testClientStatePacket =
-				reinterpret_cast<TestClientStatePacket*>(m_sendBuffer->
-					GetBuffer(sizeof(TestClientStatePacket)));
-			testClientStatePacket->state = STATE::IDLE;
-			testClientStatePacket->vec2 =
-			{ m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y };
-			testClientStatePacket->Init(SendCommand::Zone2C_UPDATE_STATE_TEST_USER, sizeof(TestClientStatePacket));
-
-			Session::GetSendBuffer()->Write(testClientStatePacket->size);
-
-			Session::Send(reinterpret_cast<char*>(testClientStatePacket), testClientStatePacket->size);
-
-			//printf("[ %d test user : now position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-			//	m_basicInfo.unitInfo.position.x, m_basicInfo.unitInfo.position.y);
-
-			return false;
-		}
-	}
-
-	//printf("4 \n");
-
-	return true;
-}*/

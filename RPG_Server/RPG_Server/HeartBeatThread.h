@@ -2,6 +2,7 @@
 #include "User.h"
 #include "ThreadClass.h"
 #include "SessionManager.h"
+#include "ConnectorClass.h"
 
 class HeartBeatThread : ThreadClass<HeartBeatThread>
 {

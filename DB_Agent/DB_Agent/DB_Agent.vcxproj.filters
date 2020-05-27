@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\App">
+      <UniqueIdentifier>{3e938b57-c865-42d2-8610-c7f4be01a0ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library">
+      <UniqueIdentifier>{c93644bb-57a8-460b-a152-f8634180814b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Session">
+      <UniqueIdentifier>{3228d00c-cfaf-4931-968f-4c1487a3cc6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\ListenClass">
+      <UniqueIdentifier>{0643f0f9-95fb-4aa0-93ea-ebd3ba6b8379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\IOCPClass">
+      <UniqueIdentifier>{f64be483-37a3-45c8-9d17-da404f20c1ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\IOCPClass\WorkerThread">
+      <UniqueIdentifier>{a01c9445-8199-445f-b476-d10f65d1f473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\CriticalSection">
+      <UniqueIdentifier>{234de0d8-d600-4ffa-80b9-92004ca43934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\App\DBConnector">
+      <UniqueIdentifier>{73e678df-5ad9-47c7-8663-16aa89cd1817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\App\dbClass%28임시 참고용%29">
+      <UniqueIdentifier>{f721a48e-b888-4471-9039-483b6372dad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util">
+      <UniqueIdentifier>{c892fe47-80d6-4410-846c-18db17cc3d6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\EventClass">
+      <UniqueIdentifier>{068ea78a-e99c-4279-aeb7-c3d1a430baef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\ThreadClass">
+      <UniqueIdentifier>{7b41df39-6230-44f8-8e9b-452bcbb1d97b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\Singleton">
+      <UniqueIdentifier>{b55d3b47-bd83-4f1d-937c-74ba18f4a416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\SharedQueue">
+      <UniqueIdentifier>{62b4d52f-aaae-4035-a173-f7bc85b59fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\ObjectPool">
+      <UniqueIdentifier>{014e8731-9573-495e-a4fc-c1ebf3eae115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Util\Buffer">
+      <UniqueIdentifier>{f7f124af-d013-497c-ad23-af2377c22e38}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="dbClass.cpp">
+      <Filter>소스 파일\App\dbClass%28임시 참고용%29</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="RingBuffer.cpp">
+      <Filter>소스 파일\Library\Util\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="IOCPClass.cpp">
+      <Filter>소스 파일\Library\IOCPClass</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkerThread.cpp">
+      <Filter>소스 파일\Library\IOCPClass\WorkerThread</Filter>
+    </ClCompile>
+    <ClCompile Include="ListenClass.cpp">
+      <Filter>소스 파일\Library\ListenClass</Filter>
+    </ClCompile>
+    <ClCompile Include="CriticalSectionClass.cpp">
+      <Filter>소스 파일\Library\CriticalSection</Filter>
+    </ClCompile>
+    <ClCompile Include="DB_Agent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>소스 파일\App\DBConnector</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnectorManager.cpp">
+      <Filter>소스 파일\App\DBConnector</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="dbClass.h">
+      <Filter>소스 파일\App\dbClass%28임시 참고용%29</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="RingBuffer.h">
+      <Filter>소스 파일\Library\Util\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCPClass.h">
+      <Filter>소스 파일\Library\IOCPClass</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkerThread.h">
+      <Filter>소스 파일\Library\IOCPClass\WorkerThread</Filter>
+    </ClInclude>
+    <ClInclude Include="IpEndPoint.h">
+      <Filter>소스 파일\Library\ListenClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ListenClass.h">
+      <Filter>소스 파일\Library\ListenClass</Filter>
+    </ClInclude>
+    <ClInclude Include="CriticalSectionClass.h">
+      <Filter>소스 파일\Library\CriticalSection</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="packet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnector.h">
+      <Filter>소스 파일\App\DBConnector</Filter>
+    </ClInclude>
+    <ClInclude Include="DB_Agent.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedQueue.h">
+      <Filter>소스 파일\Library\Util\SharedQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="singleton.h">
+      <Filter>소스 파일\Library\Util\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="EventClass.h">
+      <Filter>소스 파일\Library\Util\EventClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadClass.h">
+      <Filter>소스 파일\Library\Util\ThreadClass</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>소스 파일\Library\Util\ObjectPool</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>소스 파일\Library\Util\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnectorManager.h">
+      <Filter>소스 파일\App\DBConnector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

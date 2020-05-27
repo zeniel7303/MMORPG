@@ -8,6 +8,7 @@
 
 #include "User.h"
 #include "FieldManager.h"
+#include "ConnectorClass.h"
 
 #include "ServerLogicThread.h"
 

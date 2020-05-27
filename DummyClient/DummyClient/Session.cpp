@@ -100,6 +100,8 @@ void Session::CheckCompletion(bool _bool, ST_OVERLAPPED* _overlapped, DWORD _byt
 
 		m_recvBuffer->Write(_bytes);
 
+		//Recv();
+
 		Parsing();
 
 		Recv();

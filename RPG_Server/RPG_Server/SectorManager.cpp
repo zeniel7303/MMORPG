@@ -28,8 +28,6 @@ void SectorManager::Init(FieldTilesData* _data)
 		GetNeighborSectors(m_sectorMap[i]->GetRoundSectorsVec(), m_sectorMap[i]);
 		//GetNeighborSectors(m_sectorMap[i]->GetRoundSectors(), m_sectorMap[i]);
 	}
-
-	printf("d");
 }
 
 //단순히 찾거나 접근하는건 동기화가 필요없다.

@@ -2,6 +2,8 @@
 #include "Field.h"
 #include "ServerLogicThread.h"
 
+#include "ConnectorClass.h"
+
 MonsterLogicThread::MonsterLogicThread()
 {
 
@@ -42,10 +44,14 @@ void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, Se
 			monsterInfo.position = 
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
-			MonsterData monsterData;
-			monster = new Monster(m_field, m_fieldTilesData, m_sectorManager, *packetQueue);
+			MonsterData monsterData = 
+				*CONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);;
+			monster = new Monster(m_field, m_fieldTilesData, 
+				m_sectorManager, *packetQueue);
 
-			if (!MYSQLCLASS->GetMonsterInfo(monsterInfo.monsterType, 
+			monster->Init(monsterInfo, monsterData);
+
+			/*if (!MYSQLCLASS->GetMonsterInfo(monsterInfo.monsterType, 
 				monsterData.hp.currentValue, monsterData.hp.maxValue,
 				monsterData.attackDelay, monsterData.attackDamage, monsterData.attackDistance,
 				monsterData.moveSpeed, monsterData.patrolRange, monsterData.patrolDelay,
@@ -56,61 +62,15 @@ void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, Se
 			else
 			{
 				monster->Init(monsterInfo, monsterData);
-			}
+			}*/
 
-			/*switch (monsterInfo.monsterType)
-			{
-			case 10001:
-				monsterData.monsterType = 1;
-				monsterData.hp = ZeroToMax(100, 100);
-				monsterData.attackDelay = 2.5f;
-				monsterData.attackDamage = 20;
-				monsterData.attackDistance = 1.0f;
-				monsterData.moveSpeed = 3.0f;
-				monsterData.patrolRange = 10.0f;
-				monsterData.patrolDelay = 10.0f;
-				monsterData.returnDistance = 20.0f;
-				monsterData.dropExp = 40;
-
-				monster->Init(monsterInfo, monsterData);
-				break;
-			case 10002:
-				monsterData.monsterType = 2;
-				monsterData.hp = ZeroToMax(200, 200);
-				monsterData.attackDelay = 2.5f;
-				monsterData.attackDamage = 20;
-				monsterData.attackDistance = 1.0f;
-				monsterData.moveSpeed = 3.0f;
-				monsterData.patrolRange = 5.0f;
-				monsterData.patrolDelay = 10.0f;
-				monsterData.returnDistance = 20.0f;
-				monsterData.dropExp = 10;
-
-				monster->Init(monsterInfo, monsterData);
-				break;
-			case 10003:
-				monsterData.monsterType = 3;
-				monsterData.hp = ZeroToMax(300, 300);
-				monsterData.attackDelay = 2.5f;
-				monsterData.attackDamage = 20;
-				monsterData.attackDistance = 1.0f;
-				monsterData.moveSpeed = 3.0f;
-				monsterData.patrolRange = 5.0f;
-				monsterData.patrolDelay = 10.0f;
-				monsterData.returnDistance = 20.0f;
-				monsterData.dropExp = 10;
-
-				monster->Init(monsterInfo, monsterData);
-				break;
-			}
-			*/
 			m_monsterMap.insert(make_pair(monster->GetInfo().index, monster));
 
 			monsterCount++;
 		}
 	}
 
-	printf("%d Monsters Spawn  ]\n", monsterCount);
+	printf("[ %d Field - %d Monsters Spawn ] \n", m_field->GetFieldNum(), monsterCount);
 }
 
 void MonsterLogicThread::LoopRun()

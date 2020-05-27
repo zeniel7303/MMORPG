@@ -37,12 +37,13 @@ public:
 	~ServerLogicThread();
 
 	void Init(SessionManager* _sessionManager,
-		FieldManager* _fieldManager);
+			  FieldManager* _fieldManager);
 
 	void LoopRun();
 
 	void ParsingUser();
 	void ParsingMonster();
+	void ParsingConnector();
 
 	void OnPacket_EnterField(User* _user, Packet* _packet);
 	void OnPacket_EnterFieldSuccess(User* _user);
@@ -55,11 +56,23 @@ public:
 
 	void OnPacket_RegisterUser(User* _user, Packet* _packet);
 	void OnPacket_LogInUser(User* _user, Packet* _packet);
-
 	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 
+	void OnPacket_LogInSuccess(Packet* _packet);
+	void OnPacket_LogInFailed(Packet* _packet);
+
+	void OnPacket_RegisterSuccess(Packet* _packet);
+	void OnPacket_RegisterFailed(Packet* _packet);
+
+	void OnPacket_GetUserInfoSuccess(Packet* _packet);
+	void OnPacket_GetUserInfoFailed(Packet* _packet);
+
+	void OnPacket_UpdateUserSuccess(Packet* _packet);
+	void OnPacket_UpdateUserFailed(Packet* _packet);
+
+	Session* FindUser(SOCKET _socket);
+
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
-	//void OnPacket_MoveTestUser(User* _user, Packet* _packet);
 
 	SharedQueue<PacketQueuePair>* GetSharedQueue() { return &m_monsterPacketQueue; }
 };

@@ -121,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectorClass.cpp" />
     <ClCompile Include="HeartBeatThread.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterLogicThread.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="FieldTilesData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConnectorClass.h" />
     <ClInclude Include="HeartBeatThread.h" />
     <ClInclude Include="IpEndPoint.h" />
     <ClInclude Include="ManagerFrame_List.h" />

@@ -23,8 +23,7 @@ void ZoneServer::Init()
 
 	printf("[ User Max Count : %d ]\n", USERMAXCOUNT);
 
-	MYSQLCLASS->Init();
-
+	/*MYSQLCLASS->Init();
 	if (MYSQLCLASS->Connect("localhost", "root", "135andromeda803", "rpg", 3306, NULL, 0))
 	{
 		if (!MYSQLCLASS->SelectDB("rpg"))
@@ -35,14 +34,22 @@ void ZoneServer::Init()
 		{
 			printf("[ DB Connect Failed ]\n");
 		}
-	}
+	}*/
 
 	m_IOCPClass.Init();
+
+	CONNECTOR->Init();
+	CONNECTOR->Connect();
+	m_IOCPClass.AddSocket(CONNECTOR->GetSocket(),
+		(unsigned long long)CONNECTOR);
+	CONNECTOR->OnConnect(CONNECTOR->GetSocket());
+
 	m_sessionManager.Init(&m_objectPool);
 	m_fieldManager.Init();
-	ServerLogicThread::getSingleton()->Init(&m_sessionManager, &m_fieldManager);
-	//m_heartBeatThread.Init(&m_sessionManager);
+	ServerLogicThread::getSingleton()->Init(&m_sessionManager,
+		&m_fieldManager);
 
+	m_heartBeatThread.Init(&m_sessionManager);
 	m_listenClass.Init(&m_IOCPClass, &m_sessionManager, "192.168.0.13", 30002);
 
 	WaitForSingleObject(m_listenClass.GetHandle(), INFINITE);

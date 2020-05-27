@@ -150,28 +150,30 @@ void Session::Recv()
 
 void Session::Send(Packet* _packet)
 {
-	m_sendDataBuffer.buf = m_sendBuffer->GetWritePoint();
-	m_sendDataBuffer.len = _packet->size;
+	send(m_socket, reinterpret_cast<char*>(_packet), _packet->size, 0);
 
-	if (WSASend(
-		m_socket,
-		&m_sendDataBuffer,
-		1,
-		&m_sendBytes,
-		0,
-		&m_sendOverlapped,
-		NULL)
-		== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
-	{
-		int num = WSAGetLastError();
-		if (num != WSA_IO_PENDING)
-		{
-			printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
+	//m_sendDataBuffer.buf = m_sendBuffer->GetWritePoint();
+	//m_sendDataBuffer.len = _packet->size;
 
-			//printf("5 \n");
-			Disconnect();
-		}
-	}
+	//if (WSASend(
+	//	m_socket,
+	//	&m_sendDataBuffer,
+	//	1,
+	//	&m_sendBytes,
+	//	0,
+	//	&m_sendOverlapped,
+	//	NULL)
+	//	== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
+	//{
+	//	int num = WSAGetLastError();
+	//	if (num != WSA_IO_PENDING)
+	//	{
+	//		printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
+
+	//		//printf("5 \n");
+	//		Disconnect();
+	//	}
+	//}
 }
 
 void Session::Send(char* _data, DWORD _bytes)

@@ -52,6 +52,8 @@ public:
 
 	void Init(int _num, VECTOR2 _spawnPosition);
 	void GetMap(const char* _name);
+	void InitMonsterThread();
+
 	void FieldSendAll(char * _buffer, int _size);
 
 	void SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int _size);
