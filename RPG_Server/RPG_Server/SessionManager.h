@@ -18,7 +18,7 @@
 class SessionManager : public Manager_List<Session>
 {
 private:
-	CriticalSectionClass	m_locker;
+	CriticalSectionClass	m_lock;
 
 	ObjectPool<Session>		m_objectPool;
 

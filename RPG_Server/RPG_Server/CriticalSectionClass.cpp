@@ -2,20 +2,20 @@
 
 CriticalSectionClass::CriticalSectionClass()
 {
-	InitializeCriticalSection(&criticalSection);
+	InitializeCriticalSection(&cs);
 }
 
 CriticalSectionClass::~CriticalSectionClass()
 {
-	DeleteCriticalSection(&criticalSection);
+	DeleteCriticalSection(&cs);
 }
 
 void CriticalSectionClass::EnterLock()
 {
-	EnterCriticalSection(&criticalSection);
+	EnterCriticalSection(&cs);
 }
 
 void CriticalSectionClass::LeaveLock()
 {
-	LeaveCriticalSection(&criticalSection);
+	LeaveCriticalSection(&cs);
 }

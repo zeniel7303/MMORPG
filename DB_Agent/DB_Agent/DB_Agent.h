@@ -1,7 +1,4 @@
 #pragma once
-#include "EventClass.h"
-#include "ThreadClass.h"
-
 #include "IOCPClass.h"
 #include "ListenClass.h"
 #include "Session.h"
@@ -11,10 +8,13 @@
 
 #include "CriticalSectionClass.h"
 
-class DB_Agent : public EventClass<DB_Agent>, public ThreadClass<DB_Agent>, 
-	public Session
+class DB_Agent : public Session
 {
 private:
+	HANDLE					hEvent;
+	HANDLE					hThread[2];
+	unsigned int			threadID[2];
+
 	IOCPClass				m_IOCPClass;
 	ListenClass				m_listenClass;
 
@@ -22,8 +22,8 @@ private:
 
 	CriticalSectionClass	m_locker;
 
-	SharedQueue<Packet*>		m_recvSharedQueue;
-	SharedQueue<Packet*>		m_sendSharedQueue;
+	SharedQueue<Packet*>	m_recvSharedQueue;
+	SharedQueue<Packet*>	m_sendSharedQueue;
 
 public:
 	DB_Agent();
@@ -34,8 +34,22 @@ public:
 
 	void Parsing();
 
-	void EventFunc();
-	void LoopRun();
+	void Thread_1();
+	void Thread_2();
+
+	static unsigned int __stdcall ThreadFunc_1(void* pArgs)
+	{
+		DB_Agent* obj = (DB_Agent*)pArgs;
+		obj->Thread_1();
+		return 0;
+	}
+
+	static unsigned int __stdcall ThreadFunc_2(void* pArgs)
+	{
+		DB_Agent* obj = (DB_Agent*)pArgs;
+		obj->Thread_2();
+		return 0;
+	}
 	
 	SharedQueue<Packet*>* GetSendSharedQueue() { return &m_sendSharedQueue; }
 };

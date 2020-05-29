@@ -11,7 +11,7 @@ private:
 
 	int		bufferLength;
 
-	CriticalSectionClass m_locker;
+	CriticalSectionClass m_lock;
 
 public:
 	SendBuffer()
@@ -41,14 +41,10 @@ public:
 
 	char* GetBuffer(int _size)
 	{
-		//m_locker.EnterLock();
-
 		if (_size > sendBufferEnd - writePoint)
 		{
 			writePoint = sendBuffer;
 		}
-
-		//m_locker.LeaveLock();
 
 		return writePoint;
 	}
@@ -60,11 +56,7 @@ public:
 
 	void Write(int _size)
 	{
-		//m_locker.EnterLock();
-
 		writePoint += _size;
-
-		//m_locker.LeaveLock();
 	}
 };
 

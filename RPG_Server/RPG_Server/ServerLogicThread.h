@@ -58,6 +58,7 @@ public:
 	void OnPacket_LogInUser(User* _user, Packet* _packet);
 	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 
+	//DB agent====================================================
 	void OnPacket_LogInSuccess(Packet* _packet);
 	void OnPacket_LogInFailed(Packet* _packet);
 
@@ -71,6 +72,7 @@ public:
 	void OnPacket_UpdateUserFailed(Packet* _packet);
 
 	Session* FindUser(SOCKET _socket);
+	//============================================================
 
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
 

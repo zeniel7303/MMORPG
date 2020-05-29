@@ -8,6 +8,9 @@ DBConnector::~DBConnector()
 
 void DBConnector::Init(int _num)
 {
+	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hThread = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc, (void*)this, 0, &threadID);
+
 	m_sendBuffer = new SendBuffer();
 	m_sendBuffer->Init(30000);
 
@@ -269,8 +272,8 @@ void DBConnector::UpdateUser(UpdateUserPacket* _packet)
 		sprintf(str2, "UPDATE infotable SET level = '%d', curHp = '%d', maxHp = '%d', curMp = '%d', maxMp = '%d', \
 			curExp = '%d', maxExp = '%d', atk = '%d', def = '%d' WHERE userID = '%d'",
 			_packet->unitInfo.level, 
-			_packet->unitInfo.hp.currentValue, _packet->unitInfo.hp.maxValue, 
-			_packet->unitInfo.mp.currentValue, _packet->unitInfo.mp.maxValue, 
+			_packet->unitInfo.hp.currentValue, _packet->unitInfo.hp.maxValue,
+			_packet->unitInfo.mp.currentValue, _packet->unitInfo.mp.maxValue,
 			_packet->unitInfo.exp.currentValue, _packet->unitInfo.exp.maxValue, 
 			_packet->unitInfo.atk, _packet->unitInfo.def, _packet->userIndex);
 
@@ -365,11 +368,11 @@ bool DBConnector::Test()
 	}
 }
 
-void DBConnector::EventFunc()
+void DBConnector::Thread()
 {
 	while (1)
 	{
-		WaitForSingleObject(EventClass<DBConnector>::GetEventHandle(), INFINITE);
+		WaitForSingleObject(hEvent, INFINITE);
 
 		m_state = ACTIVE;
 
@@ -379,28 +382,35 @@ void DBConnector::EventFunc()
 		{
 			LogInPacket_DBAgent* logInPacket = static_cast<LogInPacket_DBAgent*>(m_packet);
 			Login(logInPacket);
+			printf("LogIn \n");
 		}			
 			break;
 		case RecvCommand::Zone2DB_REGISTER:
 		{
 			RegisterPacket_DBAgent* RegisterPacket = static_cast<RegisterPacket_DBAgent*>(m_packet);
 			Register(RegisterPacket);
+			printf("Register \n");
 		}
 			break;
 		case RecvCommand::Zone2DB_REQUEST_USER_DATA:
 		{
 			RequireUserInfoPacket_DBAgent* packet = static_cast<RequireUserInfoPacket_DBAgent*>(m_packet);
 			GetUserInfo(packet);
+			printf("GetUserInfo \n");
 		}		
 			break;
 		case RecvCommand::Zone2DB_REQUEST_MONSTER_DATA:
 		{
 			GetMonsterInfo();
+			printf("GetMonsterInfo \n");
 		}
 			break;
 		case RecvCommand::Zone2DB_UPDATE_USER:
 		{
 			UpdateUserPacket* packet = static_cast<UpdateUserPacket*>(m_packet);
+			UpdateUser(packet);
+
+			printf("Update User \n");
 		}
 			break;
 		}
@@ -408,6 +418,6 @@ void DBConnector::EventFunc()
 		m_packet = nullptr;
 		m_state = READY;
 
-		ResetEvent(EventClass<DBConnector>::GetEventHandle());
+		//ResetEvent(EventClass<DBConnector>::GetEventHandle());
 	}
 }

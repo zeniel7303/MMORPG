@@ -1,0 +1,11 @@
+﻿  CriticalSectionClass.cpp
+  dbClass.cpp
+d:\작업관련\sourcetree\mmorpg\db_agent\db_agent\dbclass.h(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'mysql.h': No such file or directory
+  DBConnector.cpp
+d:\작업관련\sourcetree\mmorpg\db_agent\db_agent\dbconnector.h(7): fatal error C1083: 포함 파일을 열 수 없습니다. 'mysql.h': No such file or directory
+  DBConnectorManager.cpp
+d:\작업관련\sourcetree\mmorpg\db_agent\db_agent\dbconnector.h(7): fatal error C1083: 포함 파일을 열 수 없습니다. 'mysql.h': No such file or directory
+  DB_Agent.cpp
+d:\작업관련\sourcetree\mmorpg\db_agent\db_agent\dbconnector.h(7): fatal error C1083: 포함 파일을 열 수 없습니다. 'mysql.h': No such file or directory
+  IOCPClass.cpp
+  ListenClass.cpp

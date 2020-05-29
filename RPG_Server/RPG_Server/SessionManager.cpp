@@ -21,60 +21,48 @@ Session* SessionManager::CreateSession()
 
 void SessionManager::DeleteSession(Session* _t)
 {
-	//m_locker.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	if (DeleteItem(_t))
 	{
 		m_objectPool.ReturnObject(_t);
 	}
-
-	//m_locker.LeaveLock();
 }
 
 void SessionManager::AddSessionList(Session* _t)
 {
-	//m_locker.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	AddItem(_t);
-
-	//m_locker.LeaveLock();
 }
 
 void SessionManager::AddSessionID(int _num)
 {
-	//m_locker.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	m_idSet.insert(_num); 
-
-	//m_locker.LeaveLock();
 }
 
 void SessionManager::DeleteSessionID(int _num)
 {
-	//m_locker.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	if (FindSessionID(_num))
 	{
 		m_idSet.erase(_num);
 	}
-
-	//m_locker.LeaveLock();
 }
 
 bool SessionManager::FindSessionID(int _num)
 {
-	//m_locker.EnterLock(); 
+	CSLock csLock(m_lock.cs);
 
 	set<int>::iterator FindIter = m_idSet.find(_num);
 
 	if (FindIter != m_idSet.end())
 	{
-		//m_locker.LeaveLock();
-
 		return true;
 	}
-
-	//m_locker.LeaveLock();
 
 	return false;
 }

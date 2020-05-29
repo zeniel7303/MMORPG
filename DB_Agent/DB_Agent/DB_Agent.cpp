@@ -10,6 +10,10 @@ DB_Agent::~DB_Agent()
 
 void DB_Agent::Init()
 {
+	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hThread[0] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_1, (void*)this, 0, &threadID[0]);
+	hThread[1] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_2, (void*)this, 0, &threadID[1]);
+
 	Session::Init();
 
 	m_IOCPClass.Init();
@@ -20,9 +24,6 @@ void DB_Agent::Init()
 void DB_Agent::GetConnectorManager(DBConnectorManager* _connectorManager)
 {
 	m_connectorManager = _connectorManager;
-
-	EventClass<DB_Agent>::CreateEventHandle(this);
-	ThreadClass<DB_Agent>::Start(this);
 
 	WaitForSingleObject(m_listenClass.GetHandle(), INFINITE);
 }
@@ -38,7 +39,7 @@ void DB_Agent::Parsing()
 		if (packet == nullptr) break;
 
 		m_recvSharedQueue.AddItem(packet);
-		SetEvent(EventClass<DB_Agent>::GetEventHandle());
+		SetEvent(hEvent);
 
 		tempNum--;
 
@@ -51,13 +52,13 @@ void DB_Agent::Parsing()
 	}
 }
 
-void DB_Agent::EventFunc()
+void DB_Agent::Thread_1()
 {
 	while (1)
 	{
 		int tempNum = 20;
 
-		WaitForSingleObject(EventClass<DB_Agent>::GetEventHandle(), INFINITE);
+		WaitForSingleObject(hEvent, INFINITE);
 
 		while (1)
 		{
@@ -68,7 +69,7 @@ void DB_Agent::EventFunc()
 					Packet* tempPacket = m_recvSharedQueue.GetItem();
 
 					element->SetPacket(tempPacket);
-					SetEvent(element->EventClass<DBConnector>::GetEventHandle());
+					SetEvent(element->GetEventHandle());
 				}
 
 				if (m_recvSharedQueue.GetSize() <= 0) break;
@@ -79,8 +80,9 @@ void DB_Agent::EventFunc()
 			if (tempNum <= 0 || m_recvSharedQueue.GetSize() <= 0)
 			{
 				tempNum = 20;
-
-				ResetEvent(EventClass<DB_Agent>::GetEventHandle());
+				
+				//¾²Áö¸¶
+				//ResetEvent(hEvent);
 
 				break;
 			}
@@ -88,7 +90,7 @@ void DB_Agent::EventFunc()
 	}
 }
 
-void DB_Agent::LoopRun()
+void DB_Agent::Thread_2()
 {
 	while (1)
 	{

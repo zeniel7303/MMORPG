@@ -1,5 +1,4 @@
 #pragma once
-#include "EventClass.h"
 #include "stdafx.h"
 
 #include <iostream>
@@ -21,10 +20,14 @@ enum CONNECTOR_STATE
 	ACTIVE
 };
 
-class DBConnector : public EventClass<DBConnector>
+class DBConnector
 {
 private:
-	CONNECTOR_STATE					m_state;
+	HANDLE					hEvent;
+	HANDLE					hThread;
+	unsigned int			threadID;
+
+	CONNECTOR_STATE			m_state;
 	bool					m_isConnect;
 							
 	MYSQL					m_connect;
@@ -71,8 +74,19 @@ public:
 	void GetMonsterInfo();
 
 	bool Test();
+
 	void EventFunc();
 
+	void Thread();
+
+	static unsigned int __stdcall ThreadFunc(void* pArgs)
+	{
+		DBConnector* obj = (DBConnector*)pArgs;
+		obj->Thread();
+		return 0;
+	}
+
+	HANDLE GetEventHandle() { return hEvent; }
 	int GetNum() { return m_num; }
 	CONNECTOR_STATE GetState() { return m_state; }
 	void SetPacket(Packet* _packet) { m_packet = _packet; }

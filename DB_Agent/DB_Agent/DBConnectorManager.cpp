@@ -33,8 +33,6 @@ void DBConnectorManager::Init(DB_Agent* _agent)
 			printf("[ %d Connector - DB Connect Failed ]\n", dbConnector->GetNum());
 		}
 
-		dbConnector->EventClass<DBConnector>::CreateEventHandle(dbConnector);
-
 		m_DBConnectorList.push_back(dbConnector);
 	}
 }

@@ -35,7 +35,7 @@ private:
 
 	SectorManager			m_sectorManager;
 
-	CriticalSectionClass	m_locker;
+	CriticalSectionClass	m_lock;
 
 	//==================================================
 

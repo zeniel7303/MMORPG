@@ -3,8 +3,8 @@
 
 class CriticalSectionClass
 {
-private:
-	CRITICAL_SECTION criticalSection;
+public:
+	CRITICAL_SECTION cs;
 
 public:
 	CriticalSectionClass();
@@ -14,3 +14,21 @@ public:
 	void LeaveLock();
 };
 
+class CSLock
+{
+private:
+	CRITICAL_SECTION criticalSection;
+
+public :
+	CSLock(CRITICAL_SECTION& cs)
+	{
+		criticalSection = cs;
+
+		EnterCriticalSection(&criticalSection);
+	}
+
+	~CSLock()
+	{
+		LeaveCriticalSection(&criticalSection);
+	}
+};

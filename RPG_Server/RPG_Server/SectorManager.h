@@ -13,7 +13,7 @@ private:
 
 	std::map<WORD, Sector*> m_sectorMap;
 
-	CriticalSectionClass m_locker;
+	CriticalSectionClass m_lock;
 
 public:
 	SectorManager();

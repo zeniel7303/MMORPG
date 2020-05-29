@@ -147,7 +147,6 @@
     <ClInclude Include="DBConnector.h" />
     <ClInclude Include="DBConnectorManager.h" />
     <ClInclude Include="DB_Agent.h" />
-    <ClInclude Include="EventClass.h" />
     <ClInclude Include="IOCPClass.h" />
     <ClInclude Include="IpEndPoint.h" />
     <ClInclude Include="ListenClass.h" />

@@ -29,9 +29,6 @@ class Sector;
 class User : public Session, public Unit
 {
 private:
-	//int               m_tempsize[10000];
-
-	//VECTOR2			m_targetPosition;
 	INFO				m_basicInfo;
 
 	Sector*				m_sector;
@@ -44,14 +41,8 @@ private:
 	bool				m_isGetUserList;
 
 	//===============================================
-
-	//Dummy¿ë
-	PathFinding			m_pathFinding;
-
 	bool				m_isTestClient;
 
-	VECTOR2				m_targetPosition;
-	list<VECTOR2>		m_tileList;
 
 public:
 	User();
@@ -120,7 +111,6 @@ public:
 	bool GetIsDeath() { return m_basicInfo.unitInfo.state == STATE::DEATH; }
 
 	bool GetIsTestClient() { return m_isTestClient; }
-	list<VECTOR2>* GetPathList() { return &m_tileList; }
 
 	void SetState(STATE _state) { m_basicInfo.unitInfo.state = _state; }
 

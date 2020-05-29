@@ -152,7 +152,7 @@ void Monster::Attack()
 //처리해야함.
 Packet* Monster::Hit(User* _user, int _damage)
 {
-	m_locker.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	if (m_info.state == STATE::DEATH) return nullptr;
 
@@ -168,8 +168,6 @@ Packet* Monster::Hit(User* _user, int _damage)
 		monsterHitPacket->Init(SendCommand::Zone2C_MONSTER_HIT_FAIL, sizeof(MonsterHitPacket));
 
 		m_sendBuffer->Write(monsterHitPacket->size);
-
-		m_locker.LeaveLock();
 
 		return monsterHitPacket;
 	}
@@ -197,8 +195,6 @@ Packet* Monster::Hit(User* _user, int _damage)
 	{
 		m_isDeath = true;
 	}
-
-	m_locker.LeaveLock();
 
 	return monsterHitPacket;
 }

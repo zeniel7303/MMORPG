@@ -23,22 +23,18 @@ public:
 template<class T>
 inline void SharedQueue<T>::AddItem(T _item)
 {
-	m_lock.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	m_itemQueue.push(_item);
-
-	m_lock.LeaveLock();
 }
 
 template<class T>
 inline T& SharedQueue<T>::GetItem(void)
 {
-	m_lock.EnterLock();
+	CSLock csLock(m_lock.cs);
 
 	T& item = m_itemQueue.front();
 	m_itemQueue.pop();
-
-	m_lock.LeaveLock();
 
 	return item;
 }

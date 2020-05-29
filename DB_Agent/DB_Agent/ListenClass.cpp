@@ -79,5 +79,7 @@ void ListenClass::LoopRun()
 
 		m_session->OnConnect(sockClient);
 		m_IOCPClass->AddSocket(sockClient, (unsigned long long)m_session);
+
+		printf("[ Connect With ZoneServer Success ]\n");
 	}
 }

@@ -43,9 +43,6 @@
     <Filter Include="소스 파일\Library\Util">
       <UniqueIdentifier>{c892fe47-80d6-4410-846c-18db17cc3d6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Library\Util\EventClass">
-      <UniqueIdentifier>{068ea78a-e99c-4279-aeb7-c3d1a430baef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Library\Util\ThreadClass">
       <UniqueIdentifier>{7b41df39-6230-44f8-8e9b-452bcbb1d97b}</UniqueIdentifier>
     </Filter>
@@ -142,9 +139,6 @@
     </ClInclude>
     <ClInclude Include="singleton.h">
       <Filter>소스 파일\Library\Util\Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="EventClass.h">
-      <Filter>소스 파일\Library\Util\EventClass</Filter>
     </ClInclude>
     <ClInclude Include="ThreadClass.h">
       <Filter>소스 파일\Library\Util\ThreadClass</Filter>

@@ -13,7 +13,7 @@ private:
 	int				m_threadCount;
 	WorkerThread**	m_workThreadBuffer;
 
-	CriticalSectionClass m_locker;
+	CriticalSectionClass m_lock;
 
 public:
 	IOCPClass();

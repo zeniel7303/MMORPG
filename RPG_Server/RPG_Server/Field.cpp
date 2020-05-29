@@ -157,15 +157,11 @@ void Field::EnterUser(User* _user)
 		_user->EnterField(this, m_fieldNum, m_spawnPosition);
 	}
 
-	//m_locker.EnterLock();
-
 	AddItem(_user);
 
 	UpdateUserSector(_user);
 
 	SendEnterUserInfo(_user);
-
-	//m_locker.LeaveLock();
 
 	printf("[%d Field : User Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
 	printf("접속자 수  : %d) ]\n", (int)m_itemList.size());
@@ -216,15 +212,11 @@ void Field::SendEnterUserInfo(User* _user)
 
 void Field::ExitUser(User* _user)
 {
-	//m_locker.EnterLock();
-
 	DeleteItem(_user);
 
 	_user->GetSector()->Manager_List<User>::DeleteItem(_user);
 
 	SendExitUserInfo(_user->GetInfo()->userInfo.userID);
-
-	//m_locker.LeaveLock();
 
 	printf("[%d Field] : User Delete - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
 	printf("접속자 수  : %d)\n", (int)m_itemList.size());
@@ -286,8 +278,6 @@ void Field::UpdateUserSector(User* _user)
 
 	if (prevSector != nullptr)
 	{
-		//m_locker.EnterLock();
-
 		/*printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
 			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());*/
 
@@ -317,8 +307,6 @@ void Field::UpdateUserSector(User* _user)
 
 		EnterSector(_user);
 
-		//m_locker.LeaveLock();
-
 		m_leaveSectorsVec.resize(9);
 		m_enterSectorsVec.resize(9);
 
@@ -343,6 +331,7 @@ void Field::LeaveSector(User* _user)
 	//20200516
 	//유니티 클라이언트에서 이 패킷을 받지 않아서 유령이 생기는 현상이 발생함. = m_leaveSectorsVec 내에 없었다는 의미
 	// -> Visible을 안받게 하면되나?
+	//해결
 
 	//자신이 있던 섹터 범위 내의 다른 유저들에게 자신이 나갔다고 알려주는 함수
 	SectorSendAll(&m_leaveSectorsVec, reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);

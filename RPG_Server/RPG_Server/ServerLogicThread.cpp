@@ -426,9 +426,6 @@ void ServerLogicThread::ParsingUser()
 				case RecvCommand::C2Zone_ENTER_TEST_USER:
 					OnPacket_EnterTestUser(user, packet);
 					break;
-				/*case RecvCommand::C2Zone_MOVE_TEST_USER:
-					OnPacket_MoveTestUser(user, packet);
-					break;*/
 				}
 			}
 
