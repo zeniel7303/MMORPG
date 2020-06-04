@@ -94,11 +94,11 @@
     <Filter Include="소스 파일\Application\Unit\Monster">
       <UniqueIdentifier>{a1cd7bc2-210f-4212-a05a-fa8024e1a623}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Connector">
-      <UniqueIdentifier>{ad96e86c-3077-4f32-8a87-dd94ed787bde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Library\Util\Synchronization">
       <UniqueIdentifier>{ab25b8b2-42a4-488e-8b79-53f1155bbde4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Connector">
+      <UniqueIdentifier>{ad96e86c-3077-4f32-8a87-dd94ed787bde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,7 +163,7 @@
       <Filter>소스 파일\Application\Server\Field</Filter>
     </ClCompile>
     <ClCompile Include="ConnectorClass.cpp">
-      <Filter>소스 파일\Application\Connector</Filter>
+      <Filter>소스 파일\Library\Connector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,7 +276,7 @@
       <Filter>소스 파일\Library\Util</Filter>
     </ClInclude>
     <ClInclude Include="ConnectorClass.h">
-      <Filter>소스 파일\Application\Connector</Filter>
+      <Filter>소스 파일\Library\Connector</Filter>
     </ClInclude>
     <ClInclude Include="SpinLock.h">
       <Filter>소스 파일\Library\Util\Synchronization</Filter>

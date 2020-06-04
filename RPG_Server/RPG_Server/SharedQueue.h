@@ -12,9 +12,7 @@ public:
 	~SharedQueue() {
 		while (!m_itemQueue.empty())
 		{
-			T* item = m_itemQueue.top();
 			m_itemQueue.pop();
-			delete item;
 		}
 	}
 

@@ -53,6 +53,7 @@ void DB_Agent::Parsing()
 	}
 }
 
+//recv부분
 void DB_Agent::Thread_1()
 {
 	while (1)
@@ -91,6 +92,7 @@ void DB_Agent::Thread_1()
 	}
 }
 
+//send 부분
 void DB_Agent::Thread_2()
 {
 	while (1)
@@ -105,3 +107,6 @@ void DB_Agent::Thread_2()
 		Sleep(1);
 	}
 }
+
+//200604
+//현재 Thread 2개 돌려가면서 쓰는건 마이너스. (수업예정)
