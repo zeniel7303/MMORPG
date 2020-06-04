@@ -1,9 +1,14 @@
 #pragma once
 #include "stdafx.h"
+#define WIN32_LEAN_AND_MEAN
 
+#include <tchar.h>
 #include <iostream>
 #include <string>
+
 #include <mysql.h>
+#include <sql.h>
+#include <sqlext.h>
 
 #include "SharedQueue.h"
 
@@ -13,6 +18,8 @@
 #pragma comment(lib, "libmySQL.lib")
 
 #pragma warning(disable:4996)
+
+//#define _DEFINE_ODBC_
 
 enum CONNECTOR_STATE
 {
@@ -30,6 +37,12 @@ private:
 	CONNECTOR_STATE			m_state;
 	bool					m_isConnect;
 							
+#ifdef _DEFINE_ODBC_
+	SQLHENV					m_henv;
+	SQLHDBC					m_hdbc;
+	SQLHSTMT				m_hstmt;
+	SQLRETURN				m_retcode;
+#else
 	MYSQL					m_connect;
 	MYSQL_RES*				m_result;
 
@@ -40,20 +53,26 @@ private:
 	my_ulonglong			rowNum;
 	//필드의 개수
 	unsigned int			fieldNum;
-							
+#endif						
 	int						m_num;
 						
 	SharedQueue<Packet*>&	m_packetQueue;
+	HANDLE&					m_hEvent;
+
 	SendBuffer*				m_sendBuffer;
 	Packet*					m_packet;
 
 public:
-	DBConnector(SharedQueue<Packet*>& _queue) : m_packetQueue(_queue)
+	DBConnector(SharedQueue<Packet*>& _queue, HANDLE& _handle) 
+		: m_packetQueue(_queue), m_hEvent(_handle)
 	{
 		
 	}
 
-	~DBConnector();
+	~DBConnector()
+	{
+		DisConnect();
+	}
 
 	void Init(int _num);
 	bool Connect(const char* host,
@@ -72,10 +91,6 @@ public:
 	void GetUserInfo(RequireUserInfoPacket_DBAgent* _packet);
 	void UpdateUser(UpdateUserPacket* _packet);
 	void GetMonsterInfo();
-
-	bool Test();
-
-	void EventFunc();
 
 	void Thread();
 

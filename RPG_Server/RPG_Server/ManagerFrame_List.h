@@ -17,7 +17,10 @@ protected:
 
 public:
 	Manager_List() {}
-	~Manager_List() {}
+	~Manager_List() {
+		m_itemList.clear();
+		m_itemList.resize(0);
+	}
 
 	void AddItem(T* _t);
 	bool DeleteItem(T* _t);

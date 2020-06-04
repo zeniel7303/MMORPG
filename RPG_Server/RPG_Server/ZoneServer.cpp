@@ -7,7 +7,7 @@ ZoneServer::ZoneServer()
 
 ZoneServer::~ZoneServer()
 {
-
+	
 }
 
 void ZoneServer::Init()
@@ -22,19 +22,6 @@ void ZoneServer::Init()
 	}
 
 	printf("[ User Max Count : %d ]\n", USERMAXCOUNT);
-
-	/*MYSQLCLASS->Init();
-	if (MYSQLCLASS->Connect("localhost", "root", "135andromeda803", "rpg", 3306, NULL, 0))
-	{
-		if (!MYSQLCLASS->SelectDB("rpg"))
-		{
-			printf("[ DB Connect Success ]\n");
-		}
-		else
-		{
-			printf("[ DB Connect Failed ]\n");
-		}
-	}*/
 
 	m_IOCPClass.Init();
 

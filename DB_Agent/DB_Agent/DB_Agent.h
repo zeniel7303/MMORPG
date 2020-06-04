@@ -11,9 +11,9 @@
 class DB_Agent : public Session
 {
 private:
-	HANDLE					hEvent;
-	HANDLE					hThread[2];
-	unsigned int			threadID[2];
+	HANDLE					m_hEvent[2];
+	HANDLE					m_hThread[2];
+	unsigned int			m_threadID[2];
 
 	IOCPClass				m_IOCPClass;
 	ListenClass				m_listenClass;
@@ -52,5 +52,6 @@ public:
 	}
 	
 	SharedQueue<Packet*>* GetSendSharedQueue() { return &m_sendSharedQueue; }
+	HANDLE* GetEventHandle(int num) { return &m_hEvent[num]; }
 };
 

@@ -35,8 +35,6 @@ private:
 
 	SectorManager			m_sectorManager;
 
-	CriticalSectionClass	m_lock;
-
 	//==================================================
 
 	SendBuffer*				m_sendBuffer;
@@ -44,7 +42,7 @@ private:
 	std::vector<Sector*>	m_leaveSectorsVec;
 	std::vector<Sector*>	m_enterSectorsVec;
 
-	time_t					start, end;
+	//time_t					start, end;
 
 public:
 	Field();
@@ -82,9 +80,6 @@ public:
 	void SendVisibleMonsterList(User* _user);
 
 	void EnterTestClient(User* _user, int _num);
-	/*void MoveTestClient(User* _user, list<VECTOR2>* _list);
-
-	void LoopRun();*/
 
 	WORD GetFieldNum() { return m_fieldNum; }
 

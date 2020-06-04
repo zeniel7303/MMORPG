@@ -7,6 +7,7 @@ FieldManager::FieldManager()
 
 FieldManager::~FieldManager()
 {
+	m_fieldMap.clear();
 }
 
 void FieldManager::Init()

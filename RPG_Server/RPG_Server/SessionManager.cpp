@@ -2,6 +2,8 @@
 
 void SessionManager::Init(ObjectPool<Session>* _pool)
 {
+	InitializeCriticalSection(&m_cs);
+
 	m_objectPool = *_pool;
 
 	if (m_objectPool.GetCount() <= 0)
@@ -21,7 +23,7 @@ Session* SessionManager::CreateSession()
 
 void SessionManager::DeleteSession(Session* _t)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	if (DeleteItem(_t))
 	{
@@ -31,21 +33,21 @@ void SessionManager::DeleteSession(Session* _t)
 
 void SessionManager::AddSessionList(Session* _t)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	AddItem(_t);
 }
 
 void SessionManager::AddSessionID(int _num)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	m_idSet.insert(_num); 
 }
 
 void SessionManager::DeleteSessionID(int _num)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	if (FindSessionID(_num))
 	{
@@ -55,7 +57,7 @@ void SessionManager::DeleteSessionID(int _num)
 
 bool SessionManager::FindSessionID(int _num)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	set<int>::iterator FindIter = m_idSet.find(_num);
 

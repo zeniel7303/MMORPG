@@ -17,13 +17,11 @@ public:
 class CSLock
 {
 private:
-	CRITICAL_SECTION criticalSection;
+	CRITICAL_SECTION& criticalSection;
 
-public :
-	CSLock(CRITICAL_SECTION& cs)
+public:
+	CSLock(CRITICAL_SECTION& cs) : criticalSection(cs)
 	{
-		criticalSection = cs;
-
 		EnterCriticalSection(&criticalSection);
 	}
 

@@ -5,7 +5,6 @@
 
 #include "RingBuffer.h"
 #include "SendBuffer.h"
-//#include "CircBuf.h"
 
 #pragma warning(disable:4996)
 
@@ -49,7 +48,6 @@ protected:
 
 	RingBuffer*				m_recvBuffer;
 	SendBuffer*				m_sendBuffer;
-	//CircBuf<Packet*>*		m_circBuffer;
 
 	bool					m_isConnected;
 	bool					m_isCheckingHeartBeat;

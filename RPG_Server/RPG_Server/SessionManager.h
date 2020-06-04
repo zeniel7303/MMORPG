@@ -18,7 +18,7 @@
 class SessionManager : public Manager_List<Session>
 {
 private:
-	CriticalSectionClass	m_lock;
+	CRITICAL_SECTION		m_cs;
 
 	ObjectPool<Session>		m_objectPool;
 
@@ -26,7 +26,11 @@ private:
 
 public:
 	SessionManager() {}
-	~SessionManager() {}
+	~SessionManager() {
+		DeleteCriticalSection(&m_cs);
+
+		m_idSet.clear();
+	}
 
 	void Init(ObjectPool<Session>* _pool);
 	Session* CreateSession();

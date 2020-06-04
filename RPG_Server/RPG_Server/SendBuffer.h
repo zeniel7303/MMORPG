@@ -21,7 +21,7 @@ public:
 
 	~SendBuffer()
 	{
-
+		Reset();
 	}
 
 	void Init(int _size)

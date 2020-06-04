@@ -36,9 +36,6 @@
     <Filter Include="소스 파일\Library\Util\Buffer\CircBuffer">
       <UniqueIdentifier>{a9709a6b-2062-4c13-a9f6-536aaae6b6cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Library\Util\CriticalSection">
-      <UniqueIdentifier>{ab25b8b2-42a4-488e-8b79-53f1155bbde4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Library\Util\ObjectPool">
       <UniqueIdentifier>{78c94e3a-d2c3-4d51-83a5-0d2dc19711ed}</UniqueIdentifier>
     </Filter>
@@ -85,9 +82,6 @@
     <Filter Include="소스 파일\Library\Thread">
       <UniqueIdentifier>{bc56ec4c-ce6a-4909-80d3-69630079ea6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Library\MYSQL">
-      <UniqueIdentifier>{de374d28-35d5-43f6-a438-eeb062e6f819}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Application\Server\Sector">
       <UniqueIdentifier>{4f7869c8-97ca-4b0e-b061-06b31b4049e0}</UniqueIdentifier>
     </Filter>
@@ -103,6 +97,9 @@
     <Filter Include="소스 파일\Application\Connector">
       <UniqueIdentifier>{ad96e86c-3077-4f32-8a87-dd94ed787bde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Library\Util\Synchronization">
+      <UniqueIdentifier>{ab25b8b2-42a4-488e-8b79-53f1155bbde4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IOCPClass.cpp">
@@ -112,7 +109,7 @@
       <Filter>소스 파일\Library\IOCPClass\WorkerThread</Filter>
     </ClCompile>
     <ClCompile Include="CriticalSectionClass.cpp">
-      <Filter>소스 파일\Library\Util\CriticalSection</Filter>
+      <Filter>소스 파일\Library\Util\Synchronization</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
@@ -146,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="HeartBeatThread.cpp">
       <Filter>소스 파일\Library\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="MySQLClass.cpp">
-      <Filter>소스 파일\Library\MYSQL</Filter>
     </ClCompile>
     <ClCompile Include="Sector.cpp">
       <Filter>소스 파일\Application\Server\Sector</Filter>
@@ -189,7 +183,7 @@
       <Filter>소스 파일\Library\Util\Buffer\CircBuffer</Filter>
     </ClInclude>
     <ClInclude Include="CriticalSectionClass.h">
-      <Filter>소스 파일\Library\Util\CriticalSection</Filter>
+      <Filter>소스 파일\Library\Util\Synchronization</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>소스 파일\Library\Util\ObjectPool</Filter>
@@ -254,9 +248,6 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\Application\Unit\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="MySQLClass.h">
-      <Filter>소스 파일\Library\MYSQL</Filter>
-    </ClInclude>
     <ClInclude Include="SendBuffer.h">
       <Filter>소스 파일\Library\Util\Buffer\TempBuffer</Filter>
     </ClInclude>
@@ -286,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="ConnectorClass.h">
       <Filter>소스 파일\Application\Connector</Filter>
+    </ClInclude>
+    <ClInclude Include="SpinLock.h">
+      <Filter>소스 파일\Library\Util\Synchronization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

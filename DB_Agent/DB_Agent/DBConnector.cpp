@@ -2,10 +2,105 @@
 
 #include "DB_Agent.h"
 
-DBConnector::~DBConnector()
+#ifdef _DEFINE_ODBC_
+
+void DBConnector::Init(int _num)
 {
+	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hThread = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc, (void*)this, 0, &threadID);
+
+	m_sendBuffer = new SendBuffer();
+	m_sendBuffer->Init(30000);
+
+	m_state = READY;
+	m_num = _num + 1;
+
+	m_henv = NULL;
+	m_hdbc = NULL;
+	m_hstmt = NULL;
+	m_retcode = NULL;
+
+	m_isConnect = false;
+	m_packet = nullptr;
 }
 
+bool DBConnector::Connect(const char* host,
+	const char* username,
+	const char* password,
+	const char* database,
+	const unsigned int port,
+	const char* unix_socket,
+	const unsigned int client_flag)
+{
+	// 환경 핸들
+	m_retcode = SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_henv);
+
+	// 드라이버 환경 설정
+	m_retcode = SQLSetEnvAttr(m_henv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER*)SQL_OV_ODBC3, 0);
+
+	// 연결 핸들
+	m_retcode = SQLAllocHandle(SQL_HANDLE_DBC, m_henv, &m_hdbc);
+
+	// ######### 여기 중요      드라이버 이름                            ID                               비번
+	m_retcode = SQLConnectA(m_hdbc, (SQLCHAR*) "odbcTest", SQL_NTS, (SQLCHAR*) "admin_odbc", SQL_NTS, (SQLCHAR *) "asd123!", SQL_NTS);
+	m_retcode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+
+	if (m_retcode != 0)
+	{
+		printf("[ DB Connect Failed ]\n");
+
+		return false;
+	}
+	else
+	{
+		m_isConnect = true;
+
+		return true;
+	}
+}
+
+void DBConnector::DisConnect()
+{
+	SQLFreeHandle(SQL_HANDLE_STMT, m_hstmt);
+
+	m_isConnect = false;
+}
+
+bool DBConnector::SelectDB(const char* DBname)
+{
+
+}
+
+MYSQL_RES* DBConnector::Query(const char* query)
+{
+
+}
+
+void DBConnector::Login(LogInPacket_DBAgent* _packet)
+{
+
+}
+
+void DBConnector::Register(RegisterPacket_DBAgent* _packet)
+{
+
+}
+
+void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
+{
+
+}
+
+void DBConnector::UpdateUser(UpdateUserPacket* _packet)
+{
+
+}
+
+void DBConnector::GetMonsterInfo()
+{
+
+}
+#else
 void DBConnector::Init(int _num)
 {
 	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -114,8 +209,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 		if (result == 0)
 		{
 			LogInSuccessPacket* logInSuccessPacket =
-			reinterpret_cast<LogInSuccessPacket*>(m_sendBuffer->
-				GetBuffer(sizeof(LogInSuccessPacket)));
+				reinterpret_cast<LogInSuccessPacket*>(m_sendBuffer->
+					GetBuffer(sizeof(LogInSuccessPacket)));
 			logInSuccessPacket->Init(SendCommand::DB2Zone_LOGIN_SUCCESS, sizeof(LogInSuccessPacket));
 			logInSuccessPacket->socket = _packet->socket;
 			logInSuccessPacket->userIndex = atoi(mysql_row[2]);
@@ -271,10 +366,10 @@ void DBConnector::UpdateUser(UpdateUserPacket* _packet)
 		char str2[1024];
 		sprintf(str2, "UPDATE infotable SET level = '%d', curHp = '%d', maxHp = '%d', curMp = '%d', maxMp = '%d', \
 			curExp = '%d', maxExp = '%d', atk = '%d', def = '%d' WHERE userID = '%d'",
-			_packet->unitInfo.level, 
+			_packet->unitInfo.level,
 			_packet->unitInfo.hp.currentValue, _packet->unitInfo.hp.maxValue,
 			_packet->unitInfo.mp.currentValue, _packet->unitInfo.mp.maxValue,
-			_packet->unitInfo.exp.currentValue, _packet->unitInfo.exp.maxValue, 
+			_packet->unitInfo.exp.currentValue, _packet->unitInfo.exp.maxValue,
 			_packet->unitInfo.atk, _packet->unitInfo.def, _packet->userIndex);
 
 		m_result = this->Query(str2);
@@ -345,28 +440,7 @@ void DBConnector::GetMonsterInfo()
 
 	m_packetQueue.AddItem(monstersInfoPacket);
 }
-
-bool DBConnector::Test()
-{
-	MYSQL_ROW mysql_row;
-
-	char str1[256];
-	sprintf(str1, "select *from infotable where userID = %d", m_num);
-
-	m_result = this->Query(str1);
-
-	//중복이 아님
-	if ((mysql_row = mysql_fetch_row(m_result)) == NULL)
-	{
-		return false;
-	}
-	else
-	{
-		printf("%d connector - %s \n", m_num, mysql_row[1]);
-
-		return true;
-	}
-}
+#endif
 
 void DBConnector::Thread()
 {
@@ -414,6 +488,8 @@ void DBConnector::Thread()
 		}
 			break;
 		}
+
+		SetEvent(m_hEvent);
 
 		m_packet = nullptr;
 		m_state = READY;

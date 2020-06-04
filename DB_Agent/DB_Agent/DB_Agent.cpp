@@ -10,9 +10,10 @@ DB_Agent::~DB_Agent()
 
 void DB_Agent::Init()
 {
-	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	hThread[0] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_1, (void*)this, 0, &threadID[0]);
-	hThread[1] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_2, (void*)this, 0, &threadID[1]);
+	m_hEvent[0] = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hEvent[1] = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hThread[0] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_1, (void*)this, 0, &m_threadID[0]);
+	m_hThread[1] = (HANDLE)_beginthreadex(NULL, 0, &ThreadFunc_2, (void*)this, 0, &m_threadID[1]);
 
 	Session::Init();
 
@@ -39,7 +40,7 @@ void DB_Agent::Parsing()
 		if (packet == nullptr) break;
 
 		m_recvSharedQueue.AddItem(packet);
-		SetEvent(hEvent);
+		SetEvent(m_hEvent[0]);
 
 		tempNum--;
 
@@ -58,7 +59,7 @@ void DB_Agent::Thread_1()
 	{
 		int tempNum = 20;
 
-		WaitForSingleObject(hEvent, INFINITE);
+		WaitForSingleObject(m_hEvent[0], INFINITE);
 
 		while (1)
 		{
@@ -94,6 +95,8 @@ void DB_Agent::Thread_2()
 {
 	while (1)
 	{
+		WaitForSingleObject(m_hEvent[1], INFINITE);
+
 		if (m_sendSharedQueue.IsEmpty()) continue;
 
 		Packet* packet = m_sendSharedQueue.GetItem();

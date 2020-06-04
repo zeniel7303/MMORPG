@@ -185,7 +185,6 @@ void ServerLogicThread::ParsingUser()
 
 	User* user;
 
-	
 	for_each(iterBegin, iterEnd, [=](Session* _session) mutable
 	{
 		user = dynamic_cast<User*>(_session);

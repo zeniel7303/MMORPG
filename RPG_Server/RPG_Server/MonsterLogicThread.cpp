@@ -11,7 +11,7 @@ MonsterLogicThread::MonsterLogicThread()
 
 MonsterLogicThread::~MonsterLogicThread()
 {
-
+	m_monsterMap.clear();
 }
 
 void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, SectorManager* _sectorManager)
@@ -134,12 +134,11 @@ void MonsterLogicThread::SendMonsterList_InRange(User* _user)
 
 	monsterInfoListPacket_InRange->monsterNum = 0;
 
-	/*for (int i = 0; i < 9; i++)
-	{
-		Sector* tempSector = _user->GetSector()->GetRoundSectors()[i];
-		std::list<Monster*> tempList = *tempSector->Manager<Monster>::GetItemList();
+	std::vector<Sector*> tempVec = *_user->GetSector()->GetRoundSectorsVec();
 
-		if (tempSector == nullptr) continue;
+	for (const auto& tempSector : tempVec)
+	{
+		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
@@ -150,7 +149,7 @@ void MonsterLogicThread::SendMonsterList_InRange(User* _user)
 			tempNum++;
 			monsterInfoListPacket_InRange->monsterNum++;
 		}
-	}*/
+	}
 
 	monsterInfoListPacket_InRange->size = (sizeof(MonsterInfo) * monsterInfoListPacket_InRange->monsterNum)
 		+ sizeof(WORD) + sizeof(Packet);

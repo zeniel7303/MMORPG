@@ -7,7 +7,8 @@ ListenClass::ListenClass()
 
 ListenClass::~ListenClass()
 {
-
+	closesocket(m_listenSocket);
+	WSACleanup();
 }
 
 bool ListenClass::Init(IOCPClass* _IOCPClass, SessionManager* _sessionManager, const char* _ip, const unsigned short _portNum)

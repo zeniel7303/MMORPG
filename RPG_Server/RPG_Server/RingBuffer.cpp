@@ -13,7 +13,7 @@ RingBuffer::RingBuffer()
 
 RingBuffer::~RingBuffer()
 {
-
+	Reset();
 }
 
 void RingBuffer::Init(int _size, int _tempSize)

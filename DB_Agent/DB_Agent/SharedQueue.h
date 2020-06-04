@@ -1,13 +1,12 @@
 #pragma once
 #include "singleton.h"
-#include "CriticalSectionClass.h"
+#include "SpinLock.h"
 
 template <class T>
-class SharedQueue : public singletonBase<SharedQueue<T>>
+class SharedQueue : public SpinLock
 {
 private:
 	std::queue<T>				m_itemQueue;
-	CriticalSectionClass		m_lock;
 public:
 	SharedQueue() {}
 	~SharedQueue() {}
@@ -24,33 +23,24 @@ public:
 template<class T>
 void SharedQueue<T>::AddItem(T _item)
 {
-	CSLock csLock(m_lock.cs);
-
-	//m_lock.EnterLock();
+	SpinLock::Enter();
 
 	m_itemQueue.push(_item);
 
-	//m_lock.LeaveLock();
+	SpinLock::Leave();
 }
 
 template<class T>
 T& SharedQueue<T>::GetItem(void)
 {
-	CSLock csLock(m_lock.cs);
+	SpinLock::Enter();
 
 	T& item = m_itemQueue.front();
 	m_itemQueue.pop();
+
+	SpinLock::Leave();
 
 	return item;
-
-	/*m_lock.EnterLock();
-
-	T& item = m_itemQueue.front();
-	m_itemQueue.pop();
-
-	m_lock.LeaveLock();
-
-	return item;*/
 }
 
 template<class T>

@@ -39,6 +39,7 @@ void RingBuffer::Reset()
 
 void RingBuffer::Write(int _size)
 {
+	//InterlockedAdd((LPLONG)&writePoint, _size);
 	writePoint += _size;
 
 	if (writePoint >= (bufferEndPoint))

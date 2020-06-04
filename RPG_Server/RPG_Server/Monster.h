@@ -62,7 +62,7 @@ private:
 
 	User*					m_target;
 
-	CriticalSectionClass	m_lock;
+	CRITICAL_SECTION		m_cs;
 
 	//========================================
 

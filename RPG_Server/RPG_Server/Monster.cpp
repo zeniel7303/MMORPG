@@ -6,6 +6,8 @@
 
 Monster::~Monster()
 {
+	m_tileList.clear();
+	m_tileList.resize(0);
 }
 
 void Monster::Init(MonsterInfo& _info, MonsterData& _data)
@@ -22,12 +24,16 @@ void Monster::Init(MonsterInfo& _info, MonsterData& _data)
 
 	m_currentTime = m_maxTime = 0.0f;
 
+	InitializeCriticalSection(&m_cs);
+
 	Spawn();
 }
 
 void Monster::Reset()
 {
 	m_sendBuffer->Reset();
+
+	DeleteCriticalSection(&m_cs);
 }
 
 void Monster::Update()
@@ -152,7 +158,7 @@ void Monster::Attack()
 //처리해야함.
 Packet* Monster::Hit(User* _user, int _damage)
 {
-	CSLock csLock(m_lock.cs);
+	CSLock csLock(m_cs);
 
 	if (m_info.state == STATE::DEATH) return nullptr;
 
@@ -397,12 +403,11 @@ void Monster::UpdateSector()
 			Sector* prevSector = m_sector;
 			if (prevSector != nullptr)
 			{
-				//printf("[ Exit User (Prev Sector) ]");
+				//printf("[ Exit Monster (Prev Sector) ]");
 				prevSector->Manager_List<Monster>::DeleteItem(this);
 			}
 
-			m_sector = nowSector;
-			
+			m_sector = nowSector;		
 			m_sector->Manager_List<Monster>::AddItem(this);
 		}
 

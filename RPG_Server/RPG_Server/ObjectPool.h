@@ -29,16 +29,12 @@ public:
 	// 오브젝트를 비운다.
 	~ObjectPool()
 	{
-		/*locker.EnterLock();
-
 		while (!objects.empty())
 		{
 			T* object = objects.top();
 			objects.pop();
 			delete object;
 		}
-
-		locker.LeaveLock();*/
 	}
 
 	void AddObject(T* _object)

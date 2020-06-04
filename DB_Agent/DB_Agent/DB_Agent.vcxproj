@@ -157,6 +157,7 @@
     <ClInclude Include="Session.h" />
     <ClInclude Include="SharedQueue.h" />
     <ClInclude Include="singleton.h" />
+    <ClInclude Include="SpinLock.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="ThreadClass.h" />
     <ClInclude Include="UnitInfo.h" />

@@ -7,5 +7,6 @@ Sector::Sector(int _num)
 
 Sector::~Sector()
 {
-
+	m_roundSectorsVec.clear();
+	m_roundSectorsVec.resize(0);
 }

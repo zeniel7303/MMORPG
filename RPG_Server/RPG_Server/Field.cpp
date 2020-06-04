@@ -6,6 +6,11 @@ Field::Field()
 
 Field::~Field()
 {
+	m_leaveSectorsVec.clear();
+	m_leaveSectorsVec.resize(0);
+
+	m_enterSectorsVec.clear();
+	m_enterSectorsVec.resize(0);
 }
 
 void Field::Init(int _num, VECTOR2 _spawnPosition)
@@ -556,35 +561,3 @@ void Field::EnterTestClient(User* _user, int _num)
 	printf("[%d Field : Test Client Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
 	printf("접속자 수  : %d) ]\n", (int)m_itemList.size());
 }
-
-/*void Field::MoveTestClient(User* _user, list<VECTOR2>* _list)
-{
-	_user->TestPathFind(_list);
-}
-
-void Field::LoopRun()
-{
-	//while (1)
-	//{
-	//	for (const auto& element : m_itemList)
-	//	{
-	//		if (!element->GetIsTestClient())
-	//		{
-	//			continue;
-	//		}
-
-	//		switch (element->GetInfo()->unitInfo.state)
-	//		{
-	//		case STATE::MOVE:
-	//			element->TestMove();
-
-	//			if (element->PathMove()) break;
-
-	//			element->GetInfo()->unitInfo.state = STATE::IDLE;
-	//			break;
-	//		}
-	//	}
-
-	//	Sleep(1000 / 10);
-	//}
-}*/

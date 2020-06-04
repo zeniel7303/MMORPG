@@ -125,7 +125,6 @@
     <ClCompile Include="HeartBeatThread.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterLogicThread.cpp" />
-    <ClCompile Include="MySQLClass.cpp" />
     <ClCompile Include="ZoneServer.cpp" />
     <ClCompile Include="CriticalSectionClass.cpp" />
     <ClCompile Include="Sector.cpp" />
@@ -152,7 +151,7 @@
     <ClInclude Include="ManagerFrame_UnMap.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterLogicThread.h" />
-    <ClInclude Include="MySQLClass.h" />
+    <ClInclude Include="SpinLock.h" />
     <ClInclude Include="ZoneServer.h" />
     <ClInclude Include="CircBuf.h" />
     <ClInclude Include="CommandList.h" />
