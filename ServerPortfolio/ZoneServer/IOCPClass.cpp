@@ -46,8 +46,6 @@ void IOCPClass::Reset()
 	}
 }
 
-//동기화 해야하나? 사방에서 접근할듯
-//현재 Accept가 동기이므로 필요없을것 같다.
 void IOCPClass::AddSocket(SOCKET _socket, unsigned long long _value)
 {
 	m_hIOCP = CreateIoCompletionPort(

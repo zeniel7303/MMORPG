@@ -2,12 +2,10 @@
 
 ZoneServer::ZoneServer()
 {
-
 }
 
 ZoneServer::~ZoneServer()
 {
-	
 }
 
 void ZoneServer::Init()

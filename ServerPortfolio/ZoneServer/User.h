@@ -48,10 +48,10 @@ public:
 	User();
 	~User();
 
-	virtual void Init();
-	virtual void OnConnect(SOCKET _socket);
-	virtual void Disconnect();
-	virtual void Reset();
+	void Init();
+	void OnConnect(SOCKET _socket);
+	void Disconnect();
+	void Reset();
 	//살아있는지 체크
 	virtual void HeartBeatChecked();
 	//유저의 정보를 DB에 올리는 함수
@@ -95,9 +95,6 @@ public:
 
 	//테스트용
 	void TestClientEnterField(Field* _Field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition);
-	/*void TestPathFind(list<VECTOR2>* _list);
-	void TestMove();
-	bool PathMove();*/
 
 	Tile* GetTile() { return m_tile; }
 	INFO* GetInfo() { return &m_basicInfo; }

@@ -1,4 +1,6 @@
 #pragma once
+#include <winsock2.h>
+
 #include "WorkerThread.h"
 
 class IOCPClass

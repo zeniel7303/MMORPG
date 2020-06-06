@@ -12,6 +12,8 @@ Monster::~Monster()
 
 void Monster::Init(MonsterInfo& _info, MonsterData& _data)
 {
+	m_sector = nullptr;
+
 	m_info = _info;
 	m_data = _data;
 	m_info.hp = m_data.hp;

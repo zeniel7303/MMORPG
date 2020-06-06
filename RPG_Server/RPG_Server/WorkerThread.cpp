@@ -1,5 +1,5 @@
 #include "WorkerThread.h"
-#include "User.h"
+#include "Session.h"
 
 WorkerThread::WorkerThread(HANDLE& _iocpHandle)
 {

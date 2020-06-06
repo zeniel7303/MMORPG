@@ -1,16 +1,13 @@
 #pragma once
-#include "../ServerLibrary/HeaderFiles/SubHeaders/IpEndPoint.h"
 #include "../ServerLibrary/HeaderFiles/SubHeaders/singletonBase.h"
+#include "Connector.h"
 #include "packet.h"
-#include "Session.h"
 
 #include <vector>
 
-class DBConnector : public Session, public SingletonBase<DBConnector>
+class DBConnector : public Connector, public SingletonBase<DBConnector>
 {
 private:
-	IpEndPoint m_ipEndPoint;
-
 	std::vector<MonsterData> monsterDataVec;
 
 public:

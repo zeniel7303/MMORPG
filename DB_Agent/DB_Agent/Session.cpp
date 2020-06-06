@@ -12,6 +12,20 @@ Session::~Session()
 
 void Session::Init()
 {
+	m_recvOverlapped.hEvent = 0;
+	m_recvOverlapped.Internal = 0;
+	m_recvOverlapped.InternalHigh = 0;
+	m_recvOverlapped.Offset = 0;
+	m_recvOverlapped.OffsetHigh = 0;
+	m_recvOverlapped.Pointer = 0;
+
+	m_sendOverlapped.hEvent = 0;
+	m_sendOverlapped.Internal = 0;
+	m_sendOverlapped.InternalHigh = 0;
+	m_sendOverlapped.Offset = 0;
+	m_sendOverlapped.OffsetHigh = 0;
+	m_sendOverlapped.Pointer = 0;
+
 	m_recvOverlapped.session = this;
 	m_sendOverlapped.session = this;
 

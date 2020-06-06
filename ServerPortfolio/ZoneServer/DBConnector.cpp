@@ -4,65 +4,33 @@ DBConnector::DBConnector()
 {
 }
 
-
 DBConnector::~DBConnector()
 {
 }
 
 void DBConnector::Init(const char* _ip, const unsigned short _portNum)
 {
-	Session::Init();
-
-	m_ipEndPoint = IpEndPoint(_ip, _portNum);
+	Connector::Init(_ip, _portNum);
 }
 
 bool DBConnector::Connect()
 {
-	WSADATA WSAData;
-	if (WSAStartup(MAKEWORD(2, 2), &WSAData) != 0)
-	{
-		printf("Error - Can not load 'winsock.dll' file\n");
-	}
-
-	// 1. 소켓생성
-	m_socket = WSASocketW(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
-	if (m_socket == INVALID_SOCKET)
-	{
-		printf("Error - Invalid socket\n");
-
-		return false;
-	}
-
-	// 2. 연결요청
-	if (connect(m_socket, (SOCKADDR*)&m_ipEndPoint, sizeof(SOCKADDR_IN)) == SOCKET_ERROR)
-	{
-		printf("Error - Fail to connect\n");
-		// 4. 소켓종료
-		closesocket(m_socket);
-		// Winsock End
-		WSACleanup();
-
-		return false;
-	}
-	else
-	{
-		printf("[ Connecting with DBAgent Success ]\n");
-
-		return true;
-	}
+	return Connector::Connect();
 }
 
 void DBConnector::OnConnect(SOCKET _socket)
 {
-	Session::OnConnect(_socket);
+	Connector::OnConnect(_socket);
+
+	//왜 바로 못보내고 Sleep 걸어야 보내지?
+	Sleep(1);
 
 	Packet* requestMonsterDataPacket =
 		reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(Packet)));
 	requestMonsterDataPacket->Init(SendCommand::Zone2DB_REQUEST_MONSTER_DATA, sizeof(Packet));
 
-	Session::Send(reinterpret_cast<char*>(requestMonsterDataPacket), 
-		requestMonsterDataPacket->size);
+	Send(reinterpret_cast<char*>(requestMonsterDataPacket), requestMonsterDataPacket->size);
 }
 
 void DBConnector::GetMonstersData(Packet* _packet)

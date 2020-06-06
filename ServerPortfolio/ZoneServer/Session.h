@@ -1,5 +1,6 @@
 #pragma once
-#include <WS2tcpip.h>
+#include <winsock2.h>
+
 #include "../ServerLibrary/HeaderFiles/RingBuffer.h"
 #include "SendBuffer.h"
 
@@ -55,7 +56,7 @@ public:
 	Session();
 	~Session();
 
-	void Init();
+	virtual void Init();
 	virtual void OnConnect(SOCKET _socket);
 	virtual void Disconnect();
 	virtual void Reset();

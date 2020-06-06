@@ -2,7 +2,6 @@
 #include "stdafx.h"
 
 #include "WorkerThread.h"
-#include "CriticalSectionClass.h"
 
 class IOCPClass
 {

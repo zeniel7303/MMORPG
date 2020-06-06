@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <algorithm>
 #include <WS2tcpip.h>
 #include <WinSock2.h>
 #include <process.h>
