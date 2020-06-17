@@ -1,0 +1,12 @@
+﻿  CriticalSection.cpp
+  RingBuffer.cpp
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(131): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(145): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(150): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(158): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(162): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(171): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(175): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  SpinLock.cpp
+  코드를 생성하고 있습니다...
+  ServerLibrary.vcxproj -> D:\작업관련\SourceTree\ServerPortfolio\x64\Debug\ServerLibrary.lib
