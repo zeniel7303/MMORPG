@@ -6,6 +6,8 @@ Field::Field()
 
 Field::~Field()
 {
+	delete m_sendBuffer;
+
 	m_leaveSectorsVec.clear();
 	m_leaveSectorsVec.resize(0);
 
@@ -13,30 +15,43 @@ Field::~Field()
 	m_enterSectorsVec.resize(0);
 }
 
-void Field::Init(int _num, VECTOR2 _spawnPosition)
+bool Field::Init(int _num, VECTOR2 _spawnPosition)
 {
 	m_fieldNum = _num;
 	m_spawnPosition = _spawnPosition;
 
-	m_sendBuffer = new SendBuffer();
+	try
+	{
+		m_sendBuffer = new SendBuffer();
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return false;
+	}	
 	m_sendBuffer->Init(10000);
 
 	m_leaveSectorsVec.resize(9);
 	m_enterSectorsVec.resize(9);
 
 	printf("[ %d Field Init ] \n", _num);
+
+	return true;
 }
 
-void Field::GetMap(const char* _name)
+bool Field::GetMap(const char* _name)
 {
-	m_fieldTilesData.GetMap(_name);
+	if (!m_fieldTilesData.GetMap(_name))
+	{
+		return false;
+	}
 
-	m_sectorManager.Init(&m_fieldTilesData);
+	m_sectorManager.Init();
 }
 
-void Field::InitMonsterThread(HANDLE _handle)
+void Field::InitMonsterThread()
 {
-	m_monsterLogicThread.Init(this, &m_fieldTilesData, &m_sectorManager, _handle);
+	m_monsterLogicThread.Init(this, &m_fieldTilesData, &m_sectorManager);
 	m_monsterLogicThread.Thread<MonsterLogicThread>::Start(&m_monsterLogicThread);
 }
 
@@ -223,8 +238,8 @@ void Field::ExitUser(User* _user)
 
 	SendExitUserInfo(_user->GetInfo()->userInfo.userID);
 
-	printf("[%d Field] : User Delete - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("立加磊 荐  : %d)\n", (int)m_itemList.size());
+	printf("[%d Field : User Delete - %d (立加磊 荐  : %d) ]\n",
+		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_itemList.size());
 }
 
 void Field::SendExitUserInfo(int _num)
@@ -558,6 +573,6 @@ void Field::EnterTestClient(User* _user, int _num)
 
 	SendEnterUserInfo(_user);
 
-	printf("[%d Field : Test Client Insert - %d (", m_fieldNum, _user->GetInfo()->userInfo.userID);
-	printf("立加磊 荐  : %d) ]\n", (int)m_itemList.size());
+	printf("[%d Field : Test Client Insert - %d (立加磊 荐  : %d) ]\n",
+		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_itemList.size());
 }

@@ -7,20 +7,43 @@ Acceptor::Acceptor()
 
 Acceptor::~Acceptor()
 {
+	SAFE_DELETE_ARRAY(m_byteBuffer);
 }
 
-void Acceptor::Init(SOCKET _listenSocket)
+void Acceptor::Init(Session* _session)
 {
-	m_listenSocket = _listenSocket;
+	m_overlapped.Reset(_session);
 
 	m_byteBuffer = new char[256];
+
+	m_locallen = m_remotelen = sizeof(sockaddr_in);
+	m_plocal = nullptr;
+	m_premote = nullptr;
 }
 
-bool Acceptor::StartAccept(SOCKET _socket, DWORD _bytes, WSAOVERLAPPED _overlapped)
+void Acceptor::SetListenSocket(SOCKET _listenSocket)
+{
+	m_listenSocket = _listenSocket;
+}
+
+void Acceptor::Reset()
+{
+	m_overlapped.Reset(nullptr);
+
+	m_listenSocket = 0;
+
+	SAFE_DELETE_ARRAY(m_byteBuffer);
+
+	m_locallen = m_remotelen = sizeof(sockaddr_in);
+	m_plocal = nullptr;
+	m_premote = nullptr;
+}
+
+bool Acceptor::Start(SOCKET _socket)
 {
 	if (AcceptEx(m_listenSocket, _socket,
 		m_byteBuffer, 0, (sizeof(sockaddr_in) + 16), (sizeof(sockaddr_in) + 16),
-		&_bytes, &_overlapped) == FALSE)
+		&m_overlapped.bytes, &m_overlapped) == FALSE)
 	{
 		int num = WSAGetLastError();
 		if (num != WSA_IO_PENDING)
@@ -34,14 +57,10 @@ bool Acceptor::StartAccept(SOCKET _socket, DWORD _bytes, WSAOVERLAPPED _overlapp
 
 void Acceptor::GetAccept(SOCKET _socket)
 {
-	int locallen, remotelen;
-	sockaddr_in *plocal = 0, *premote = 0;
-
-	locallen = remotelen = sizeof(sockaddr_in);
 	GetAcceptExSockaddrs(m_byteBuffer,
 		0, (sizeof(sockaddr_in) + 16), (sizeof(sockaddr_in) + 16),
-		(sockaddr **)&plocal, &locallen,
-		(sockaddr **)&premote, &remotelen);
+		(sockaddr **)&m_plocal, &m_locallen,
+		(sockaddr **)&m_premote, &m_remotelen);
 
 	setsockopt(_socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT,
 		(char *)&m_listenSocket, sizeof(m_listenSocket));

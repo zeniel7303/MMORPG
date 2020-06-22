@@ -21,7 +21,7 @@ bool WorkerThread::Init()
 void WorkerThread::LoopRun()
 {
 	DWORD bytes = NULL;
-	ST_OVERLAPPED* overlapped = nullptr;
+	Acceptor::ST_OVERLAPPED* overlapped = nullptr;
 	SOCKET* socket = nullptr;
 
 	while (1)
@@ -48,23 +48,18 @@ void WorkerThread::LoopRun()
 			}
 
 			Session* tempSession = overlapped->session;
-			Acceptor* tempAccetor = tempSession->GetAcceptor();
 			overlapped->bytes = bytes;
 
 			switch (overlapped->state)
 			{
-			case IO_ACCEPT:
-				tempAccetor->GetAccept(tempSession->GetSocket());
-
+			case Acceptor::IO_ACCEPT:
 				tempSession->AssociateIOCP(m_hIocp);
 				tempSession->OnConnect();
-
-				m_sessionManager->AddSessionList(overlapped->session);	
 				break;
-			case IO_RECV:
-				overlapped->session->CheckCompletion(overlapped);
+			case Acceptor::IO_RECV:
+				tempSession->CheckCompletion(overlapped);
 				break;
-			case IO_SEND:
+			case Acceptor::IO_SEND:
 				break;
 			}
 		}

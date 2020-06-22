@@ -24,18 +24,7 @@ class User;
 class Field;
 class SectorManager;
 class Sector;
-
-struct PacketQueuePair_Monster
-{
-	class Monster* monster;
-	Packet* packet;
-
-	PacketQueuePair_Monster(Monster* _monster, Packet* _packet)
-	{
-		monster = _monster;
-		packet = _packet;
-	}
-};
+class ServerLogicThread;
 
 class Monster : public PathFinding
 {
@@ -68,10 +57,6 @@ private:
 
 	SendBuffer*				m_sendBuffer;
 
-	DoubleQueue<PacketQueuePair_Monster>&	packetQueue;
-
-	HANDLE					m_hEvent;
-
 	//========================================
 
 	bool					m_isDeath;
@@ -81,17 +66,18 @@ private:
 	float					m_maxTime;
 
 public:
-	Monster(Field* _field, FieldTilesData* _fieldTilesData, SectorManager* _sectorManager,
-		DoubleQueue<PacketQueuePair_Monster>& _queue) : packetQueue(_queue)
+	Monster(Field* _field, FieldTilesData* _fieldTilesData, SectorManager* _sectorManager)
 	{
 		m_field = _field;
 		m_fieldTilesData = _fieldTilesData;
 		m_sectorManager = _sectorManager;
+
+		InitializeCriticalSection(&m_cs);
 	};
 
 	~Monster();
 
-	void Init(MonsterInfo& _info, MonsterData& _data, HANDLE _handle);
+	void Init(MonsterInfo& _info, MonsterData& _data);
 	void Reset();
 
 	void Update();

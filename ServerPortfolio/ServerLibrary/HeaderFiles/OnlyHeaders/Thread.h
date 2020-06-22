@@ -22,11 +22,7 @@ public:
 
 	virtual ~Thread()
 	{
-		if (hThread)
-		{
-			CloseHandle(hThread);
-			hThread = 0;
-		}
+		if (hThread) { CloseHandle(hThread); hThread = 0; }
 	}
 
 	void Start(_T* _obj)

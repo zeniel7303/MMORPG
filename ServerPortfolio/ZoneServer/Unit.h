@@ -8,7 +8,7 @@ protected:
 
 public:
 	Unit();
-	~Unit();
+	virtual ~Unit();
 
 	void SetUnitInfo(
 		STATE _state,

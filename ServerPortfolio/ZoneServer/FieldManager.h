@@ -19,8 +19,8 @@ public:
 	FieldManager();
 	~FieldManager();
 
-	void Init();
-	void InitMonsterThread(HANDLE _handle);
+	bool Init();
+	void InitMonsterThread();
 
 	Field* GetField(int _num);
 

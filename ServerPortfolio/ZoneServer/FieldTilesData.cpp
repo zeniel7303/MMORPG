@@ -6,20 +6,42 @@ FieldTilesData::FieldTilesData()
 
 FieldTilesData::~FieldTilesData()
 {
+	for (int i = 0; i < m_mapSizeY; i++)
+	{
+		delete[] m_Map[i];
+	}
+
+	delete m_Map;
 }
 
-void FieldTilesData::GetMap(const char * _name)
+bool FieldTilesData::GetMap(const char * _name)
 {
 	ifstream inputBinary(_name, ios::in | ios::binary);
 
 	inputBinary.read(reinterpret_cast<char*>(&m_mapSizeX), sizeof(int));
 	inputBinary.read(reinterpret_cast<char*>(&m_mapSizeY), sizeof(int));
 
-	m_Map = new Tile*[m_mapSizeY];
+	try
+	{
+		m_Map = new Tile*[m_mapSizeY];
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return false;
+	}
 
 	for (int y = 0; y < m_mapSizeY; y++)
 	{
-		m_Map[y] = new Tile[m_mapSizeX];
+		try
+		{
+			m_Map[y] = new Tile[m_mapSizeX];
+		}
+		catch (const std::bad_alloc& error)
+		{
+			printf("bad alloc : %s\n", error.what());
+			return false;
+		}
 
 		for (int x = 0; x < m_mapSizeX; x++)
 		{
@@ -88,6 +110,8 @@ void FieldTilesData::GetMap(const char * _name)
 			}
 		}
 	}
+
+	return true;
 }
 
 Tile** FieldTilesData::GetMap()
@@ -114,15 +138,31 @@ Tile* FieldTilesData::GetTile(int _x, int _y)
 	return &m_Map[_y][_x];
 }
 
-Tile** FieldTilesData::GetTiles(int _x, int _y)
+/*Tile** FieldTilesData::GetTiles(int _x, int _y)
 {
 	Tile** tempTiles;
 	
-	tempTiles = new Tile*[10];
+	try
+	{
+		tempTiles = new Tile*[10];
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return nullptr;
+	}
 
 	for (int y = (_y * 10); y < (_y * 10) + 10; y++)
 	{
-		tempTiles[y % 10] = new Tile[10];
+		try
+		{
+			tempTiles[y % 10] = new Tile[10];
+		}
+		catch (const std::bad_alloc& error)
+		{
+			printf("bad alloc : %s\n", error.what());
+			return nullptr;
+		}	
 
 		for (int x = (_x * 10); x < (_x * 10) + 10; x++)
 		{
@@ -130,17 +170,17 @@ Tile** FieldTilesData::GetTiles(int _x, int _y)
 		}
 	}
 
-	/*printf("\n");
-
-	for (int j = 0; j < 10; j++)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			printf("(%d,%d) ", tempTiles[j][i].GetX(), tempTiles[j][i].GetY());
-		}
-
-		printf("\n");
-	}*/
+	//printf("\n");
+	//
+	//for (int j = 0; j < 10; j++)
+	//{
+	//	for (int i = 0; i < 10; i++)
+	//	{
+	//		printf("(%d,%d) ", tempTiles[j][i].GetX(), tempTiles[j][i].GetY());
+	//	}
+	//
+	//	printf("\n");
+	//}
 
 	return tempTiles;
-}
+}*/

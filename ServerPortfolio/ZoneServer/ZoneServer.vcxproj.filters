@@ -61,15 +61,15 @@
     <Filter Include="소스 파일\Application\Thread\HeartBeat">
       <UniqueIdentifier>{a3aeb354-3619-4ce9-a713-1e166af7f129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Library\Session\Manager">
+      <UniqueIdentifier>{8636f1b8-5e8d-48c0-bbd7-20271c1e98e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SendBuffer.h">
       <Filter>소스 파일\Library</Filter>
     </ClInclude>
     <ClInclude Include="Session.h">
-      <Filter>소스 파일\Library\Session</Filter>
-    </ClInclude>
-    <ClInclude Include="SessionManager.h">
       <Filter>소스 파일\Library\Session</Filter>
     </ClInclude>
     <ClInclude Include="IOCPClass.h">
@@ -147,12 +147,18 @@
     <ClInclude Include="Acceptor.h">
       <Filter>소스 파일\Library\Session</Filter>
     </ClInclude>
+    <ClInclude Include="Receiver.h">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Sender.h">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h">
+      <Filter>소스 파일\Library\Session\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Session.cpp">
-      <Filter>소스 파일\Library\Session</Filter>
-    </ClCompile>
-    <ClCompile Include="SessionManager.cpp">
       <Filter>소스 파일\Library\Session</Filter>
     </ClCompile>
     <ClCompile Include="IOCPClass.cpp">
@@ -208,6 +214,15 @@
     </ClCompile>
     <ClCompile Include="Acceptor.cpp">
       <Filter>소스 파일\Library\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Receiver.cpp">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Sender.cpp">
+      <Filter>소스 파일\Library\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionManager.cpp">
+      <Filter>소스 파일\Library\Session\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

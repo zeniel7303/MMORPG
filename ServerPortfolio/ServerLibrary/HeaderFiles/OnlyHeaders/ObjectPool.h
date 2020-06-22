@@ -11,6 +11,7 @@ using namespace std;
 
 //=====================================================
 
+//사용 끝났다면 이후 내부 queue삭제는 사용한 곳에서 해주자
 template<typename T>
 class ObjectPool
 {
@@ -29,7 +30,6 @@ public:
 		InitializeCriticalSection(&m_cs);
 	}
 
-	// 오브젝트를 비운다.
 	~ObjectPool()
 	{
 		while (!objects.empty())

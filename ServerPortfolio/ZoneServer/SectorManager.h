@@ -10,15 +10,13 @@
 class SectorManager
 {
 private:
-	FieldTilesData m_fieldtilesData;
-
 	std::map<WORD, Sector*> m_sectorMap;
 
 public:
 	SectorManager();
 	~SectorManager();
 
-	void Init(FieldTilesData* _data);
+	void Init();
 	Sector* GetSector(int _x, int _y);
 	Sector* GetSector(int _num);
 	//void GetNeighborSectors(Sector* _sectors[], Sector* _sector);

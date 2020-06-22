@@ -11,21 +11,23 @@ MonsterLogicThread::MonsterLogicThread()
 
 MonsterLogicThread::~MonsterLogicThread()
 {
+	map<int, Monster*>::iterator i;
+	for (i = m_monsterMap.begin(); i != m_monsterMap.end(); i++)
+	{
+		delete i->second;
+	}
+
 	m_monsterMap.clear();
 }
 
-void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, 
-	SectorManager* _sectorManager , HANDLE _handle)
+bool MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, 
+	SectorManager* _sectorManager)
 {
 	m_field = _field;
 	m_fieldTilesData = _fieldTilesData;
 	m_sectorManager = _sectorManager;
 
 	Tile** tileMap = m_fieldTilesData->GetMap();
-
-	//ServerLogicThread의 SharedQueue을 알아온다.
-	DoubleQueue<PacketQueuePair_Monster>* packetQueue =
-		ServerLogicThread::getSingleton()->GetMonsterDoubleQueue();
 
 	int monsterCount = 0;
 	Monster* monster;
@@ -47,10 +49,18 @@ void MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData,
 
 			MonsterData monsterData = 
 				*DBCONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);;
-			monster = new Monster(m_field, m_fieldTilesData, 
-				m_sectorManager, *packetQueue);
 
-			monster->Init(monsterInfo, monsterData, _handle);
+			try
+			{
+				monster = new Monster(m_field, m_fieldTilesData,
+					m_sectorManager);
+			}
+			catch (const std::bad_alloc& error)
+			{
+				printf("bad alloc : %s\n", error.what());
+				return false;
+			}
+			monster->Init(monsterInfo, monsterData);
 
 			m_monsterMap.insert(make_pair(monster->GetInfo().index, monster));
 

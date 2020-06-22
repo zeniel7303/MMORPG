@@ -22,6 +22,4 @@ public:
 	bool Init();
 	void Reset();
 	void AddSocket(SOCKET _socket, unsigned long long _value);
-
-	void SetSessionManager(SessionManager* _sessionManager);
 };

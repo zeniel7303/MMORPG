@@ -6,12 +6,15 @@ SectorManager::SectorManager()
 
 SectorManager::~SectorManager()
 {
+	map<WORD, Sector*>::iterator i;
+	for (i = m_sectorMap.begin(); i != m_sectorMap.end(); i++)
+	{
+		delete i->second;
+	}
 }
 
-void SectorManager::Init(FieldTilesData* _data)
+void SectorManager::Init()
 {
-	m_fieldtilesData = *_data;
-
 	for (int j = 0; j < SIZE; j++)
 	{
 		for (int i = 0; i < SIZE; i++)
@@ -26,7 +29,6 @@ void SectorManager::Init(FieldTilesData* _data)
 	for (int i = 0; i < SIZE * SIZE; i++)
 	{
 		GetNeighborSectors(m_sectorMap[i]->GetRoundSectorsVec(), m_sectorMap[i]);
-		//GetNeighborSectors(m_sectorMap[i]->GetRoundSectors(), m_sectorMap[i]);
 	}
 }
 

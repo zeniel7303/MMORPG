@@ -3,27 +3,38 @@
 #include "Sector.h"
 
 #include "DBConnector.h"
+#include "ServerLogicThread.h"
 
-User::~User()
+User::User()
 {
 }
 
-void User::Init(SOCKET _listenSocket, HANDLE _handle)
+User::~User()
 {
-	Session::Init(_listenSocket, _handle);
+	Disconnect();
+}
+
+void User::Init(SOCKET _listenSocket)
+{
+	Session::Init(_listenSocket);
 
 	m_field = nullptr;
+	m_sector = nullptr;
 
 	m_isGetUserList = false;
 
 	m_isTestClient = false;
 
-	m_sector = nullptr;
+	m_isCheckingHeartBeat = false;
+	m_startCheckingHeartBeat = false;
+	m_heartBeatCheckedCount = 0;
 }
 
 void User::OnConnect()
 {
 	Session::OnConnect();
+
+	ServerLogicThread::getSingleton()->AddToConnectQueue(this);
 
 	IsConnectedPacket* isConnectedPacket =
 		reinterpret_cast<IsConnectedPacket*>(GetSendBuffer()->
@@ -41,8 +52,11 @@ void User::Disconnect()
 {
 	Session::Disconnect();
 
-	m_doubleQueue.AddObject(PacketQueuePair_User(this, nullptr));
-	SetEvent(m_hEvent);
+	m_isCheckingHeartBeat = false;
+	m_startCheckingHeartBeat = false;
+	m_heartBeatCheckedCount = 0;
+
+	ServerLogicThread::getSingleton()->AddToDisConnectQueue(this);
 }
 
 void User::Reset()
@@ -60,11 +74,11 @@ void User::Reset()
 	m_basicInfo.unitInfo.fieldNum = 0;
 }
 
-void User::CheckCompletion(ST_OVERLAPPED* _overlapped)
+void User::CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped)
 {
-	if (_overlapped == &m_overlapped)
+	if (_overlapped == MYOVERLAPPED)
 	{
-		if (m_overlapped.bytes <= 0)
+		if (MYOVERLAPPED->bytes <= 0)
 		{
 			//printf("[INFO] BYTES <= 0\n");
 
@@ -74,7 +88,7 @@ void User::CheckCompletion(ST_OVERLAPPED* _overlapped)
 			return;
 		}
 
-		m_recvBuffer->Write(m_overlapped.bytes);
+		m_receiver->Write(MYOVERLAPPED->bytes);
 
 		Parsing();
 
@@ -88,18 +102,19 @@ void User::Parsing()
 
 	while (1)
 	{
-		Packet* packet = reinterpret_cast<Packet*>(GetRecvBuffer()->CanParsing());
+		Packet* packet = reinterpret_cast<Packet*>(m_receiver->GetPacket());
 
 		if (packet == nullptr) break;
 
-		m_doubleQueue.AddObject(PacketQueuePair_User(this, packet));
-		SetEvent(m_hEvent);
+		ServerLogicThread::PacketQueuePair_User* temp = new ServerLogicThread::PacketQueuePair_User(this, packet);
+		ServerLogicThread::getSingleton()->AddToUserPacketQueue(temp);
 
 		tempNum--;
 
 		if (tempNum <= 0)
 		{
 			tempNum = 20;
+
 
 			break;
 		}
@@ -117,6 +132,7 @@ void User::HeartBeatChecked()
 			Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 				GetBuffer(sizeof(Packet)));
 			UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
+			//Session::GetSendBuffer()->Write(UpdateInfoPacket->size);
 
 			Session::Send(reinterpret_cast<char*>(UpdateInfoPacket), UpdateInfoPacket->size);
 		}
@@ -141,6 +157,7 @@ void User::UpdateInfo()
 		reinterpret_cast<UpdateUserPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(UpdateUserPacket)));
 	updateUserPacket->Init(SendCommand::Zone2DB_UPDATE_USER, sizeof(UpdateUserPacket));
+	//Session::GetSendBuffer()->Write(updateUserPacket->size);
 	updateUserPacket->userIndex = m_basicInfo.userInfo.userID;
 	updateUserPacket->unitInfo = m_basicInfo.unitInfo;
 	updateUserPacket->socket = m_socket;
@@ -159,6 +176,7 @@ void User::Death()
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
 	userNumPacket->Init(SendCommand::Zone2C_USER_DEATH, sizeof(UserNumPacket));
+	//Session::GetSendBuffer()->Write(userNumPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 }
@@ -179,11 +197,10 @@ void User::Respawn(VECTOR2 _spawnPosition)
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_USER_REVIVE, sizeof(SessionInfoPacket));
+	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
 	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo = m_unitInfo;
-
-	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
@@ -205,6 +222,8 @@ void User::Hit(int _index, int _damage)
 	userHitPacket->monsterIndex = _index;
 	userHitPacket->damage = damage;
 	userHitPacket->Init(SendCommand::Zone2C_USER_HIT, sizeof(UserHitPacket));
+	//Session::GetSendBuffer()->Write(userHitPacket->size);
+
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
 
 	if (m_basicInfo.unitInfo.hp.currentValue <= 0)
@@ -223,7 +242,7 @@ void User::PlusExp(int _exp)
 
 	userExpPacket->exp = _exp;
 	userExpPacket->Init(SendCommand::Zone2C_USER_PLUS_EXP, sizeof(UserExpPacket));
-	Session::GetSendBuffer()->Write(userExpPacket->size);
+	//Session::GetSendBuffer()->Write(userExpPacket->size);
 
 	Session::Send(reinterpret_cast<char*>(userExpPacket), userExpPacket->size);
 
@@ -252,7 +271,7 @@ void User::LevelUp()
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
 	userNumPacket->Init(SendCommand::Zone2C_USER_LEVEL_UP, sizeof(UserNumPacket));
-	Session::GetSendBuffer()->Write(userNumPacket->size);
+	//Session::GetSendBuffer()->Write(userNumPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 
@@ -269,6 +288,7 @@ void User::RequestUserInfo()
 		reinterpret_cast<RequireUserInfoPacket_DBAgent*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(RequireUserInfoPacket_DBAgent)));
 	RequireUserInfoPacket->Init(SendCommand::Zone2DB_REQUEST_USER_DATA, sizeof(RequireUserInfoPacket_DBAgent));
+	//Session::GetSendBuffer()->Write(RequireUserInfoPacket->size);
 	RequireUserInfoPacket->userIndex = m_basicInfo.userInfo.userID;
 	RequireUserInfoPacket->socket = m_socket;
 
@@ -288,7 +308,7 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_USER, sizeof(SessionInfoPacket));
-	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
 	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
@@ -318,7 +338,7 @@ void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
 
 	enterFieldPacket->Init(SendCommand::Zone2C_ENTER_FIELD, sizeof(EnterFieldPacket));
-	Session::GetSendBuffer()->Write(enterFieldPacket->size);
+	//Session::GetSendBuffer()->Write(enterFieldPacket->size);
 
 	m_field = _field;
 	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
@@ -352,6 +372,7 @@ void User::LogInUser(LogInPacket* _packet)
 		reinterpret_cast<LogInPacket_DBAgent*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(LogInPacket_DBAgent)));
 	logInPacket_DBAgent->Init(SendCommand::Zone2DB_LOGIN, sizeof(LogInPacket_DBAgent));
+	//Session::GetSendBuffer()->Write(logInPacket_DBAgent->size);
 	logInPacket_DBAgent->socket = m_socket;
 	strcpy_s(logInPacket_DBAgent->id, _packet->id);
 	strcpy_s(logInPacket_DBAgent->password, _packet->password);
@@ -365,6 +386,7 @@ void User::RegisterUser(RegisterUserPacket* _packet)
 		reinterpret_cast<RegisterPacket_DBAgent*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(RegisterPacket_DBAgent)));
 	registerPacket_DBAgent->Init(SendCommand::Zone2DB_REGISTER, sizeof(RegisterPacket_DBAgent));
+	//Session::GetSendBuffer()->Write(registerPacket_DBAgent->size);
 	registerPacket_DBAgent->socket = m_socket;
 	strcpy_s(registerPacket_DBAgent->id, _packet->id);
 	strcpy_s(registerPacket_DBAgent->password, _packet->password);
@@ -377,6 +399,7 @@ void User::LogInDuplicated()
 	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
+	//Session::GetSendBuffer()->Write(LogInFailed->size);
 
 	Session::Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
@@ -388,6 +411,7 @@ void User::LogInSuccess(int _num)
 	Packet* LogInSuccess = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(Packet));
+	//Session::GetSendBuffer()->Write(LogInSuccess->size);
 	printf("[ Login Success ] \n");
 
 	Session::Send(reinterpret_cast<char*>(LogInSuccess), LogInSuccess->size);
@@ -398,6 +422,7 @@ void User::LogInFailed()
 	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
+	//Session::GetSendBuffer()->Write(LogInFailed->size);
 	printf("[ Login Failed ] \n");
 
 	Session::Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
@@ -408,6 +433,7 @@ void User::RegisterSuccess()
 	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
+	//Session::GetSendBuffer()->Write(RegisterSuccessPacket->size);
 
 	Session::Send(reinterpret_cast<char*>(RegisterSuccessPacket), RegisterSuccessPacket->size);
 }
@@ -417,6 +443,7 @@ void User::RegisterFailed()
 	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
 		GetBuffer(sizeof(Packet)));
 	RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
+	//Session::GetSendBuffer()->Write(RegisterFailedPacket->size);
 
 	Session::Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
 }
@@ -462,7 +489,7 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_TEST_USER, sizeof(SessionInfoPacket));
-	Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
 	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;

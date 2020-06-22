@@ -6,7 +6,10 @@
 int main()
 {
 	ZoneServer* zoneServer = new ZoneServer();
-	zoneServer->Start();
+	if (!zoneServer->Init())
+	{
+		printf("[ Zone Server Initializing Fail ]\n");
+	}
 
 	WSACleanup();
 

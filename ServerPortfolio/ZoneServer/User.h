@@ -5,10 +5,9 @@
 #include "Unit.h"
 #include "Session.h"
 #include "PathFinding.h"
+#include "FieldTilesData.h"
 
 #include "packet.h"
-
-#include "FieldTilesData.h"
 
 //=====================================================
 
@@ -22,18 +21,6 @@ struct INFO
 {
 	UserInfo	userInfo;
 	UnitInfo	unitInfo;
-};
-
-struct PacketQueuePair_User
-{
-	class User* user;
-	Packet* packet;
-
-	PacketQueuePair_User(User* _user, Packet* _packet)
-	{
-		user = _user;
-		packet = _packet;
-	}
 };
 
 class Field;
@@ -53,25 +40,22 @@ private:
 
 	bool				m_isGetUserList;
 
-	DoubleQueue<PacketQueuePair_User>&	m_doubleQueue;
-
 	//===============================================
 	bool				m_isTestClient;
 
+	bool				m_isCheckingHeartBeat;
+	bool				m_startCheckingHeartBeat;
+	int					m_heartBeatCheckedCount;
+
 public:
-	User(DoubleQueue<PacketQueuePair_User>& _doubleQueue)
-		: m_doubleQueue(_doubleQueue)
-	{
-
-	}
-
+	User();
 	~User();
 
-	void Init(SOCKET _listenSocket, HANDLE _handle);
+	void Init(SOCKET _listenSocket);
 	void OnConnect();
 	void Disconnect();
 	void Reset();
-	void CheckCompletion(ST_OVERLAPPED* _overlapped);
+	void CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped);
 	void Parsing();
 
 	//살아있는지 체크
@@ -136,5 +120,11 @@ public:
 
 	bool GetIsGetUserList() { return m_isGetUserList; }
 	void SetIsGetUserList(bool _bool) { m_isGetUserList = _bool; }
+
+	bool IsChecking() { return m_isCheckingHeartBeat; }
+	void SetChecking(bool _bool) { m_isCheckingHeartBeat = _bool; }
+
+	bool GetStartCheckingHeartBeat() { return m_startCheckingHeartBeat; }
+	void StartCheckingHeartBeat() { m_startCheckingHeartBeat = true; }
 };												 
 

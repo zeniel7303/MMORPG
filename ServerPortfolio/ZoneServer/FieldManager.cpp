@@ -7,37 +7,88 @@ FieldManager::FieldManager()
 
 FieldManager::~FieldManager()
 {
-	m_fieldMap.clear();
+	map<WORD, Field*>::iterator i;
+	for (i = m_fieldMap.begin(); i != m_fieldMap.end(); i++)
+	{
+		delete i->second;
+	}
 }
 
-void FieldManager::Init()
+bool FieldManager::Init()
 {
 	m_fieldCount = 0;
 
-	Field* m_villageField = new Field();
-	m_villageField->Init(1, VECTOR2(17, 19));
-	m_villageField->GetMap("Village.fmap");
+	Field* m_villageField;
+	try
+	{
+		m_villageField = new Field();
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return false;
+	}
+	if (!m_villageField->Init(1, VECTOR2(17, 19)))
+	{
+		return false;
+	}
+	if (!m_villageField->GetMap("Village.fmap"))
+	{
+		return false;
+	}
 	m_fieldMap.insert(make_pair(m_villageField->GetFieldNum(), m_villageField));
 	m_fieldCount += 1;
 
-	Field* m_fieldField = new Field();
-	m_fieldField->Init(2, VECTOR2(77, 75));
-	m_fieldField->GetMap("Field.fmap");
+	Field* m_fieldField;
+	try
+	{
+		m_fieldField = new Field();
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return false;
+	}
+	if (!m_fieldField->Init(2, VECTOR2(77, 75)))
+	{
+		return false;
+	}
+	if (!m_fieldField->GetMap("Field.fmap"))
+	{
+		return false;
+	}
 	m_fieldMap.insert(make_pair(m_fieldField->GetFieldNum(), m_fieldField));
 	m_fieldCount += 1;
 
-	Field* m_testField = new Field();
-	m_testField->Init(999, VECTOR2(48, 48));
-	m_testField->GetMap("TestScene.fmap");
+	Field* m_testField;
+	try
+	{
+		m_testField = new Field();
+	}
+	catch (const std::bad_alloc& error)
+	{
+		printf("bad alloc : %s\n", error.what());
+		return false;
+	}
+	if (!m_testField->Init(999, VECTOR2(48, 48)))
+	{
+		return false;
+	}
+	if (!m_testField->GetMap("TestScene.fmap"))
+	{
+		return false;
+	}
 	m_fieldMap.insert(make_pair(m_testField->GetFieldNum(), m_testField));
 	m_fieldCount += 1;
+
+	return true;
 }
 
-void FieldManager::InitMonsterThread(HANDLE _handle)
+void FieldManager::InitMonsterThread()
 {
 	for (const auto& element : m_fieldMap)
 	{
-		element.second->InitMonsterThread(_handle);
+		element.second->InitMonsterThread();
 	}
 }
 

@@ -31,8 +31,8 @@ public:
 	MonsterLogicThread();
 	~MonsterLogicThread();
 
-	void Init(Field* _field, FieldTilesData* _fieldTilesData, 
-		SectorManager* _sectorManager, HANDLE _handle);
+	bool Init(Field* _field, FieldTilesData* _fieldTilesData, 
+		SectorManager* _sectorManager);
 
 	void LoopRun();
 

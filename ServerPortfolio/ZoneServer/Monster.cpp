@@ -1,3 +1,4 @@
+#include "ServerLogicThread.h"
 #include "Monster.h"
 #include "User.h"
 #include "Field.h"
@@ -6,11 +7,15 @@
 
 Monster::~Monster()
 {
+	delete m_sendBuffer;
+
 	m_tileList.clear();
 	m_tileList.resize(0);
+
+	DeleteCriticalSection(&m_cs);
 }
 
-void Monster::Init(MonsterInfo& _info, MonsterData& _data, HANDLE _handle)
+void Monster::Init(MonsterInfo& _info, MonsterData& _data)
 {
 	m_sector = nullptr;
 
@@ -21,14 +26,10 @@ void Monster::Init(MonsterInfo& _info, MonsterData& _data, HANDLE _handle)
 	m_spawnPosition.x = m_info.position.x;
 	m_spawnPosition.y = m_info.position.y;
 
-	m_hEvent = _handle;
-
 	m_sendBuffer = new SendBuffer();
 	m_sendBuffer->Init(1000);
 
 	m_currentTime = m_maxTime = 0.0f;
-
-	InitializeCriticalSection(&m_cs);
 
 	Spawn();
 }
@@ -36,8 +37,6 @@ void Monster::Init(MonsterInfo& _info, MonsterData& _data, HANDLE _handle)
 void Monster::Reset()
 {
 	m_sendBuffer->Reset();
-
-	DeleteCriticalSection(&m_cs);
 }
 
 void Monster::Update()
@@ -93,8 +92,9 @@ void Monster::Spawn()
 	monsterInfoPacket->Init(SendCommand::Zone2C_MONSTER_INFO, sizeof(MonsterInfoPacket));
 
 	m_sendBuffer->Write(monsterInfoPacket->size);
-	packetQueue.AddObject(PacketQueuePair_Monster(this, monsterInfoPacket));
-	SetEvent(m_hEvent);
+
+	ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterInfoPacket);
+	ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
 }
 
 void Monster::Move()
@@ -153,8 +153,8 @@ void Monster::Attack()
 		monsterAttackPacket->Init(SendCommand::Zone2C_MONSTER_ATTACK, sizeof(MonsterAttackPacket));
 
 		m_sendBuffer->Write(monsterAttackPacket->size);
-		packetQueue.AddObject(PacketQueuePair_Monster(this, monsterAttackPacket));
-		SetEvent(m_hEvent);
+		ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterAttackPacket);
+		ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
 
 		m_currentTime = 0.0f;
 	}
@@ -377,8 +377,8 @@ bool Monster::PathMove()
 			monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
 			
 			m_sendBuffer->Write(monsterPositionPacket->size);
-			packetQueue.AddObject(PacketQueuePair_Monster(this, monsterPositionPacket));
-			SetEvent(m_hEvent);
+			ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterPositionPacket);
+			ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
 		}
 		//남은 타일리스트가 없다면
 		else

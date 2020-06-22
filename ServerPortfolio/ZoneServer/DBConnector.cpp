@@ -6,11 +6,15 @@ DBConnector::DBConnector()
 
 DBConnector::~DBConnector()
 {
+	m_monsterDataVec.clear();
+	m_monsterDataVec.resize(0);
+
+	Disconnect();
 }
 
-void DBConnector::Init(const char* _ip, const unsigned short _portNum, HANDLE _handle)
+void DBConnector::Init(const char* _ip, const unsigned short _portNum)
 {
-	Session::Init(0, _handle);
+	Session::Init(0);
 
 	m_ipEndPoint = IpEndPoint(_ip, _portNum);
 }
@@ -82,11 +86,11 @@ void DBConnector::Reset()
 	Session::Reset();
 }
 
-void DBConnector::CheckCompletion(ST_OVERLAPPED* _overlapped)
+void DBConnector::CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped)
 {
-	if (_overlapped == &m_overlapped)
+	if (_overlapped == MYOVERLAPPED)
 	{
-		if (m_overlapped.bytes <= 0)
+		if (MYOVERLAPPED->bytes <= 0)
 		{
 			//printf("[INFO] BYTES <= 0\n");
 
@@ -96,7 +100,7 @@ void DBConnector::CheckCompletion(ST_OVERLAPPED* _overlapped)
 			return;
 		}
 
-		m_recvBuffer->Write(m_overlapped.bytes);
+		m_receiver->Write(MYOVERLAPPED->bytes);
 
 		Parsing();
 
@@ -110,12 +114,11 @@ void DBConnector::Parsing()
 
 	while (1)
 	{
-		Packet* packet = reinterpret_cast<Packet*>(GetRecvBuffer()->CanParsing());
+		Packet* packet = reinterpret_cast<Packet*>(m_receiver->GetPacket());
 
 		if (packet == nullptr) break;
 
-		m_doubleQueue.AddObject(packet);
-		SetEvent(m_hEvent);
+		ServerLogicThread::getSingleton()->AddToDBConnectorPacketQueue(packet);
 
 		tempNum--;
 

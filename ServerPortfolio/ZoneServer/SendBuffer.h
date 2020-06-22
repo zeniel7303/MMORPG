@@ -1,5 +1,7 @@
 #pragma once
 
+#define	SAFE_DELETE_ARRAY(p)	{ if (p) { delete[] (p); (p) = NULL;} }
+
 //CircBuffer를 아직 송신용으로 안써봐서 만든 임시 sendbuffer
 class SendBuffer
 {
@@ -18,7 +20,7 @@ public:
 
 	~SendBuffer()
 	{
-		Reset();
+		SAFE_DELETE_ARRAY(sendBuffer);
 	}
 
 	void Init(int _size)
@@ -54,6 +56,11 @@ public:
 	void Write(int _size)
 	{
 		writePoint += _size;
+
+		if (writePoint >= sendBufferEnd)
+		{
+			writePoint = sendBuffer;
+		}
 	}
 };
 

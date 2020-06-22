@@ -41,15 +41,13 @@ private:
 	std::vector<Sector*>	m_leaveSectorsVec;
 	std::vector<Sector*>	m_enterSectorsVec;
 
-	//time_t					start, end;
-
 public:
 	Field();
 	~Field();
 
-	void Init(int _num, VECTOR2 _spawnPosition);
-	void GetMap(const char* _name);
-	void InitMonsterThread(HANDLE _handle);
+	bool Init(int _num, VECTOR2 _spawnPosition);
+	bool GetMap(const char* _name);
+	void InitMonsterThread();
 
 	void FieldSendAll(char * _buffer, int _size);
 

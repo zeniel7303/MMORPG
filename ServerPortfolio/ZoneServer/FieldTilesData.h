@@ -26,11 +26,11 @@ public:
 	FieldTilesData();
 	~FieldTilesData();
 
-	void GetMap(const char * _name);
+	bool GetMap(const char * _name);
 	Tile** GetMap();
 	int GetMapSizeX();
 	int GetMapSizeY();
 	Tile* GetTile(int _x, int _y);
-	Tile** GetTiles(int _x, int _y);
+	//Tile** GetTiles(int _x, int _y);
 };
 

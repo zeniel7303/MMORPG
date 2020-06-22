@@ -7,7 +7,12 @@ IOCPClass::IOCPClass()
 
 IOCPClass::~IOCPClass()
 {
+	if (m_hIOCP) { CloseHandle(m_hIOCP); m_hIOCP = 0; }
 
+	for (int i = m_threadCount; i > 0 ; i--)
+	{
+		delete m_workThreadBuffer[i];
+	}
 }
 
 bool IOCPClass::Init()
@@ -61,13 +66,4 @@ void IOCPClass::AddSocket(SOCKET _socket, unsigned long long _value)
 		m_hIOCP,
 		0,
 		m_conCurrency);*/
-}
-
-void IOCPClass::SetSessionManager(SessionManager* _sessionManager)
-{
-	//thread »ý¼º
-	for (int i = 0; i < m_threadCount; i++)
-	{
-		m_workThreadBuffer[i]->SetSessionManager(_sessionManager);
-	}
 }

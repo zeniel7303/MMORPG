@@ -8,7 +8,7 @@ class SharedQueue
 private:
 	SpinLock					m_spinLock;
 
-	std::queue<T>				m_itemQueue;
+	std::queue<T*>				m_itemQueue;
 public:
 	SharedQueue() {}
 	~SharedQueue() {
@@ -19,7 +19,7 @@ public:
 	}
 
 public:
-	void			AddItem(T _item);
+	void			AddItem(const T& _item);
 	T&				GetItem(void);
 
 	bool			IsEmpty(void);
@@ -28,7 +28,7 @@ public:
 };
 
 template<class T>
-inline void SharedQueue<T>::AddItem(T _item)
+inline void SharedQueue<T>::AddItem(const T& _item)
 {
 	m_spinLock.Enter();
 

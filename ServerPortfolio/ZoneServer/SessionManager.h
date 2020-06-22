@@ -15,7 +15,7 @@
 
 //=====================================================
 
-class SessionManager : public Manager_List<Session>
+class SessionManager : public Manager_List<Session>, public Thread<SessionManager>
 {
 private:
 	CRITICAL_SECTION		m_cs;
@@ -25,19 +25,15 @@ private:
 
 	LONG					m_checkingSessionsNum;
 
-public:
-	SessionManager() {}
-	~SessionManager() {
-		DeleteCriticalSection(&m_cs);
+	HANDLE					m_hEvent;
 
-		m_idSet.clear();
-	}
+public:
+	SessionManager();
+	~SessionManager();
 
 	void Init();
 
 	void AddObject(Session* _t);
-
-	void CheckingAccept();
 
 	Session* PopSession();
 	void AddSessionList(Session* _t);
@@ -46,8 +42,7 @@ public:
 	void DeleteSessionID(int _num);
 	bool FindSessionID(int _num);
 
-	void AddToSwapQueue(Session* _t);
-	void CheckingSwapQueue();
+	void CheckingAccept();
 
 	void LoopRun();
 

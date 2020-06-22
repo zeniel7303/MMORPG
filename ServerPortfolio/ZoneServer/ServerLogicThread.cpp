@@ -8,16 +8,80 @@ ServerLogicThread::ServerLogicThread()
 
 ServerLogicThread::~ServerLogicThread()
 {
-}
-
-void ServerLogicThread::Init()
-{
-	for (int i = 0; i < 3; i++)
+	for (int i = MAX_EVENT; i > 0 ; i--)
 	{
-		m_hEvent[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
+		if (m_hEvent[i-1]) {	CloseHandle(m_hEvent[i-1]); m_hEvent[i-1] = 0; 	}
 	}
 
-	m_dbConnectorPacketDoubleQueue = DBCONNECTOR->GetDoubleQueue();
+	{
+		while (m_userPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_userPacketQueue.PopObject();
+		}
+		while (m_dbPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_dbPacketQueue.PopObject();
+		}
+		while (m_monsterPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_monsterPacketQueue.PopObject();
+		}
+		while (m_connectQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_connectQueue.PopObject();
+		}
+		while (m_disconnectQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_disconnectQueue.PopObject();
+		}
+
+		m_userPacketQueue.Swap();
+		m_dbPacketQueue.Swap();
+		m_monsterPacketQueue.Swap();
+		m_connectQueue.Swap();
+		m_disconnectQueue.Swap();
+
+		while (m_userPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_userPacketQueue.PopObject();
+		}
+		while (m_dbPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_dbPacketQueue.PopObject();
+		}
+		while (m_monsterPacketQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_monsterPacketQueue.PopObject();
+		}
+		while (m_connectQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_connectQueue.PopObject();
+		}
+		while (m_disconnectQueue.GetPrimaryQueueSize() != 0)
+		{
+			delete m_disconnectQueue.PopObject();
+		}
+	}
+}
+
+bool ServerLogicThread::Init()
+{
+	for (int i = 0; i < MAX_EVENT; i++)
+	{
+		//실패확률?
+		m_hEvent[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+		if (m_hEvent[i] == NULL)
+		{
+			int num = WSAGetLastError();
+
+			printf("[ Event Handle Creating Fail - %d Error ]\n", num);
+
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void ServerLogicThread::GetManagers(SessionManager* _sessionManager,
@@ -35,59 +99,65 @@ void ServerLogicThread::LoopRun()
 {
 	while(1)
 	{
-		int num = WaitForMultipleObjects(3, m_hEvent, FALSE, INFINITE);
+		int num = WaitForMultipleObjects(MAX_EVENT, m_hEvent, FALSE, INFINITE);
+		//printf("hEvent : %d \n", num);
 
 		switch (num)
 		{
-		case 0:
+		case EVENT_RECV:
 		{
-			m_userPacketDoubleQueue.SwappingQueue();
+			m_userPacketQueue.Swap();
 
-			ParsingUser();
+			ProcessUserPacket();
 		}	
 			break;
-		case 1:
+		case EVENT_DBCONNECTOR:
 		{
-			m_dbConnectorPacketDoubleQueue->SwappingQueue();
+			m_dbPacketQueue.Swap();
 
-			ParsingConnector();
+			ProcessDBConnectorPacket();
 		}
 			break;
-		case 2:
+		case EVENT_MONSTER:
 		{
-			m_monsterPacketDoubleQueue.SwappingQueue();
+			m_monsterPacketQueue.Swap();
 
-			ParsingMonster();
+			ProcessMonsterPacket();
 		}
 			break;
-		default:
-			//예외처리
+		case EVENT_CONNECT:
+		{
+			//유저가 Connect된 경우
+			m_connectQueue.Swap();
+
+			ConnectUser();
+		}			
+			break;
+		case EVENT_DISCONNECT:
+		{
+			//유저가 Disconnect된 경우
+			m_disconnectQueue.Swap();
+
+			DisConnectUser();
+		}	
 			break;
 		}
 	}
 }
 
-void ServerLogicThread::ParsingUser()
+void ServerLogicThread::ProcessUserPacket()
 {
 	while (1)
 	{
-		if (m_userPacketDoubleQueue.IsEmpty()) return;
+		if (m_userPacketQueue.IsEmpty()) return;
 
-		PacketQueuePair_User* PacketQueuePair_User = &m_userPacketDoubleQueue.PopObject();
+		PacketQueuePair_User* PacketQueuePair_User = m_userPacketQueue.PopObject();
 		Packet* packet = PacketQueuePair_User->packet;
 		User* user = PacketQueuePair_User->user;
 
 		if (!user->IsConnected())
 		{
-			//존에 있었다면 해당 존에서 먼저 나간 후
-			if (user->GetField() != nullptr)
-			{
-				user->GetField()->ExitUser(user);
-			}
-
-			//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
-			m_sessionManager->ReturnSessionList(user);
-			m_sessionManager->DeleteSessionID(user->GetInfo()->userInfo.userID);
+			printf("Check - DisConnected\n");
 
 			continue;
 		}
@@ -181,13 +251,13 @@ void ServerLogicThread::ParsingUser()
 	}
 }
 
-void ServerLogicThread::ParsingMonster()
+void ServerLogicThread::ProcessMonsterPacket()
 {
 	while (1)
 	{
-		if (m_monsterPacketDoubleQueue.IsEmpty()) return;
+		if (m_monsterPacketQueue.IsEmpty()) return;
 
-		PacketQueuePair_Monster* PacketQueuePair_Monster = &m_monsterPacketDoubleQueue.PopObject();
+		PacketQueuePair_Monster* PacketQueuePair_Monster = m_monsterPacketQueue.PopObject();
 		Packet* packet = PacketQueuePair_Monster->packet;
 		Monster* monster = PacketQueuePair_Monster->monster;
 
@@ -209,7 +279,7 @@ void ServerLogicThread::ParsingMonster()
 	}
 }
 
-void ServerLogicThread::ParsingConnector()
+void ServerLogicThread::ProcessDBConnectorPacket()
 {
 	//if (!Connector->GetIsConnected())
 	//{
@@ -218,9 +288,9 @@ void ServerLogicThread::ParsingConnector()
 	//}
 	while (1)
 	{
-		if (m_dbConnectorPacketDoubleQueue->IsEmpty()) return;
+		if (m_dbPacketQueue.IsEmpty()) return;
 
-		Packet* packet = m_dbConnectorPacketDoubleQueue->PopObject();
+		Packet* packet = m_dbPacketQueue.PopObject();
 
 		switch (static_cast<RecvCommand>(packet->cmd))
 		{
@@ -247,7 +317,7 @@ void ServerLogicThread::ParsingConnector()
 			break;
 		case RecvCommand::DB2Zone_MONSTERS_DATA:
 			DBCONNECTOR->GetMonstersData(packet);
-			m_fieldManager->InitMonsterThread(m_hEvent[2]);
+			m_fieldManager->InitMonsterThread();
 			break;
 		case RecvCommand::DB2Zone_UPDATE_USER_FAILED:
 			OnPacket_UpdateUserFailed(packet);
@@ -257,6 +327,73 @@ void ServerLogicThread::ParsingConnector()
 			break;
 		}
 	}
+}
+
+void ServerLogicThread::ConnectUser()
+{
+	while (1)
+	{
+		if (m_connectQueue.IsEmpty()) return;
+
+		Session* tempSession = m_connectQueue.PopObject();
+
+		m_sessionManager->AddSessionList(tempSession);
+	}
+}
+
+void ServerLogicThread::DisConnectUser()
+{
+	while (1)
+	{
+		if (m_disconnectQueue.IsEmpty()) return;
+
+		User* tempUser = dynamic_cast<User*>(m_disconnectQueue.PopObject());
+
+		//존에 있었다면 해당 존에서 먼저 나간 후
+		if (tempUser->GetField() != nullptr)
+		{
+			tempUser->GetField()->ExitUser(tempUser);
+		}
+
+		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
+		m_sessionManager->ReturnSessionList(tempUser);
+		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
+	}
+}
+
+void ServerLogicThread::AddToUserPacketQueue(PacketQueuePair_User* _userPacketQueuePair)
+{
+	m_userPacketQueue.AddObject(_userPacketQueuePair);
+
+	SetEvent(m_hEvent[EVENT_RECV]);
+}
+
+void ServerLogicThread::AddToDBConnectorPacketQueue(Packet* _packet)
+{
+	m_dbPacketQueue.AddObject(_packet);
+
+	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
+}
+
+void ServerLogicThread::AddToMonsterPacketQueue(PacketQueuePair_Monster* _monsterPacketQueuePair)
+{
+	m_monsterPacketQueue.AddObject(_monsterPacketQueuePair);
+
+	SetEvent(m_hEvent[EVENT_MONSTER]);
+}
+
+void ServerLogicThread::AddToConnectQueue(Session* _session)
+{
+	m_connectQueue.AddObject(_session);
+
+	SetEvent(m_hEvent[EVENT_CONNECT]);
+}
+
+void ServerLogicThread::AddToDisConnectQueue(Session* _session)
+{
+	m_disconnectQueue.AddObject(_session);
+
+	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }
 
 void ServerLogicThread::OnPacket_EnterField(User* _user, Packet* _packet)
