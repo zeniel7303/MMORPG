@@ -78,6 +78,52 @@ struct UnitInfo
 		exp.currentValue = _current;
 		exp.maxValue = _max;
 	}
+
+	void SetUnitPosition(float _x, float _z)
+	{
+		position.x = _x;
+		position.y = _z;
+	}
+
+	void SetUnitInfo(
+		STATE _state,
+		int _level,
+		int _maxHp,
+		int _currentHp,
+		int _maxMp,
+		int _currentMp,
+		int _maxExp,
+		int _currentExp,
+		int _atk,
+		int _def)
+	{
+		state = _state;
+		level = _level;
+		hp.maxValue = _maxHp;
+		hp.currentValue = _currentHp;
+		mp.maxValue = _maxMp;
+		mp.currentValue = _currentMp;
+		exp.maxValue = _maxExp;
+		exp.currentValue = _currentExp;
+		atk = _atk;
+		def = _def;
+	}
+
+	void Reset()
+	{
+		state = SPAWN;
+		level = 0;
+		hp.maxValue = 0;
+		hp.currentValue = 0;
+		mp.maxValue = 0;
+		mp.currentValue = 0;
+		exp.maxValue = 0;
+		exp.currentValue = 0;
+		atk = 0;
+		def = 0;
+		position.x = 0;
+		position.y = 0;
+	}
 };
 
 struct MonsterInfo

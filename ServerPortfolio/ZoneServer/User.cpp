@@ -7,50 +7,58 @@
 
 User::User()
 {
-}
+	m_basicInfo.unitInfo.Reset();
+	m_basicInfo.userInfo.Reset();
 
-User::~User()
-{
-	Disconnect();
-}
-
-void User::Init(SOCKET _listenSocket)
-{
-	Session::Init(_listenSocket);
-
-	m_field = nullptr;
+	m_tile = nullptr;
 	m_sector = nullptr;
+	m_field = nullptr;
+	m_fieldTilesData = nullptr;
 
 	m_isGetUserList = false;
-
-	m_isTestClient = false;
 
 	m_isCheckingHeartBeat = false;
 	m_startCheckingHeartBeat = false;
 	m_heartBeatCheckedCount = 0;
 }
 
+User::~User()
+{
+	DisConnect();
+	//Reset();
+}
+
 void User::OnConnect()
 {
-	Session::OnConnect();
-
-	ServerLogicThread::getSingleton()->AddToConnectQueue(this);
+	UserSession::OnConnect();
 
 	IsConnectedPacket* isConnectedPacket =
-		reinterpret_cast<IsConnectedPacket*>(GetSendBuffer()->
+		reinterpret_cast<IsConnectedPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(IsConnectedPacket)));
 
 	isConnectedPacket->Init(SendCommand::Zone2C_ISCONNECTED, sizeof(IsConnectedPacket));
 	isConnectedPacket->isConnected = m_isConnected;
 
-	Session::Send(reinterpret_cast<char*>(isConnectedPacket), isConnectedPacket->size);
+	Send(reinterpret_cast<char*>(isConnectedPacket), isConnectedPacket->size);
 
 	//printf("[ isConnectedPacket 전송 완료 ]\n");
 }
 
-void User::Disconnect()
+void User::DisConnect()
 {
-	Session::Disconnect();
+	UserSession::DisConnect();
+
+	int errorNum = WSAGetLastError();
+	if (errorNum != 0)
+	{
+		printf("%d Error \n", errorNum);
+	}
+
+	printf("===== [ close socket : %d ] ===== \n", m_socket);
+
+	shutdown(m_socket, SD_BOTH);
+	//shutdown 이후 close
+	closesocket(m_socket);
 
 	m_isCheckingHeartBeat = false;
 	m_startCheckingHeartBeat = false;
@@ -61,34 +69,47 @@ void User::Disconnect()
 
 void User::Reset()
 {
-	Session::Reset();
+	UserSession::Reset();
+
+	m_basicInfo.unitInfo.Reset();
+	m_basicInfo.userInfo.Reset();
 
 	m_field = nullptr;
 
 	m_isGetUserList = false;
-
-	m_isTestClient = false;
 
 	m_sector = nullptr;
 
 	m_basicInfo.unitInfo.fieldNum = 0;
 }
 
-void User::CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped)
+void User::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 {
-	if (_overlapped == MYOVERLAPPED)
+	//switch (_overlapped->state)
+	//{
+	//case IO_RECV:
+	//{
+	//	
+	//}
+	//break;
+	//default:
+	//	//예외
+	//	break;
+	//}
+
+	if (_overlapped == &m_overlapped)
 	{
-		if (MYOVERLAPPED->bytes <= 0)
+		if (m_overlapped.bytes <= 0)
 		{
 			//printf("[INFO] BYTES <= 0\n");
 
 			//printf("2 \n");
-			Disconnect();
+			DisConnect();
 
 			return;
 		}
 
-		m_receiver->Write(MYOVERLAPPED->bytes);
+		m_receiver->Write(m_overlapped.bytes);
 
 		Parsing();
 
@@ -129,12 +150,12 @@ void User::HeartBeatChecked()
 	{
 		if (!m_isTestClient)
 		{
-			Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+			Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(m_sendBuffer->
 				GetBuffer(sizeof(Packet)));
 			UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
-			//Session::GetSendBuffer()->Write(UpdateInfoPacket->size);
+			//m_sendBuffer->Write(UpdateInfoPacket->size);
 
-			Session::Send(reinterpret_cast<char*>(UpdateInfoPacket), UpdateInfoPacket->size);
+			Send(reinterpret_cast<char*>(UpdateInfoPacket), UpdateInfoPacket->size);
 		}
 
 		m_heartBeatCheckedCount = 0;
@@ -151,18 +172,18 @@ void User::HeartBeatChecked()
 
 void User::UpdateInfo()
 {
-	printf("[ %d user - INFO UPDATE TO DATABASE START ] \n", m_basicInfo.userInfo.userID);
+	MYDEBUG("[ %d user - INFO UPDATE TO DATABASE START ] \n", m_basicInfo.userInfo.userID);
 
 	UpdateUserPacket* updateUserPacket =
-		reinterpret_cast<UpdateUserPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<UpdateUserPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(UpdateUserPacket)));
 	updateUserPacket->Init(SendCommand::Zone2DB_UPDATE_USER, sizeof(UpdateUserPacket));
-	//Session::GetSendBuffer()->Write(updateUserPacket->size);
+	//m_sendBuffer->Write(updateUserPacket->size);
 	updateUserPacket->userIndex = m_basicInfo.userInfo.userID;
 	updateUserPacket->unitInfo = m_basicInfo.unitInfo;
 	updateUserPacket->socket = m_socket;
 
-	DBCONNECTOR->Session::Send(reinterpret_cast<char*>(updateUserPacket), updateUserPacket->size);
+	DBCONNECTOR->Send(reinterpret_cast<char*>(updateUserPacket), updateUserPacket->size);
 }
 
 void User::Death()
@@ -171,12 +192,12 @@ void User::Death()
 
 	//죽었다고 패킷 전송해줘야함.
 	UserNumPacket* userNumPacket =
-		reinterpret_cast<UserNumPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<UserNumPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(UserNumPacket)));
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
 	userNumPacket->Init(SendCommand::Zone2C_USER_DEATH, sizeof(UserNumPacket));
-	//Session::GetSendBuffer()->Write(userNumPacket->size);
+	//m_sendBuffer->Write(userNumPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 }
@@ -188,19 +209,19 @@ void User::Respawn(VECTOR2 _spawnPosition)
 	m_basicInfo.unitInfo.hp.currentValue = m_basicInfo.unitInfo.hp.maxValue;
 	m_basicInfo.unitInfo.mp.currentValue = m_basicInfo.unitInfo.mp.maxValue;
 
-	Unit::SetUnitPosition(_spawnPosition.x, _spawnPosition.y);
+	m_basicInfo.unitInfo.SetUnitPosition(_spawnPosition.x, _spawnPosition.y);
 	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
 	SessionInfoPacket* sessionInfoPacket =
-		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<SessionInfoPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_USER_REVIVE, sizeof(SessionInfoPacket));
-	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+	//m_sendBuffer->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
-	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo = m_unitInfo;
+	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }
@@ -215,14 +236,14 @@ void User::Hit(int _index, int _damage)
 	m_basicInfo.unitInfo.hp.currentValue -= damage;
 
 	UserHitPacket* userHitPacket =
-		reinterpret_cast<UserHitPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<UserHitPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(UserHitPacket)));
 
 	userHitPacket->userIndex = m_basicInfo.userInfo.userID;
 	userHitPacket->monsterIndex = _index;
 	userHitPacket->damage = damage;
 	userHitPacket->Init(SendCommand::Zone2C_USER_HIT, sizeof(UserHitPacket));
-	//Session::GetSendBuffer()->Write(userHitPacket->size);
+	//m_sendBuffer->Write(userHitPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userHitPacket), userHitPacket->size);
 
@@ -237,14 +258,14 @@ void User::PlusExp(int _exp)
 	m_basicInfo.unitInfo.exp.currentValue += _exp;
 
 	UserExpPacket* userExpPacket =
-		reinterpret_cast<UserExpPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<UserExpPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(UserExpPacket)));
 
 	userExpPacket->exp = _exp;
 	userExpPacket->Init(SendCommand::Zone2C_USER_PLUS_EXP, sizeof(UserExpPacket));
-	//Session::GetSendBuffer()->Write(userExpPacket->size);
+	//m_sendBuffer->Write(userExpPacket->size);
 
-	Session::Send(reinterpret_cast<char*>(userExpPacket), userExpPacket->size);
+	Send(reinterpret_cast<char*>(userExpPacket), userExpPacket->size);
 
 	//이후 레벨업 체크해줘야함
 	if (m_basicInfo.unitInfo.exp.currentValue >= m_basicInfo.unitInfo.exp.maxValue)
@@ -266,12 +287,12 @@ void User::LevelUp()
 	m_basicInfo.unitInfo.def += 2;
 
 	UserNumPacket* userNumPacket =
-		reinterpret_cast<UserNumPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<UserNumPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(UserNumPacket)));
 
 	userNumPacket->userIndex = m_basicInfo.userInfo.userID;
 	userNumPacket->Init(SendCommand::Zone2C_USER_LEVEL_UP, sizeof(UserNumPacket));
-	//Session::GetSendBuffer()->Write(userNumPacket->size);
+	//m_sendBuffer->Write(userNumPacket->size);
 
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 
@@ -285,14 +306,14 @@ void User::LevelUp()
 void User::RequestUserInfo()
 {
 	RequireUserInfoPacket_DBAgent* RequireUserInfoPacket =
-		reinterpret_cast<RequireUserInfoPacket_DBAgent*>(Session::GetSendBuffer()->
+		reinterpret_cast<RequireUserInfoPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(RequireUserInfoPacket_DBAgent)));
 	RequireUserInfoPacket->Init(SendCommand::Zone2DB_REQUEST_USER_DATA, sizeof(RequireUserInfoPacket_DBAgent));
-	//Session::GetSendBuffer()->Write(RequireUserInfoPacket->size);
+	//m_sendBuffer->Write(RequireUserInfoPacket->size);
 	RequireUserInfoPacket->userIndex = m_basicInfo.userInfo.userID;
 	RequireUserInfoPacket->socket = m_socket;
 
-	DBCONNECTOR->Session::Send(reinterpret_cast<char*>(RequireUserInfoPacket), RequireUserInfoPacket->size);
+	DBCONNECTOR->Send(reinterpret_cast<char*>(RequireUserInfoPacket), RequireUserInfoPacket->size);
 }
 
 //기본적인 유저의 정보를 보내준다. DB가 있으면 여기서 불러와서 보내줌.
@@ -302,34 +323,33 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 	m_basicInfo.userInfo = _packet->info.userInfo;
 	m_basicInfo.userInfo.userID = tempNum;
 	m_basicInfo.unitInfo = _packet->info.unitInfo;
-	m_index = m_basicInfo.userInfo.userID;
 
 	SessionInfoPacket* sessionInfoPacket =
-		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<SessionInfoPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_USER, sizeof(SessionInfoPacket));
-	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+	//m_sendBuffer->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
-	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
+	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
-	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
+	Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 
-	printf("[ REGISTER_USER 전송 완료 ]\n");
+	MYDEBUG("[ REGISTER_USER 전송 완료 ]\n");
 }
 
 void User::RequestUserInfoFailed()
 {
-	printf("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
+	MYDEBUG("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
 	
-	Disconnect();
+	DisConnect();
 }
 
 //받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
 void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 {
 	EnterFieldPacket* enterFieldPacket =
-		reinterpret_cast<EnterFieldPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<EnterFieldPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(EnterFieldPacket)));
 	enterFieldPacket->fieldNum = _fieldNum;
 
@@ -338,7 +358,7 @@ void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
 
 	enterFieldPacket->Init(SendCommand::Zone2C_ENTER_FIELD, sizeof(EnterFieldPacket));
-	//Session::GetSendBuffer()->Write(enterFieldPacket->size);
+	//m_sendBuffer->Write(enterFieldPacket->size);
 
 	m_field = _field;
 	m_basicInfo.unitInfo.fieldNum = m_field->GetFieldNum();
@@ -348,9 +368,9 @@ void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
-	Session::Send(reinterpret_cast<char*>(enterFieldPacket), enterFieldPacket->size);
+	Send(reinterpret_cast<char*>(enterFieldPacket), enterFieldPacket->size);
 
-	printf("[ ENTER_FIELD 전송 완료 ]\n");
+	MYDEBUG("[ ENTER_FIELD 전송 완료 ]\n");
 }
 
 void User::SetPosition(Position& _position)
@@ -369,83 +389,83 @@ void User::SetPosition(Position& _position)
 void User::LogInUser(LogInPacket* _packet)
 {
 	LogInPacket_DBAgent* logInPacket_DBAgent =
-		reinterpret_cast<LogInPacket_DBAgent*>(Session::GetSendBuffer()->
+		reinterpret_cast<LogInPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(LogInPacket_DBAgent)));
 	logInPacket_DBAgent->Init(SendCommand::Zone2DB_LOGIN, sizeof(LogInPacket_DBAgent));
-	//Session::GetSendBuffer()->Write(logInPacket_DBAgent->size);
+	//m_sendBuffer->Write(logInPacket_DBAgent->size);
 	logInPacket_DBAgent->socket = m_socket;
 	strcpy_s(logInPacket_DBAgent->id, _packet->id);
 	strcpy_s(logInPacket_DBAgent->password, _packet->password);
 
-	DBCONNECTOR->Session::Send(reinterpret_cast<char*>(logInPacket_DBAgent), logInPacket_DBAgent->size);
+	DBCONNECTOR->Send(reinterpret_cast<char*>(logInPacket_DBAgent), logInPacket_DBAgent->size);
 }
 
 void User::RegisterUser(RegisterUserPacket* _packet)
 {
 	RegisterPacket_DBAgent* registerPacket_DBAgent =
-		reinterpret_cast<RegisterPacket_DBAgent*>(Session::GetSendBuffer()->
+		reinterpret_cast<RegisterPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(RegisterPacket_DBAgent)));
 	registerPacket_DBAgent->Init(SendCommand::Zone2DB_REGISTER, sizeof(RegisterPacket_DBAgent));
-	//Session::GetSendBuffer()->Write(registerPacket_DBAgent->size);
+	//m_sendBuffer->Write(registerPacket_DBAgent->size);
 	registerPacket_DBAgent->socket = m_socket;
 	strcpy_s(registerPacket_DBAgent->id, _packet->id);
 	strcpy_s(registerPacket_DBAgent->password, _packet->password);
 
-	DBCONNECTOR->Session::Send(reinterpret_cast<char*>(registerPacket_DBAgent), registerPacket_DBAgent->size);
+	DBCONNECTOR->Send(reinterpret_cast<char*>(registerPacket_DBAgent), registerPacket_DBAgent->size);
 }
 
 void User::LogInDuplicated()
 {
-	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
-	//Session::GetSendBuffer()->Write(LogInFailed->size);
+	//m_sendBuffer->Write(LogInFailed->size);
 
-	Session::Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
+Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
 
 void User::LogInSuccess(int _num)
 {
 	m_basicInfo.userInfo.userID = _num;
 
-	Packet* LogInSuccess = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+	Packet* LogInSuccess = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(Packet));
-	//Session::GetSendBuffer()->Write(LogInSuccess->size);
-	printf("[ Login Success ] \n");
+	//m_sendBuffer->Write(LogInSuccess->size);
+	MYDEBUG("[ Login Success ] \n");
 
-	Session::Send(reinterpret_cast<char*>(LogInSuccess), LogInSuccess->size);
+	Send(reinterpret_cast<char*>(LogInSuccess), LogInSuccess->size);
 }
 
 void User::LogInFailed()
 {
-	Packet* LogInFailed = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
-	//Session::GetSendBuffer()->Write(LogInFailed->size);
-	printf("[ Login Failed ] \n");
+	//m_sendBuffer->Write(LogInFailed->size);
+	MYDEBUG("[ Login Failed ] \n");
 
-	Session::Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
+Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
 
 void User::RegisterSuccess()
 {
-	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
-	//Session::GetSendBuffer()->Write(RegisterSuccessPacket->size);
+	//m_sendBuffer->Write(RegisterSuccessPacket->size);
 
-	Session::Send(reinterpret_cast<char*>(RegisterSuccessPacket), RegisterSuccessPacket->size);
+	Send(reinterpret_cast<char*>(RegisterSuccessPacket), RegisterSuccessPacket->size);
 }
 
 void User::RegisterFailed()
 {
-	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(Session::GetSendBuffer()->
+	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
-	//Session::GetSendBuffer()->Write(RegisterFailedPacket->size);
+	//m_sendBuffer->Write(RegisterFailedPacket->size);
 
-	Session::Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
+	Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
 }
 
 bool User::CompareSector(Sector* _sector)
@@ -474,9 +494,9 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 	m_basicInfo.userInfo.userID = _dummyNum;
 	strcpy_s(m_basicInfo.userInfo.userName, "TestPlayer");
 
-	Unit::SetUnitInfo(IDLE, 1,
+	m_basicInfo.unitInfo.SetUnitInfo(IDLE, 1,
 		100, 100, 100, 100, 100, 0, 20, 0);
-	Unit::SetUnitPosition(0, 0);
+	m_basicInfo.unitInfo.SetUnitPosition(0, 0);
 
 	m_basicInfo.unitInfo.position.x = _spawnPosition.x;
 	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
@@ -486,13 +506,13 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
 	SessionInfoPacket* sessionInfoPacket =
-		reinterpret_cast<SessionInfoPacket*>(Session::GetSendBuffer()->
+		reinterpret_cast<SessionInfoPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(SessionInfoPacket)));
 	sessionInfoPacket->Init(SendCommand::Zone2C_REGISTER_TEST_USER, sizeof(SessionInfoPacket));
-	//Session::GetSendBuffer()->Write(sessionInfoPacket->size);
+	//m_sendBuffer->Write(sessionInfoPacket->size);
 
 	sessionInfoPacket->info.userInfo = m_basicInfo.userInfo;
-	sessionInfoPacket->info.unitInfo = m_unitInfo = m_basicInfo.unitInfo;
+	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
-	Session::Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
+	Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 }

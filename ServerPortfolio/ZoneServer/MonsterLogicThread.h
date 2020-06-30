@@ -1,6 +1,9 @@
 #pragma once
 #include <map>
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
+
 #include "Monster.h"
 #include "FieldTilesData.h"
 #include "SectorManager.h"
@@ -20,19 +23,19 @@ class Field;
 class MonsterLogicThread : public Thread<MonsterLogicThread>
 {
 private:
-	Field* m_field;
-	FieldTilesData* m_fieldTilesData;
-	SectorManager* m_sectorManager;
+	Field*					m_field;
+	FieldTilesData*			m_fieldTilesData;
+	SectorManager*			m_sectorManager;
 
 	//몬스터는 자주 찾아야하기하므로 map으로 만든다.
-	map<int, Monster*> m_monsterMap;
+	map<int, Monster*>		m_monsterMap;
 
 public:
-	MonsterLogicThread();
+	MonsterLogicThread(Field* _field, FieldTilesData* _fieldTilesData,
+		SectorManager* _sectorManager);
 	~MonsterLogicThread();
 
-	bool Init(Field* _field, FieldTilesData* _fieldTilesData, 
-		SectorManager* _sectorManager);
+	bool CreateMonsters();
 
 	void LoopRun();
 
@@ -40,4 +43,3 @@ public:
 	void SendMonsterList_InRange(User* _user);
 	Monster* GetMonster(int _num);
 };
-

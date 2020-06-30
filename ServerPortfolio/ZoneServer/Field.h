@@ -2,7 +2,9 @@
 #include <vector>
 #include <algorithm>
 
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/ManagerFrame_List.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "SendBuffer.h"
 
 #include "PathFinding.h"
@@ -23,30 +25,28 @@
 class Field : public Manager_List<User>
 {
 private:
+	bool					m_failed;
+
 	WORD					m_fieldNum;
 	VECTOR2					m_spawnPosition;
 
 	//==================================================
 
-	FieldTilesData			m_fieldTilesData;
-
-	MonsterLogicThread		m_monsterLogicThread;
-
-	SectorManager			m_sectorManager;
-
-	//==================================================
+	FieldTilesData*			m_fieldTilesData;
+	MonsterLogicThread*		m_monsterLogicThread;
+	SectorManager*			m_sectorManager;
 
 	SendBuffer*				m_sendBuffer;
+
+	//==================================================
 
 	std::vector<Sector*>	m_leaveSectorsVec;
 	std::vector<Sector*>	m_enterSectorsVec;
 
 public:
-	Field();
+	Field(int _num, VECTOR2 _spawnPosition, const char* _name);
 	~Field();
 
-	bool Init(int _num, VECTOR2 _spawnPosition);
-	bool GetMap(const char* _name);
 	void InitMonsterThread();
 
 	void FieldSendAll(char * _buffer, int _size);
@@ -78,9 +78,11 @@ public:
 
 	void EnterTestClient(User* _user, int _num);
 
+	bool IsFailed() { return m_failed; }
+
 	WORD GetFieldNum() { return m_fieldNum; }
 
 	VECTOR2& GetSpawnPosition() { return m_spawnPosition; }
 
-	FieldTilesData* GetTilesData() { return &m_fieldTilesData; }
+	FieldTilesData* GetTilesData() { return m_fieldTilesData; }
 };

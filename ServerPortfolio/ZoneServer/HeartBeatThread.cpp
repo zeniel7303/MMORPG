@@ -1,21 +1,17 @@
 #include "HeartBeatThread.h"
 
-HeartBeatThread::HeartBeatThread()
-{
-}
-
-
-HeartBeatThread::~HeartBeatThread()
-{
-}
-
-void HeartBeatThread::Init(SessionManager* _sessionManager)
+HeartBeatThread::HeartBeatThread(SessionManager* _sessionManager)
 {
 	m_sessionManager = _sessionManager;
 
 	Thread<HeartBeatThread>::Start(this);
 
-	printf("[ HeartBeatThread Init Success ]\n");
+	MYDEBUG("[ HeartBeatThread Init Success ]\n");
+}
+
+
+HeartBeatThread::~HeartBeatThread()
+{
 }
 
 void HeartBeatThread::LoopRun()
@@ -57,7 +53,7 @@ void HeartBeatThread::HeartBeat(Packet* _packet)
 			//¿¬°á ²÷±â
 			user->SetConnected(false);
 
-			printf("[ HeartBeat Checking Failed ]\n");
+			MYDEBUG("[ HeartBeat Checking Failed ]\n");
 		}
 	});
 

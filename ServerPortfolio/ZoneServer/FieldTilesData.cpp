@@ -21,27 +21,11 @@ bool FieldTilesData::GetMap(const char * _name)
 	inputBinary.read(reinterpret_cast<char*>(&m_mapSizeX), sizeof(int));
 	inputBinary.read(reinterpret_cast<char*>(&m_mapSizeY), sizeof(int));
 
-	try
-	{
-		m_Map = new Tile*[m_mapSizeY];
-	}
-	catch (const std::bad_alloc& error)
-	{
-		printf("bad alloc : %s\n", error.what());
-		return false;
-	}
+	TRYCATCH(m_Map = new Tile*[m_mapSizeY]);
 
 	for (int y = 0; y < m_mapSizeY; y++)
 	{
-		try
-		{
-			m_Map[y] = new Tile[m_mapSizeX];
-		}
-		catch (const std::bad_alloc& error)
-		{
-			printf("bad alloc : %s\n", error.what());
-			return false;
-		}
+		TRYCATCH(m_Map[y] = new Tile[m_mapSizeX]);
 
 		for (int x = 0; x < m_mapSizeX; x++)
 		{

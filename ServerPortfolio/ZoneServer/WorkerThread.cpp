@@ -4,6 +4,8 @@
 WorkerThread::WorkerThread(HANDLE& _iocpHandle)
 {
 	m_hIocp = _iocpHandle;
+
+	Thread<WorkerThread>::Start(this);
 }
 
 WorkerThread::~WorkerThread()
@@ -11,17 +13,10 @@ WorkerThread::~WorkerThread()
 
 }
 
-bool WorkerThread::Init()
-{
-	Thread<WorkerThread>::Start(this);
-
-	return true;
-}
-
 void WorkerThread::LoopRun()
 {
 	DWORD bytes = NULL;
-	Acceptor::ST_OVERLAPPED* overlapped = nullptr;
+	ST_OVERLAPPED* overlapped = nullptr;
 	SOCKET* socket = nullptr;
 
 	while (1)
@@ -37,49 +32,45 @@ void WorkerThread::LoopRun()
 		{
 			if (overlapped == nullptr)
 			{
-				printf("[INFO] OVERLAPPED IS NULL\n");
+				MYDEBUG("[INFO] OVERLAPPED IS NULL\n");
+				LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] OVERLAPPED IS NULL");
 				continue;
 			}
 
 			if (overlapped->session == nullptr)
 			{
-				printf("[INFO] SESSION IS NULL\n");
+				MYDEBUG("[INFO] SESSION IS NULL\n");
+				LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] SESSION IS NULL");
 				continue;
 			}
 
 			Session* tempSession = overlapped->session;
 			overlapped->bytes = bytes;
 
-			switch (overlapped->state)
-			{
-			case Acceptor::IO_ACCEPT:
-				tempSession->AssociateIOCP(m_hIocp);
-				tempSession->OnConnect();
-				break;
-			case Acceptor::IO_RECV:
-				tempSession->CheckCompletion(overlapped);
-				break;
-			case Acceptor::IO_SEND:
-				break;
-			}
+			//Session의 인터페이스
+			tempSession->HandleOverlappedIO(overlapped);
 		}
 		else
 		{
-			//printf("[INFO] GetQueuedCompletionStatus Failure\n");
+			MYDEBUG("[INFO] GetQueuedCompletionStatus Failure\n");
+			LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] GetQueuedCompletionStatus Failure");
 
 			if (overlapped == nullptr)
 			{
-				printf("[INFO] OVERLAPPED IS NULL\n");
+				MYDEBUG("[INFO] OVERLAPPED IS NULL\n");
+				LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] OVERLAPPED IS NULL");
 				continue;
 			}
 
 			if (overlapped->session == nullptr)
 			{
-				printf("[INFO] SESSION IS NULL\n");
+				MYDEBUG("[INFO] SESSION IS NULL\n");
+				LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] SESSION IS NULL");
+				//FILELOG("[INFO] SESSION IS NULL");
 				continue;
 			}
 
-			overlapped->session->Disconnect();
+			overlapped->session->DisConnect();
 		}
 	}
 }

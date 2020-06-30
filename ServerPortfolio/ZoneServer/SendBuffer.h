@@ -13,17 +13,7 @@ private:
 	int		bufferLength;
 
 public:
-	SendBuffer()
-	{
-
-	}
-
-	~SendBuffer()
-	{
-		SAFE_DELETE_ARRAY(sendBuffer);
-	}
-
-	void Init(int _size)
+	SendBuffer(int _size)
 	{
 		bufferLength = _size;
 
@@ -31,6 +21,11 @@ public:
 
 		writePoint = sendBuffer;
 		sendBufferEnd = sendBuffer + bufferLength;
+	}
+
+	~SendBuffer()
+	{
+		SAFE_DELETE_ARRAY(sendBuffer);
 	}
 
 	void Reset()

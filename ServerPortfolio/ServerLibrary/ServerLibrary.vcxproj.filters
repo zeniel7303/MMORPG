@@ -23,10 +23,14 @@
     <ClInclude Include="HeaderFiles\OnlyHeaders\SingletonBase.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\Thread.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\DoubleQueue.h" />
+    <ClInclude Include="HeaderFiles\FileLog.h" />
+    <ClInclude Include="HeaderFiles\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\CriticalSection.cpp" />
     <ClCompile Include="CppFiles\RingBuffer.cpp" />
     <ClCompile Include="CppFiles\SpinLock.cpp" />
+    <ClCompile Include="CppFiles\FileLog.cpp" />
+    <ClCompile Include="CppFiles\Utils.cpp" />
   </ItemGroup>
 </Project>

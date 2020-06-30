@@ -154,6 +154,7 @@
     <ClInclude Include="HeaderFiles\OnlyHeaders\SharedQueue.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\SingletonBase.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\Thread.h" />
+    <ClInclude Include="HeaderFiles\Utils.h" />
     <ClInclude Include="HeaderFiles\SubHeaders\IpEndPoint.h" />
     <ClInclude Include="HeaderFiles\SubHeaders\ManagerFrame_List.h" />
     <ClInclude Include="HeaderFiles\SubHeaders\ObjectPool.h" />
@@ -163,11 +164,14 @@
     <ClInclude Include="HeaderFiles\RingBuffer.h" />
     <ClInclude Include="HeaderFiles\SubHeaders\Thread.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\DoubleQueue.h" />
+    <ClInclude Include="HeaderFiles\FileLog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\CriticalSection.cpp" />
+    <ClCompile Include="CppFiles\FileLog.cpp" />
     <ClCompile Include="CppFiles\RingBuffer.cpp" />
     <ClCompile Include="CppFiles\SpinLock.cpp" />
+    <ClCompile Include="CppFiles\Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

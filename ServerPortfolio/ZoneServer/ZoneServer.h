@@ -1,6 +1,10 @@
 #pragma once
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
+#include "../ServerLibrary/HeaderFiles/OnlyHeaders/IpEndPoint.h"
+
 #include "IOCPClass.h"
-#include "ListenClass.h"
+#include "AcceptorSession.h"
 #include "HeartBeatThread.h"
 #include "SessionManager.h"
 
@@ -8,25 +12,28 @@
 #include "FieldManager.h"
 #include "ServerLogicThread.h"
 
-//#define USERMAXCOUNT 1000
-
 class ZoneServer
 {
 private:
+	const int				USERMAXCOUNT = 2000;
+	const int				ACCEPTORCOUNT = 5;
+
 	WSADATA					m_wsaData;
+	SOCKET					m_listenSocket;
+	IpEndPoint				m_ipEndPoint;
 
 	IOCPClass*				m_IOCPClass;
-	ListenClass*			m_listenClass;
+	AcceptorSession*		m_acceptorSession;
+	//AcceptorSession*		m_acceptorSession[5];
 	SessionManager*			m_sessionManager;
 	FieldManager*			m_fieldManager;
 	HeartBeatThread*		m_heartBeatThread;
-
-	const int				USERMAXCOUNT = 2000;
 
 public:
 	ZoneServer();
 	~ZoneServer();
 
-	bool Init();
+	bool Start();
+	bool SetUp();
 };
 

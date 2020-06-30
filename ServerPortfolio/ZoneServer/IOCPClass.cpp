@@ -2,7 +2,36 @@
 
 IOCPClass::IOCPClass()
 {
+	m_failed = false;
 
+	m_conCurrency = 0;
+
+	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_conCurrency);
+
+	SYSTEM_INFO systemInfo;
+	GetSystemInfo(&systemInfo);
+	m_threadCount = (systemInfo.dwNumberOfProcessors * 2) + 1;
+	MYDEBUG("[ Thread Count : %d ]\n", m_threadCount);
+
+	m_workThreadBuffer = new WorkerThread*[m_threadCount];
+	//thread 积己
+	for (int i = 0; i < m_threadCount; i++)
+	{
+		WorkerThread* workerThread;
+		TRYCATCH_CONSTRUCTOR(workerThread = new WorkerThread(m_hIOCP), m_failed);
+		if (m_failed)
+		{
+			MYDEBUG("IOCP WORKER THREAD 积己 角菩 ]\n");
+
+			return;
+		}
+		else
+		{
+			m_workThreadBuffer[i] = workerThread;
+		}
+	}
+
+	MYDEBUG("IOCP WORKER THREAD 积己 己傍 ]\n");
 }
 
 IOCPClass::~IOCPClass()
@@ -13,36 +42,6 @@ IOCPClass::~IOCPClass()
 	{
 		delete m_workThreadBuffer[i];
 	}
-}
-
-bool IOCPClass::Init()
-{
-	m_conCurrency = 0;
-
-	m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, m_conCurrency);
-
-	SYSTEM_INFO systemInfo;
-	GetSystemInfo(&systemInfo);
-	m_threadCount = (systemInfo.dwNumberOfProcessors * 2) + 1;
-	printf("[ Thread Count : %d ,", m_threadCount);
-
-	m_workThreadBuffer = new WorkerThread*[m_threadCount];
-	//thread 积己
-	for (int i = 0; i < m_threadCount; i++)
-	{
-		WorkerThread* workerThread = new WorkerThread(m_hIOCP);
-		if (!workerThread->Init())
-		{
-			printf("IOCP WORKER THREAD 积己 角菩 ]\n");
-			return false;
-		}
-
-		m_workThreadBuffer[i] = workerThread;
-	}
-
-	printf("IOCP WORKER THREAD 积己 己傍 ]\n");
-
-	return true;
 }
 
 void IOCPClass::Reset()

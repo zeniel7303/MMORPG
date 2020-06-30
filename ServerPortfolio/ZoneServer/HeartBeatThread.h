@@ -1,8 +1,10 @@
 #pragma once
 #include <algorithm>
 
-#include "User.h"
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
+
+#include "User.h"
 #include "SessionManager.h"
 #include "DBConnector.h"
 
@@ -12,10 +14,8 @@ private:
 	SessionManager*					m_sessionManager;
 
 public:
-	HeartBeatThread();
+	HeartBeatThread(SessionManager* _sessionManager);
 	~HeartBeatThread();
-
-	void Init(SessionManager* _sessionManager);
 
 	void LoopRun();
 

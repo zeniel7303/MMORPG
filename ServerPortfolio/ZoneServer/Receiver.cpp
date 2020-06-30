@@ -2,20 +2,17 @@
 
 Receiver::Receiver()
 {
+	m_failed = false;
+
+	m_recvBytes = 0;
+	m_flag = 0;
+
+	TRYCATCH_CONSTRUCTOR(m_recvBuffer = new RingBuffer(30000, 10000), m_failed);
 }
 
 Receiver::~Receiver()
 {
-	delete m_recvBuffer;
-}
-
-void Receiver::Init()
-{
-	m_recvBuffer = new RingBuffer();
-	m_recvBuffer->Init(65535, 30000);
-
-	m_recvBytes = 0;
-	m_flag = 0;
+	if(m_recvBuffer != nullptr) delete m_recvBuffer;
 }
 
 void Receiver::Reset()

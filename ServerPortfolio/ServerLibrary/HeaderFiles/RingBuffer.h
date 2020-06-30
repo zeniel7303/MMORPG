@@ -51,11 +51,10 @@ private:
 	int			dataInBuffer;
 
 public:
-	RingBuffer();
+	//RingBuffer(const RingBuffer&) = delete;
+	RingBuffer(int _size, int _tempSize);
 	~RingBuffer();
 
-	//Initializing
-	void Init(int _size, int _tempSize);
 	//초기화
 	void Reset();
 	//_size만큼 쓰기,읽기

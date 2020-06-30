@@ -1,12 +1,16 @@
 ﻿  CriticalSection.cpp
+  FileLog.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\filelog.cpp(17): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
   RingBuffer.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(131): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(145): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(150): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(158): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(162): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(171): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(175): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(128): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(142): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(147): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(155): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(159): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(168): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(172): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   SpinLock.cpp
+  Utils.cpp
   코드를 생성하고 있습니다...
   ServerLibrary.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\x64\Debug\ServerLibrary.lib

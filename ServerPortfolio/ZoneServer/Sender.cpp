@@ -11,8 +11,7 @@ Sender::~Sender()
 
 void Sender::Init()
 {
-	m_sendBuffer = new SendBuffer();
-	m_sendBuffer->Init(30000);
+	m_sendBuffer = new SendBuffer(30000);
 
 	m_sendBytes = 0;
 }

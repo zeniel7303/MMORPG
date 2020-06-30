@@ -25,9 +25,6 @@
     <Filter Include="소스 파일\Library\IOCP">
       <UniqueIdentifier>{c78021c0-9caa-4c00-a633-bab28b11c7a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Library\ListenClass">
-      <UniqueIdentifier>{13980591-6bb6-43f2-a520-ed2cff55105f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Application\DBConnector">
       <UniqueIdentifier>{d040608c-a01f-483c-be6c-6244874e456f}</UniqueIdentifier>
     </Filter>
@@ -64,6 +61,12 @@
     <Filter Include="소스 파일\Library\Session\Manager">
       <UniqueIdentifier>{8636f1b8-5e8d-48c0-bbd7-20271c1e98e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\Acceptor">
+      <UniqueIdentifier>{76574a5f-4f21-4fe3-b2aa-45eb407fb0bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Library\Session\Variation">
+      <UniqueIdentifier>{b385d119-5f1f-4b70-993d-a3fbfd29f7ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SendBuffer.h">
@@ -74,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="IOCPClass.h">
       <Filter>소스 파일\Library\IOCP</Filter>
-    </ClInclude>
-    <ClInclude Include="ListenClass.h">
-      <Filter>소스 파일\Library\ListenClass</Filter>
     </ClInclude>
     <ClInclude Include="HeartBeatThread.h">
       <Filter>소스 파일\Application\Thread\HeartBeat</Filter>
@@ -144,9 +144,6 @@
     <ClInclude Include="DBConnector.h">
       <Filter>소스 파일\Application\DBConnector</Filter>
     </ClInclude>
-    <ClInclude Include="Acceptor.h">
-      <Filter>소스 파일\Library\Session</Filter>
-    </ClInclude>
     <ClInclude Include="Receiver.h">
       <Filter>소스 파일\Library\Session</Filter>
     </ClInclude>
@@ -156,6 +153,12 @@
     <ClInclude Include="SessionManager.h">
       <Filter>소스 파일\Library\Session\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="AcceptorSession.h">
+      <Filter>소스 파일\Application\Acceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="UserSession.h">
+      <Filter>소스 파일\Library\Session\Variation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Session.cpp">
@@ -163,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="IOCPClass.cpp">
       <Filter>소스 파일\Library\IOCP</Filter>
-    </ClCompile>
-    <ClCompile Include="ListenClass.cpp">
-      <Filter>소스 파일\Library\ListenClass</Filter>
     </ClCompile>
     <ClCompile Include="HeartBeatThread.cpp">
       <Filter>소스 파일\Application\Thread\HeartBeat</Filter>
@@ -212,9 +212,6 @@
     <ClCompile Include="DBConnector.cpp">
       <Filter>소스 파일\Application\DBConnector</Filter>
     </ClCompile>
-    <ClCompile Include="Acceptor.cpp">
-      <Filter>소스 파일\Library\Session</Filter>
-    </ClCompile>
     <ClCompile Include="Receiver.cpp">
       <Filter>소스 파일\Library\Session</Filter>
     </ClCompile>
@@ -223,6 +220,12 @@
     </ClCompile>
     <ClCompile Include="SessionManager.cpp">
       <Filter>소스 파일\Library\Session\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="AcceptorSession.cpp">
+      <Filter>소스 파일\Application\Acceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="UserSession.cpp">
+      <Filter>소스 파일\Library\Session\Variation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -75,7 +75,7 @@ bool ServerLogicThread::Init()
 		{
 			int num = WSAGetLastError();
 
-			printf("[ Event Handle Creating Fail - %d Error ]\n", num);
+			MYDEBUG("[Event Handle Creating Fail - %d Error]\n", num);
 
 			return false;
 		}
@@ -92,7 +92,7 @@ void ServerLogicThread::GetManagers(SessionManager* _sessionManager,
 
 	Thread<ServerLogicThread>::Start(this);
 
-	printf("[ ServerLogicThread Start ]\n");
+	MYDEBUG("[ ServerLogicThread Start ]\n");
 }
 
 void ServerLogicThread::LoopRun()
@@ -157,7 +157,7 @@ void ServerLogicThread::ProcessUserPacket()
 
 		if (!user->IsConnected())
 		{
-			printf("Check - DisConnected\n");
+			MYDEBUG("Check - DisConnected\n");
 
 			continue;
 		}
@@ -165,7 +165,7 @@ void ServerLogicThread::ProcessUserPacket()
 		//테스트용 패킷 처리
 		if (packet->cmd == 12345)
 		{
-			printf("Test Checking \n");
+			MYDEBUG("Test Checking \n");
 		}
 		else
 		{
@@ -226,18 +226,18 @@ void ServerLogicThread::ProcessUserPacket()
 				break;
 				//필드 이동
 			case RecvCommand::C2Zone_ENTER_FIELD:
-				printf("[ Try To Enter Field ]\n");
+				MYDEBUG("[ Try To Enter Field ]\n");
 				OnPacket_EnterField(user, packet);
 				break;
 				//필드 이동
 			case RecvCommand::C2Zone_ENTER_VILLAGE:
-				printf("[ Try To Enter Village ]\n");
+				MYDEBUG("[ Try To Enter Village ]\n");
 				OnPacket_EnterField(user, packet);
 				break;
 				//접속 끊을 시
 			case RecvCommand::C2Zone_EXIT_USER:
 				OnPacket_UpdateUser(user, packet);
-				user->Disconnect();
+				user->DisConnect();
 				break;
 				//HeartBeatCheck 6회 후 유저 업데이트 요청 시
 			case RecvCommand::C2Zone_UPDATE_INFO:
@@ -335,9 +335,11 @@ void ServerLogicThread::ConnectUser()
 	{
 		if (m_connectQueue.IsEmpty()) return;
 
-		Session* tempSession = m_connectQueue.PopObject();
+		User* tempUser = dynamic_cast<User*>(m_sessionManager->PopSession());
+		tempUser->SetSocket(*m_connectQueue.PopObject());
 
-		m_sessionManager->AddSessionList(tempSession);
+		m_sessionManager->AddSessionList(tempUser);
+		tempUser->OnConnect();
 	}
 }
 
@@ -354,6 +356,8 @@ void ServerLogicThread::DisConnectUser()
 		{
 			tempUser->GetField()->ExitUser(tempUser);
 		}
+
+		tempUser->Reset();
 
 		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
 		m_sessionManager->ReturnSessionList(tempUser);
@@ -382,9 +386,9 @@ void ServerLogicThread::AddToMonsterPacketQueue(PacketQueuePair_Monster* _monste
 	SetEvent(m_hEvent[EVENT_MONSTER]);
 }
 
-void ServerLogicThread::AddToConnectQueue(Session* _session)
+void ServerLogicThread::AddToConnectQueue(SOCKET _socket)
 {
-	m_connectQueue.AddObject(_session);
+	m_connectQueue.AddObject(&_socket);
 
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
@@ -406,7 +410,7 @@ void ServerLogicThread::OnPacket_EnterField(User* _user, Packet* _packet)
 	Field* prevField = m_fieldManager->GetField(_user->GetInfo()->unitInfo.fieldNum);
 	if (prevField != nullptr)
 	{
-		printf("[ Exit User (Prev Field) ]");
+		MYDEBUG("[ Exit User (Prev Field) ]");
 		prevField->ExitUser(_user);
 	}
 
@@ -597,7 +601,7 @@ void ServerLogicThread::OnPacket_UpdateUserSuccess(Packet* _packet)
 
 	if (tempUser != nullptr)
 	{
-		printf("[ %d user - INFO UPDATE TO DATABASE SUCCESS ] \n", tempUser->GetInfo()->userInfo.userID);
+		MYDEBUG("[ %d user - INFO UPDATE TO DATABASE SUCCESS ] \n", tempUser->GetInfo()->userInfo.userID);
 	}
 }
 

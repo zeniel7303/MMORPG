@@ -25,11 +25,6 @@ struct Info_PacketUser_Light
 
 struct Packet
 {
-	Packet()
-	{
-		memset(this, 0, sizeof(Packet));
-	}
-
 	WORD size;
 	WORD cmd;
 

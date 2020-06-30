@@ -1,4 +1,7 @@
 #pragma once
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
+
 #include "Field.h"
 
 //=====================================================
@@ -12,15 +15,18 @@
 class FieldManager
 {
 private:
-	map<WORD, Field*> m_fieldMap;
-	int m_fieldCount;
+	bool				m_failed;
+
+	map<WORD, Field*>	m_fieldMap;
+	int					m_fieldCount;
 
 public:
 	FieldManager();
 	~FieldManager();
 
-	bool Init();
 	void InitMonsterThread();
+
+	bool IsFailed() { return m_failed; }
 
 	Field* GetField(int _num);
 

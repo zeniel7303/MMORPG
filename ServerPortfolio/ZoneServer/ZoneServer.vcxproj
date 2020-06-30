@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Acceptor.h" />
+    <ClInclude Include="AcceptorSession.h" />
     <ClInclude Include="CommandList.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -157,7 +157,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="IOCPClass.h" />
-    <ClInclude Include="ListenClass.h" />
     <ClInclude Include="Monster.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -200,6 +199,7 @@
     <ClInclude Include="UserInfo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="UserSession.h" />
     <ClInclude Include="Vector.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -209,7 +209,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Acceptor.cpp" />
+    <ClCompile Include="AcceptorSession.cpp" />
     <ClCompile Include="DBConnector.cpp" />
     <ClCompile Include="Field.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -224,7 +224,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="IOCPClass.cpp" />
-    <ClCompile Include="ListenClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -251,6 +250,7 @@
     <ClCompile Include="User.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="UserSession.cpp" />
     <ClCompile Include="WorkerThread.cpp" />
     <ClCompile Include="ZoneServer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

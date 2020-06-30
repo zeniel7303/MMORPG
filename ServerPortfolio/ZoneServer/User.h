@@ -1,9 +1,9 @@
-#pragma once
+	#pragma once
 #include "stdafx.h"
 #include"../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
-#include "Unit.h"
-#include "Session.h"
+#include "UnitInfo.h"
+#include "UserSession.h"
 #include "PathFinding.h"
 #include "FieldTilesData.h"
 
@@ -26,22 +26,20 @@ struct INFO
 class Field;
 class Sector;
 
-class User : public Session, public Unit
+class User : public UserSession
 {
 private:
 	INFO				m_basicInfo;
 
-	Sector*				m_sector;
-
 	Tile*				m_tile;
+
+	Sector*				m_sector;
 
 	Field*				m_field;
 	FieldTilesData*		m_fieldTilesData;
 
-	bool				m_isGetUserList;
-
 	//===============================================
-	bool				m_isTestClient;
+	bool				m_isGetUserList;
 
 	bool				m_isCheckingHeartBeat;
 	bool				m_startCheckingHeartBeat;
@@ -51,11 +49,11 @@ public:
 	User();
 	~User();
 
-	void Init(SOCKET _listenSocket);
 	void OnConnect();
-	void Disconnect();
+	void DisConnect();
 	void Reset();
-	void CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped);
+
+	void HandleOverlappedIO(ST_OVERLAPPED* _overlapped);
 	void Parsing();
 
 	//살아있는지 체크
@@ -113,8 +111,6 @@ public:
 	void SetSector(Sector* _sector) { m_sector = _sector; }
 
 	bool IsDeath() { return m_basicInfo.unitInfo.state == STATE::DEATH; }
-
-	bool IsTestClient() { return m_isTestClient; }
 
 	void SetState(STATE _state) { m_basicInfo.unitInfo.state = _state; }
 

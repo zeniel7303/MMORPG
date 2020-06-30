@@ -1,4 +1,5 @@
 #pragma once
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 
 class WorkerThread : public Thread<WorkerThread>
@@ -10,6 +11,5 @@ public:
 	WorkerThread(HANDLE& _iocpHandle);
 	~WorkerThread();
 
-	bool Init();
 	void LoopRun();
 };

@@ -1,14 +1,17 @@
 #pragma once
 #include <winsock2.h>
 
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "WorkerThread.h"
 #include "SessionManager.h"
 
 class IOCPClass
 {
 private:
+	bool			m_failed;
+
 	HANDLE			m_hIOCP;
-	unsigned int	m_threadId;
 
 	int				m_threadCount;
 	WorkerThread**	m_workThreadBuffer;
@@ -19,7 +22,10 @@ public:
 	IOCPClass();
 	~IOCPClass();
 
-	bool Init();
 	void Reset();
 	void AddSocket(SOCKET _socket, unsigned long long _value);
+
+	bool IsFailed() { return m_failed; }
+
+	HANDLE GetIOCPHandle() { return m_hIOCP; }
 };

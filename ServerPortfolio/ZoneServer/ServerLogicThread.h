@@ -1,6 +1,7 @@
 #pragma once
 #include <time.h>
 
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/SingletonBase.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
@@ -65,7 +66,7 @@ private:
 	DoubleQueue<PacketQueuePair_User>		m_userPacketQueue;
 	DoubleQueue<Packet>						m_dbPacketQueue;
 	DoubleQueue<PacketQueuePair_Monster>	m_monsterPacketQueue;
-	DoubleQueue<Session>					m_connectQueue;
+	DoubleQueue<SOCKET>						m_connectQueue;
 	DoubleQueue<Session>					m_disconnectQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
@@ -92,7 +93,7 @@ public:
 	void AddToUserPacketQueue(PacketQueuePair_User* _userPacketQueuePair);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToMonsterPacketQueue(PacketQueuePair_Monster* _monsterPacketQueuePair);
-	void AddToConnectQueue(Session* _session);
+	void AddToConnectQueue(SOCKET _socket);
 	void AddToDisConnectQueue(Session* _session);
 
 	void OnPacket_EnterField(User* _user, Packet* _packet);

@@ -1,1 +1,10 @@
-﻿  DB_Agent.vcxproj -> D:\작업관련\SourceTree\MMORPG\Old_Files\No_Library\DB_Agent\x64\Debug\DB_Agent.exe
+﻿  Session.cpp
+d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(66): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(66): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(66): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(66): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(159): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(159): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(159): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\old_files\no_library\db_agent\db_agent\session.cpp(159): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+  DB_Agent.vcxproj -> D:\작업관련\SourceTree\MMORPG\Old_Files\No_Library\DB_Agent\x64\Debug\DB_Agent.exe

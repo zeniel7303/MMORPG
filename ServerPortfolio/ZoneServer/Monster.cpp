@@ -5,19 +5,10 @@
 #include "SectorManager.h"
 #include "Sector.h"
 
-Monster::~Monster()
+Monster::Monster(Field* _field, FieldTilesData* _fieldTilesData, 
+	SectorManager* _sectorManager, MonsterInfo& _info, MonsterData& _data)
 {
-	delete m_sendBuffer;
-
-	m_tileList.clear();
-	m_tileList.resize(0);
-
-	DeleteCriticalSection(&m_cs);
-}
-
-void Monster::Init(MonsterInfo& _info, MonsterData& _data)
-{
-	m_sector = nullptr;
+	m_failed = false;
 
 	m_info = _info;
 	m_data = _data;
@@ -26,12 +17,32 @@ void Monster::Init(MonsterInfo& _info, MonsterData& _data)
 	m_spawnPosition.x = m_info.position.x;
 	m_spawnPosition.y = m_info.position.y;
 
-	m_sendBuffer = new SendBuffer();
-	m_sendBuffer->Init(1000);
+	m_isDeath = false;
+	m_isAttack = false;
 
 	m_currentTime = m_maxTime = 0.0f;
 
+	TRYCATCH_CONSTRUCTOR(m_sendBuffer = new SendBuffer(2000), m_failed);
+	if (m_failed) return;
+
+	m_field = _field;
+	m_fieldTilesData = _fieldTilesData;
+	m_sectorManager = _sectorManager;
+	m_sector = nullptr;
+
 	Spawn();
+
+	InitializeCriticalSection(&m_cs);
+};
+
+Monster::~Monster()
+{
+	if(m_sendBuffer != nullptr) delete m_sendBuffer;
+
+	m_tileList.clear();
+	m_tileList.resize(0);
+
+	DeleteCriticalSection(&m_cs);
 }
 
 void Monster::Reset()
@@ -359,14 +370,14 @@ bool Monster::PathMove()
 			static_cast<int>(m_info.position.x),
 			static_cast<int>(m_info.position.y));
 
+		//현재 섹터 범위 체크
+		UpdateSector();
+
 		//남은 타일리스트가 있다면
 		if (m_tileList.size() > 0)
 		{
 			m_targetPosition = m_tileList.front();
 			m_tileList.pop_front();
-
-			//현재 섹터 범위 체크
-			UpdateSector();
 
 			MonsterPositionPacket* monsterPositionPacket =
 				reinterpret_cast<MonsterPositionPacket*>(m_sendBuffer->
@@ -404,10 +415,10 @@ void Monster::UpdateSector()
 		Sector* nowSector = m_sectorManager->
 			GetSector(m_nowTile->GetX(), m_nowTile->GetY());
 
+		Sector* prevSector = m_sector;
 		//현재 섹터와 저장되어있던 나의 섹터가 다름
-		if (nowSector != m_sector)
+		if (prevSector != m_sector)
 		{
-			Sector* prevSector = m_sector;
 			if (prevSector != nullptr)
 			{
 				//printf("[ Exit Monster (Prev Sector) ]");

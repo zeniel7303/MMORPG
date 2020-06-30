@@ -2,6 +2,10 @@
 #include <iostream>
 #include <fstream>
 
+#include "../ServerLibrary/HeaderFiles/FileLog.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
+
+
 #include "Tile.h"
 
 using namespace std;

@@ -1,8 +1,9 @@
 #pragma once
 #include "stdafx.h"
 
-#include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
+#include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "../ServerLibrary/HeaderFiles/CriticalSection.h"
+#include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
 #include "packet.h"
 #include "UnitInfo.h"
@@ -29,6 +30,8 @@ class ServerLogicThread;
 class Monster : public PathFinding
 {
 private:
+	bool					m_failed;
+
 	MonsterInfo				m_info;
 	MonsterData				m_data;
 
@@ -66,18 +69,10 @@ private:
 	float					m_maxTime;
 
 public:
-	Monster(Field* _field, FieldTilesData* _fieldTilesData, SectorManager* _sectorManager)
-	{
-		m_field = _field;
-		m_fieldTilesData = _fieldTilesData;
-		m_sectorManager = _sectorManager;
-
-		InitializeCriticalSection(&m_cs);
-	};
-
+	Monster(Field* _field, FieldTilesData* _fieldTilesData, 
+		SectorManager* _sectorManager, MonsterInfo& _info, MonsterData& _data);
 	~Monster();
 
-	void Init(MonsterInfo& _info, MonsterData& _data);
 	void Reset();
 
 	void Update();
@@ -94,6 +89,8 @@ public:
 	bool PathMove();
 
 	void UpdateSector();
+
+	bool IsFailed() { return m_failed; }
 
 	MonsterInfo GetInfo() { return m_info; }
 	MonsterData GetData() { return m_data; }

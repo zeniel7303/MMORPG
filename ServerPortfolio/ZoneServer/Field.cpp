@@ -1,12 +1,38 @@
 #include "Field.h"
 
-Field::Field()
+Field::Field(int _num, VECTOR2 _spawnPosition, const char* _name)
 {
+	m_failed = false;
+
+	m_fieldNum = _num;
+	m_spawnPosition = _spawnPosition;
+
+	TRYCATCH_CONSTRUCTOR(m_fieldTilesData = new FieldTilesData(), m_failed);
+	if (!m_fieldTilesData->GetMap(_name) || m_failed)
+	{
+		m_failed = true;
+
+		return;
+	}
+	TRYCATCH_CONSTRUCTOR(m_sectorManager = new SectorManager(), m_failed);
+	if (m_failed) return;
+	TRYCATCH_CONSTRUCTOR(m_monsterLogicThread = new MonsterLogicThread(this, m_fieldTilesData, m_sectorManager), m_failed);
+	if (m_failed) return;
+
+	TRYCATCH_CONSTRUCTOR(m_sendBuffer = new SendBuffer(10000), m_failed);
+	if (m_failed) return;
+
+	m_leaveSectorsVec.resize(9);
+	m_enterSectorsVec.resize(9);
 }
 
 Field::~Field()
 {
-	delete m_sendBuffer;
+	if (m_fieldTilesData != nullptr) delete m_fieldTilesData; 
+	if (m_monsterLogicThread != nullptr) delete m_monsterLogicThread;
+	if (m_sectorManager != nullptr) delete m_sectorManager;
+
+	if (m_sendBuffer != nullptr) delete m_sendBuffer;
 
 	m_leaveSectorsVec.clear();
 	m_leaveSectorsVec.resize(0);
@@ -15,44 +41,12 @@ Field::~Field()
 	m_enterSectorsVec.resize(0);
 }
 
-bool Field::Init(int _num, VECTOR2 _spawnPosition)
-{
-	m_fieldNum = _num;
-	m_spawnPosition = _spawnPosition;
-
-	try
-	{
-		m_sendBuffer = new SendBuffer();
-	}
-	catch (const std::bad_alloc& error)
-	{
-		printf("bad alloc : %s\n", error.what());
-		return false;
-	}	
-	m_sendBuffer->Init(10000);
-
-	m_leaveSectorsVec.resize(9);
-	m_enterSectorsVec.resize(9);
-
-	printf("[ %d Field Init ] \n", _num);
-
-	return true;
-}
-
-bool Field::GetMap(const char* _name)
-{
-	if (!m_fieldTilesData.GetMap(_name))
-	{
-		return false;
-	}
-
-	m_sectorManager.Init();
-}
-
 void Field::InitMonsterThread()
 {
-	m_monsterLogicThread.Init(this, &m_fieldTilesData, &m_sectorManager);
-	m_monsterLogicThread.Thread<MonsterLogicThread>::Start(&m_monsterLogicThread);
+	if (m_monsterLogicThread->CreateMonsters())
+	{
+		m_monsterLogicThread->Thread<MonsterLogicThread>::Start(m_monsterLogicThread);
+	}
 }
 
 void Field::FieldSendAll(char * _buffer, int _size)
@@ -112,11 +106,11 @@ void Field::SendUserList(User* _user)
 
 	SendUserList_InRange(_user);
 
-	printf("[ USER LIST 전송 완료 ]\n");
+	MYDEBUG("[ USER LIST 전송 완료 ]\n");
 
 	_user->SetIsGetUserList(true);
 
-	m_monsterLogicThread.SendMonsterList(_user);
+	m_monsterLogicThread->SendMonsterList(_user);
 }
 
 void Field::SendUserList_InRange(User* _user)
@@ -183,7 +177,7 @@ void Field::EnterUser(User* _user)
 
 	SendEnterUserInfo(_user);
 
-	printf("[%d Field : User Insert - %d (접속자 수  : %d) ]\n", 
+	MYDEBUG("[%d Field : User Insert - %d (접속자 수  : %d) ]\n",
 		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_itemList.size());
 }
 
@@ -238,7 +232,7 @@ void Field::ExitUser(User* _user)
 
 	SendExitUserInfo(_user->GetInfo()->userInfo.userID);
 
-	printf("[%d Field : User Delete - %d (접속자 수  : %d) ]\n",
+	MYDEBUG("[%d Field : User Delete - %d (접속자 수  : %d) ]\n",
 		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_itemList.size());
 }
 
@@ -256,7 +250,7 @@ void Field::SendExitUserInfo(int _num)
 
 bool Field::UserAttack(User * _user, int _monsterIndex)
 {
-	Monster* monster = m_monsterLogicThread.GetMonster(_monsterIndex);
+	Monster* monster = m_monsterLogicThread->GetMonster(_monsterIndex);
 
 	if (monster == nullptr) return false;
 
@@ -282,8 +276,8 @@ void Field::RespawnUser(User* _user)
 
 void Field::UpdateUserSector(User* _user)
 {
-	Sector* nowSector = m_sectorManager.GetSector(_user->GetTile()->GetX(), 
-		_user->GetTile()->GetY());
+	Sector* nowSector = m_sectorManager->
+		GetSector(_user->GetTile()->GetX(), _user->GetTile()->GetY());
 
 	//true == same, false = different
 	if (_user->CompareSector(nowSector))
@@ -429,6 +423,7 @@ void Field::SendInvisibleMonsterList(User* _user)
 		}
 	}
 
+	//printf("Invisible %d \n", monsterInfoListPacket_Invisible->monsterNum);
 	monsterInfoListPacket_Invisible->size = (sizeof(MonsterInfo) * monsterInfoListPacket_Invisible->monsterNum)
 		+ sizeof(WORD) + sizeof(Packet);
 	monsterInfoListPacket_Invisible->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_INVISIBLE, monsterInfoListPacket_Invisible->size);
@@ -554,6 +549,7 @@ void Field::SendVisibleMonsterList(User* _user)
 		}
 	}
 
+	//printf("Visible %d \n", monsterInfoListPacket_Visible->monsterNum);
 	monsterInfoListPacket_Visible->size = (sizeof(MonsterInfo) * monsterInfoListPacket_Visible->monsterNum)
 		+ sizeof(WORD) + sizeof(Packet);
 	monsterInfoListPacket_Visible->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_VISIBLE, monsterInfoListPacket_Visible->size);
@@ -573,6 +569,6 @@ void Field::EnterTestClient(User* _user, int _num)
 
 	SendEnterUserInfo(_user);
 
-	printf("[%d Field : Test Client Insert - %d (접속자 수  : %d) ]\n",
+	MYDEBUG("[%d Field : Test Client Insert - %d (접속자 수  : %d) ]\n",
 		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_itemList.size());
 }

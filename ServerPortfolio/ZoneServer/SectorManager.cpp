@@ -2,19 +2,6 @@
 
 SectorManager::SectorManager()
 {
-}
-
-SectorManager::~SectorManager()
-{
-	map<WORD, Sector*>::iterator i;
-	for (i = m_sectorMap.begin(); i != m_sectorMap.end(); i++)
-	{
-		delete i->second;
-	}
-}
-
-void SectorManager::Init()
-{
 	for (int j = 0; j < SIZE; j++)
 	{
 		for (int i = 0; i < SIZE; i++)
@@ -29,6 +16,15 @@ void SectorManager::Init()
 	for (int i = 0; i < SIZE * SIZE; i++)
 	{
 		GetNeighborSectors(m_sectorMap[i]->GetRoundSectorsVec(), m_sectorMap[i]);
+	}
+}
+
+SectorManager::~SectorManager()
+{
+	map<WORD, Sector*>::iterator i;
+	for (i = m_sectorMap.begin(); i != m_sectorMap.end(); i++)
+	{
+		delete i->second;
 	}
 }
 

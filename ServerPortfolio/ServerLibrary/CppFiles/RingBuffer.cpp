@@ -1,6 +1,6 @@
 #include "../HeaderFiles/RingBuffer.h"
 
-RingBuffer::RingBuffer()
+RingBuffer::RingBuffer(int _size, int _tempSize)
 {
 	buffer = nullptr;
 	readPoint = nullptr;
@@ -9,15 +9,7 @@ RingBuffer::RingBuffer()
 	bufferMaxSize = 0;
 	tempBufferSize = 0;
 	dataInBuffer = 0;
-}
 
-RingBuffer::~RingBuffer()
-{
-	Reset();
-}
-
-void RingBuffer::Init(int _size, int _tempSize)
-{
 	bufferMaxSize = _size;
 	tempBufferSize = _tempSize;
 
@@ -27,6 +19,11 @@ void RingBuffer::Init(int _size, int _tempSize)
 	bufferStartPoint = buffer + tempBufferSize;
 	bufferEndPoint = buffer + bufferMaxSize;
 	writePoint = readPoint = bufferStartPoint;
+}
+
+RingBuffer::~RingBuffer()
+{
+	Reset();
 }
 
 void RingBuffer::Reset()

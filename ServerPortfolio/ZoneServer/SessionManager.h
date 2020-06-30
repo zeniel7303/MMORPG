@@ -2,7 +2,6 @@
 #include <set>
 
 #include "Session.h"
-#include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/ObjectPool.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/ManagerFrame_List.h"
 #include "../ServerLibrary/HeaderFiles/CriticalSection.h"
@@ -15,7 +14,7 @@
 
 //=====================================================
 
-class SessionManager : public Manager_List<Session>, public Thread<SessionManager>
+class SessionManager : public Manager_List<Session>
 {
 private:
 	CRITICAL_SECTION		m_cs;
@@ -23,15 +22,9 @@ private:
 	ObjectPool<Session>		m_objectPool;
 	set<int>				m_idSet;
 
-	LONG					m_checkingSessionsNum;
-
-	HANDLE					m_hEvent;
-
 public:
 	SessionManager();
 	~SessionManager();
-
-	void Init();
 
 	void AddObject(Session* _t);
 
@@ -41,10 +34,6 @@ public:
 	void AddSessionID(int _num);
 	void DeleteSessionID(int _num);
 	bool FindSessionID(int _num);
-
-	void CheckingAccept();
-
-	void LoopRun();
 
 	ObjectPool<Session>* GetObjectPool() { return &m_objectPool; }
 };

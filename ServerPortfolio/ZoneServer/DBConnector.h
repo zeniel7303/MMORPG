@@ -3,14 +3,14 @@
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/IpEndPoint.h"
 #include"../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
-#include "Session.h"
+#include "UserSession.h"
 #include "packet.h"
 
 #include "ServerLogicThread.h"
 
 #include <vector>
 
-class DBConnector : public Session, public SingletonBase<DBConnector>
+class DBConnector : public UserSession, public SingletonBase<DBConnector>
 {
 private:
 	IpEndPoint					m_ipEndPoint;
@@ -21,12 +21,12 @@ public:
 	DBConnector();
 	~DBConnector();
 
-	void Init(const char* _ip, const unsigned short _portNum);
+	bool Init(const char* _ip, const unsigned short _portNum);
 	bool Connect();
 	void OnConnect();
-	void Disconnect();
+	void DisConnect();
 	void Reset();
-	void CheckCompletion(Acceptor::ST_OVERLAPPED* _overlapped);
+	void HandleOverlappedIO(ST_OVERLAPPED* _overlapped);
 
 	void Parsing();
 

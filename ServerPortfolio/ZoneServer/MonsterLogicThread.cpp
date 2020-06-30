@@ -4,9 +4,12 @@
 
 #include "DBConnector.h"
 
-MonsterLogicThread::MonsterLogicThread()
+MonsterLogicThread::MonsterLogicThread(Field* _field, FieldTilesData* _fieldTilesData,
+	SectorManager* _sectorManager)
 {
-
+	m_field = _field;
+	m_fieldTilesData = _fieldTilesData;
+	m_sectorManager = _sectorManager;
 }
 
 MonsterLogicThread::~MonsterLogicThread()
@@ -20,13 +23,8 @@ MonsterLogicThread::~MonsterLogicThread()
 	m_monsterMap.clear();
 }
 
-bool MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData, 
-	SectorManager* _sectorManager)
+bool MonsterLogicThread::CreateMonsters()
 {
-	m_field = _field;
-	m_fieldTilesData = _fieldTilesData;
-	m_sectorManager = _sectorManager;
-
 	Tile** tileMap = m_fieldTilesData->GetMap();
 
 	int monsterCount = 0;
@@ -50,17 +48,13 @@ bool MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData,
 			MonsterData monsterData = 
 				*DBCONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);;
 
-			try
+			TRYCATCH(monster = new Monster(m_field, m_fieldTilesData, 
+				m_sectorManager, monsterInfo, monsterData));
+			if (monster->IsFailed())
 			{
-				monster = new Monster(m_field, m_fieldTilesData,
-					m_sectorManager);
-			}
-			catch (const std::bad_alloc& error)
-			{
-				printf("bad alloc : %s\n", error.what());
+				MYDEBUG("[ %d Field - %d Monsters Spawn Failed ] \n", m_field->GetFieldNum(), monsterCount);
 				return false;
 			}
-			monster->Init(monsterInfo, monsterData);
 
 			m_monsterMap.insert(make_pair(monster->GetInfo().index, monster));
 
@@ -68,7 +62,9 @@ bool MonsterLogicThread::Init(Field* _field, FieldTilesData* _fieldTilesData,
 		}
 	}
 
-	printf("[ %d Field - %d Monsters Spawn ] \n", m_field->GetFieldNum(), monsterCount);
+	MYDEBUG("[ %d Field - %d Monsters Spawn ] \n", m_field->GetFieldNum(), monsterCount);
+
+	return true;
 }
 
 void MonsterLogicThread::LoopRun()
@@ -119,7 +115,7 @@ void MonsterLogicThread::SendMonsterList(User* _user)
 
 	SendMonsterList_InRange(_user);
 
-	printf("[ MONSTER LIST 전송 완료 ]\n");
+	MYDEBUG("[ MONSTER LIST 전송 완료 ]\n");
 }
 
 void MonsterLogicThread::SendMonsterList_InRange(User* _user)
