@@ -17,7 +17,7 @@ public:
 	void AddItem(T* _t);
 	bool DeleteItem(T* _t);
 
-	std::list<T*>* GetItemList();
+	std::list<T*>& GetItemList();
 
 	bool FindItem(T* _t);
 };
@@ -42,9 +42,9 @@ bool Manager_List<T>::DeleteItem(T * _t)
 }
 
 template<class T>
-std::list<T*>* Manager_List<T>::GetItemList()
+std::list<T*>& Manager_List<T>::GetItemList()
 {
-	return &m_itemList;
+	return m_itemList;
 }
 
 template<class T>

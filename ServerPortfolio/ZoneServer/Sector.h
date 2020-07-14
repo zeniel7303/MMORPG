@@ -17,5 +17,5 @@ public:
 	~Sector();
 
 	int GetSectorNum() { return m_sectorNum; }
-	std::vector<Sector*>* GetRoundSectorsVec() { return &m_roundSectorsVec; }
+	std::vector<Sector*>& GetRoundSectorsVec() { return m_roundSectorsVec; }
 };

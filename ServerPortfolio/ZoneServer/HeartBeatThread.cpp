@@ -1,14 +1,12 @@
 #include "HeartBeatThread.h"
 
-HeartBeatThread::HeartBeatThread(SessionManager* _sessionManager)
+HeartBeatThread::HeartBeatThread(SessionManager& _sessionManager) 
+	: m_sessionManager(_sessionManager)
 {
-	m_sessionManager = _sessionManager;
-
 	Thread<HeartBeatThread>::Start(this);
 
 	MYDEBUG("[ HeartBeatThread Init Success ]\n");
 }
-
 
 HeartBeatThread::~HeartBeatThread()
 {
@@ -25,16 +23,41 @@ void HeartBeatThread::LoopRun()
 
 		Sleep(10000);
 	}
+
+	delete checkAlivePacket;
 }
 
 void HeartBeatThread::HeartBeat(Packet* _packet)
 {
-	list<Session*>* vSessionList = m_sessionManager->GetItemList();
-
-	list<Session*>::iterator iterBegin = vSessionList->begin();
-	list<Session*>::iterator iterEnd = vSessionList->end();
+	const list<Session*>& vSessionList = m_sessionManager.GetItemList();
 
 	User* user;
+
+	for (const auto& element : vSessionList)
+	{
+		user = dynamic_cast<User*>(element);
+
+		//유저가 채킹중이 아니고, 유저가 채킹에 대한 준비가 되었는가(게임에 확실히 접속했는가)
+		//입장에 성공했을 경우 채킹에 준비되었다고 처리했다.
+		if (!user->IsChecking() && user->GetStartCheckingHeartBeat())
+		{
+			user->SetChecking(true);
+			user->Send(reinterpret_cast<char*>(_packet), _packet->size);
+		}
+		//유저가 채킹중이다.(클라이언트 쪽에서 HeartBeat Checking 완료 패킷이 안왔다.)
+		else if (user->IsChecking())
+		{
+			//연결 끊기
+			user->SetConnected(false);
+
+			MYDEBUG("[ HeartBeat Checking Failed ]\n");
+		}
+	}
+
+	//for_each
+	/*
+	list<Session*>::const_iterator iterBegin = vSessionList.begin();
+	list<Session*>::const_iterator iterEnd = vSessionList.end();
 
 	for_each(iterBegin, iterEnd, [=](Session* _session) mutable
 	{
@@ -55,7 +78,7 @@ void HeartBeatThread::HeartBeat(Packet* _packet)
 
 			MYDEBUG("[ HeartBeat Checking Failed ]\n");
 		}
-	});
+	});*/
 
 	//일반적인 For문
 	/*for (list<Session*>::iterator iter = vSessionList->begin(); iter != iterEnd;)

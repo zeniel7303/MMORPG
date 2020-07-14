@@ -1,34 +1,40 @@
 #pragma once
-#include "../ServerLibrary/HeaderFiles/OnlyHeaders/singletonBase.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/IpEndPoint.h"
 #include"../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
-#include "UserSession.h"
+#include "ClientSession.h"
 #include "packet.h"
 
-#include "ServerLogicThread.h"
+#include "MainThread.h"
 
 #include <vector>
 
-class DBConnector : public UserSession, public SingletonBase<DBConnector>
+class DBConnector : public ClientSession
 {
+public:
+	static DBConnector* getSingleton()
+	{
+		static DBConnector singleton;
+
+		return &singleton;
+	}
+
 private:
 	IpEndPoint					m_ipEndPoint;
 
 	std::vector<MonsterData>	m_monsterDataVec;
 
-public:
 	DBConnector();
+
+public:
 	~DBConnector();
 
-	bool Init(const char* _ip, const unsigned short _portNum);
-	bool Connect();
+	bool Connect(const char* _ip, const unsigned short _portNum);
 	void OnConnect();
 	void DisConnect();
 	void Reset();
-	void HandleOverlappedIO(ST_OVERLAPPED* _overlapped);
 
-	void Parsing();
+	void OnRecv();
 
 	void GetMonstersData(Packet* _packet);
 

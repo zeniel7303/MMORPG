@@ -50,15 +50,13 @@ public:
 	void InitMonsterThread();
 
 	void FieldSendAll(char * _buffer, int _size);
-
-	void SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int _size);
+	void SectorSendAll(const std::vector<Sector*>& _sectorsVec, char * _buffer, int _size);
 
 	void SendUserList(User* _user);
 	void SendUserList_InRange(User* _user);
 
 	void EnterUser(User* _user);
 	void SendEnterUserInfo(User* _user);
-
 	void ExitUser(User* _user);
 	void SendExitUserInfo(int _num);
 

@@ -7,20 +7,17 @@ template<typename T>
 class DoubleQueue
 {
 private:
-	std::queue<T*>			queue_1;
-	std::queue<T*>			queue_2;
+	std::queue<T>			queue_1;
+	std::queue<T>			queue_2;
 
-	std::queue<T*>*			primaryQueue;
-	std::queue<T*>*			secondaryQueue;
+	std::queue<T>*			primaryQueue;
+	std::queue<T>*			secondaryQueue;
 
-	CRITICAL_SECTION		m_cs;
 	SpinLock				m_spinLock;
 
 public:
 	DoubleQueue()
 	{
-		InitializeCriticalSection(&m_cs);
-
 		primaryQueue = &queue_1;
 		secondaryQueue = &queue_2;
 	}
@@ -36,13 +33,11 @@ public:
 		{
 			queue_2.pop();
 		}
-
-		DeleteCriticalSection(&m_cs);
 	}
 
 	void Swap()
 	{
-		CSLock csLock(m_cs);
+		m_spinLock.Enter();
 
 		if (primaryQueue == &queue_1)
 		{
@@ -58,12 +53,12 @@ public:
 		{
 			printf("Swap Queue Error \n");
 		}
+
+		m_spinLock.Leave();
 	}
 
 	//넣는건 첫번째 큐에서만
-	void AddObject(T* _object)
-	//복사 생성자
-	//void AddObject(const T& _object)
+	void AddObject(const T& _object)
 	{
 		m_spinLock.Enter();
 
@@ -73,9 +68,9 @@ public:
 	}
 
 	//빼는건 두번째 큐에서만
-	T* PopObject()
+	T& PopObject()
 	{
-		T* retVal = secondaryQueue->front();
+		T& retVal = secondaryQueue->front();
 		secondaryQueue->pop();
 
 		return retVal;

@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Acceptor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="AcceptorSession.h" />
     <ClInclude Include="CommandList.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -166,6 +169,7 @@
     <ClInclude Include="packet.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="PathFinding.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -178,7 +182,7 @@
     </ClInclude>
     <ClInclude Include="SendBuffer.h" />
     <ClInclude Include="Sender.h" />
-    <ClInclude Include="ServerLogicThread.h">
+    <ClInclude Include="MainThread.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Session.h" />
@@ -199,7 +203,7 @@
     <ClInclude Include="UserInfo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="UserSession.h" />
+    <ClInclude Include="ClientSession.h" />
     <ClInclude Include="Vector.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -209,6 +213,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Acceptor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="AcceptorSession.cpp" />
     <ClCompile Include="DBConnector.cpp" />
     <ClCompile Include="Field.cpp">
@@ -231,6 +238,7 @@
     <ClCompile Include="MonsterLogicThread.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="Receiver.cpp" />
     <ClCompile Include="Sector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -239,7 +247,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Sender.cpp" />
-    <ClCompile Include="ServerLogicThread.cpp">
+    <ClCompile Include="MainThread.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Session.cpp" />
@@ -250,7 +258,7 @@
     <ClCompile Include="User.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="UserSession.cpp" />
+    <ClCompile Include="ClientSession.cpp" />
     <ClCompile Include="WorkerThread.cpp" />
     <ClCompile Include="ZoneServer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

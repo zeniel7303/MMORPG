@@ -61,7 +61,7 @@ class SingletonBase
 {
 protected:
 	SingletonBase() {};
-	~SingletonBase() {};
+	virtual ~SingletonBase() {};
 
 public:
 	//ΩÃ±€≈Ê ¡¢±Ÿ¿⁄

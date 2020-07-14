@@ -16,7 +16,7 @@
 //Monster
 
 //Monster 객체이다.
-//PacketQueuePair는 Singleton으로 선언된 ServerLogicThread와 공유하여 Monster가 보낼 패킷을 저장해두는 용도로 쓴다.
+//PacketQueuePair는 Singleton으로 선언된 MainThread와 공유하여 Monster가 보낼 패킷을 저장해두는 용도로 쓴다.
 //PathFinding을 상속받아 몬스터의 길찾기에 이용된다.
 
 //=====================================================
@@ -25,7 +25,7 @@ class User;
 class Field;
 class SectorManager;
 class Sector;
-class ServerLogicThread;
+class MainThread;
 
 class Monster : public PathFinding
 {

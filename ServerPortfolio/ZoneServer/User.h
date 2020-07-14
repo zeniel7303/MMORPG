@@ -1,9 +1,9 @@
-	#pragma once
+#pragma once
 #include "stdafx.h"
 #include"../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
 #include "UnitInfo.h"
-#include "UserSession.h"
+#include "ClientSession.h"
 #include "PathFinding.h"
 #include "FieldTilesData.h"
 
@@ -26,7 +26,7 @@ struct INFO
 class Field;
 class Sector;
 
-class User : public UserSession
+class User : public ClientSession
 {
 private:
 	INFO				m_basicInfo;
@@ -53,8 +53,7 @@ public:
 	void DisConnect();
 	void Reset();
 
-	void HandleOverlappedIO(ST_OVERLAPPED* _overlapped);
-	void Parsing();
+	void OnRecv();
 
 	//살아있는지 체크
 	void HeartBeatChecked();
@@ -105,7 +104,7 @@ public:
 	INFO* GetInfo() { return &m_basicInfo; }
 
 	Field* GetField() { return m_field; }
-	void SetField (Field* _field) { m_field = _field; }
+	void SetField(Field* _field) { m_field = _field; }
 
 	Sector* GetSector() { return m_sector; }
 	void SetSector(Sector* _sector) { m_sector = _sector; }
@@ -122,5 +121,5 @@ public:
 
 	bool GetStartCheckingHeartBeat() { return m_startCheckingHeartBeat; }
 	void StartCheckingHeartBeat() { m_startCheckingHeartBeat = true; }
-};												 
+};
 

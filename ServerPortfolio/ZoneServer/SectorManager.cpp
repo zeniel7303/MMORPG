@@ -50,7 +50,7 @@ Sector* SectorManager::GetSector(int _num)
 	return iter->second;
 }
 
-void SectorManager::GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector* _sector)
+void SectorManager::GetNeighborSectors(std::vector<Sector*>& _sectorsVec, Sector* _sector)
 {
 	int tempNum = _sector->GetSectorNum();
 
@@ -58,40 +58,40 @@ void SectorManager::GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector
 	{
 	case 0:
 	{
-		_sectorsVec->push_back(m_sectorMap.find(0)->second);
-		_sectorsVec->push_back(m_sectorMap.find(1)->second);
-		_sectorsVec->push_back(m_sectorMap.find(SIZE)->second);
-		_sectorsVec->push_back(m_sectorMap.find(SIZE + 1)->second);
+		_sectorsVec.push_back(m_sectorMap.find(0)->second);
+		_sectorsVec.push_back(m_sectorMap.find(1)->second);
+		_sectorsVec.push_back(m_sectorMap.find(SIZE)->second);
+		_sectorsVec.push_back(m_sectorMap.find(SIZE + 1)->second);
 	}
 		break;
 	case SIZE - 1:
 	{
 		int temp = SIZE - 1;
 
-		_sectorsVec->push_back(m_sectorMap.find(temp - 1)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp + (SIZE - 1))->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp + SIZE)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - 1)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp + (SIZE - 1))->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp + SIZE)->second);
 	}
 		break;
 	case SIZE * SIZE - SIZE:
 	{
 		int temp = SIZE * SIZE - SIZE;
 
-		_sectorsVec->push_back(m_sectorMap.find(temp - SIZE)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp - (SIZE - 1))->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp + 1)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - SIZE)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - (SIZE - 1))->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp + 1)->second);
 	}
 		break;
 	case SIZE * SIZE - 1:
 	{
 		int temp = SIZE * SIZE - 1;
 
-		_sectorsVec->push_back(m_sectorMap.find(temp - (SIZE + 1))->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp - SIZE)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp - 1)->second);
-		_sectorsVec->push_back(m_sectorMap.find(temp)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - (SIZE + 1))->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - SIZE)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp - 1)->second);
+		_sectorsVec.push_back(m_sectorMap.find(temp)->second);
 	}
 		break;
 	default:
@@ -107,7 +107,7 @@ void SectorManager::GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector
 
 				if (iter != m_sectorMap.end())
 				{
-					_sectorsVec->push_back(iter->second);
+					_sectorsVec.push_back(iter->second);
 				}
 			}
 		}
@@ -134,5 +134,5 @@ void SectorManager::GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector
 		swap((*_sectorsVec)[i], (*_sectorsVec)[location]);
 	}*/
 
-	sort(_sectorsVec->begin(), _sectorsVec->end());
+	sort(_sectorsVec.begin(), _sectorsVec.end());
 }

@@ -69,6 +69,7 @@ public:
 
 	//RECV SEND Ã¼Å©¿ë
 	virtual void HandleOverlappedIO(ST_OVERLAPPED* _overlapped) = 0;
+	virtual void GenerateOverlappedIO() = 0;
 	virtual void DisConnect() = 0;
 
 	bool IsFailed() { return m_failed; }

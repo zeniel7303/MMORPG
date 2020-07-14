@@ -3,7 +3,7 @@
 #include "Sector.h"
 
 #include "DBConnector.h"
-#include "ServerLogicThread.h"
+#include "MainThread.h"
 
 User::User()
 {
@@ -30,7 +30,7 @@ User::~User()
 
 void User::OnConnect()
 {
-	UserSession::OnConnect();
+	ClientSession::OnConnect();
 
 	IsConnectedPacket* isConnectedPacket =
 		reinterpret_cast<IsConnectedPacket*>(m_sendBuffer->
@@ -46,7 +46,7 @@ void User::OnConnect()
 
 void User::DisConnect()
 {
-	UserSession::DisConnect();
+	ClientSession::DisConnect();
 
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
@@ -64,12 +64,12 @@ void User::DisConnect()
 	m_startCheckingHeartBeat = false;
 	m_heartBeatCheckedCount = 0;
 
-	ServerLogicThread::getSingleton()->AddToDisConnectQueue(this);
+	MainThread::getSingleton()->AddToDisConnectQueue(this);
 }
 
 void User::Reset()
 {
-	UserSession::Reset();
+	ClientSession::Reset();
 
 	m_basicInfo.unitInfo.Reset();
 	m_basicInfo.userInfo.Reset();
@@ -83,41 +83,7 @@ void User::Reset()
 	m_basicInfo.unitInfo.fieldNum = 0;
 }
 
-void User::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
-{
-	//switch (_overlapped->state)
-	//{
-	//case IO_RECV:
-	//{
-	//	
-	//}
-	//break;
-	//default:
-	//	//예외
-	//	break;
-	//}
-
-	if (_overlapped == &m_overlapped)
-	{
-		if (m_overlapped.bytes <= 0)
-		{
-			//printf("[INFO] BYTES <= 0\n");
-
-			//printf("2 \n");
-			DisConnect();
-
-			return;
-		}
-
-		m_receiver->Write(m_overlapped.bytes);
-
-		Parsing();
-
-		Recv();
-	}
-}
-
-void User::Parsing()
+void User::OnRecv()
 {
 	int tempNum = 20;
 
@@ -127,15 +93,17 @@ void User::Parsing()
 
 		if (packet == nullptr) break;
 
-		ServerLogicThread::PacketQueuePair_User* temp = new ServerLogicThread::PacketQueuePair_User(this, packet);
-		ServerLogicThread::getSingleton()->AddToUserPacketQueue(temp);
+		//Heap에다 넣는 것
+		//MainThread::PacketQueuePair_User* temp = new MainThread::PacketQueuePair_User(this, packet);
+		//MainThread::getSingleton()->AddToUserPacketQueue(temp);
+		//상수로 넣는것(상수니까 주소바뀔 수 없다.)
+		MainThread::getSingleton()->AddToUserPacketQueue({ this, packet });
 
 		tempNum--;
 
 		if (tempNum <= 0)
 		{
 			tempNum = 20;
-
 
 			break;
 		}
@@ -341,7 +309,7 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 void User::RequestUserInfoFailed()
 {
 	MYDEBUG("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
-	
+
 	DisConnect();
 }
 
@@ -421,7 +389,7 @@ void User::LogInDuplicated()
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
 	//m_sendBuffer->Write(LogInFailed->size);
 
-Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
+	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
 
 void User::LogInSuccess(int _num)
@@ -445,7 +413,7 @@ void User::LogInFailed()
 	//m_sendBuffer->Write(LogInFailed->size);
 	MYDEBUG("[ Login Failed ] \n");
 
-Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
+	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
 
 void User::RegisterSuccess()

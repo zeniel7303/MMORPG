@@ -18,7 +18,7 @@ public:
 
 	Sector* GetSector(int _x, int _y);
 	Sector* GetSector(int _num);
-	void GetNeighborSectors(std::vector<Sector*>* _sectorsVec, Sector* _sector);
+	void GetNeighborSectors(std::vector<Sector*>& _sectorsVec, Sector* _sector);
 
 	int GetSize() { return SIZE; }
 };

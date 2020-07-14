@@ -1,5 +1,6 @@
-#include "ServerLogicThread.h"
 #include "Monster.h"
+
+#include "MainThread.h"
 #include "User.h"
 #include "Field.h"
 #include "SectorManager.h"
@@ -103,9 +104,11 @@ void Monster::Spawn()
 	monsterInfoPacket->Init(SendCommand::Zone2C_MONSTER_INFO, sizeof(MonsterInfoPacket));
 
 	m_sendBuffer->Write(monsterInfoPacket->size);
+	
+	//MainThread::PacketQueuePair_Monster* temp = new MainThread::PacketQueuePair_Monster(this, monsterInfoPacket);
+	//MainThread::getSingleton()->AddToMonsterPacketQueue(temp);
 
-	ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterInfoPacket);
-	ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
+	MainThread::getSingleton()->AddToMonsterPacketQueue({ this, monsterInfoPacket });
 }
 
 void Monster::Move()
@@ -164,8 +167,9 @@ void Monster::Attack()
 		monsterAttackPacket->Init(SendCommand::Zone2C_MONSTER_ATTACK, sizeof(MonsterAttackPacket));
 
 		m_sendBuffer->Write(monsterAttackPacket->size);
-		ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterAttackPacket);
-		ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
+		//MainThread::PacketQueuePair_Monster* temp = new MainThread::PacketQueuePair_Monster(this, monsterAttackPacket);
+		//MainThread::getSingleton()->AddToMonsterPacketQueue(temp);
+		MainThread::getSingleton()->AddToMonsterPacketQueue({ this, monsterAttackPacket });
 
 		m_currentTime = 0.0f;
 	}
@@ -388,8 +392,9 @@ bool Monster::PathMove()
 			monsterPositionPacket->Init(SendCommand::Zone2C_MONSTER_MOVE, sizeof(MonsterPositionPacket));
 			
 			m_sendBuffer->Write(monsterPositionPacket->size);
-			ServerLogicThread::PacketQueuePair_Monster* temp = new ServerLogicThread::PacketQueuePair_Monster(this, monsterPositionPacket);
-			ServerLogicThread::getSingleton()->AddToMonsterPacketQueue(temp);
+			//MainThread::PacketQueuePair_Monster* temp = new MainThread::PacketQueuePair_Monster(this, monsterPositionPacket);
+			//MainThread::getSingleton()->AddToMonsterPacketQueue(temp);
+			MainThread::getSingleton()->AddToMonsterPacketQueue({ this, monsterPositionPacket });
 		}
 		//남은 타일리스트가 없다면
 		else

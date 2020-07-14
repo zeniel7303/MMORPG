@@ -10,7 +10,6 @@
 
 #define	SAFE_DELETE_ARRAY(p)	{ if (p) { delete[] (p); (p) = NULL;} }
 
-//이름 바꾸기
 class AcceptorSession : public Session
 {
 private:
@@ -26,17 +25,17 @@ private:
 	int						m_remotelen;
 	sockaddr_in*			m_plocal;
 	sockaddr_in*			m_premote;
-		
+
 public:
-	AcceptorSession(SOCKET _listenSocket, IpEndPoint* _ipEndPoint, HANDLE _handle, int _num);
-	~AcceptorSession();
+	AcceptorSession(const char* _ip, const unsigned short _port, HANDLE _handle, int _num);
+	virtual ~AcceptorSession();
 
 	void Reset();
 
-	void HandleOverlappedIO(ST_OVERLAPPED* _overlapped) override;
-	void DisConnect();
-
-	bool ActuateAcceptEx();
+	virtual void HandleOverlappedIO(ST_OVERLAPPED* _overlapped) override;
+	virtual void GenerateOverlappedIO() override;
+	virtual void DisConnect() override;
+	virtual void OnAccept() = 0;
 
 	SOCKET GetListenSocket() { return m_listenSocket; }
 };

@@ -11,10 +11,10 @@
 class HeartBeatThread : public Thread<HeartBeatThread>
 {
 private:
-	SessionManager*					m_sessionManager;
+	SessionManager&	m_sessionManager;
 
 public:
-	HeartBeatThread(SessionManager* _sessionManager);
+	HeartBeatThread(SessionManager& _sessionManager);
 	~HeartBeatThread();
 
 	void LoopRun();

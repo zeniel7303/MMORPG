@@ -67,6 +67,9 @@
     <Filter Include="소스 파일\Library\Session\Variation">
       <UniqueIdentifier>{b385d119-5f1f-4b70-993d-a3fbfd29f7ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\PacketHandler">
+      <UniqueIdentifier>{fb11c674-6a8c-4912-86fa-7d671fe90b11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SendBuffer.h">
@@ -103,9 +106,6 @@
       <Filter>소스 파일\Application\Field</Filter>
     </ClInclude>
     <ClInclude Include="MonsterLogicThread.h">
-      <Filter>소스 파일\Application\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerLogicThread.h">
       <Filter>소스 파일\Application\Thread</Filter>
     </ClInclude>
     <ClInclude Include="PathFinding.h">
@@ -153,11 +153,20 @@
     <ClInclude Include="SessionManager.h">
       <Filter>소스 파일\Library\Session\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="AcceptorSession.h">
+    <ClInclude Include="ClientSession.h">
+      <Filter>소스 파일\Library\Session\Variation</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceptor.h">
       <Filter>소스 파일\Application\Acceptor</Filter>
     </ClInclude>
-    <ClInclude Include="UserSession.h">
+    <ClInclude Include="AcceptorSession.h">
       <Filter>소스 파일\Library\Session\Variation</Filter>
+    </ClInclude>
+    <ClInclude Include="MainThread.h">
+      <Filter>소스 파일\Application\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +195,6 @@
       <Filter>소스 파일\Application\Field</Filter>
     </ClCompile>
     <ClCompile Include="MonsterLogicThread.cpp">
-      <Filter>소스 파일\Application\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerLogicThread.cpp">
       <Filter>소스 파일\Application\Thread</Filter>
     </ClCompile>
     <ClCompile Include="Unit.cpp">
@@ -221,11 +227,20 @@
     <ClCompile Include="SessionManager.cpp">
       <Filter>소스 파일\Library\Session\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="AcceptorSession.cpp">
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>소스 파일\Library\Session\Variation</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
       <Filter>소스 파일\Application\Acceptor</Filter>
     </ClCompile>
-    <ClCompile Include="UserSession.cpp">
+    <ClCompile Include="AcceptorSession.cpp">
       <Filter>소스 파일\Library\Session\Variation</Filter>
+    </ClCompile>
+    <ClCompile Include="MainThread.cpp">
+      <Filter>소스 파일\Application\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

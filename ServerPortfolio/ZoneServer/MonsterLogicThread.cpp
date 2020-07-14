@@ -1,6 +1,6 @@
 #include "MonsterLogicThread.h"
 #include "Field.h"
-#include "ServerLogicThread.h"
+#include "MainThread.h"
 
 #include "DBConnector.h"
 
@@ -128,11 +128,11 @@ void MonsterLogicThread::SendMonsterList_InRange(User* _user)
 
 	monsterInfoListPacket_InRange->monsterNum = 0;
 
-	std::vector<Sector*> tempVec = *_user->GetSector()->GetRoundSectorsVec();
+	const std::vector<Sector*>& tempVec = _user->GetSector()->GetRoundSectorsVec();
 
 	for (const auto& tempSector : tempVec)
 	{
-		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
+		const std::list<Monster*> tempList = tempSector->Manager_List<Monster>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 

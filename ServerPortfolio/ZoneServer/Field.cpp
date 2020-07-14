@@ -57,15 +57,15 @@ void Field::FieldSendAll(char * _buffer, int _size)
 	}
 }
 
-void Field::SectorSendAll(std::vector<Sector*>* _sectorsVec, char * _buffer, int _size)
+void Field::SectorSendAll(const std::vector<Sector*>& _sectorsVec, char * _buffer, int _size)
 {
-	std::vector<Sector*> tempVector = *_sectorsVec;
+	const std::vector<Sector*>& tempVector = _sectorsVec;
 
 	for (const auto& element_1 : tempVector)
 	{
 		if (element_1 == nullptr) continue;
 
-		std::list<User*> tempList = *element_1->Manager_List<User>::GetItemList();
+		const std::list<User*> tempList = element_1->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
@@ -123,11 +123,11 @@ void Field::SendUserList_InRange(User* _user)
 
 	userListPacket_InRange->userNum = 0;
 
-	std::vector<Sector*> tempVec = *_user->GetSector()->GetRoundSectorsVec();
+	const std::vector<Sector*> tempVec = _user->GetSector()->GetRoundSectorsVec();
 
 	for (const auto& tempSector : tempVec)
 	{
-		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
+		const std::list<User*> tempList = tempSector->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
@@ -206,11 +206,11 @@ void Field::SendEnterUserInfo(User* _user)
 	userNumPacket_InRange->userIndex = _user->GetInfo()->userInfo.userID;
 	m_sendBuffer->Write(userNumPacket_InRange->size);
 
-	std::vector<Sector*> tempVec = *_user->GetSector()->GetRoundSectorsVec();
+	const std::vector<Sector*>& tempVec = _user->GetSector()->GetRoundSectorsVec();
 
 	for (const auto& tempSector : tempVec)
 	{
-		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
+		const std::list<User*> tempList = tempSector->Manager_List<User>::GetItemList();
 
 		if (tempList.size() <= 0) continue;
 
@@ -300,8 +300,8 @@ void Field::UpdateUserSector(User* _user)
 		_user->SetSector(nowSector);
 		_user->GetSector()->Manager_List<User>::AddItem(_user);
 
-		std::vector<Sector*> prevSectorsNeighbor = *prevSector->GetRoundSectorsVec();
-		std::vector<Sector*> nowSectorsNeighbor = *nowSector->GetRoundSectorsVec();
+		std::vector<Sector*>& prevSectorsNeighbor = prevSector->GetRoundSectorsVec();
+		std::vector<Sector*>& nowSectorsNeighbor = nowSector->GetRoundSectorsVec();
 
 		auto iter1 = std::set_difference(
 			prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
@@ -348,7 +348,7 @@ void Field::LeaveSector(User* _user)
 	//해결
 
 	//자신이 있던 섹터 범위 내의 다른 유저들에게 자신이 나갔다고 알려주는 함수
-	SectorSendAll(&m_leaveSectorsVec, reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);
+	SectorSendAll(m_leaveSectorsVec, reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);
 
 	//내가 있던 섹터 범위 내의 다른 유저들의 리스트를 보내주는 함수(클라에서 안보이게 하기 위해)
 	SendInvisibleUserList(_user);
@@ -370,9 +370,9 @@ void Field::SendInvisibleUserList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager_List<User>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<User>::GetItemList().size() <= 0) continue;
 
-		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
+		const std::list<User*> tempList = tempSector->Manager_List<User>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
@@ -410,9 +410,9 @@ void Field::SendInvisibleMonsterList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager_List<Monster>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<Monster>::GetItemList().size() <= 0) continue;
 
-		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
+		const std::list<Monster*> tempList = tempSector->Manager_List<Monster>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
@@ -443,7 +443,7 @@ void Field::EnterSector(User* _user)
 	m_sendBuffer->Write(userPositionPacket_Enter->size);
 
 	//내가 들어온 섹터 범위 내의 다른 유저들에게 자신이 들어왔다고 알려주는 함수
-	SectorSendAll(&m_enterSectorsVec, reinterpret_cast<char*>(userPositionPacket_Enter), userPositionPacket_Enter->size);
+	SectorSendAll(m_enterSectorsVec, reinterpret_cast<char*>(userPositionPacket_Enter), userPositionPacket_Enter->size);
 
 	//내가 들어온 섹터 범위 내의 다른 유저들의 리스트를 보내주는 함수(클라에서 보이게 하기 위해)
 	SendVisibleUserList(_user);
@@ -465,9 +465,9 @@ void Field::SendVisibleUserList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager_List<User>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<User>::GetItemList().size() <= 0) continue;
 
-		std::list<User*> tempList = *tempSector->Manager_List<User>::GetItemList();
+		const std::list<User*> tempList = tempSector->Manager_List<User>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
@@ -536,9 +536,9 @@ void Field::SendVisibleMonsterList(User* _user)
 	{
 		if (tempSector == nullptr) break;
 
-		if (tempSector->Manager_List<Monster>::GetItemList()->size() <= 0) continue;
+		if (tempSector->Manager_List<Monster>::GetItemList().size() <= 0) continue;
 
-		std::list<Monster*> tempList = *tempSector->Manager_List<Monster>::GetItemList();
+		const std::list<Monster*> tempList = tempSector->Manager_List<Monster>::GetItemList();
 
 		for (const auto& element : tempList)
 		{
