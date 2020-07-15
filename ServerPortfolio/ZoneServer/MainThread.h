@@ -84,7 +84,7 @@ private:
 	HANDLE									m_hEvent[MAX_EVENT];
 
 	//테스트 시간 체크용
-	time_t start, end;
+	time_t									start, end;
 
 	MainThread();
 
