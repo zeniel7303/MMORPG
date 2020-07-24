@@ -40,6 +40,7 @@ public class MapManager : MonoBehaviour
 
         Packet packet = new Packet(SendCommand.C2Zone_ENTER_FIELD_SUCCESS);
         ServerManager.Instance.SendData(packet.GetBytes());
+        ServerManager.Instance.isStartConnect = true;
     }
 
     // Update is called once per frame

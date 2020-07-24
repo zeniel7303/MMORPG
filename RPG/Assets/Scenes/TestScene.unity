@@ -11883,7 +11883,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 14
     y: 10
     tileType: 0
@@ -12059,7 +12059,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 30
     y: 10
     tileType: 0
@@ -12488,7 +12488,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 69
     y: 10
     tileType: 0
@@ -12675,7 +12675,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 86
     y: 10
     tileType: 0
@@ -13368,7 +13368,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 11
     tileType: 0
@@ -23983,7 +23983,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 14
     y: 21
     tileType: 0
@@ -24159,7 +24159,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 30
     y: 21
     tileType: 0
@@ -24368,7 +24368,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 21
     tileType: 0
@@ -24588,7 +24588,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 69
     y: 21
     tileType: 0
@@ -25875,7 +25875,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 86
     y: 22
     tileType: 0
@@ -40868,7 +40868,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 36
     tileType: 0
@@ -41594,7 +41594,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 15
     y: 37
     tileType: 0
@@ -41770,7 +41770,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 31
     y: 37
     tileType: 0
@@ -42177,7 +42177,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 68
     y: 37
     tileType: 0
@@ -42375,7 +42375,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 86
     y: 37
     tileType: 0
@@ -58094,7 +58094,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 15
     y: 52
     tileType: 0
@@ -58292,7 +58292,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 33
     y: 52
     tileType: 0
@@ -58468,7 +58468,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 52
     tileType: 0
@@ -58688,7 +58688,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 69
     y: 52
     tileType: 0
@@ -58875,7 +58875,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 86
     y: 52
     tileType: 0
@@ -75716,7 +75716,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 17
     y: 68
     tileType: 0
@@ -76992,7 +76992,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 33
     y: 69
     tileType: 0
@@ -77168,7 +77168,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 69
     tileType: 0
@@ -77377,7 +77377,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 68
     y: 69
     tileType: 0
@@ -77564,7 +77564,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 85
     y: 69
     tileType: 0
@@ -93877,7 +93877,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 68
     y: 84
     tileType: 0
@@ -94427,7 +94427,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 18
     y: 85
     tileType: 0
@@ -94592,7 +94592,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 33
     y: 85
     tileType: 0
@@ -94768,7 +94768,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 49
     y: 85
     tileType: 0
@@ -95153,7 +95153,7 @@ MonoBehaviour:
     isClosed: 0
     isOpened: 0
     section: 0
-    spawnMonsterIndex: 0
+    spawnMonsterIndex: 10001
   - x: 84
     y: 85
     tileType: 0
@@ -110734,13 +110734,15 @@ MonoBehaviour:
   isReleaseDraw: 1
   isTerrain: 0
   isBlock: 0
-  isMonsterSpawn: 0
+  isMonsterSpawn: 1
   boxCollider: {fileID: 1922769617}
   linePos: 0.05
   isShowGizmo: 0
   brushSize: 0
   selectSpawnIndex: 0
-  spawnList: []
+  spawnList:
+  - monsterIndex: 10001
+    gridColor: {r: 1, g: 0.11996243, b: 0.031372547, a: 1}
 --- !u!4 &1922769619
 Transform:
   m_ObjectHideFlags: 0

@@ -329,8 +329,7 @@ public class Session : MonoBehaviour
                     PlayerManager.instance.SetUserInfo(sessionInfoPacket.info.userInfo);
                     PlayerManager.instance.SetUnitInfo(sessionInfoPacket.info.unitInfo);
 
-                    //ZoneNumPacket zoneNumPacket = new ZoneNumPacket(SendCommand.C2Zone_TRY_ENTER_ZONE, 1);
-                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 999);
+                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 1);
 
                     SendData(fieldNumPacket.GetBytes());
                 }              
@@ -575,6 +574,8 @@ public class Session : MonoBehaviour
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
 
+                    Debug.Log("Invisible List : " + monsterListPacket.monsterNum);
+
                     ServerManager.Instance.GetMonsterListInvisible(monsterListPacket);
                 }
                 break;
@@ -582,6 +583,8 @@ public class Session : MonoBehaviour
                 {
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
+
+                    Debug.Log("Visible List : " + monsterListPacket.monsterNum);
 
                     ServerManager.Instance.GetMonsterListVisible(monsterListPacket);
                 }

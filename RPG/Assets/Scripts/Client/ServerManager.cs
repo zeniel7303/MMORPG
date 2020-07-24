@@ -15,20 +15,25 @@ public class ServerManager : Singleton<ServerManager>
 
     public bool isLogInConnect;
     public bool isRegisterConnect;
+    public bool isStartConnect;
+    private float time = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         isLogInConnect = false;
         isRegisterConnect = false;
-
-        Init();
+        isStartConnect = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         session.Update();
+
+        if (!isStartConnect) return;
+
+        InvokeRepeating("HeartBeat", 1, 1);
     }
 
     public void Init()
@@ -84,6 +89,15 @@ public class ServerManager : Singleton<ServerManager>
         isRegisterConnect = true;
 
         session.Connect(ip, port);
+    }
+
+    public void HeartBeat()
+    {
+        Debug.Log("나 살아있어요.");
+
+        Packet CheckAlivePacket = new Packet(SendCommand.C2Zone_CHECK_ALIVE);
+
+        SendData(CheckAlivePacket.GetBytes());
     }
 
     public void SendExitUser()
