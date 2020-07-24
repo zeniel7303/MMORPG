@@ -20,6 +20,8 @@ private:
 	CRITICAL_SECTION		m_cs;
 
 	ObjectPool<Session>		m_objectPool;
+	//DB 프로시저 사용시 빼주자(현재 로그인 중복 체크를 위해서만 사용중)
+	//Unordered Mapp 사용할 수도 있음.
 	set<int>				m_idSet;
 
 public:

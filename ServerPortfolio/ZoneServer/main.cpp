@@ -45,7 +45,7 @@ int main()
 	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30002,
 		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
-	iocpClass->AddSocket(acceptor->GetListenSocket(),
+	iocpClass->Associate(acceptor->GetListenSocket(),
 		(unsigned long long)acceptor->GetListenSocket());
 
 	WaitForSingleObject(MainThread::getSingleton()->GetHandle(), INFINITE);

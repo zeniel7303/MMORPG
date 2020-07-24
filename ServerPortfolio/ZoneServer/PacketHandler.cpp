@@ -11,84 +11,7 @@ void PacketHandler::HandleUserPacket(User* _user, Packet* _packet)
 	Packet* packet = _packet;
 	User* user = _user;
 
-	switch (static_cast<RecvCommand>(packet->cmd))
-	{
-		//채팅 패킷
-		//바로 해당 존에 SendAll
-	case RecvCommand::C2Zone_CHATTING:
-		user->GetField()->
-			SectorSendAll(_user->GetSector()->GetRoundSectorsVec(),
-				reinterpret_cast<char*>(packet), packet->size);
-		break;
-		//HeartBeatChecked 성공 패킷 받을 시
-	case RecvCommand::C2Zone_CHECK_ALIVE:
-		user->HeartBeatChecked();
-		break;
-		//회원가입 시도시
-	case RecvCommand::C2Zone_REGISTER_ACCOUNT:
-		OnPacket_RegisterUser(user, packet);
-		break;
-		//로그인 시도시
-	case RecvCommand::C2Zone_LOGIN:
-		OnPacket_LogInUser(user, packet);
-		break;
-		//접속 시 유저 정보 요청 시
-	case RecvCommand::C2Zone_REQUIRE_INFO:
-		user->RequestUserInfo();
-		break;
-		//게임 시작 후 첫 존 입장 시 받는 패킷
-		//스폰 위치, 타일 지정, 존에 있었다면 해당 존에서는 Exit처리
-		//해당 존에 접속 중인 유저들에게 입장했다고 알려줌
-	case RecvCommand::C2Zone_TRY_ENTER_FIELD:
-		OnPacket_EnterField(user, packet);
-		break;
-		//접속 중인 유저들 리스트 보내줌
-	case RecvCommand::C2Zone_ENTER_FIELD_SUCCESS:
-		OnPacket_EnterFieldSuccess(user);
-		break;
-		//유저 이동
-	case RecvCommand::C2Zone_USER_MOVE:
-		OnPacket_UpdateUserPosition(user, packet, false);
-		break;
-		//유저 이동
-	case RecvCommand::C2Zone_USER_MOVE_FINISH:
-		OnPacket_UpdateUserPosition(user, packet, true);
-		break;
-		//공격 실패 시(몬스터가 죽었거나 범위 밖으로 나갔을 때)
-	case RecvCommand::C2Zone_USER_ATTACK_FAILED:
-		OnPacket_UserAttackFailed(user, packet);
-		break;
-		//공격 성공 시
-	case RecvCommand::C2Zone_USER_ATTACK_MONSTER:
-		OnPacket_UserAttack(user, packet);
-		break;
-		//유저 부활 시
-	case RecvCommand::C2Zone_USER_REVIVE:
-		OnPacket_UserRevive(user);
-		break;
-		//필드 이동
-	case RecvCommand::C2Zone_ENTER_FIELD:
-		MYDEBUG("[ Try To Enter Field ]\n");
-		OnPacket_EnterField(_user, _packet);
-		break;
-		//필드 이동
-	case RecvCommand::C2Zone_ENTER_VILLAGE:
-		MYDEBUG("[ Try To Enter Village ]\n");
-		OnPacket_EnterField(user, _packet);
-		break;
-		//접속 끊을 시
-	case RecvCommand::C2Zone_EXIT_USER:
-		OnPacket_UpdateUser(user, packet);
-		_user->DisConnect();
-		break;
-		//HeartBeatCheck 6회 후 유저 업데이트 요청 시
-	case RecvCommand::C2Zone_UPDATE_INFO:
-		OnPacket_UpdateUser(user, packet);
-		break;
-	case RecvCommand::C2Zone_ENTER_TEST_USER:
-		OnPacket_EnterTestUser(user, packet);
-		break;
-	}
+	(this->*userPacketFunc[packet->cmd])(user, packet);
 }
 
 void PacketHandler::HandleMonsterPacket(Monster* _monster, Packet* _packet)
@@ -102,8 +25,6 @@ void PacketHandler::HandleMonsterPacket(Monster* _monster, Packet* _packet)
 		OnPacket_MonsterAttack(monster, packet);
 		break;
 	default:
-		/*printf("=======================================\n");
-		printf("Monster %d : ", monster->GetInfo().index);*/
 		monster->GetField()->
 			SectorSendAll(monster->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(packet), packet->size);
 		break;
@@ -114,40 +35,7 @@ void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
 {
 	Packet* packet = _packet;
 
-	switch (static_cast<RecvCommand>(packet->cmd))
-	{
-	case RecvCommand::DB2Zone_LOGIN_FAILED_INVALID_ID:
-		OnPacket_LogInFailed(packet);
-		break;
-	case RecvCommand::DB2Zone_LOGIN_FAILED_WRONG_PASSWORD:
-		OnPacket_LogInFailed(packet);
-		break;
-	case RecvCommand::DB2Zone_LOGIN_SUCCESS:
-		OnPacket_LogInSuccess(packet);
-		break;
-	case RecvCommand::DB2Zone_REGISTER_FAILED:
-		OnPacket_RegisterFailed(packet);
-		break;
-	case RecvCommand::DB2Zone_REGISTER_SUCCESS:
-		OnPacket_RegisterSuccess(packet);
-		break;
-	case RecvCommand::DB2Zone_GET_USER_DATA_FAILED:
-		OnPacket_GetUserInfoFailed(packet);
-		break;
-	case RecvCommand::DB2Zone_GET_USER_DATA_SUCCESS:
-		OnPacket_GetUserInfoSuccess(packet);
-		break;
-	case RecvCommand::DB2Zone_MONSTERS_DATA:
-		DBCONNECTOR->GetMonstersData(packet);
-		m_fieldManager.InitMonsterThread();
-		break;
-	case RecvCommand::DB2Zone_UPDATE_USER_FAILED:
-		OnPacket_UpdateUserFailed(packet);
-		break;
-	case RecvCommand::DB2Zone_UPDATE_USER_SUCCESS:
-		OnPacket_UpdateUserSuccess(packet);
-		break;
-	}
+	(this->*dbPacketFunc[packet->cmd % 100])(packet);
 }
 
 void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
@@ -167,21 +55,33 @@ void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
 	field->EnterUser(_user);
 }
 
-void PacketHandler::OnPacket_EnterFieldSuccess(User* _user)
+void PacketHandler::OnPacket_EnterFieldSuccess(User* _user, Packet* _packet)
 {
-	_user->StartCheckingHeartBeat();
-
 	Field* field = _user->GetField();
 
 	field->SendUserList(_user);
 }
 
-void PacketHandler::OnPacket_UpdateUserPosition(User* _user, Packet* _packet, bool _isFinish)
+void PacketHandler::OnPacket_UpdateUserPosition(User* _user, Packet* _packet)
 {
 	UserPositionPacket* userPositionPacket = reinterpret_cast<UserPositionPacket*>(_packet);
 
-	if (!_isFinish && _user->GetInfo()->unitInfo.state == STATE::IDLE) _user->SetState(STATE::MOVE);
-	else if (_isFinish) _user->SetState(STATE::IDLE);
+	 _user->SetState(STATE::MOVE);
+
+	Field* field = _user->GetField();
+
+	_user->SetPosition(userPositionPacket->position);
+
+	field->UpdateUserSector(_user);
+
+	field->SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), reinterpret_cast<char*>(_packet), _packet->size);
+}
+
+void PacketHandler::OnPacket_UpdateUserPosition_Finish(User* _user, Packet* _packet)
+{
+	UserPositionPacket* userPositionPacket = reinterpret_cast<UserPositionPacket*>(_packet);
+
+	_user->SetState(STATE::IDLE);
 
 	Field* field = _user->GetField();
 
@@ -212,7 +112,7 @@ void PacketHandler::OnPacket_UserAttack(User* _user, Packet* _packet)
 	}
 }
 
-void PacketHandler::OnPacket_UserRevive(User* _user)
+void PacketHandler::OnPacket_UserRevive(User* _user, Packet* _packet)
 {
 	Field* field = _user->GetField();
 
@@ -243,6 +143,11 @@ void PacketHandler::OnPacket_LogInUser(User* _user, Packet* _packet)
 	_user->LogInUser(logInPacket);
 }
 
+void PacketHandler::OnPacket_RequireInfo(User* _user, Packet* _packet)
+{
+	_user->RequestUserInfo();
+}
+
 void PacketHandler::OnPacket_UpdateUser(User* _user, Packet* _packet)
 {
 	SessionInfoPacket* sessionInfoPacket = reinterpret_cast<SessionInfoPacket*>(_packet);
@@ -251,6 +156,25 @@ void PacketHandler::OnPacket_UpdateUser(User* _user, Packet* _packet)
 	_user->GetInfo()->userInfo = sessionInfoPacket->info.userInfo;
 
 	_user->UpdateInfo();
+}
+
+void PacketHandler::OnPacket_ExitUser(User* _user, Packet* _packet)
+{
+	OnPacket_UpdateUser(_user, _packet);
+
+	_user->DisConnect();
+}
+
+void PacketHandler::OnPacket_Chatting(User* _user, Packet* _packet)
+{
+	_user->GetField()->
+		SectorSendAll(_user->GetSector()->GetRoundSectorsVec(),
+			reinterpret_cast<char*>(_packet), _packet->size);
+}
+
+void PacketHandler::OnPacket_HeartBeat(User* _user, Packet* _packet)
+{
+	_user->HeartBeatChecked();
 }
 
 void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
@@ -262,7 +186,7 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 
 	if (tempUser != nullptr)
 	{
-		//중복 로그인체크
+		//중복 로그인체크(나중에 DB에서 프로시져를 이용해서 하자)
 		if (m_sessionManager.FindSessionID(tempUser->GetInfo()->userInfo.userID))
 		{
 			//중복 로그인이니 접속하지마라
@@ -367,6 +291,12 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 		//재시도
 		tempUser->UpdateInfo();
 	}
+}
+
+void PacketHandler::OnPakcet_GetMonstersData(Packet* _packet)
+{
+	DBCONNECTOR->GetMonstersData(_packet);
+	m_fieldManager.InitMonsterThread();
 }
 
 Session* PacketHandler::FindUser(SOCKET _socket)

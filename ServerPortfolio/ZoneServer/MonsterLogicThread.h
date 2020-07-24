@@ -8,8 +8,6 @@
 #include "FieldTilesData.h"
 #include "SectorManager.h"
 
-using namespace std;
-
 //=====================================================
 
 //MonsterLogicThread
@@ -27,8 +25,7 @@ private:
 	FieldTilesData*			m_fieldTilesData;
 	SectorManager*			m_sectorManager;
 
-	//몬스터는 자주 찾아야하기하므로 map으로 만든다.
-	map<int, Monster*>		m_monsterMap;
+	std::vector<Monster*>	m_monsterVec;
 
 public:
 	MonsterLogicThread(Field* _field, FieldTilesData* _fieldTilesData,

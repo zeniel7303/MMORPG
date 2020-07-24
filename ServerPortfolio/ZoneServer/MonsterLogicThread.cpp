@@ -14,13 +14,12 @@ MonsterLogicThread::MonsterLogicThread(Field* _field, FieldTilesData* _fieldTile
 
 MonsterLogicThread::~MonsterLogicThread()
 {
-	map<int, Monster*>::iterator i;
-	for (i = m_monsterMap.begin(); i != m_monsterMap.end(); i++)
+	for (int i = 0; i < m_monsterVec.size(); i++)
 	{
-		delete i->second;
+		delete m_monsterVec[i];
 	}
-
-	m_monsterMap.clear();
+	
+	m_monsterVec.clear();
 }
 
 bool MonsterLogicThread::CreateMonsters()
@@ -46,7 +45,7 @@ bool MonsterLogicThread::CreateMonsters()
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
 			MonsterData monsterData = 
-				*DBCONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);;
+				*DBCONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);
 
 			TRYCATCH(monster = new Monster(m_field, m_fieldTilesData, 
 				m_sectorManager, monsterInfo, monsterData));
@@ -56,7 +55,7 @@ bool MonsterLogicThread::CreateMonsters()
 				return false;
 			}
 
-			m_monsterMap.insert(make_pair(monster->GetInfo().index, monster));
+			m_monsterVec.emplace_back(monster);
 
 			monsterCount++;
 		}
@@ -69,16 +68,13 @@ bool MonsterLogicThread::CreateMonsters()
 
 void MonsterLogicThread::LoopRun()
 {
-	map<int, Monster*>::iterator iterEnd = m_monsterMap.end();
-
-	Monster* monster;
-
 	while (1)
 	{
-		for (map<int, Monster*>::iterator iter = m_monsterMap.begin(); iter != iterEnd; iter++)
+		int size = m_monsterVec.size();
+
+		for (int i = 0; i < size; i++)
 		{
-			monster = iter->second;
-			monster->Update();
+			m_monsterVec[i]->Update();
 		}
 
 		Sleep(1000 / 10);
@@ -91,14 +87,14 @@ void MonsterLogicThread::SendMonsterList(User* _user)
 		reinterpret_cast<MonsterInfoListPacket*>(_user->GetSendBuffer()->
 			GetBuffer(sizeof(MonsterInfoListPacket)));
 
-	monsterInfoListPacket->monsterNum = m_monsterMap.size();
+	monsterInfoListPacket->monsterNum = m_monsterVec.size();
 
 	int i = 0;
 	Monster* monster;
 
-	for (const auto& element : m_monsterMap)
+	for (const auto& element : m_monsterVec)
 	{
-		monster = element.second;
+		monster = element;
 
 		monsterInfoListPacket->info[i] = monster->GetInfo();
 
@@ -155,11 +151,5 @@ void MonsterLogicThread::SendMonsterList_InRange(User* _user)
 
 Monster* MonsterLogicThread::GetMonster(int _num)
 {
-	map<int, Monster*>::iterator iter;
-
-	iter = m_monsterMap.find(_num);
-
-	if (iter != m_monsterMap.end()) return iter->second;
-
-	return nullptr;
+	return m_monsterVec[_num];
 }

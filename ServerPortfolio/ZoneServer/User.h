@@ -1,4 +1,6 @@
 #pragma once
+#include <chrono>
+
 #include "stdafx.h"
 #include"../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
 
@@ -41,9 +43,9 @@ private:
 	//===============================================
 	bool				m_isGetUserList;
 
-	bool				m_isCheckingHeartBeat;
-	bool				m_startCheckingHeartBeat;
 	int					m_heartBeatCheckedCount;
+	//===============================================
+	std::chrono::system_clock::time_point	m_start;
 
 public:
 	User();
@@ -116,10 +118,6 @@ public:
 	bool GetIsGetUserList() { return m_isGetUserList; }
 	void SetIsGetUserList(bool _bool) { m_isGetUserList = _bool; }
 
-	bool IsChecking() { return m_isCheckingHeartBeat; }
-	void SetChecking(bool _bool) { m_isCheckingHeartBeat = _bool; }
-
-	bool GetStartCheckingHeartBeat() { return m_startCheckingHeartBeat; }
-	void StartCheckingHeartBeat() { m_startCheckingHeartBeat = true; }
+	std::chrono::system_clock::time_point GetStartTime() { return m_start; }
 };
 

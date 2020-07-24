@@ -11,6 +11,7 @@ protected:
 
 	bool				m_isTestClient;
 	bool				m_isConnected;
+	bool				m_isActived;
 
 	bool				m_ConstructorBool;
 

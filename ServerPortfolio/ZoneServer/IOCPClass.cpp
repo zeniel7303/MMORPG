@@ -52,7 +52,7 @@ void IOCPClass::Reset()
 	}
 }
 
-void IOCPClass::AddSocket(SOCKET _socket, unsigned long long _value)
+void IOCPClass::Associate(SOCKET _socket, unsigned long long _value)
 {
 	m_hIOCP = CreateIoCompletionPort(
 		reinterpret_cast <HANDLE>(_socket),

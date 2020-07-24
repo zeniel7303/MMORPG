@@ -10,8 +10,6 @@ using namespace std;
 //ObjectPool
 
 //=====================================================
-
-//사용 끝났다면 이후 내부 queue삭제는 사용한 곳에서 해주자
 template<typename T>
 class ObjectPool
 {
@@ -32,11 +30,6 @@ public:
 
 	~ObjectPool()
 	{
-		while (!objects.empty())
-		{
-			objects.pop();
-		}
-
 		DeleteCriticalSection(&m_cs);
 	}
 

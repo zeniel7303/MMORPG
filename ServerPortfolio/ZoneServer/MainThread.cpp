@@ -6,7 +6,7 @@ MainThread::MainThread()
 
 MainThread::~MainThread()
 {
-	for (int i = MAX_EVENT; i > 0 ; i--)
+	for (int i = MAX_EVENT; i > 0 ; --i)
 	{
 		if (m_hEvent[i-1]) {	CloseHandle(m_hEvent[i-1]); m_hEvent[i-1] = 0; 	}
 	}
@@ -14,7 +14,7 @@ MainThread::~MainThread()
 
 bool MainThread::Init()
 {
-	for (int i = 0; i < MAX_EVENT; i++)
+	for (int i = 0; i < MAX_EVENT; ++i)
 	{
 		//실패확률?
 		m_hEvent[i] = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -97,17 +97,22 @@ void MainThread::LoopRun()
 
 void MainThread::ProcessUserPacket()
 {
-	int size = m_userPacketQueue.GetSecondaryQueueSize();
+	std::queue<PacketQueuePair_User> userPacketQueue = *m_userPacketQueue.GetSecondaryQueue();
+
+	size_t size = userPacketQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		const PacketQueuePair_User& PacketQueuePair_User = m_userPacketQueue.PopObject();
+		const PacketQueuePair_User& PacketQueuePair_User = userPacketQueue.front();
 		Packet* packet = PacketQueuePair_User.packet;
 		User* user = PacketQueuePair_User.user;
 
+		//아이템같은거 줍고 끊기면?
+		//m_isActived true인지 false인지만 체크하고 Log에 남기기.
 		if (!user->IsConnected())
 		{
 			MYDEBUG("Check - DisConnected\n");
+			FILELOG("%d user disconnected but packet is existed", user->GetInfo()->userInfo.userID);
 
 			continue;
 		}
@@ -121,16 +126,20 @@ void MainThread::ProcessUserPacket()
 		{
 			m_packetHandler->HandleUserPacket(user, packet);
 		}
+
+		userPacketQueue.pop();
 	}
 }
 
 void MainThread::ProcessMonsterPacket()
 {
-	int size = m_monsterPacketQueue.GetSecondaryQueueSize();
+	std::queue<PacketQueuePair_Monster> monsterPacketQueue = *m_monsterPacketQueue.GetSecondaryQueue();
 
-	for (int i = 0; i < size; i++)
+	size_t size = monsterPacketQueue.size();
+
+	for(int i = 0; i < size; i++)
 	{
-		const PacketQueuePair_Monster& PacketQueuePair_Monster = m_monsterPacketQueue.PopObject();
+		const PacketQueuePair_Monster& PacketQueuePair_Monster = monsterPacketQueue.front();
 		Packet* packet = PacketQueuePair_Monster.packet;
 		Monster* monster = PacketQueuePair_Monster.monster;
 
@@ -138,6 +147,8 @@ void MainThread::ProcessMonsterPacket()
 		if (monster->IsDeath()) continue;
 
 		m_packetHandler->HandleMonsterPacket(monster, packet);
+
+		monsterPacketQueue.pop();
 	}
 }
 
@@ -149,19 +160,25 @@ void MainThread::ProcessDBConnectorPacket()
 	//	Connector->Connect();
 	//}
 
-	int size = m_dbPacketQueue.GetSecondaryQueueSize();
+	std::queue<Packet*> dbPacketQueue = *m_dbPacketQueue.GetSecondaryQueue();
+
+	size_t size = dbPacketQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		Packet* packet = m_dbPacketQueue.PopObject();
+		Packet* packet = dbPacketQueue.front();
 
 		m_packetHandler->HandleDBConnectorPacket(packet);
+
+		dbPacketQueue.pop();
 	}
 }
 
 void MainThread::ConnectUser()
 {
-	int size = m_connectQueue.GetSecondaryQueueSize();
+	std::queue<SOCKET> connectQueue = *m_connectQueue.GetSecondaryQueue();
+
+	size_t size = connectQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
@@ -171,18 +188,71 @@ void MainThread::ConnectUser()
 		{
 			//예외처리
 			MYDEBUG("[ UserSession is nullptr ] \n");
+			FILELOG("UserSession is nullptr");
+
+			// + LOG 남기기
+			//접속 정원됐으니까 패킷 하나 보내주자. 혹은 시간 지나면 ?
+			continue;
+		}
+
+		tempUser->SetSocket(connectQueue.front());
+
+		m_sessionManager->AddSessionList(tempUser);
+		tempUser->OnConnect();
+
+		connectQueue.pop();
+	}
+
+	/*int size = m_connectQueue.GetSecondaryQueueSize();
+
+	for (int i = 0; i < size; i++)
+	{
+		User* tempUser = dynamic_cast<User*>(m_sessionManager->PopSession());
+
+		if (tempUser == nullptr)
+		{
+			//예외처리
+			MYDEBUG("[ UserSession is nullptr ] \n");
+			FILELOG("UserSession is nullptr");
+
+			// + LOG 남기기
+			//접속 정원됐으니까 패킷 하나 보내주자. 혹은 시간 지나면 ?
+			continue;
 		}
 
 		tempUser->SetSocket(m_connectQueue.PopObject());
 
 		m_sessionManager->AddSessionList(tempUser);
 		tempUser->OnConnect();
-	}
+	}*/
 }
 
 void MainThread::DisConnectUser()
 {
-	int size = m_disconnectQueue.GetSecondaryQueueSize();
+	std::queue<Session*> disconnectQueue = *m_disconnectQueue.GetSecondaryQueue();
+
+	size_t size = disconnectQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		User* tempUser = dynamic_cast<User*>(disconnectQueue.front());
+
+		//존에 있었다면 해당 존에서 먼저 나간 후
+		if (tempUser->GetField() != nullptr)
+		{
+			tempUser->GetField()->ExitUser(tempUser);
+		}
+
+		tempUser->Reset();
+
+		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
+		m_sessionManager->ReturnSessionList(tempUser);
+		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
+
+		disconnectQueue.pop();
+	}
+
+	/*int size = m_disconnectQueue.GetSecondaryQueueSize();
 
 	for (int i = 0; i < size; i++)
 	{
@@ -199,7 +269,7 @@ void MainThread::DisConnectUser()
 		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
 		m_sessionManager->ReturnSessionList(tempUser);
 		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
-	}
+	}*/
 }
 
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)

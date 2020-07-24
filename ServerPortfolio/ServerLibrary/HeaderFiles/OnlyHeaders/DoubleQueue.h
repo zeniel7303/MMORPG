@@ -24,7 +24,10 @@ public:
 
 	~DoubleQueue()
 	{
-		while (!queue_1.empty())
+		//자동으로 메모리 정리를 해주는가?
+		//혹은 이렇게 직접 해줘야하나?
+		//알아서 지워주더라
+		/*while (!queue_1.empty())
 		{
 			queue_1.pop();
 		}
@@ -32,27 +35,18 @@ public:
 		while (!queue_2.empty())
 		{
 			queue_2.pop();
-		}
+		}*/
 	}
 
 	void Swap()
 	{
 		m_spinLock.Enter();
 
-		if (primaryQueue == &queue_1)
-		{
-			primaryQueue = &queue_2;
-			secondaryQueue = &queue_1;
-		}
-		else if (primaryQueue == &queue_2)
-		{
-			primaryQueue = &queue_1;
-			secondaryQueue = &queue_2;
-		}
-		else
-		{
-			printf("Swap Queue Error \n");
-		}
+		std::queue<T>* temp;
+
+		temp = primaryQueue;
+		primaryQueue = secondaryQueue;
+		secondaryQueue = temp;
 
 		m_spinLock.Leave();
 	}
@@ -71,6 +65,7 @@ public:
 	T& PopObject()
 	{
 		T& retVal = secondaryQueue->front();
+		//해당 부분은 T를 처리한 이후에 해주는 것이 안전하다.
 		secondaryQueue->pop();
 
 		return retVal;
@@ -79,6 +74,16 @@ public:
 	bool IsEmpty(void)
 	{
 		return secondaryQueue->empty();
+	}
+
+	std::queue<T>* GetPrimaryQueue()
+	{
+		return primaryQueue;
+	}
+
+	std::queue<T>* GetSecondaryQueue()
+	{
+		return secondaryQueue;
 	}
 
 	int GetPrimaryQueueSize()

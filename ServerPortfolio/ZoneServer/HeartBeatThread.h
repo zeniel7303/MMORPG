@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <algorithm>
 
 #include "../ServerLibrary/HeaderFiles/FileLog.h"
@@ -12,6 +13,9 @@ class HeartBeatThread : public Thread<HeartBeatThread>
 {
 private:
 	SessionManager&	m_sessionManager;
+
+	std::chrono::system_clock::time_point			m_end;
+	std::chrono::duration<double>					m_duration;
 
 public:
 	HeartBeatThread(SessionManager& _sessionManager);

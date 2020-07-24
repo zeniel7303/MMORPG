@@ -31,7 +31,7 @@ bool ZoneServer::Start()
 	{
 		return false;
 	}
-	m_IOCPClass.AddSocket(DBCONNECTOR->GetSocket(),
+	m_IOCPClass.Associate(DBCONNECTOR->GetSocket(),
 		(unsigned long long)DBCONNECTOR);
 	DBCONNECTOR->OnConnect();
 

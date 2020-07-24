@@ -23,7 +23,7 @@ public:
 	~IOCPClass();
 
 	void Reset();
-	void AddSocket(SOCKET _socket, unsigned long long _value);
+	void Associate(SOCKET _socket, unsigned long long _value);
 
 	bool IsFailed() { return m_failed; }
 

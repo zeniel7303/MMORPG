@@ -17,8 +17,6 @@ User::User()
 
 	m_isGetUserList = false;
 
-	m_isCheckingHeartBeat = false;
-	m_startCheckingHeartBeat = false;
 	m_heartBeatCheckedCount = 0;
 }
 
@@ -58,10 +56,8 @@ void User::DisConnect()
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown 이후 close
-	closesocket(m_socket);
+	closesocket(m_socket); //순서상 다른 곳에서 해도된다.
 
-	m_isCheckingHeartBeat = false;
-	m_startCheckingHeartBeat = false;
 	m_heartBeatCheckedCount = 0;
 
 	MainThread::getSingleton()->AddToDisConnectQueue(this);
@@ -112,7 +108,9 @@ void User::OnRecv()
 
 void User::HeartBeatChecked()
 {
-	SetChecking(false);
+	m_start = std::chrono::system_clock::now();
+
+	printf("Check \n");
 
 	if (m_heartBeatCheckedCount >= 3)
 	{

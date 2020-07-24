@@ -29,6 +29,7 @@ ClientSession::~ClientSession()
 void ClientSession::OnConnect()
 {
 	m_isConnected = true;
+	m_isActived = true;
 
 	GenerateOverlappedIO();
 }
@@ -49,6 +50,7 @@ void ClientSession::Reset()
 	m_isTestClient = false;
 
 	m_isConnected = false;
+	m_isActived = false;
 }
 
 void ClientSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)

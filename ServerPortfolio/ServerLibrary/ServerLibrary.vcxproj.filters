@@ -25,6 +25,7 @@
     <ClInclude Include="HeaderFiles\OnlyHeaders\DoubleQueue.h" />
     <ClInclude Include="HeaderFiles\FileLog.h" />
     <ClInclude Include="HeaderFiles\Utils.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\DurationChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\CriticalSection.cpp" />
