@@ -180,28 +180,33 @@ void Session::Send(Packet* _packet)
 
 void Session::Send(char* _data, DWORD _bytes)
 {
-	m_sendDataBuffer.buf = _data;
-	m_sendDataBuffer.len = _bytes;
+	//Packet* tmepPacket = (Packet*)_data;
+	//cout << tmepPacket->cmd << endl;
 
-	if (WSASend(
-		m_socket,
-		&m_sendDataBuffer,
-		1,
-		&m_sendBytes,
-		0,
-		&m_sendOverlapped,
-		NULL)
-		== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
-	{
-		int num = WSAGetLastError();
-		if (num != WSA_IO_PENDING)
-		{
-			printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
+	send(m_socket, _data, _bytes, 0);
 
-			//printf("6 \n");
-			Disconnect();
-		}
-	}
+	//m_sendDataBuffer.buf = _data;
+	//m_sendDataBuffer.len = _bytes;
+
+	//if (WSASend(
+	//	m_socket,
+	//	&m_sendDataBuffer,
+	//	1,
+	//	&m_sendBytes,
+	//	0,
+	//	&m_sendOverlapped,
+	//	NULL)
+	//	== SOCKET_ERROR && WSAGetLastError() == WSA_IO_PENDING)
+	//{
+	//	int num = WSAGetLastError();
+	//	if (num != WSA_IO_PENDING)
+	//	{
+	//		printf("SOCKET %d : SEND IO PENDING FAILURE %d\n", m_socket, num);
+
+	//		//printf("6 \n");
+	//		Disconnect();
+	//	}
+	//}
 }
 
 void Session::ReSend()

@@ -22,8 +22,8 @@ Field::Field(int _num, VECTOR2 _spawnPosition, const char* _name)
 	TRYCATCH_CONSTRUCTOR(m_sendBuffer = new SendBuffer(10000), m_failed);
 	if (m_failed) return;
 
-	m_leaveSectorsVec.reserve(9);
-	m_enterSectorsVec.reserve(9);
+	m_leaveSectorsVec.resize(9);
+	m_enterSectorsVec.resize(9);
 }
 
 Field::~Field()

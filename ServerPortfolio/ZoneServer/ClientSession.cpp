@@ -94,7 +94,10 @@ void ClientSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 
 void ClientSession::GenerateOverlappedIO()
 {
-	m_receiver->ASyncRecv(m_socket, m_overlapped.wsaBuffer, m_overlapped);
+	if (!m_receiver->ASyncRecv(m_socket, m_overlapped.wsaBuffer, m_overlapped))
+	{
+		DisConnect();
+	}
 }
 
 void ClientSession::Send(char* _data, DWORD _bytes)

@@ -76,14 +76,14 @@ public:
 		return secondaryQueue->empty();
 	}
 
-	std::queue<T>* GetPrimaryQueue()
+	std::queue<T>& GetPrimaryQueue()
 	{
-		return primaryQueue;
+		return *primaryQueue;
 	}
 
-	std::queue<T>* GetSecondaryQueue()
+	std::queue<T>& GetSecondaryQueue()
 	{
-		return secondaryQueue;
+		return *secondaryQueue;
 	}
 
 	int GetPrimaryQueueSize()

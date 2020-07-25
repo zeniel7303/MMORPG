@@ -1,5 +1,6 @@
 #pragma once
 #include <chrono>
+#include <ctime> 
 #include <algorithm>
 
 #include "../ServerLibrary/HeaderFiles/FileLog.h"
@@ -15,7 +16,7 @@ private:
 	SessionManager&	m_sessionManager;
 
 	std::chrono::system_clock::time_point			m_end;
-	std::chrono::duration<double>					m_duration;
+	std::chrono::seconds 							m_durationSec;
 
 public:
 	HeartBeatThread(SessionManager& _sessionManager);
@@ -23,6 +24,6 @@ public:
 
 	void LoopRun();
 
-	void HeartBeat(Packet* _packet);
+	void HeartBeat();
 };
 

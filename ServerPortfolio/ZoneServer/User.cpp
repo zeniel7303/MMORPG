@@ -30,6 +30,8 @@ void User::OnConnect()
 {
 	ClientSession::OnConnect();
 
+	m_start = std::chrono::system_clock::now();
+
 	IsConnectedPacket* isConnectedPacket =
 		reinterpret_cast<IsConnectedPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(IsConnectedPacket)));
@@ -112,7 +114,7 @@ void User::HeartBeatChecked()
 
 	printf("Check \n");
 
-	if (m_heartBeatCheckedCount >= 3)
+	if (m_heartBeatCheckedCount >= 30)
 	{
 		if (!m_isTestClient)
 		{
@@ -126,7 +128,7 @@ void User::HeartBeatChecked()
 
 		m_heartBeatCheckedCount = 0;
 
-		//printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
+		printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
 	}
 	else
 	{

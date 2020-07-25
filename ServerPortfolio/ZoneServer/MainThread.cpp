@@ -97,7 +97,7 @@ void MainThread::LoopRun()
 
 void MainThread::ProcessUserPacket()
 {
-	std::queue<PacketQueuePair_User> userPacketQueue = *m_userPacketQueue.GetSecondaryQueue();
+	std::queue<PacketQueuePair_User>& userPacketQueue = m_userPacketQueue.GetSecondaryQueue();
 
 	size_t size = userPacketQueue.size();
 
@@ -111,7 +111,7 @@ void MainThread::ProcessUserPacket()
 		//m_isActived true인지 false인지만 체크하고 Log에 남기기.
 		if (!user->IsConnected())
 		{
-			MYDEBUG("Check - DisConnected\n");
+			//MYDEBUG("Check - DisConnected\n");
 			FILELOG("%d user disconnected but packet is existed", user->GetInfo()->userInfo.userID);
 
 			continue;
@@ -133,7 +133,7 @@ void MainThread::ProcessUserPacket()
 
 void MainThread::ProcessMonsterPacket()
 {
-	std::queue<PacketQueuePair_Monster> monsterPacketQueue = *m_monsterPacketQueue.GetSecondaryQueue();
+	std::queue<PacketQueuePair_Monster>& monsterPacketQueue = m_monsterPacketQueue.GetSecondaryQueue();
 
 	size_t size = monsterPacketQueue.size();
 
@@ -160,7 +160,7 @@ void MainThread::ProcessDBConnectorPacket()
 	//	Connector->Connect();
 	//}
 
-	std::queue<Packet*> dbPacketQueue = *m_dbPacketQueue.GetSecondaryQueue();
+	std::queue<Packet*>& dbPacketQueue = m_dbPacketQueue.GetSecondaryQueue();
 
 	size_t size = dbPacketQueue.size();
 
@@ -176,7 +176,7 @@ void MainThread::ProcessDBConnectorPacket()
 
 void MainThread::ConnectUser()
 {
-	std::queue<SOCKET> connectQueue = *m_connectQueue.GetSecondaryQueue();
+	std::queue<SOCKET>& connectQueue = m_connectQueue.GetSecondaryQueue();
 
 	size_t size = connectQueue.size();
 
@@ -229,7 +229,7 @@ void MainThread::ConnectUser()
 
 void MainThread::DisConnectUser()
 {
-	std::queue<Session*> disconnectQueue = *m_disconnectQueue.GetSecondaryQueue();
+	std::queue<Session*>& disconnectQueue = m_disconnectQueue.GetSecondaryQueue();
 
 	size_t size = disconnectQueue.size();
 

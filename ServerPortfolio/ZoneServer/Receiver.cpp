@@ -28,7 +28,7 @@ void Receiver::Write(int _size)
 	m_recvBuffer->Write(_size);
 }
 
-void Receiver::ASyncRecv(SOCKET _socket, WSABUF& _wsabuf, WSAOVERLAPPED& _overlapped)
+bool Receiver::ASyncRecv(SOCKET _socket, WSABUF& _wsabuf, WSAOVERLAPPED& _overlapped)
 {
 	_wsabuf.buf = m_recvBuffer->GetWritePoint();
 	_wsabuf.len = m_recvBuffer->GetWriteableSize();
@@ -47,8 +47,12 @@ void Receiver::ASyncRecv(SOCKET _socket, WSABUF& _wsabuf, WSAOVERLAPPED& _overla
 		if (num != WSA_IO_PENDING)
 		{
 			printf("[ SOCKET %d : Recv Fail ] - Error NUM : %d \n", _socket, num);
+
+			return false;
 		}
 	}
+
+	return true;
 }
 
 char* Receiver::GetPacket()

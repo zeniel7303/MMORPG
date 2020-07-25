@@ -30,7 +30,7 @@ enum class RecvCommand : WORD
 	DB2Zone_GET_USER_DATA_FAILED		= 106,
 	DB2Zone_UPDATE_USER_SUCCESS			= 107,
 	DB2Zone_UPDATE_USER_FAILED			= 108,
-	DB2Zone_MONSTERS_DATA				= 109,
+	DB2Zone_MONSTERS_DATA				= 109
 };
 
 enum class SendCommand : WORD

@@ -321,6 +321,4 @@ void PacketHandler::OnPacket_EnterTestUser(User* _user, Packet* _packet)
 	Field* field = m_fieldManager.GetField(testClientEnterPacket->fieldNum);
 
 	field->EnterTestClient(_user, testClientEnterPacket->userNum);
-
-	//_user->StartCheckingHeartBeat();
 }

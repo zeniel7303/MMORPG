@@ -14,21 +14,17 @@ HeartBeatThread::~HeartBeatThread()
 
 void HeartBeatThread::LoopRun()
 {
-	Packet* checkAlivePacket = new Packet();
-	checkAlivePacket->Init(SendCommand::Zone2C_CHECK_ALIVE, sizeof(Packet));
-
 	while (1)
 	{
-		HeartBeat(checkAlivePacket);
+		HeartBeat();
 
-		Sleep(10000);
+		Sleep(1);
 	}
-
-	delete checkAlivePacket;
 }
 
-void HeartBeatThread::HeartBeat(Packet* _packet)
+void HeartBeatThread::HeartBeat()
 {
+	//동기화 문제
 	const list<Session*>& vSessionList = m_sessionManager.GetItemList();
 
 	User* user;
@@ -41,12 +37,12 @@ void HeartBeatThread::HeartBeat(Packet* _packet)
 
 		m_end = std::chrono::system_clock::now();
 
-		m_duration = std::chrono::duration<double>(m_end - user->GetStartTime());
+		m_durationSec = std::chrono::duration_cast<std::chrono::seconds>(m_end - user->GetStartTime());
 
-		if (m_duration.count() >= 30.0f)
+		if (m_durationSec.count() >= 30.0f && m_durationSec.count() < 10000.0f)
 		{
 			//연결 끊기
-			user->SetConnected(false);
+			user->DisConnect();
 
 			MYDEBUG("[ HeartBeat Checking Failed ]\n");
 		}

@@ -21,7 +21,7 @@ public:
 
 	void Reset();
 	void Write(int _size);
-	void ASyncRecv(SOCKET _socket, WSABUF& _wsabuf, WSAOVERLAPPED& _overlapped);
+	bool ASyncRecv(SOCKET _socket, WSABUF& _wsabuf, WSAOVERLAPPED& _overlapped);
 	char* GetPacket();
 
 	bool IsFailed() { return m_failed; }

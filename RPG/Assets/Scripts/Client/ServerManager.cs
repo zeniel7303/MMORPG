@@ -16,7 +16,9 @@ public class ServerManager : Singleton<ServerManager>
     public bool isLogInConnect;
     public bool isRegisterConnect;
     public bool isStartConnect;
-    private float time = 0.0f;
+
+    private float TimeLeft = 1.0f;
+    private float nextTime = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,8 @@ public class ServerManager : Singleton<ServerManager>
         isLogInConnect = false;
         isRegisterConnect = false;
         isStartConnect = false;
+
+        Init();
     }
 
     // Update is called once per frame
@@ -33,7 +37,12 @@ public class ServerManager : Singleton<ServerManager>
 
         if (!isStartConnect) return;
 
-        InvokeRepeating("HeartBeat", 1, 1);
+        //2초마다 실행
+        if (Time.time > nextTime)
+        {
+            nextTime = Time.time + TimeLeft;
+            HeartBeat();
+        }
     }
 
     public void Init()
