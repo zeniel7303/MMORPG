@@ -112,8 +112,6 @@ void User::HeartBeatChecked()
 {
 	m_start = std::chrono::system_clock::now();
 
-	printf("Check \n");
-
 	if (m_heartBeatCheckedCount >= 30)
 	{
 		if (!m_isTestClient)
@@ -136,6 +134,8 @@ void User::HeartBeatChecked()
 
 		//printf("[ HeartBeat Checking Success : %d ]\n", m_heartBeatCheckedCount);
 	}
+
+	MYDEBUG("[ Check %d ]\n", m_heartBeatCheckedCount);
 }
 
 void User::UpdateInfo()

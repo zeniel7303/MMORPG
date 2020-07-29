@@ -329,7 +329,8 @@ public class Session : MonoBehaviour
                     PlayerManager.instance.SetUserInfo(sessionInfoPacket.info.userInfo);
                     PlayerManager.instance.SetUnitInfo(sessionInfoPacket.info.unitInfo);
 
-                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 999);
+                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 1);
+                    fieldNumPacket.fieldNum = 999;
 
                     SendData(fieldNumPacket.GetBytes());
                 }              
@@ -425,6 +426,8 @@ public class Session : MonoBehaviour
                     UserPositionPacket userPositionPacket = new UserPositionPacket();
                     Parsing(_buffer, ref userPositionPacket);
 
+                    Debug.Log("MOVE");
+
                     ServerManager.Instance.StartUserMove(userPositionPacket);
                 }
                 break;
@@ -432,6 +435,8 @@ public class Session : MonoBehaviour
                 {
                     UserPositionPacket userPositionPacket = new UserPositionPacket();
                     Parsing(_buffer, ref userPositionPacket);
+
+                    Debug.Log("FINISH");
 
                     ServerManager.Instance.EndUserMove(userPositionPacket);
                 }                

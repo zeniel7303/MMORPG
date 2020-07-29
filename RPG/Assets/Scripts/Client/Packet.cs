@@ -27,11 +27,16 @@ public enum SendCommand
 
 public enum RecvCommand
 {
+    Zone2C_USER_MOVE = 4,
+    Zone2C_USER_MOVE_FINISH = 5,
+    Zone2C_USER_ATTACK_FAILED = 6,
+    Zone2C_USER_ATTACK_MONSTER = 7,
+    Zone2C_UPDATE_INFO = 12,
+    Zone2C_CHATTING = 14,
+
     Zone2C_ISCONNECTED = 1001,
 
     Zone2C_REGISTER_USER = 1002,
-
-    Zone2C_UPDATE_INFO = 1003,
 
     Zone2C_ENTER_FIELD = 1004,
     Zone2C_USER_LIST = 1005,
@@ -49,32 +54,25 @@ public enum RecvCommand
     Zone2C_LEAVE_SECTOR_USER_INFO = 1017,
     Zone2C_ENTER_SECTOR_USER_INFO = 1018,
 
-    Zone2C_USER_MOVE = 1019,
-    Zone2C_USER_MOVE_FINISH = 1020,
-    Zone2C_USER_ATTACK_MONSTER = 1021,
-    Zone2C_USER_ATTACK_FAILED = 1022,
+    Zone2C_MONSTER_INFO_LIST = 1019,
+    Zone2C_MONSTER_INFO_LIST_IN_RANGE = 1020,
+    Zone2C_MONSTER_INFO_LIST_VISIBLE = 1021,
+    Zone2C_MONSTER_INFO_LIST_INVISIBLE = 1022,
+    Zone2C_MONSTER_INFO = 1023,
 
-    Zone2C_MONSTER_INFO_LIST = 1023,
-    Zone2C_MONSTER_INFO_LIST_IN_RANGE = 1024,
-    Zone2C_MONSTER_INFO_LIST_VISIBLE = 1025,
-    Zone2C_MONSTER_INFO_LIST_INVISIBLE = 1026,
-    Zone2C_MONSTER_INFO = 1027,
+    Zone2C_MONSTER_MOVE = 1024,
+    Zone2C_MONSTER_ATTACK = 1025,
+    Zone2C_MONSTER_HIT = 1026,
+    Zone2C_MONSTER_HIT_FAIL = 1027,
 
-    Zone2C_MONSTER_MOVE = 1028,
-    Zone2C_MONSTER_ATTACK = 1029,
-    Zone2C_MONSTER_HIT = 1030,
-    Zone2C_MONSTER_HIT_FAIL = 1031,
+    Zone2C_CHECK_ALIVE = 1028,
 
-    Zone2C_CHATTING = 1032,
+    Zone2C_REGISTER_USER_SUCCESS = 1029,
+    Zone2C_REGISTER_USER_FAILED = 1030,
 
-    Zone2C_CHECK_ALIVE = 1033,
-
-    Zone2C_REGISTER_USER_SUCCESS = 1034,
-    Zone2C_REGISTER_USER_FAILED = 1035,
-
-    Zone2C_LOGIN_SUCCESS = 1036,
-    Zone2C_LOGIN_FAILED = 1037,
-    Zone2C_LOGIN_FAILED_DUPLICATED = 1038,
+    Zone2C_LOGIN_SUCCESS = 1031,
+    Zone2C_LOGIN_FAILED = 1032,
+    Zone2C_LOGIN_FAILED_DUPLICATED = 1033
 }
 
 public struct BasicInfo
@@ -185,7 +183,7 @@ public class SectorPacket : Packet
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public class FieldNumPacket : Packet
 {
-    private ushort fieldNum;
+    public ushort fieldNum;
 
     public FieldNumPacket() { }
 

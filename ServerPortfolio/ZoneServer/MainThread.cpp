@@ -100,6 +100,8 @@ void MainThread::ProcessUserPacket()
 	std::queue<PacketQueuePair_User>& userPacketQueue = m_userPacketQueue.GetSecondaryQueue();
 
 	size_t size = userPacketQueue.size();
+	/*cout << m_userPacketQueue.GetPrimaryQueue().size() << " / " 
+		<< m_userPacketQueue.GetSecondaryQueue().size() << endl;*/
 
 	for (int i = 0; i < size; i++)
 	{
@@ -197,7 +199,7 @@ void MainThread::ConnectUser()
 
 		tempUser->SetSocket(connectQueue.front());
 
-		m_sessionManager->AddSessionList(tempUser);
+		m_sessionManager->AddSession(tempUser);
 		tempUser->OnConnect();
 
 		connectQueue.pop();
@@ -246,7 +248,7 @@ void MainThread::DisConnectUser()
 		tempUser->Reset();
 
 		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
-		m_sessionManager->ReturnSessionList(tempUser);
+		m_sessionManager->ReturnSession(tempUser);
 		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
 
 		disconnectQueue.pop();

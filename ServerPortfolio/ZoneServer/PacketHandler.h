@@ -80,7 +80,6 @@ public:
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
 
 	//Monster=====================================================
-
 	void OnPacket_MonsterAttack(Monster* _monster, Packet* _packet);
 
 	//DB agent====================================================

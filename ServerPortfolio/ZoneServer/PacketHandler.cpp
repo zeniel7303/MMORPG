@@ -66,7 +66,10 @@ void PacketHandler::OnPacket_UpdateUserPosition(User* _user, Packet* _packet)
 {
 	UserPositionPacket* userPositionPacket = reinterpret_cast<UserPositionPacket*>(_packet);
 
-	 _user->SetState(STATE::MOVE);
+	if (_user->GetInfo()->unitInfo.state == STATE::IDLE)
+	{
+		_user->SetState(STATE::MOVE);
+	}
 
 	Field* field = _user->GetField();
 

@@ -1,2 +1,28 @@
-﻿  HeartBeatThread.cpp
-  ZoneServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\x64\Debug\ZoneServer.exe
+﻿  Acceptor.cpp
+  HeartBeatThread.cpp
+  MainThread.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(117): warning C4002: 함수 같은 매크로 호출 'FILELOG'에 대해 인수가 너무 많습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(202): error C2039: 'AddSessionList': 'SessionManager'의 멤버가 아닙니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\sessionmanager.h(17): note: 'SessionManager' 선언을 참조하십시오.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(251): error C2039: 'ReturnSessionList': 'SessionManager'의 멤버가 아닙니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\sessionmanager.h(17): note: 'SessionManager' 선언을 참조하십시오.
+  Monster.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\monster.cpp(414): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MonsterLogicThread.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\monsterlogicthread.cpp(73): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\monsterlogicthread.cpp(90): warning C4267: '=': 'size_t'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  User.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(57): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(57): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(57): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(57): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(311): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(311): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(311): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\user.cpp(311): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+  ZoneServer.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\headerfiles\onlyheaders\objectpool.h(24): warning C4267: 'return': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\headerfiles\onlyheaders\objectpool.h(23): note: 클래스 템플릿 멤버 함수 'int ObjectPool<Session>::GetSize(void)'을(를) 컴파일하고 있습니다.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver.cpp(28): note: 컴파일 중인 함수 템플릿 인스턴스화 'int ObjectPool<Session>::GetSize(void)'에 대한 참조를 확인하십시오.
+  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\sessionmanager.h(22): note: 컴파일 중인 클래스 템플릿 인스턴스화 'ObjectPool<Session>'에 대한 참조를 확인하세요.
+  코드를 생성하고 있습니다...

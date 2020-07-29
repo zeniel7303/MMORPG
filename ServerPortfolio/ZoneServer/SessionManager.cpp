@@ -27,12 +27,12 @@ Session* SessionManager::PopSession()
 	return m_objectPool.PopObject(); //안에서 lock하는중
 }
 
-void SessionManager::AddSessionList(Session* _t)
+void SessionManager::AddSession(Session* _t)
 {
 	AddItem(_t);
 }
 
-void SessionManager::ReturnSessionList(Session* _t)
+void SessionManager::ReturnSession(Session* _t)
 {
 	if (DeleteItem(_t))
 	{
