@@ -185,12 +185,12 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 	LogInSuccessPacket* logInSuccessPacket = reinterpret_cast<LogInSuccessPacket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(logInSuccessPacket->socket));
+	tempUser = FindUserAtTempList(logInSuccessPacket->socket);
 
 	if (tempUser != nullptr)
 	{
 		//중복 로그인체크(나중에 DB에서 프로시져를 이용해서 하자)
-		if (m_sessionManager.FindSessionID(tempUser->GetInfo()->userInfo.userID))
+		if (m_userManager.IsExist(tempUser->GetInfo()->userInfo.userID))
 		{
 			//중복 로그인이니 접속하지마라
 			tempUser->LogInDuplicated();
@@ -198,7 +198,7 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 			return;
 		}
 
-		m_sessionManager.AddSessionID(tempUser->GetInfo()->userInfo.userID);
+		MainThread::getSingleton()->AddToStoreQueue(tempUser);
 
 		tempUser->LogInSuccess(logInSuccessPacket->userIndex);
 	}
@@ -209,11 +209,13 @@ void PacketHandler::OnPacket_LogInFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtTempList(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
 		tempUser->LogInFailed();
+
+		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
 	}
 }
 
@@ -222,11 +224,13 @@ void PacketHandler::OnPacket_RegisterSuccess(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtTempList(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
 		tempUser->RegisterSuccess();
+
+		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
 	}
 }
 
@@ -235,11 +239,13 @@ void PacketHandler::OnPacket_RegisterFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtTempList(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
 		tempUser->RegisterFailed();
+
+		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
 	}
 }
 
@@ -248,7 +254,7 @@ void PacketHandler::OnPacket_GetUserInfoSuccess(Packet* _packet)
 	GetSessionInfoPacket* getSessionInfoPacket = reinterpret_cast<GetSessionInfoPacket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(getSessionInfoPacket->socket));
+	tempUser = FindUserAtHashMap(getSessionInfoPacket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -261,7 +267,7 @@ void PacketHandler::OnPacket_GetUserInfoFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtHashMap(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -274,7 +280,7 @@ void PacketHandler::OnPacket_UpdateUserSuccess(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtHashMap(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -287,7 +293,7 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = dynamic_cast<User*>(FindUser(packetWithSocket->socket));
+	tempUser = FindUserAtHashMap(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -299,18 +305,34 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 void PacketHandler::OnPakcet_GetMonstersData(Packet* _packet)
 {
 	DBCONNECTOR->GetMonstersData(_packet);
+
 	m_fieldManager.InitMonsterThread();
 }
 
-Session* PacketHandler::FindUser(SOCKET _socket)
+User* PacketHandler::FindUserAtTempList(SOCKET _socket)
 {
-	const list<Session*> vSessionList = m_sessionManager.GetItemList();
+	const std::list<User*> tempList = m_userManager.GetItemList();
 
-	for (const auto& element : vSessionList)
+	for (const auto& element : tempList)
 	{
 		if (element->GetSocket() == _socket)
 		{
 			return element;
+		}
+	}
+
+	return nullptr;
+}
+
+User* PacketHandler::FindUserAtHashMap(SOCKET _socket)
+{
+	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetItemHashMap();
+
+	for (const auto& element : tempHashMap)
+	{
+		if (element.second->GetSocket() == _socket)
+		{
+			return element.second;
 		}
 	}
 
@@ -324,4 +346,39 @@ void PacketHandler::OnPacket_EnterTestUser(User* _user, Packet* _packet)
 	Field* field = m_fieldManager.GetField(testClientEnterPacket->fieldNum);
 
 	field->EnterTestClient(_user, testClientEnterPacket->userNum);
+}
+
+void PacketHandler::OnPacket_Chatting_Whisper(User* _user, Packet* _packet)
+{
+	ChattingPacket_Whisper* whisperChattingPacket = reinterpret_cast<ChattingPacket_Whisper*>(_packet);
+
+	//How to search by value in a Map
+	//https://thispointer.com/how-to-search-by-value-in-a-map-c/
+	//다른 좋은 방법 없나?
+	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetItemHashMap();
+	User* tempUser;
+
+	auto iter = tempHashMap.begin();
+
+	while (iter != tempHashMap.end())
+	{
+		tempUser = iter->second;
+
+		if (strcmp(tempUser->GetInfo()->userInfo.userName, whisperChattingPacket->targetId) == 0)
+		{
+			_user->Send(reinterpret_cast<char*>(_packet), _packet->size);
+			tempUser->Send(reinterpret_cast<char*>(_packet), _packet->size);
+
+			return;
+		}
+
+		iter++;
+	}
+
+	Packet* whisperFailpacket =
+		reinterpret_cast<Packet*>(_user->GetSendBuffer()->
+			GetBuffer(sizeof(Packet)));
+	whisperFailpacket->Init(SendCommand::Zone2C_CHATTING_WHISPER_FAIL, sizeof(Packet));
+
+	_user->Send(reinterpret_cast<char*>(whisperFailpacket), whisperFailpacket->size);
 }

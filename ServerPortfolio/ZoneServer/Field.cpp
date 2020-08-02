@@ -18,7 +18,6 @@ Field::Field(int _num, VECTOR2 _spawnPosition, const char* _name)
 	if (m_failed) return;
 	TRYCATCH_CONSTRUCTOR(m_monsterLogicThread = new MonsterLogicThread(this, m_fieldTilesData, m_sectorManager), m_failed);
 	if (m_failed) return;
-
 	TRYCATCH_CONSTRUCTOR(m_sendBuffer = new SendBuffer(10000), m_failed);
 	if (m_failed) return;
 

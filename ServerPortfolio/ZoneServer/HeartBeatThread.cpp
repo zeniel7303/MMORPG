@@ -1,9 +1,9 @@
 #include "HeartBeatThread.h"
 
-HeartBeatThread::HeartBeatThread(SessionManager& _sessionManager) 
-	: m_sessionManager(_sessionManager)
+HeartBeatThread::HeartBeatThread(UserManager& _userManager)
+	: m_userManager(_userManager)
 {
-	Thread<HeartBeatThread>::Start(this);
+	//Thread<HeartBeatThread>::Start(this);
 
 	MYDEBUG("[ HeartBeatThread Init Success ]\n");
 }
@@ -18,28 +18,31 @@ void HeartBeatThread::LoopRun()
 	{
 		HeartBeat();
 
-		Sleep(1);
+		Sleep(1000);
 	}
 }
 
 void HeartBeatThread::HeartBeat()
 {
-	//동기화 문제
-	const list<Session*>& vSessionList = m_sessionManager.GetItemList();
+	//구조적으로 나중에 다시 해결
+	//현재는 일단 통째로 동기화 혹은 메인쓰레드에
+
+	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetItemHashMap();
 
 	User* user;
 
-	for (const auto& element : vSessionList)
+	m_end = std::chrono::system_clock::now();
+	auto nowTime = std::chrono::system_clock::now();
+
+	for (const auto& element : tempHashMap)
 	{
-		user = dynamic_cast<User*>(element);
+		user = element.second;
 
 		if (user->IsTestClient()) continue;
 
-		m_end = std::chrono::system_clock::now();
-
 		m_durationSec = std::chrono::duration_cast<std::chrono::seconds>(m_end - user->GetStartTime());
 
-		if (m_durationSec.count() >= 30.0f && m_durationSec.count() < 10000.0f)
+		if (m_durationSec.count() > 60/* && m_durationSec.count() < 10000.0f*/)
 		{
 			//연결 끊기
 			user->DisConnect();

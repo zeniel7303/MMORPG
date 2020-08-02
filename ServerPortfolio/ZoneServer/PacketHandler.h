@@ -3,18 +3,18 @@
 #include "User.h"
 #include "Monster.h"
 #include "packet.h"
-#include "SessionManager.h"
+#include "UserManager.h"
 #include "FieldManager.h"
 
 class PacketHandler
 {
 private:
-	SessionManager&					m_sessionManager;
+	UserManager&					m_userManager;
 	FieldManager&					m_fieldManager;
 
 public:
-	PacketHandler(SessionManager& _sessionManager, FieldManager& _fieldManager)
-		: m_sessionManager(_sessionManager), m_fieldManager(_fieldManager)
+	PacketHandler(UserManager& _userManager, FieldManager& _fieldManager)
+		: m_userManager(_userManager), m_fieldManager(_fieldManager)
 	{
 		userPacketFunc[0] = &PacketHandler::OnPacket_EnterField;				
 		userPacketFunc[1] = &PacketHandler::OnPacket_EnterFieldSuccess;
@@ -33,6 +33,7 @@ public:
 		userPacketFunc[14] = &PacketHandler::OnPacket_Chatting;
 		userPacketFunc[15] = &PacketHandler::OnPacket_HeartBeat;
 		userPacketFunc[16] = &PacketHandler::OnPacket_EnterTestUser;		
+		userPacketFunc[17] = &PacketHandler::OnPacket_Chatting_Whisper;
 
 		dbPacketFunc[0] = &PacketHandler::OnPacket_LogInSuccess;
 		dbPacketFunc[1] = &PacketHandler::OnPacket_LogInFailed;
@@ -78,6 +79,7 @@ public:
 	void OnPacket_Chatting(User* _user, Packet* _packet);
 	void OnPacket_HeartBeat(User* _user, Packet* _packet);
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
+	void OnPacket_Chatting_Whisper(User* _user, Packet* _packet);
 
 	//Monster=====================================================
 	void OnPacket_MonsterAttack(Monster* _monster, Packet* _packet);
@@ -93,33 +95,6 @@ public:
 	void OnPacket_UpdateUserFailed(Packet* _packet);
 	void OnPakcet_GetMonstersData(Packet* _packet);
 
-	Session* FindUser(SOCKET _socket);
-	//============================================================
-
-	/*void (PacketHandler::*UserPacketFunc[100])(User* _user, Packet* _packet)
-	{
-		&PacketHandler::OnPacket_EnterField,					//0
-		&PacketHandler::OnPacket_EnterFieldSuccess,				//1
-		&PacketHandler::OnPacket_UpdateUserPosition,			//2
-		&PacketHandler::OnPacket_UpdateUserPosition_Finish,		//3
-		&PacketHandler::OnPacket_UserAttackFailed,				//4
-		&PacketHandler::OnPacket_UserAttack,					//5
-		&PacketHandler::OnPacket_UserRevive,					//6
-		&PacketHandler::OnPacket_RegisterUser,					//7
-		&PacketHandler::OnPacket_LogInUser,						//8
-		&PacketHandler::OnPacket_UpdateUser,					//9
-		&PacketHandler::OnPacket_EnterTestUser					//10
-	};
-
-	void (PacketHandler::*DBConnectorPacketFunc[100])(Packet* _packet)
-	{
-		&PacketHandler::OnPacket_LogInSuccess,					//0
-		&PacketHandler::OnPacket_LogInFailed,					//1
-		&PacketHandler::OnPacket_RegisterSuccess,				//2
-		&PacketHandler::OnPacket_RegisterFailed,				//3
-		&PacketHandler::OnPacket_GetUserInfoSuccess,			//4
-		&PacketHandler::OnPacket_GetUserInfoFailed,				//5
-		&PacketHandler::OnPacket_UpdateUserSuccess,				//6
-		&PacketHandler::OnPacket_UpdateUserFailed				//7
-	};*/
+	User* FindUserAtTempList(SOCKET _socket);
+	User* FindUserAtHashMap(SOCKET _socket);
 };

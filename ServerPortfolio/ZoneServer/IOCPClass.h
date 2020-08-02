@@ -4,7 +4,6 @@
 #include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "WorkerThread.h"
-#include "SessionManager.h"
 
 class IOCPClass
 {

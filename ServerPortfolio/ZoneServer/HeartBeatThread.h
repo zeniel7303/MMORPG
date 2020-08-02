@@ -7,19 +7,19 @@
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 
 #include "User.h"
-#include "SessionManager.h"
+#include "UserManager.h"
 #include "DBConnector.h"
 
 class HeartBeatThread : public Thread<HeartBeatThread>
 {
 private:
-	SessionManager&	m_sessionManager;
+	UserManager&								m_userManager;
 
-	std::chrono::system_clock::time_point			m_end;
-	std::chrono::seconds 							m_durationSec;
+	std::chrono::system_clock::time_point		m_end;
+	std::chrono::seconds 						m_durationSec;
 
 public:
-	HeartBeatThread(SessionManager& _sessionManager);
+	HeartBeatThread(UserManager& _userManager);
 	~HeartBeatThread();
 
 	void LoopRun();

@@ -22,7 +22,8 @@ public enum SendCommand
     C2Zone_UPDATE_INFO = 12,
     C2Zone_EXIT_USER = 13,
     C2Zone_CHATTING = 14,
-    C2Zone_CHECK_ALIVE = 15
+    C2Zone_CHECK_ALIVE = 15,
+    C2Zone_CHATTING_WHISPER = 17
 }
 
 public enum RecvCommand
@@ -33,6 +34,9 @@ public enum RecvCommand
     Zone2C_USER_ATTACK_MONSTER = 7,
     Zone2C_UPDATE_INFO = 12,
     Zone2C_CHATTING = 14,
+    Zone2C_CHATTING_WHISPER = 17,
+
+    Zone2C_CHATTING_WHISPER_FAIL = 500,
 
     Zone2C_ISCONNECTED = 1001,
 
@@ -322,7 +326,7 @@ public class ChattingPacket : Packet
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
     public string id;
 
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 255)]
     public byte[] chatting;
 
     public ChattingPacket() { }
@@ -331,6 +335,33 @@ public class ChattingPacket : Packet
     {
         this.SetCmd(SendCommand.C2Zone_CHATTING);
         userIndex = _userIndex;
+        id = _id;
+        chatting = Encoding.UTF8.GetBytes(_chat);
+    }
+}
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public class ChattingPacket_Whisper : Packet
+{
+    public int userIndex;
+
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+    public string targetId;
+
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
+    public string id;
+
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 255)]
+    public byte[] chatting;
+
+    public ChattingPacket_Whisper() { }
+
+    public ChattingPacket_Whisper(int _userIndex, string _targetId, string _id, string _chat)
+    {
+        this.SetCmd(SendCommand.C2Zone_CHATTING_WHISPER);
+        userIndex = _userIndex;
+        targetId = _targetId;
         id = _id;
         chatting = Encoding.UTF8.GetBytes(_chat);
     }

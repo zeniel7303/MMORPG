@@ -324,6 +324,8 @@ void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
 		sessionInfoPacket->Init(SendCommand::DB2Zone_GET_USER_DATA_SUCCESS, sizeof(GetSessionInfoPacket));
 		sessionInfoPacket->socket = _packet->socket;
 
+		sessionInfoPacket->info.userInfo.userID = _packet->userIndex;
+		sessionInfoPacket->info.unitInfo.fieldNum = 0;
 		sprintf(sessionInfoPacket->info.userInfo.userName, "%s", mysql_row[1]);
 		sessionInfoPacket->info.unitInfo.level = atoi(mysql_row[2]);
 		sessionInfoPacket->info.unitInfo.hp.currentValue = atoi(mysql_row[3]);

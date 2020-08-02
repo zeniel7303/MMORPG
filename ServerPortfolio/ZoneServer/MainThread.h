@@ -8,7 +8,7 @@
 #include "User.h"
 #include "Monster.h"
 #include "packet.h"
-#include "SessionManager.h"
+#include "UserManager.h"
 #include "FieldManager.h"
 
 #include "PacketHandler.h"
@@ -42,6 +42,8 @@ public:
 		EVENT_DISCONNECT,
 		EVENT_MONSTER,
 		EVENT_DBCONNECTOR,
+		EVENT_STOREUSER,
+		EVENT_DELETE_TEMPUSER,
 		MAX_EVENT
 	};
 
@@ -70,7 +72,7 @@ public:
 	};
 		
 private:
-	SessionManager*							m_sessionManager;
+	UserManager*							m_userManager;
 	FieldManager*							m_fieldManager;
 
 	PacketHandler*							m_packetHandler;
@@ -79,7 +81,9 @@ private:
 	DoubleQueue<PacketQueuePair_Monster>	m_monsterPacketQueue;
 	DoubleQueue<Packet*>					m_dbPacketQueue;
 	DoubleQueue<SOCKET>						m_connectQueue;
-	DoubleQueue<Session*>					m_disconnectQueue;
+	DoubleQueue<User*>						m_disconnectQueue;
+	DoubleQueue<User*>						m_storeQueue;
+	DoubleQueue<User*>						m_tempUserQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
 
@@ -89,7 +93,7 @@ public:
 	~MainThread();
 
 	bool Init();
-	void SetManagers(SessionManager* _sessionManager,
+	void SetManagers(UserManager* _userManager,
 		FieldManager* _fieldManager);
 
 	void LoopRun();
@@ -99,10 +103,14 @@ public:
 	void ProcessDBConnectorPacket();
 	void ConnectUser();
 	void DisConnectUser();
+	void StoreUser();
+	void DeleteTempUser();
 
 	void AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair);
 	void AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToConnectQueue(SOCKET _socket);
-	void AddToDisConnectQueue(Session* _session);
+	void AddToDisConnectQueue(User* _user);
+	void AddToStoreQueue(User* _user);
+	void AddToTempUserQueue(User* _user);
 };

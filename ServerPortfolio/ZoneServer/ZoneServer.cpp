@@ -2,6 +2,7 @@
 
 ZoneServer::~ZoneServer()
 {
+	if (m_userManager != nullptr) delete m_userManager;
 	if(m_fieldManager != nullptr) delete m_fieldManager;
 	if(m_heartBeatThread != nullptr) delete m_heartBeatThread;
 
@@ -18,14 +19,16 @@ bool ZoneServer::Start()
 		return false;
 	}
 
+	TRYCATCH(m_userManager = new UserManager());
+
 	User* user;
 	for (int i = 0; i < USERMAXCOUNT; i++)
 	{
 		TRYCATCH(user = new User());
-		m_sessionManager.AddObject(user);
+		m_userManager->AddObject(user);
 	}
 
-	MYDEBUG("[ User Max Count : %d ]\n", m_sessionManager.GetObjectPool()->GetSize());
+	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
 	if (!DBCONNECTOR->Connect("211.221.147.29", 30003))
 	{
@@ -38,10 +41,10 @@ bool ZoneServer::Start()
 	TRYCATCH(m_fieldManager = new FieldManager());
 	if (m_fieldManager->IsFailed()) return false;
 
-	TRYCATCH(m_heartBeatThread = new HeartBeatThread(m_sessionManager));
+	TRYCATCH(m_heartBeatThread = new HeartBeatThread(*m_userManager));
 
 	MainThread::getSingleton()->
-		SetManagers(&m_sessionManager, m_fieldManager);
+		SetManagers(m_userManager, m_fieldManager);
 
 	return true;
 }

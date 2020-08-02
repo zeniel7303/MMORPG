@@ -6,7 +6,7 @@
 
 #include "IOCPClass.h"
 #include "Acceptor.h"
-#include "SessionManager.h"
+#include "UserManager.h"
 
 #include "ZoneServer.h"
 
@@ -15,7 +15,6 @@ SOCKET m_listenSocket;
 IpEndPoint m_ipEndPoint;
 
 IOCPClass* iocpClass;
-SessionManager* sessionManager;
 Acceptor* acceptor;
 
 int main()
@@ -30,9 +29,7 @@ int main()
 	TRYCATCH(iocpClass = new IOCPClass());
 	if (iocpClass->IsFailed()) return false;
 
-	TRYCATCH(sessionManager = new SessionManager());
-
-	ZoneServer* zoneServer = new ZoneServer(*iocpClass, *sessionManager);
+	ZoneServer* zoneServer = new ZoneServer(*iocpClass);
 	if (!zoneServer->Start())
 	{
 		printf("[ Zone Server Initializing Fail ]\n");
@@ -52,7 +49,6 @@ int main()
 
 	delete acceptor;
 	delete zoneServer;
-	delete sessionManager;
 	delete iocpClass;
 
 	WSACleanup();

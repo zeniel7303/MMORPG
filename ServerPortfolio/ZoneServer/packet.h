@@ -144,6 +144,14 @@ struct ChattingPacket : Packet
 	char chattingBuffer[30];
 };
 
+struct ChattingPacket_Whisper : Packet
+{
+	int userIndex;
+	char targetId[15];
+	char id[15];
+	char chattingBuffer[30];
+};
+
 struct RegisterUserPacket : Packet
 {
 	char id[15];

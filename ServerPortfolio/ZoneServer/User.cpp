@@ -126,7 +126,7 @@ void User::HeartBeatChecked()
 
 		m_heartBeatCheckedCount = 0;
 
-		printf("[ HeartBeat Checking & Update Success : %d ]\n", m_heartBeatCheckedCount);
+		MYDEBUG("[ HeartBeat Checking & Update Success : user %d ]\n", m_basicInfo.userInfo.userID);
 	}
 	else
 	{
@@ -135,7 +135,7 @@ void User::HeartBeatChecked()
 		//printf("[ HeartBeat Checking Success : %d ]\n", m_heartBeatCheckedCount);
 	}
 
-	MYDEBUG("[ Check %d ]\n", m_heartBeatCheckedCount);
+	//MYDEBUG("[ Check %d ]\n", m_heartBeatCheckedCount);
 }
 
 void User::UpdateInfo()

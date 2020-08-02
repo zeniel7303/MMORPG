@@ -8,11 +8,15 @@ public class ChattingInfo
 {
     public string id;
     public string text;
+    public bool isWhisper;
+    public bool isMe;
 
-    public ChattingInfo(string _id, string _text)
+    public ChattingInfo(string _id, string _text, bool _isWhisper, bool _isMe)
     {
         id = _id;
         text = _text;
+        isWhisper = _isWhisper;
+        isMe = _isMe;
     }
 }
 
@@ -37,7 +41,7 @@ public class Chatting : MonoBehaviour
     void Start()
     {
         chattingQueue = new CircBuf<ChattingInfo>();
-        chattingQueue.Init(maxChattingSize, new ChattingInfo("", ""));
+        chattingQueue.Init(maxChattingSize, new ChattingInfo("", "", false, false));
 
         textArray = new Text[maxChattingSize];
 
@@ -87,11 +91,29 @@ public class Chatting : MonoBehaviour
         if (_value == "")
             return;
 
+        int index = _value.IndexOf("/w");
+
+        if(index == 0)
+        {
+            _value += "\0";
+
+            string[] stringArray = _value.Split(' ');
+            string newString = _value.Remove(0, stringArray[0].Length + stringArray[1].Length + 2);
+
+            ChattingPacket_Whisper chattingPacket_Whisper =
+                 new ChattingPacket_Whisper(PlayerManager.instance.userInfo.userID,
+                stringArray[1], PlayerManager.instance.userInfo.name, newString);
+
+            ServerManager.Instance.SendData(chattingPacket_Whisper.GetBytes());
+
+            return;
+        }
+
         _value += "\0";
 
         ChattingPacket chattingPacket =
-            new ChattingPacket(PlayerManager.instance.userInfo.userID, 
-            PlayerManager.instance.userInfo.name, _value);
+                 new ChattingPacket(PlayerManager.instance.userInfo.userID,
+                 PlayerManager.instance.userInfo.name, _value);
 
         ServerManager.Instance.SendData(chattingPacket.GetBytes());
     }
@@ -100,7 +122,7 @@ public class Chatting : MonoBehaviour
     {
         if (_value == "") return;
 
-        chattingQueue.Enqueue(new ChattingInfo("System ", _value));
+        chattingQueue.Enqueue(new ChattingInfo("System ", _value, false, false));
 
         ShowChatting();
 
@@ -136,7 +158,40 @@ public class Chatting : MonoBehaviour
             userName = _id;
         }
 
-        chattingQueue.Enqueue(new ChattingInfo(userName, _value));
+        chattingQueue.Enqueue(new ChattingInfo(userName, _value, false, false));
+
+        ShowChatting();
+
+        nowChattingCount++;
+
+        if (nowChattingCount >= 12)
+        {
+            chattingSpace.localPosition = new Vector3(0, (nowChattingCount - 12) * 28 + 28);
+        }
+    }
+
+    public void ChattingInput_Whisper(int _userIndex, string _targetId, string _id, string _value)
+    {
+        if (_value == "") return;
+
+        string userName;
+        if (_userIndex == PlayerManager.instance.userInfo.userID)
+        {
+            userName = _targetId;
+
+            chattingQueue.Enqueue(new ChattingInfo(userName, _value, true, true));
+        }
+        else if (GameManager.Instance.mapManager == null ||
+            !GameManager.Instance.mapManager.otherPlayersDic.ContainsKey(_userIndex))
+        {
+            return;
+        }
+        else
+        {
+            userName = _id;
+
+            chattingQueue.Enqueue(new ChattingInfo(userName, _value, true, false));
+        }
 
         ShowChatting();
 
@@ -161,9 +216,27 @@ public class Chatting : MonoBehaviour
             if (chattingQueue.GetQueueParameter(i).id == "")
                 continue;
 
-            textArray[i].text = string.Format("[{0}] : {1}",
+            if (chattingQueue.GetQueueParameter(i).isWhisper)
+            {
+                if(chattingQueue.GetQueueParameter(i).isMe)
+                {
+                    textArray[i].text = string.Format("<color=#50fd50>[{0}]</color> << {1}",
+                    chattingQueue.GetQueueParameter(i).id,
+                    chattingQueue.GetQueueParameter(i).text);
+                }
+                else
+                {
+                    textArray[i].text = string.Format("<color=#50fd50>[{0}]</color> >> {1}",
+                    chattingQueue.GetQueueParameter(i).id,
+                    chattingQueue.GetQueueParameter(i).text);
+                }
+            }
+            else
+            {
+                textArray[i].text = string.Format("[{0}] : {1}",
                 chattingQueue.GetQueueParameter(i).id,
                 chattingQueue.GetQueueParameter(i).text);
+            }
         }
     }
 

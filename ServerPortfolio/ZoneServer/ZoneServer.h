@@ -4,7 +4,7 @@
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/IpEndPoint.h"
 
 #include "IOCPClass.h"
-#include "SessionManager.h"
+#include "UserManager.h"
 #include "HeartBeatThread.h"
 
 #include "User.h"
@@ -18,14 +18,14 @@ private:
 	const int				ACCEPTORCOUNT = 5;
 
 	IOCPClass&				m_IOCPClass;
-	SessionManager&			m_sessionManager;
 
+	UserManager*			m_userManager;
 	FieldManager*			m_fieldManager;
 	HeartBeatThread*		m_heartBeatThread;
 
 public:
-	ZoneServer(IOCPClass& _iocpClass, SessionManager& _sessionManager) 
-		: m_IOCPClass(_iocpClass), m_sessionManager(_sessionManager)
+	ZoneServer(IOCPClass& _iocpClass)
+		: m_IOCPClass(_iocpClass)
 	{
 
 	};

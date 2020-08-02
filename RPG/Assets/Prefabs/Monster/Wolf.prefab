@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterMesh: {fileID: 1690228662906796126}
-  HUD: {fileID: 0}
+  HUD: {fileID: 4334457027287073626}
   DamagePivot: {fileID: 0}
   monsterInfoUI: {fileID: 1571695857836018407}
   pathList: []

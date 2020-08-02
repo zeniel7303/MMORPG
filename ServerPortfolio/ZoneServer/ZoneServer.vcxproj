@@ -186,7 +186,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Session.h" />
-    <ClInclude Include="SessionManager.h" />
+    <ClInclude Include="UserManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tile.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -251,7 +251,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Session.cpp" />
-    <ClCompile Include="SessionManager.cpp" />
+    <ClCompile Include="UserManager.cpp" />
     <ClCompile Include="Unit.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

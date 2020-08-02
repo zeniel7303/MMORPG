@@ -26,6 +26,7 @@
     <ClInclude Include="HeaderFiles\FileLog.h" />
     <ClInclude Include="HeaderFiles\Utils.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\DurationChecker.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\ManagerFrame_UnorderedMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\CriticalSection.cpp" />

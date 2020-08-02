@@ -379,4 +379,15 @@ public class ServerManager : Singleton<ServerManager>
 
         mapManager.Chatting(userIndex, chatting);
     }
+
+    public void Chatting_Whisper(ChattingPacket_Whisper _chattingPacket_Whisper)
+    {
+        int userIndex = _chattingPacket_Whisper.userIndex;
+        string targetId = _chattingPacket_Whisper.targetId;
+        string id = _chattingPacket_Whisper.id;
+        string chatting = Encoding.Default.GetString(_chattingPacket_Whisper.chatting);
+
+        GameManager.Instance.chattingUI.
+            ChattingInput_Whisper(userIndex, targetId, id, chatting);
+    }
 }

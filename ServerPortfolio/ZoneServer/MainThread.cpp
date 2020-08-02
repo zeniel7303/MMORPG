@@ -32,13 +32,13 @@ bool MainThread::Init()
 	return true;
 }
 
-void MainThread::SetManagers(SessionManager* _sessionManager,
+void MainThread::SetManagers(UserManager* _userManager,
 	FieldManager* _fieldManager)
 {
-	m_sessionManager = _sessionManager;
+	m_userManager = _userManager;
 	m_fieldManager = _fieldManager;
 
-	m_packetHandler = new PacketHandler(*_sessionManager, *_fieldManager);
+	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
 
 	Thread<MainThread>::Start(this);
 
@@ -90,6 +90,20 @@ void MainThread::LoopRun()
 
 			DisConnectUser();
 		}	
+			break;
+		case EVENT_STOREUSER:
+		{
+			m_storeQueue.Swap();
+
+			StoreUser();
+		}
+			break;
+		case EVENT_DELETE_TEMPUSER:
+		{
+			m_tempUserQueue.Swap();
+
+			DeleteTempUser();
+		}
 			break;
 		}
 	}
@@ -184,7 +198,7 @@ void MainThread::ConnectUser()
 
 	for (int i = 0; i < size; i++)
 	{
-		User* tempUser = dynamic_cast<User*>(m_sessionManager->PopSession());
+		User* tempUser = m_userManager->PopUser();
 
 		if (tempUser == nullptr)
 		{
@@ -199,45 +213,25 @@ void MainThread::ConnectUser()
 
 		tempUser->SetSocket(connectQueue.front());
 
-		m_sessionManager->AddSession(tempUser);
 		tempUser->OnConnect();
+
+		m_userManager->AddTempuser(tempUser);
+
+		MYDEBUG("tempUserList Size : %d \n", m_userManager->GetItemList().size());
 
 		connectQueue.pop();
 	}
-
-	/*int size = m_connectQueue.GetSecondaryQueueSize();
-
-	for (int i = 0; i < size; i++)
-	{
-		User* tempUser = dynamic_cast<User*>(m_sessionManager->PopSession());
-
-		if (tempUser == nullptr)
-		{
-			//예외처리
-			MYDEBUG("[ UserSession is nullptr ] \n");
-			FILELOG("UserSession is nullptr");
-
-			// + LOG 남기기
-			//접속 정원됐으니까 패킷 하나 보내주자. 혹은 시간 지나면 ?
-			continue;
-		}
-
-		tempUser->SetSocket(m_connectQueue.PopObject());
-
-		m_sessionManager->AddSessionList(tempUser);
-		tempUser->OnConnect();
-	}*/
 }
 
 void MainThread::DisConnectUser()
 {
-	std::queue<Session*>& disconnectQueue = m_disconnectQueue.GetSecondaryQueue();
+	std::queue<User*>& disconnectQueue = m_disconnectQueue.GetSecondaryQueue();
 
 	size_t size = disconnectQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		User* tempUser = dynamic_cast<User*>(disconnectQueue.front());
+		User* tempUser = disconnectQueue.front();
 
 		//존에 있었다면 해당 존에서 먼저 나간 후
 		if (tempUser->GetField() != nullptr)
@@ -245,33 +239,50 @@ void MainThread::DisConnectUser()
 			tempUser->GetField()->ExitUser(tempUser);
 		}
 
-		tempUser->Reset();
-
 		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
-		m_sessionManager->ReturnSession(tempUser);
-		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
+		m_userManager->ReturnUser(tempUser);
+		MYDEBUG("hashmapSize : %d \n", m_userManager->GetItemHashMap().size());
 
 		disconnectQueue.pop();
 	}
+}
 
-	/*int size = m_disconnectQueue.GetSecondaryQueueSize();
+void MainThread::StoreUser()
+{
+	std::queue<User*>& storeQueue = m_storeQueue.GetSecondaryQueue();
+
+	size_t size = storeQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		User* tempUser = dynamic_cast<User*>(m_disconnectQueue.PopObject());
+		User* tempUser = storeQueue.front();
 
-		//존에 있었다면 해당 존에서 먼저 나간 후
-		if (tempUser->GetField() != nullptr)
-		{
-			tempUser->GetField()->ExitUser(tempUser);
-		}
+		m_userManager->DeleteTempUser(tempUser, false);
+		m_userManager->AddUser(tempUser);
 
-		tempUser->Reset();
+		MYDEBUG("tempUserList Size : %d \n", m_userManager->GetItemList().size());
+		MYDEBUG("hashmapSize : %d \n", m_userManager->GetItemHashMap().size());
 
-		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
-		m_sessionManager->ReturnSessionList(tempUser);
-		m_sessionManager->DeleteSessionID(tempUser->GetInfo()->userInfo.userID);
-	}*/
+		storeQueue.pop();
+	}
+}
+
+void MainThread::DeleteTempUser()
+{
+	std::queue<User*>& tempUserQueue = m_tempUserQueue.GetSecondaryQueue();
+
+	size_t size = tempUserQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		User* tempUser = tempUserQueue.front();
+
+		m_userManager->DeleteTempUser(tempUser, true);
+
+		MYDEBUG("tempUserList Size : %d \n", m_userManager->GetItemList().size());
+
+		tempUserQueue.pop();
+	}
 }
 
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)
@@ -302,9 +313,23 @@ void MainThread::AddToConnectQueue(SOCKET _socket)
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
 
-void MainThread::AddToDisConnectQueue(Session* _session)
+void MainThread::AddToDisConnectQueue(User* _user)
 {
-	m_disconnectQueue.AddObject(_session);
+	m_disconnectQueue.AddObject(_user);
 
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
+}
+
+void MainThread::AddToStoreQueue(User* _user)
+{
+	m_storeQueue.AddObject(_user);
+
+	SetEvent(m_hEvent[EVENT_STOREUSER]);
+}
+
+void MainThread::AddToTempUserQueue(User* _user)
+{
+	m_tempUserQueue.AddObject(_user);
+
+	SetEvent(m_hEvent[EVENT_DELETE_TEMPUSER]);
 }

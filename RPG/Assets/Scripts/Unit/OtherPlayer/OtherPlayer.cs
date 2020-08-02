@@ -33,7 +33,7 @@ public class OtherPlayer : Unit
 
     private void Awake()
     {
-        HUD = transform.Find("HUD").gameObject;
+        //HUD = transform.Find("HUD").gameObject;
         HUD.GetComponent<Canvas>().worldCamera =
             GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 

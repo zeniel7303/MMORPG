@@ -220,6 +220,19 @@ public class Session : MonoBehaviour
                     ServerManager.Instance.Chatting(chattingPacket);
                 }
                 break;
+            case RecvCommand.Zone2C_CHATTING_WHISPER:
+                {
+                    ChattingPacket_Whisper chattingPacket_whisper = new ChattingPacket_Whisper();
+                    Parsing(_buffer, ref chattingPacket_whisper);
+
+                    ServerManager.Instance.Chatting_Whisper(chattingPacket_whisper);
+                }
+                break;
+            case RecvCommand.Zone2C_CHATTING_WHISPER_FAIL:
+                {
+                    GameManager.Instance.chattingUI.SystemChattingInput(string.Format("존재하지 않거나 접속 중이지 않은 유저입니다."));
+                }
+                break;
             case RecvCommand.Zone2C_CHECK_ALIVE:
                 {
                     Debug.Log("나 살아있어요.");
@@ -267,9 +280,9 @@ public class Session : MonoBehaviour
                 {
                     GameManager.Instance.titleUI.registerSuccessWindow.SetActive(true);
 
-                    Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
+                    //Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
 
-                    SendData(exitPacket.GetBytes());
+                    //SendData(exitPacket.GetBytes());
 
                     mySocket.Disconnect(false);
                     this.Init();
@@ -279,9 +292,9 @@ public class Session : MonoBehaviour
                 {
                     GameManager.Instance.titleUI.registerFailedWindow.SetActive(true);
 
-                    Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
+                    //Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
 
-                    SendData(exitPacket.GetBytes());
+                    //SendData(exitPacket.GetBytes());
 
                     mySocket.Disconnect(false);
                     this.Init();
@@ -298,9 +311,9 @@ public class Session : MonoBehaviour
                 {
                     GameManager.Instance.titleUI.loginFailedWindow.SetActive(true);
 
-                    Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
+                    //Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
 
-                    SendData(exitPacket.GetBytes());
+                    //SendData(exitPacket.GetBytes());
 
                     mySocket.Disconnect(false);
                     this.Init();
@@ -310,9 +323,9 @@ public class Session : MonoBehaviour
                 {
                     GameManager.Instance.titleUI.loginDuplicatedWindow.SetActive(true);
 
-                    Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
+                    //Packet exitPacket = new Packet(SendCommand.C2Zone_EXIT_USER);
 
-                    SendData(exitPacket.GetBytes());
+                    //SendData(exitPacket.GetBytes());
 
                     mySocket.Disconnect(false);
                     this.Init();

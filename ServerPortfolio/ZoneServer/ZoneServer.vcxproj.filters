@@ -168,7 +168,7 @@
     <ClInclude Include="PacketHandler.h">
       <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClInclude>
-    <ClInclude Include="SessionManager.h">
+    <ClInclude Include="UserManager.h">
       <Filter>소스 파일\Application\UserManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -242,7 +242,7 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClCompile>
-    <ClCompile Include="SessionManager.cpp">
+    <ClCompile Include="UserManager.cpp">
       <Filter>소스 파일\Application\UserManager</Filter>
     </ClCompile>
   </ItemGroup>

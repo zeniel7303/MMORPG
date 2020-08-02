@@ -44,7 +44,7 @@ public class Monster : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        HUD = transform.Find("HUD").gameObject;
+        //HUD = transform.Find("HUD").gameObject;
         HUD.GetComponent<Canvas>().worldCamera = 
             GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
