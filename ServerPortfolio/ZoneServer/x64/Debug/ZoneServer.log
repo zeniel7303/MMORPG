@@ -1,18 +1,19 @@
-﻿  MainThread.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(131): warning C4002: 함수 같은 매크로 호출 'FILELOG'에 대해 인수가 너무 많습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(220): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(220): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(244): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(244): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(263): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(263): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(264): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(264): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(282): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(282): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-  UserManager.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\headerfiles\onlyheaders\objectpool.h(24): warning C4267: 'return': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\headerfiles\onlyheaders\objectpool.h(23): note: 클래스 템플릿 멤버 함수 'int ObjectPool<User>::GetSize(void)'을(를) 컴파일하고 있습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\usermanager.cpp(12): note: 컴파일 중인 함수 템플릿 인스턴스화 'int ObjectPool<User>::GetSize(void)'에 대한 참조를 확인하십시오.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\usermanager.h(23): note: 컴파일 중인 클래스 템플릿 인스턴스화 'ObjectPool<User>'에 대한 참조를 확인하세요.
-  ZoneServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\x64\Debug\ZoneServer.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(ZoneServer.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+  Acceptor.cpp
+  Field.cpp
+  FieldManager.cpp
+  HeartBeatThread.cpp
+  MainThread.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\mainthread.cpp(152): warning C4002: 함수 같은 매크로 호출 'FILELOG'에 대해 인수가 너무 많습니다.
+  Monster.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\monster.cpp(414): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MonsterLogicThread.cpp
+  SectorManager.cpp
+  User.cpp
+  ZoneServer.cpp
+  코드를 생성하고 있습니다...
+  DBConnector.cpp
+  PacketHandler.cpp
+  main.cpp
+  코드를 생성하고 있습니다...
+  ZoneServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\x64\Debug\2.ZoneServer.exe

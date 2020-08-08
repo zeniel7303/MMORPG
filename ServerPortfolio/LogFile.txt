@@ -10442,3 +10442,346 @@
 [ 2020-08-01 10:50:52 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
 [ 2020-08-01 10:53:15 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
 [ 2020-08-01 11:05:05 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:28:20 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:28:56 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:29:13 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:29:31 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:29:49 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:30:38 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:30:59 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:31:44 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:43:05 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:44:41 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:48:03 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:48:54 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-04 22:49:13 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 12:12:50 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 13:28:25 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 17:47:50 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 17:54:12 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 17:57:11 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 17:58:57 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-05 22:43:53 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-06 22:49:18 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 13:29:09 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 18:37:12 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 18:50:18 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 18:55:41 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 18:59:50 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 19:00:04 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 19:01:51 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 19:12:02 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 19:20:37 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:21 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:21:23 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-07 19:22:06 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 20:27:43 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-07 21:35:17 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 09:45:27 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:04:08 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:22:58 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:25:52 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:26:28 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:26:39 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-08 10:28:10 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:28:22 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:28:51 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-08 10:38:00 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:41:00 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 10:47:52 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 16:04:38 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 16:06:22 -  workerthread.cpp : 68 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-08 16:07:15 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 16:15:52 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-08 16:17:41 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
