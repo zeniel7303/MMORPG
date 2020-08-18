@@ -66,6 +66,8 @@ void App::LoopRun()
 			dummy->FSM();
 		}
 
-		Sleep(1000 / 10);
+		Sleep(10);
+
+		//Sleep(1000 / 10);
 	}
 }

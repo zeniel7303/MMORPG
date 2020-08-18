@@ -27,7 +27,6 @@ class ZoneServer
 {
 private:
 	const int				USERMAXCOUNT = 2000;
-	const int				ACCEPTORCOUNT = 5;
 
 	IOCPClass&				m_IOCPClass;
 

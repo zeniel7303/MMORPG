@@ -104,103 +104,130 @@ void Dummy::RandomTask()
 
 void Dummy::FSM()
 {
-	switch (m_basicInfo.unitInfo.state)
-	{
-	case STATE::IDLE:
-	{
-		currentTime += 1.0f / 10.0f;
+	ChattingPacket* testPacket =
+		reinterpret_cast<ChattingPacket*>(GetSendBuffer()->
+			GetBuffer(sizeof(ChattingPacket)));;
+	testPacket->userIndex = 0;
+	strcpy(testPacket->id, "Test1");
+	strcpy(testPacket->chattingBuffer, "TESTTEST");
+	testPacket->Init(SendCommand::C2Zone_CHATTING, sizeof(ChattingPacket));
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		if (currentTime < intervalTime) return;
+	strcpy(testPacket->id, "Test2");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		tile = tilesData.GetTile(m_basicInfo.unitInfo.position.x, 
-			m_basicInfo.unitInfo.position.y);
+	strcpy(testPacket->id, "Test3");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		int randX = (rand() % ((patrolRange * 2) + 1)) - patrolRange;
-		int randY = (rand() % ((patrolRange * 2) + 1)) - patrolRange;
+	strcpy(testPacket->id, "Test4");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		m_targetPosition = { m_basicInfo.unitInfo.position.x + randX,
-			m_basicInfo.unitInfo.position.y + randY };
+	strcpy(testPacket->id, "Test5");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		Tile* tempTile = tilesData.GetTile(m_targetPosition.x, m_targetPosition.y);
+	strcpy(testPacket->id, "Test6");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-		//잘못된 타일이면 다시 or 찾는 타일이 막힌 타일 or 찾는 타일이 나 자신이면 다시
-		if (tempTile == nullptr || tempTile->GetType() == TileType::BLOCK
-			|| tempTile == tile)
-		{
-			currentTime = 0.0f;
+	strcpy(testPacket->id, "Test7");
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 
-			return;
-		}
+	//switch (m_basicInfo.unitInfo.state)
+	//{
+	//case STATE::IDLE:
+	//{
+	//	currentTime += 1.0f / 10.0f;
 
-		pathFind.PathFind(&tileList, tile, tempTile);
+	//	if (currentTime < intervalTime) return;
 
-		if (tileList.size() > 0)
-		{
-			m_targetPosition = tileList.front();
+	//	tile = tilesData.GetTile(m_basicInfo.unitInfo.position.x, 
+	//		m_basicInfo.unitInfo.position.y);
 
-			tileList.pop_front();
+	//	int randX = (rand() % ((patrolRange * 2) + 1)) - patrolRange;
+	//	int randY = (rand() % ((patrolRange * 2) + 1)) - patrolRange;
 
-			m_basicInfo.unitInfo.state = STATE::MOVE;
+	//	m_targetPosition = { m_basicInfo.unitInfo.position.x + randX,
+	//		m_basicInfo.unitInfo.position.y + randY };
 
-			//VECTOR2 destinationPosition;
-			//if (tileList.size() > 0)
-			//{
-			//	destinationPosition = tileList.back();
-			//}
-			//else
-			//{
-			//	destinationPosition = m_targetPosition;
-			//}
+	//	Tile* tempTile = tilesData.GetTile(m_targetPosition.x, m_targetPosition.y);
 
-			//printf("[ %d test user : destination position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-			//	destinationPosition.x, destinationPosition.y);
-		}
+	//	//잘못된 타일이면 다시 or 찾는 타일이 막힌 타일 or 찾는 타일이 나 자신이면 다시
+	//	if (tempTile == nullptr || tempTile->GetType() == TileType::BLOCK
+	//		|| tempTile == tile)
+	//	{
+	//		currentTime = 0.0f;
 
-		/*if (tileList.size() > 0)
-		{
-			TestClientMovePacket* movePacket =
-				reinterpret_cast<TestClientMovePacket*>(GetSendBuffer()->
-					GetBuffer(sizeof(TestClientMovePacket)));;
-			movePacket->userIndex = m_basicInfo.userInfo.userID;
-			movePacket->tileCount = 0;
+	//		return;
+	//	}
 
-			int tempNum = 0;
-			for (const auto& element : tileList)
-			{
-				movePacket->position[tempNum].x = element.x;
-				movePacket->position[tempNum].y = element.y;
+	//	pathFind.PathFind(&tileList, tile, tempTile);
 
-				movePacket->tileCount++;
-				tempNum++;
-			}
+	//	if (tileList.size() > 0)
+	//	{
+	//		m_targetPosition = tileList.front();
 
-			movePacket->size = (sizeof(Position) * movePacket->tileCount)
-				+ sizeof(WORD) + sizeof(Packet);
-			movePacket->Init(SendCommand::C2Zone_MOVE_TEST_USER, movePacket->size);
-			m_sendBuffer->Write(movePacket->size);
-			Send(reinterpret_cast<char*>(movePacket), movePacket->size);
+	//		tileList.pop_front();
 
-			m_basicInfo.unitInfo.state = STATE::MOVE;
+	//		m_basicInfo.unitInfo.state = STATE::MOVE;
 
-			//printf("[ %d user : target ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
-			//	movePacket->position[tempNum - 1].x, movePacket->position[tempNum - 1].y);
-		}*/
+	//		//VECTOR2 destinationPosition;
+	//		//if (tileList.size() > 0)
+	//		//{
+	//		//	destinationPosition = tileList.back();
+	//		//}
+	//		//else
+	//		//{
+	//		//	destinationPosition = m_targetPosition;
+	//		//}
 
-		currentTime = 0.0f;
+	//		//printf("[ %d test user : destination position ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+	//		//	destinationPosition.x, destinationPosition.y);
+	//	}
 
-		intervalTime = (float)(rand() % 10) + 1;
-	}
-		break;
-	case STATE::MOVE:
-	{
-		Move();
+	//	/*if (tileList.size() > 0)
+	//	{
+	//		TestClientMovePacket* movePacket =
+	//			reinterpret_cast<TestClientMovePacket*>(GetSendBuffer()->
+	//				GetBuffer(sizeof(TestClientMovePacket)));;
+	//		movePacket->userIndex = m_basicInfo.userInfo.userID;
+	//		movePacket->tileCount = 0;
 
-		if (PathMove()) return;
+	//		int tempNum = 0;
+	//		for (const auto& element : tileList)
+	//		{
+	//			movePacket->position[tempNum].x = element.x;
+	//			movePacket->position[tempNum].y = element.y;
 
-		m_basicInfo.unitInfo.state = STATE::IDLE;
-	}
-		break;
-	}
+	//			movePacket->tileCount++;
+	//			tempNum++;
+	//		}
+
+	//		movePacket->size = (sizeof(Position) * movePacket->tileCount)
+	//			+ sizeof(WORD) + sizeof(Packet);
+	//		movePacket->Init(SendCommand::C2Zone_MOVE_TEST_USER, movePacket->size);
+	//		m_sendBuffer->Write(movePacket->size);
+	//		Send(reinterpret_cast<char*>(movePacket), movePacket->size);
+
+	//		m_basicInfo.unitInfo.state = STATE::MOVE;
+
+	//		//printf("[ %d user : target ( %f, %f ) ]\n", m_basicInfo.userInfo.userID,
+	//		//	movePacket->position[tempNum - 1].x, movePacket->position[tempNum - 1].y);
+	//	}*/
+
+	//	currentTime = 0.0f;
+
+	//	intervalTime = (float)(rand() % 10) + 1;
+	//}
+	//	break;
+	//case STATE::MOVE:
+	//{
+	//	Move();
+
+	//	if (PathMove()) return;
+
+	//	m_basicInfo.unitInfo.state = STATE::IDLE;
+	//}
+	//	break;
+	//}
 }
 
 void Dummy::Move()

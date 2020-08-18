@@ -7017,11 +7017,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17daeb59160f9bd49b3bfd4028625b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  userID: 0
   ip: 211.221.147.29
-  port: 30002
+  port: 30003
   mapManager: {fileID: 0}
   isLogInConnect: 0
   isRegisterConnect: 0
+  isStartConnect: 0
+  isReConnect: 0
 --- !u!1 &1988792933
 GameObject:
   m_ObjectHideFlags: 0

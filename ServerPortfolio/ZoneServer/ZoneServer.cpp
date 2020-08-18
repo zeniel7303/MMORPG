@@ -30,7 +30,7 @@ bool ZoneServer::Start()
 
 	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
-	if (!DBCONNECTOR->Connect("211.221.147.29", 30003))
+	if (!DBCONNECTOR->Connect("211.221.147.29", 30004))
 	{
 		return false;
 	}

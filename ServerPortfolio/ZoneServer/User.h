@@ -76,7 +76,7 @@ public:
 	void LevelUp();
 
 	//유저의 정보 받기요청(DB서버로)
-	void RequestUserInfo();
+	void RequestUserInfo(int _num);
 	//유저의 정보 받기 성공 -> 유저 정보 전송(클라에게)
 	void SendInfo(GetSessionInfoPacket* _packet);
 	//유저의 정보 받기 실패
@@ -86,16 +86,8 @@ public:
 	//User의 포지션(이동시 호출됨)
 	void SetPosition(Position& _position);
 
-	void LogInUser(LogInPacket* _packet);
-	void RegisterUser(RegisterUserPacket* _packet);
-
 	//로그인 중복됨(이미 접속중임)->실패처리
 	void LogInDuplicated();
-	void LogInSuccess(int _num);
-	void LogInFailed();
-
-	void RegisterSuccess();
-	void RegisterFailed();
 
 	bool CompareSector(Sector* _sector);
 

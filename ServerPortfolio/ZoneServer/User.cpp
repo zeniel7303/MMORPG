@@ -54,7 +54,7 @@ void User::DisConnect()
 		printf("%d Error \n", errorNum);
 	}
 
-	//MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown 이후 close
@@ -91,9 +91,6 @@ void User::OnRecv()
 
 		if (packet == nullptr) break;
 
-		//Heap에다 넣는 것
-		//MainThread::PacketQueuePair_User* temp = new MainThread::PacketQueuePair_User(this, packet);
-		//MainThread::getSingleton()->AddToUserPacketQueue(temp);
 		//상수로 넣는것(상수니까 주소바뀔 수 없다.)
 		MainThread::getSingleton()->AddToUserPacketQueue({ this, packet });
 
@@ -271,8 +268,10 @@ void User::LevelUp()
 	}
 }
 
-void User::RequestUserInfo()
+void User::RequestUserInfo(int _num)
 {
+	m_basicInfo.userInfo.userID = _num;
+
 	RequireUserInfoPacket_DBAgent* RequireUserInfoPacket =
 		reinterpret_cast<RequireUserInfoPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(RequireUserInfoPacket_DBAgent)));
@@ -308,7 +307,7 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 
 void User::RequestUserInfoFailed()
 {
-	//MYDEBUG("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
+	MYDEBUG("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
 
 	DisConnect();
 }
@@ -354,34 +353,6 @@ void User::SetPosition(Position& _position)
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 }
 
-void User::LogInUser(LogInPacket* _packet)
-{
-	LogInPacket_DBAgent* logInPacket_DBAgent =
-		reinterpret_cast<LogInPacket_DBAgent*>(m_sendBuffer->
-			GetBuffer(sizeof(LogInPacket_DBAgent)));
-	logInPacket_DBAgent->Init(SendCommand::Zone2DB_LOGIN, sizeof(LogInPacket_DBAgent));
-	//m_sendBuffer->Write(logInPacket_DBAgent->size);
-	logInPacket_DBAgent->socket = m_socket;
-	strcpy_s(logInPacket_DBAgent->id, _packet->id);
-	strcpy_s(logInPacket_DBAgent->password, _packet->password);
-
-	DBCONNECTOR->Send(reinterpret_cast<char*>(logInPacket_DBAgent), logInPacket_DBAgent->size);
-}
-
-void User::RegisterUser(RegisterUserPacket* _packet)
-{
-	RegisterPacket_DBAgent* registerPacket_DBAgent =
-		reinterpret_cast<RegisterPacket_DBAgent*>(m_sendBuffer->
-			GetBuffer(sizeof(RegisterPacket_DBAgent)));
-	registerPacket_DBAgent->Init(SendCommand::Zone2DB_REGISTER, sizeof(RegisterPacket_DBAgent));
-	//m_sendBuffer->Write(registerPacket_DBAgent->size);
-	registerPacket_DBAgent->socket = m_socket;
-	strcpy_s(registerPacket_DBAgent->id, _packet->id);
-	strcpy_s(registerPacket_DBAgent->password, _packet->password);
-
-	DBCONNECTOR->Send(reinterpret_cast<char*>(registerPacket_DBAgent), registerPacket_DBAgent->size);
-}
-
 void User::LogInDuplicated()
 {
 	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
@@ -390,50 +361,6 @@ void User::LogInDuplicated()
 	//m_sendBuffer->Write(LogInFailed->size);
 
 	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
-}
-
-void User::LogInSuccess(int _num)
-{
-	m_basicInfo.userInfo.userID = _num;
-
-	Packet* LogInSuccess = reinterpret_cast<Packet*>(m_sendBuffer->
-		GetBuffer(sizeof(Packet)));
-	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(Packet));
-	//m_sendBuffer->Write(LogInSuccess->size);
-	MYDEBUG("[ Login Success ] \n");
-
-	Send(reinterpret_cast<char*>(LogInSuccess), LogInSuccess->size);
-}
-
-void User::LogInFailed()
-{
-	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
-		GetBuffer(sizeof(Packet)));
-	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
-	//m_sendBuffer->Write(LogInFailed->size);
-	MYDEBUG("[ Login Failed ] \n");
-
-	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
-}
-
-void User::RegisterSuccess()
-{
-	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(m_sendBuffer->
-		GetBuffer(sizeof(Packet)));
-	RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
-	//m_sendBuffer->Write(RegisterSuccessPacket->size);
-
-	Send(reinterpret_cast<char*>(RegisterSuccessPacket), RegisterSuccessPacket->size);
-}
-
-void User::RegisterFailed()
-{
-	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(m_sendBuffer->
-		GetBuffer(sizeof(Packet)));
-	RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
-	//m_sendBuffer->Write(RegisterFailedPacket->size);
-
-	Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
 }
 
 bool User::CompareSector(Sector* _sector)

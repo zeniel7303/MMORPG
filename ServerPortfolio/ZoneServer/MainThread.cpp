@@ -10,7 +10,7 @@ MainThread::~MainThread()
 {
 	for (int i = MAX_EVENT; i > 0 ; --i)
 	{
-		if (m_hEvent[i-1]) { CloseHandle(m_hEvent[i-1]); m_hEvent[i-1] = 0; 	}
+		if (m_hEvent[i-1]) { CloseHandle(m_hEvent[i-1]); m_hEvent[i-1] = 0; }
 	}
 }
 
@@ -30,6 +30,15 @@ bool MainThread::Init()
 			return false;
 		}
 	}
+
+	processFunc[0] = &MainThread::ProcessUserPacket;
+	processFunc[1] = &MainThread::ConnectUser;
+	processFunc[2] = &MainThread::DisConnectUser;
+	processFunc[3] = &MainThread::ProcessMonsterPacket;
+	processFunc[4] = &MainThread::ProcessDBConnectorPacket;
+	processFunc[5] = &MainThread::AddToHashMap;
+	processFunc[6] = &MainThread::DeleteTempUser;
+	processFunc[7] = &MainThread::HeartBeat;
 
 	return true;
 }
@@ -68,75 +77,17 @@ void MainThread::LoopRun()
 		int num = WaitForMultipleObjects(MAX_EVENT, m_hEvent, FALSE, INFINITE);
 		//printf("hEvent : %d \n", num);
 
-		switch (num)
-		{
-		case EVENT_RECV:
-		{
-			m_userPacketQueue.Swap();
-
-			ProcessUserPacket();
-		}	
-			break;
-		case EVENT_DBCONNECTOR:
-		{
-			m_dbPacketQueue.Swap();
-
-			ProcessDBConnectorPacket();
-		}
-			break;
-		case EVENT_MONSTER:
-		{
-			m_monsterPacketQueue.Swap();
-
-			ProcessMonsterPacket();
-		}
-			break;
-		case EVENT_CONNECT:
-		{
-			//蜡历啊 Connect等 版快
-			m_connectQueue.Swap();
-
-			ConnectUser();
-		}			
-			break;
-		case EVENT_DISCONNECT:
-		{
-			//蜡历啊 Disconnect等 版快
-			m_disconnectQueue.Swap();
-
-			DisConnectUser();
-		}	
-			break;
-		case EVENT_STOREUSER:
-		{
-			m_storeQueue.Swap();
-
-			StoreUser();
-		}
-			break;
-		case EVENT_DELETE_TEMPUSER:
-		{
-			m_tempUserQueue.Swap();
-
-			DeleteTempUser();
-		}
-			break;
-		case EVENT_HEARTBEAT:
-		{
-			m_heartBeatThread->HeartBeat();
-		}
-			break;
-		}
+		(this->*processFunc[num])();
 	}
 }
 
 void MainThread::ProcessUserPacket()
 {
+	m_userPacketQueue.Swap();
+
 	std::queue<PacketQueuePair_User>& userPacketQueue = m_userPacketQueue.GetSecondaryQueue();
 
 	size_t size = userPacketQueue.size();
-	/*cout << m_userPacketQueue.GetPrimaryQueue().size() << " / " 
-		<< m_userPacketQueue.GetSecondaryQueue().size() << endl;*/
 
 	for (int i = 0; i < size; i++)
 	{
@@ -149,7 +100,9 @@ void MainThread::ProcessUserPacket()
 		if (!user->IsConnected())
 		{
 			//MYDEBUG("Check - DisConnected\n");
-			FILELOG("%d user disconnected but packet is existed", user->GetInfo()->userInfo.userID);
+			LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, 
+				"%d user disconnected but packet is existed", 
+				user->GetInfo()->userInfo.userID);
 
 			continue;
 		}
@@ -170,6 +123,8 @@ void MainThread::ProcessUserPacket()
 
 void MainThread::ProcessMonsterPacket()
 {
+	m_monsterPacketQueue.Swap();
+
 	std::queue<PacketQueuePair_Monster>& monsterPacketQueue = m_monsterPacketQueue.GetSecondaryQueue();
 
 	size_t size = monsterPacketQueue.size();
@@ -197,6 +152,8 @@ void MainThread::ProcessDBConnectorPacket()
 	//	Connector->Connect();
 	//}
 
+	m_dbPacketQueue.Swap();
+
 	std::queue<Packet*>& dbPacketQueue = m_dbPacketQueue.GetSecondaryQueue();
 
 	size_t size = dbPacketQueue.size();
@@ -213,6 +170,9 @@ void MainThread::ProcessDBConnectorPacket()
 
 void MainThread::ConnectUser()
 {
+	//蜡历啊 Connect等 版快
+	m_connectQueue.Swap();
+
 	std::queue<SOCKET>& connectQueue = m_connectQueue.GetSecondaryQueue();
 
 	size_t size = connectQueue.size();
@@ -246,6 +206,9 @@ void MainThread::ConnectUser()
 
 void MainThread::DisConnectUser()
 {
+	//蜡历啊 Disconnect等 版快
+	m_disconnectQueue.Swap();
+
 	std::queue<User*>& disconnectQueue = m_disconnectQueue.GetSecondaryQueue();
 
 	size_t size = disconnectQueue.size();
@@ -268,15 +231,17 @@ void MainThread::DisConnectUser()
 	}
 }
 
-void MainThread::StoreUser()
+void MainThread::AddToHashMap()
 {
-	std::queue<User*>& storeQueue = m_storeQueue.GetSecondaryQueue();
+	m_hashMapQueue.Swap();
 
-	size_t size = storeQueue.size();
+	std::queue<User*>& hashMapQueue = m_hashMapQueue.GetSecondaryQueue();
+
+	size_t size = hashMapQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		User* tempUser = storeQueue.front();
+		User* tempUser = hashMapQueue.front();
 
 		m_userManager->DeleteTempUser(tempUser, false);
 		m_userManager->AddUser(tempUser);
@@ -284,13 +249,15 @@ void MainThread::StoreUser()
 		MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
 		MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
 
-		storeQueue.pop();
+		hashMapQueue.pop();
 	}
 }
 
 void MainThread::DeleteTempUser()
 {
-	std::queue<User*>& tempUserQueue = m_tempUserQueue.GetSecondaryQueue();
+	m_deleteTempUserQueue.Swap();
+
+	std::queue<User*>& tempUserQueue = m_deleteTempUserQueue.GetSecondaryQueue();
 
 	size_t size = tempUserQueue.size();
 
@@ -304,6 +271,11 @@ void MainThread::DeleteTempUser()
 
 		tempUserQueue.pop();
 	}
+}
+
+void MainThread::HeartBeat()
+{
+	m_heartBeatThread->HeartBeat();
 }
 
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)
@@ -343,16 +315,16 @@ void MainThread::AddToDisConnectQueue(User* _user)
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }
 
-void MainThread::AddToStoreQueue(User* _user)
+void MainThread::AddToHashMapQueue(User* _user)
 {
-	m_storeQueue.AddObject(_user);
+	m_hashMapQueue.AddObject(_user);
 
 	SetEvent(m_hEvent[EVENT_STOREUSER]);
 }
 
-void MainThread::AddToTempUserQueue(User* _user)
+void MainThread::AddToDeleteTempUserQueue(User* _user)
 {
-	m_tempUserQueue.AddObject(_user);
+	m_deleteTempUserQueue.AddObject(_user);
 
 	SetEvent(m_hEvent[EVENT_DELETE_TEMPUSER]);
 }

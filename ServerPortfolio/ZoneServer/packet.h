@@ -141,7 +141,7 @@ struct ChattingPacket : Packet
 {
 	int userIndex;
 	char id[15];
-	char chattingBuffer[30];
+	char chattingBuffer[255];
 };
 
 struct ChattingPacket_Whisper : Packet
@@ -149,7 +149,7 @@ struct ChattingPacket_Whisper : Packet
 	int userIndex;
 	char targetId[15];
 	char id[15];
-	char chattingBuffer[30];
+	char chattingBuffer[255];
 };
 
 struct RegisterUserPacket : Packet

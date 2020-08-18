@@ -140,7 +140,7 @@ struct ChattingPacket : Packet
 {
 	int userIndex;
 	char id[15];
-	char chattingBuffer[30];
+	char chattingBuffer[255];
 };
 
 struct RegisterUserPacket : Packet

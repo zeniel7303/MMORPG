@@ -12,6 +12,8 @@ void PacketHandler::HandleUserPacket(User* _user, Packet* _packet)
 	User* user = _user;
 
 	(this->*userPacketFunc[packet->cmd])(user, packet);
+
+	user->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::HandleMonsterPacket(Monster* _monster, Packet* _packet)
@@ -36,6 +38,8 @@ void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
 	Packet* packet = _packet;
 
 	(this->*dbPacketFunc[packet->cmd % 100])(packet);
+
+	DBCONNECTOR->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
@@ -132,23 +136,22 @@ void PacketHandler::OnPacket_MonsterAttack(Monster* _monster, Packet* _packet)
 	user->Hit(monsterAttackPacket->monsterIndex, monsterAttackPacket->damage);
 }
 
-void PacketHandler::OnPacket_RegisterUser(User* _user, Packet* _packet)
-{
-	RegisterUserPacket* registerUserPacket = reinterpret_cast<RegisterUserPacket*>(_packet);
-
-	_user->RegisterUser(registerUserPacket);
-}
-
-void PacketHandler::OnPacket_LogInUser(User* _user, Packet* _packet)
-{
-	LogInPacket* logInPacket = reinterpret_cast<LogInPacket*>(_packet);
-
-	_user->LogInUser(logInPacket);
-}
-
 void PacketHandler::OnPacket_RequireInfo(User* _user, Packet* _packet)
 {
-	_user->RequestUserInfo();
+	LogInSuccessPacket* logInSuccessPacket = reinterpret_cast<LogInSuccessPacket*>(_packet);
+
+	//중복 로그인체크(나중에 DB에서 프로시져를 이용해서 하자)
+	if (m_userManager.GetUserHashMap()->IsExist(_user->GetInfo()->userInfo.userID))
+	{
+		//중복 로그인이니 접속하지마라
+		_user->LogInDuplicated();
+
+		return;
+	}
+
+	_user->RequestUserInfo(logInSuccessPacket->userIndex);
+
+	MainThread::getSingleton()->AddToHashMapQueue(_user);
 }
 
 void PacketHandler::OnPacket_UpdateUser(User* _user, Packet* _packet)
@@ -170,6 +173,10 @@ void PacketHandler::OnPacket_ExitUser(User* _user, Packet* _packet)
 
 void PacketHandler::OnPacket_Chatting(User* _user, Packet* _packet)
 {
+	ChattingPacket* chattingPacket = reinterpret_cast<ChattingPacket*>(_packet);
+
+	//MYDEBUG("%s \n", chattingPacket->id);
+
 	_user->GetField()->
 		SectorSendAll(_user->GetSector()->GetRoundSectorsVec(),
 			reinterpret_cast<char*>(_packet), _packet->size);
@@ -178,75 +185,6 @@ void PacketHandler::OnPacket_Chatting(User* _user, Packet* _packet)
 void PacketHandler::OnPacket_HeartBeat(User* _user, Packet* _packet)
 {
 	_user->HeartBeatChecked();
-}
-
-void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
-{
-	LogInSuccessPacket* logInSuccessPacket = reinterpret_cast<LogInSuccessPacket*>(_packet);
-
-	User* tempUser;
-	tempUser = FindUserAtTempList(logInSuccessPacket->socket);
-
-	if (tempUser != nullptr)
-	{
-		//중복 로그인체크(나중에 DB에서 프로시져를 이용해서 하자)
-		if (m_userManager.GetUserHashMap()->IsExist(tempUser->GetInfo()->userInfo.userID))
-		{
-			//중복 로그인이니 접속하지마라
-			tempUser->LogInDuplicated();
-
-			return;
-		}
-
-		MainThread::getSingleton()->AddToStoreQueue(tempUser);
-
-		tempUser->LogInSuccess(logInSuccessPacket->userIndex);
-	}
-}
-
-void PacketHandler::OnPacket_LogInFailed(Packet* _packet)
-{
-	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
-
-	User* tempUser;
-	tempUser = FindUserAtTempList(packetWithSocket->socket);
-
-	if (tempUser != nullptr)
-	{
-		tempUser->LogInFailed();
-
-		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
-	}
-}
-
-void PacketHandler::OnPacket_RegisterSuccess(Packet* _packet)
-{
-	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
-
-	User* tempUser;
-	tempUser = FindUserAtTempList(packetWithSocket->socket);
-
-	if (tempUser != nullptr)
-	{
-		tempUser->RegisterSuccess();
-
-		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
-	}
-}
-
-void PacketHandler::OnPacket_RegisterFailed(Packet* _packet)
-{
-	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
-
-	User* tempUser;
-	tempUser = FindUserAtTempList(packetWithSocket->socket);
-
-	if (tempUser != nullptr)
-	{
-		tempUser->RegisterFailed();
-
-		MainThread::getSingleton()->AddToTempUserQueue(tempUser);
-	}
 }
 
 void PacketHandler::OnPacket_GetUserInfoSuccess(Packet* _packet)
@@ -307,21 +245,6 @@ void PacketHandler::OnPakcet_GetMonstersData(Packet* _packet)
 	DBCONNECTOR->GetMonstersData(_packet);
 
 	m_fieldManager.InitMonsterThread();
-}
-
-User* PacketHandler::FindUserAtTempList(SOCKET _socket)
-{
-	const std::list<User*> tempList = m_userManager.GetUserList()->GetItemList();
-
-	for (const auto& element : tempList)
-	{
-		if (element->GetSocket() == _socket)
-		{
-			return element;
-		}
-	}
-
-	return nullptr;
 }
 
 User* PacketHandler::FindUserAtHashMap(SOCKET _socket)

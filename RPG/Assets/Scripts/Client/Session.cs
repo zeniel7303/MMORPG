@@ -242,16 +242,16 @@ public class Session : MonoBehaviour
                     SendData(CheckAlivePacket.GetBytes());
                 }
                 break;
-            case RecvCommand.Zone2C_ISCONNECTED:
+            case RecvCommand.LogIn2C_ISCONNECTED:
                 {
                     IsConnectedPacket isConnectedPacket = new IsConnectedPacket();
                     Parsing(_buffer, ref isConnectedPacket);
 
-                    Debug.Log("IsConnected 수신 완료");
+                    Debug.Log("IsConnected 수신 완료 - LogInServer");
 
                     if (isConnectedPacket.isConnected)
                     {
-                        if(ServerManager.Instance.isLogInConnect)
+                        if (ServerManager.Instance.isLogInConnect)
                         {
                             ServerManager.Instance.isLogInConnect = false;
 
@@ -274,6 +274,19 @@ public class Session : MonoBehaviour
                             SendData(registerUserPacket.GetBytes());
                         }
                     }
+                }
+                break;
+            case RecvCommand.Zone2C_ISCONNECTED:
+                {
+                    Debug.Log("IsConnected 수신 완료 - ZoneServer");
+
+                    userID = ServerManager.Instance.userID;
+
+                    LogInSuccessPacket logInSuccessPacket = new LogInSuccessPacket();
+                    logInSuccessPacket.SetCmd(SendCommand.C2Zone_REQUIRE_INFO);
+                    logInSuccessPacket.userIndex = userID;
+
+                    SendData(logInSuccessPacket.GetBytes());
                 }
                 break;
             case RecvCommand.Zone2C_REGISTER_USER_SUCCESS:
@@ -302,9 +315,16 @@ public class Session : MonoBehaviour
                 break;
             case RecvCommand.Zone2C_LOGIN_SUCCESS:
                 {
-                    Packet requireInfoPacket = new Packet(SendCommand.C2Zone_REQUIRE_INFO);
+                    LogInSuccessPacket logInSuccessPacket = new LogInSuccessPacket();
+                    Parsing(_buffer, ref logInSuccessPacket);
 
-                    SendData(requireInfoPacket.GetBytes());
+                    ServerManager.Instance.userID = logInSuccessPacket.userIndex;
+                    Debug.Log(ServerManager.Instance.userID);
+
+                    mySocket.Disconnect(false);
+                    this.Init();
+
+                    ServerManager.Instance.isReConnect = true;
                 }
                 break;
             case RecvCommand.Zone2C_LOGIN_FAILED:
@@ -335,9 +355,6 @@ public class Session : MonoBehaviour
                 {
                     SessionInfoPacket sessionInfoPacket = new SessionInfoPacket();
                     Parsing(_buffer, ref sessionInfoPacket);
-
-                    userID = sessionInfoPacket.info.userInfo.userID;
-                    Debug.Log(userID);
 
                     PlayerManager.instance.SetUserInfo(sessionInfoPacket.info.userInfo);
                     PlayerManager.instance.SetUnitInfo(sessionInfoPacket.info.unitInfo);

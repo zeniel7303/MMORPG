@@ -25,8 +25,8 @@ public:
 		userPacketFunc[6] = &PacketHandler::OnPacket_UserAttackFailed;			
 		userPacketFunc[7] = &PacketHandler::OnPacket_UserAttack;				
 		userPacketFunc[8] = &PacketHandler::OnPacket_UserRevive;				
-		userPacketFunc[9] = &PacketHandler::OnPacket_RegisterUser;				
-		userPacketFunc[10] = &PacketHandler::OnPacket_LogInUser;					
+		userPacketFunc[9] = nullptr;			
+		userPacketFunc[10] = nullptr;				
 		userPacketFunc[11] = &PacketHandler::OnPacket_RequireInfo;
 		userPacketFunc[12] = &PacketHandler::OnPacket_UpdateUser;
 		userPacketFunc[13] = &PacketHandler::OnPacket_ExitUser;
@@ -35,11 +35,11 @@ public:
 		userPacketFunc[16] = &PacketHandler::OnPacket_EnterTestUser;		
 		userPacketFunc[17] = &PacketHandler::OnPacket_Chatting_Whisper;
 
-		dbPacketFunc[0] = &PacketHandler::OnPacket_LogInSuccess;
-		dbPacketFunc[1] = &PacketHandler::OnPacket_LogInFailed;
-		dbPacketFunc[2] = &PacketHandler::OnPacket_LogInFailed;
-		dbPacketFunc[3] = &PacketHandler::OnPacket_RegisterSuccess;
-		dbPacketFunc[4] = &PacketHandler::OnPacket_RegisterFailed;
+		dbPacketFunc[0] = nullptr;
+		dbPacketFunc[1] = nullptr;
+		dbPacketFunc[2] = nullptr;
+		dbPacketFunc[3] = nullptr;
+		dbPacketFunc[4] = nullptr;
 		dbPacketFunc[5] = &PacketHandler::OnPacket_GetUserInfoSuccess;
 		dbPacketFunc[6] = &PacketHandler::OnPacket_GetUserInfoFailed;
 		dbPacketFunc[7] = &PacketHandler::OnPacket_UpdateUserSuccess;
@@ -71,8 +71,6 @@ public:
 	void OnPacket_UserAttackFailed(User* _user, Packet* _packet);
 	void OnPacket_UserAttack(User* _user, Packet* _packet);
 	void OnPacket_UserRevive(User* _user, Packet* _packet);
-	void OnPacket_RegisterUser(User* _user, Packet* _packet);
-	void OnPacket_LogInUser(User* _user, Packet* _packet);
 	void OnPacket_RequireInfo(User* _user, Packet* _packet);
 	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 	void OnPacket_ExitUser(User* _user, Packet* _packet);
@@ -85,16 +83,11 @@ public:
 	void OnPacket_MonsterAttack(Monster* _monster, Packet* _packet);
 
 	//DB agent====================================================
-	void OnPacket_LogInSuccess(Packet* _packet);
-	void OnPacket_LogInFailed(Packet* _packet);
-	void OnPacket_RegisterSuccess(Packet* _packet);
-	void OnPacket_RegisterFailed(Packet* _packet);
 	void OnPacket_GetUserInfoSuccess(Packet* _packet);
 	void OnPacket_GetUserInfoFailed(Packet* _packet);
 	void OnPacket_UpdateUserSuccess(Packet* _packet);
 	void OnPacket_UpdateUserFailed(Packet* _packet);
 	void OnPakcet_GetMonstersData(Packet* _packet);
 
-	User* FindUserAtTempList(SOCKET _socket);
 	User* FindUserAtHashMap(SOCKET _socket);
 };

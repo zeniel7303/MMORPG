@@ -36,6 +36,7 @@
     <ClInclude Include="HeaderFiles\ClientSession.h" />
     <ClInclude Include="HeaderFiles\WorkerThread.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\ItemManager.h" />
+    <ClInclude Include="HeaderFiles\TimeSchedular.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\CriticalSection.cpp" />
@@ -50,5 +51,6 @@
     <ClCompile Include="CppFiles\Sender.cpp" />
     <ClCompile Include="CppFiles\ClientSession.cpp" />
     <ClCompile Include="CppFiles\WorkerThread.cpp" />
+    <ClCompile Include="CppFiles\TimeSchedular.cpp" />
   </ItemGroup>
 </Project>

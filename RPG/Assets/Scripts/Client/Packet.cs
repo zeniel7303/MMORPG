@@ -38,6 +38,7 @@ public enum RecvCommand
 
     Zone2C_CHATTING_WHISPER_FAIL = 500,
 
+    LogIn2C_ISCONNECTED = 1000,
     Zone2C_ISCONNECTED = 1001,
 
     Zone2C_REGISTER_USER = 1002,
@@ -387,4 +388,12 @@ public class LogInPacket : Packet
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
     public string password;
+};
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public class LogInSuccessPacket : Packet
+{
+    public int userIndex;
+    public int socket;
 };

@@ -1,4 +1,0 @@
-﻿  DBConnector.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio_dbtest\dbagent\dbconnector.cpp(535): warning C4267: '=': 'size_t'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio_dbtest\dbagent\dbconnector.cpp(543): warning C4267: '=': 'size_t'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DBAgent.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio_DBTest\x64\Debug\4.DBAgent.exe

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HeaderFiles\SubHeaders\ManagerFrame_List.h" />
+    <ClInclude Include="HeaderFiles\CriticalSection.h" />
+    <ClInclude Include="HeaderFiles\RingBuffer.h" />
+    <ClInclude Include="HeaderFiles\SubHeaders\ObjectPool.h" />
+    <ClInclude Include="HeaderFiles\SubHeaders\SharedQueue.h" />
+    <ClInclude Include="HeaderFiles\SubHeaders\SingletonBase.h" />
+    <ClInclude Include="HeaderFiles\SpinLock.h" />
+    <ClInclude Include="HeaderFiles\SubHeaders\IpEndPoint.h" />
+    <ClInclude Include="HeaderFiles\SubHeaders\Thread.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\IpEndPoint.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\ManagerFrame_List.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\ObjectPool.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\SharedQueue.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\SingletonBase.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\Thread.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\DoubleQueue.h" />
+    <ClInclude Include="HeaderFiles\FileLog.h" />
+    <ClInclude Include="HeaderFiles\Utils.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\DurationChecker.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\ManagerFrame_UnorderedMap.h" />
+    <ClInclude Include="HeaderFiles\IOCPClass.h" />
+    <ClInclude Include="HeaderFiles\Session.h" />
+    <ClInclude Include="HeaderFiles\AcceptorSession.h" />
+    <ClInclude Include="HeaderFiles\Receiver.h" />
+    <ClInclude Include="HeaderFiles\Sender.h" />
+    <ClInclude Include="HeaderFiles\SendBuffer.h" />
+    <ClInclude Include="HeaderFiles\ClientSession.h" />
+    <ClInclude Include="HeaderFiles\WorkerThread.h" />
+    <ClInclude Include="HeaderFiles\OnlyHeaders\ItemManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CppFiles\CriticalSection.cpp" />
+    <ClCompile Include="CppFiles\RingBuffer.cpp" />
+    <ClCompile Include="CppFiles\SpinLock.cpp" />
+    <ClCompile Include="CppFiles\FileLog.cpp" />
+    <ClCompile Include="CppFiles\Utils.cpp" />
+    <ClCompile Include="CppFiles\IOCPClass.cpp" />
+    <ClCompile Include="CppFiles\Session.cpp" />
+    <ClCompile Include="CppFiles\AcceptorSession.cpp" />
+    <ClCompile Include="CppFiles\Receiver.cpp" />
+    <ClCompile Include="CppFiles\Sender.cpp" />
+    <ClCompile Include="CppFiles\ClientSession.cpp" />
+    <ClCompile Include="CppFiles\WorkerThread.cpp" />
+  </ItemGroup>
+</Project>

@@ -40,7 +40,6 @@ public:
 	enum eHandle : int
 	{
 		EVENT_RECV,
-		EVENT_SEND,
 		EVENT_CONNECT,
 		EVENT_DISCONNECT,
 		EVENT_MONSTER,
@@ -89,8 +88,8 @@ private:
 	DoubleQueue<Packet*>					m_dbPacketQueue;
 	DoubleQueue<SOCKET>						m_connectQueue;
 	DoubleQueue<User*>						m_disconnectQueue;
-	DoubleQueue<User*>						m_storeQueue;
-	DoubleQueue<User*>						m_tempUserQueue;
+	DoubleQueue<User*>						m_hashMapQueue;
+	DoubleQueue<User*>						m_deleteTempUserQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
 
@@ -108,20 +107,24 @@ public:
 
 	void LoopRun();
 
+	using Process = void (MainThread::*)();
+	Process processFunc[MAX_EVENT];
+
 	void ProcessUserPacket();
 	void ProcessMonsterPacket();
 	void ProcessDBConnectorPacket();
 	void ConnectUser();
 	void DisConnectUser();
-	void StoreUser();
+	void AddToHashMap();
 	void DeleteTempUser();
+	void HeartBeat();
 
 	void AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair);
 	void AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToConnectQueue(SOCKET _socket);
 	void AddToDisConnectQueue(User* _user);
-	void AddToStoreQueue(User* _user);
-	void AddToTempUserQueue(User* _user);
+	void AddToHashMapQueue(User* _user);
+	void AddToDeleteTempUserQueue(User* _user);
 	void HearBeatCheck();
 };

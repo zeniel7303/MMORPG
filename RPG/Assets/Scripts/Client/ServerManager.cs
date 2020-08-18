@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ServerManager : Singleton<ServerManager>
 {
+    public int userID;
     bool isConnect;
     public string ip;
     public ushort port;
@@ -16,6 +17,7 @@ public class ServerManager : Singleton<ServerManager>
     public bool isLogInConnect;
     public bool isRegisterConnect;
     public bool isStartConnect;
+    public bool isReConnect;
 
     private float TimeLeft = 1.0f;
     private float nextTime = 0.0f;
@@ -26,6 +28,7 @@ public class ServerManager : Singleton<ServerManager>
         isLogInConnect = false;
         isRegisterConnect = false;
         isStartConnect = false;
+        isReConnect = false;
 
         Init();
     }
@@ -34,6 +37,12 @@ public class ServerManager : Singleton<ServerManager>
     void Update()
     {
         session.Update();
+
+        if(isReConnect)
+        {
+            Connect(30002);
+            isReConnect = false;
+        }
 
         if (!isStartConnect) return;
 
@@ -53,6 +62,11 @@ public class ServerManager : Singleton<ServerManager>
     public void Connect()
     {
         session.Connect(ip, port);
+    }
+
+    public void Connect(int _port)
+    {
+        session.Connect(ip, _port);
     }
 
     public void SendData(byte[] _buffer)
