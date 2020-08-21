@@ -148,7 +148,7 @@ public class PlayerManager : Unit
         updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
         updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
 
-        ServerManager.Instance.SendData(updateInfoPacket.GetBytes());
+        ServerManager.Instance.SendData_ZoneServer(updateInfoPacket.GetBytes());
     }
 
     public void Init()

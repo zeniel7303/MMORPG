@@ -32,7 +32,7 @@ public enum RecvCommand
     Zone2C_USER_MOVE_FINISH = 5,
     Zone2C_USER_ATTACK_FAILED = 6,
     Zone2C_USER_ATTACK_MONSTER = 7,
-    Zone2C_UPDATE_INFO = 12,
+    LogIn2C_UPDATE_INFO = 12,
     Zone2C_CHATTING = 14,
     Zone2C_CHATTING_WHISPER = 17,
 

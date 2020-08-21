@@ -319,12 +319,9 @@ public class Session : MonoBehaviour
                     Parsing(_buffer, ref logInSuccessPacket);
 
                     ServerManager.Instance.userID = logInSuccessPacket.userIndex;
-                    Debug.Log(ServerManager.Instance.userID);
+                    //Debug.Log(ServerManager.Instance.userID);
 
-                    mySocket.Disconnect(false);
-                    this.Init();
-
-                    ServerManager.Instance.isReConnect = true;
+                    ServerManager.Instance.ZoneServerConnect();
                 }
                 break;
             case RecvCommand.Zone2C_LOGIN_FAILED:
@@ -648,15 +645,15 @@ public class Session : MonoBehaviour
                     ServerManager.Instance.MonsterHit(monsterHitPacket);
                 }
                 break;
-            case RecvCommand.Zone2C_UPDATE_INFO:
+            case RecvCommand.LogIn2C_UPDATE_INFO:
                 {
                     SessionInfoPacket updateInfoPacket = new SessionInfoPacket();
                     updateInfoPacket.SetCmd(SendCommand.C2Zone_UPDATE_INFO);
                     updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
                     updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
 
-                    SendData(updateInfoPacket.GetBytes());
-
+                    ServerManager.Instance.SendData_ZoneServer(updateInfoPacket.GetBytes());
+      
                     Debug.Log("업데이트할 info 전송 - HeartBeat");
                 }
                 break;

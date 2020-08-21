@@ -40,7 +40,7 @@ bool DBConnector::Connect(const char* _ip, const unsigned short _portNum)
 	}
 	else
 	{
-		MYDEBUG("[ Connecting Success ]\n");
+		MYDEBUG("[ DBAgent Connecting Success ]\n");
 
 		return true;
 	}
@@ -50,10 +50,10 @@ void DBConnector::OnConnect()
 {
 	ClientSession::OnConnect();
 
-	//왜 바로 못보내고 Sleep 걸어야 보내지?
+	BOOL bVal = TRUE;
+	::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
+
 	Sleep(1);
-	//BOOL bVal = TRUE;
-	//::setsockopt(_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
 
 	Packet* requestMonsterDataPacket =
 		reinterpret_cast<Packet*>(m_sendBuffer->

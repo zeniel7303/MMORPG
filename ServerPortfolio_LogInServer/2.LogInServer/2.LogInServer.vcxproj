@@ -117,23 +117,27 @@
   <ItemGroup>
     <ClCompile Include="Acceptor.cpp" />
     <ClCompile Include="DBConnector.cpp" />
+    <ClCompile Include="HeartBeatThread.cpp" />
     <ClCompile Include="LogInServer.cpp" />
     <ClCompile Include="LogInSession.cpp" />
     <ClCompile Include="LogInSessionManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainThread.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
+    <ClCompile Include="ZoneConnector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Acceptor.h" />
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="DBConnector.h" />
+    <ClInclude Include="HeartBeatThread.h" />
     <ClInclude Include="LogInServer.h" />
     <ClInclude Include="LogInSession.h" />
     <ClInclude Include="LogInSessionManager.h" />
     <ClInclude Include="MainThread.h" />
     <ClInclude Include="packet.h" />
     <ClInclude Include="PacketHandler.h" />
+    <ClInclude Include="ZoneConnector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

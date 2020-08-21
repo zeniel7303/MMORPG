@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour
         visibleMonsterList = new List<Monster>();
 
         Packet packet = new Packet(SendCommand.C2Zone_ENTER_FIELD_SUCCESS);
-        ServerManager.Instance.SendData(packet.GetBytes());
+        ServerManager.Instance.SendData_ZoneServer(packet.GetBytes());
         ServerManager.Instance.isStartConnect = true;
     }
 

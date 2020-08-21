@@ -3,10 +3,15 @@
 #include "Sector.h"
 
 #include "DBConnector.h"
+#include "LogInConnector.h"
+
 #include "MainThread.h"
 
 User::User()
 {
+	m_isInHashMap = false;
+	m_isAlreadyDisConnected = false;
+
 	m_basicInfo.unitInfo.Reset();
 	m_basicInfo.userInfo.Reset();
 
@@ -16,21 +21,21 @@ User::User()
 	m_fieldTilesData = nullptr;
 
 	m_isGetUserList = false;
-
-	m_heartBeatCheckedCount = 0;
 }
 
 User::~User()
 {
 	DisConnect();
-	//Reset();
 }
 
 void User::OnConnect()
 {
+	m_isAlreadyDisConnected = false;
+
 	ClientSession::OnConnect();
 
-	m_start = std::chrono::high_resolution_clock::now();
+	BOOL bVal = TRUE;
+	::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
 
 	IsConnectedPacket* isConnectedPacket =
 		reinterpret_cast<IsConnectedPacket*>(m_sendBuffer->
@@ -46,6 +51,8 @@ void User::OnConnect()
 
 void User::DisConnect()
 {
+	if (m_isAlreadyDisConnected) return;
+
 	ClientSession::DisConnect();
 
 	int errorNum = WSAGetLastError();
@@ -60,7 +67,13 @@ void User::DisConnect()
 	//shutdown 이후 close
 	closesocket(m_socket); //순서상 다른 곳에서 해도된다.
 
-	m_heartBeatCheckedCount = 0;
+	UserNumPacket* DisConnectUserPacket = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(UserNumPacket)));
+	DisConnectUserPacket->Init(SendCommand::Zone2LogIn_DISCONNECT_USER, sizeof(UserNumPacket));
+	DisConnectUserPacket->userIndex = m_basicInfo.userInfo.userID;
+	//m_sendBuffer->Write(DisConnectUserPacket->size);
+	LogInConnector::getSingleton()
+		->Send(reinterpret_cast<char*>(DisConnectUserPacket), DisConnectUserPacket->size);
 
 	MainThread::getSingleton()->AddToDisConnectQueue(this);
 }
@@ -68,6 +81,8 @@ void User::DisConnect()
 void User::Reset()
 {
 	ClientSession::Reset();
+
+	m_isInHashMap = false;
 
 	m_basicInfo.unitInfo.Reset();
 	m_basicInfo.userInfo.Reset();
@@ -105,36 +120,6 @@ void User::OnRecv()
 	}
 }
 
-void User::HeartBeatChecked()
-{
-	m_start = std::chrono::high_resolution_clock::now();
-
-	if (m_heartBeatCheckedCount >= 30)
-	{
-		if (!m_isTestClient)
-		{
-			Packet* UpdateInfoPacket = reinterpret_cast<Packet*>(m_sendBuffer->
-				GetBuffer(sizeof(Packet)));
-			UpdateInfoPacket->Init(SendCommand::Zone2C_UPDATE_INFO, sizeof(Packet));
-			//m_sendBuffer->Write(UpdateInfoPacket->size);
-
-			Send(reinterpret_cast<char*>(UpdateInfoPacket), UpdateInfoPacket->size);
-		}
-
-		m_heartBeatCheckedCount = 0;
-
-		MYDEBUG("[ HeartBeat Checking & Update Success : user %d ]\n", m_basicInfo.userInfo.userID);
-	}
-	else
-	{
-		m_heartBeatCheckedCount++;
-
-		//printf("[ HeartBeat Checking Success : %d ]\n", m_heartBeatCheckedCount);
-	}
-
-	//MYDEBUG("[ Check %d ]\n", m_heartBeatCheckedCount);
-}
-
 void User::UpdateInfo()
 {
 	MYDEBUG("[ %d user - INFO UPDATE TO DATABASE START ] \n", m_basicInfo.userInfo.userID);
@@ -148,7 +133,7 @@ void User::UpdateInfo()
 	updateUserPacket->unitInfo = m_basicInfo.unitInfo;
 	updateUserPacket->socket = m_socket;
 
-	DBCONNECTOR->Send(reinterpret_cast<char*>(updateUserPacket), updateUserPacket->size);
+	DBConnector::getSingleton()->Send(reinterpret_cast<char*>(updateUserPacket), updateUserPacket->size);
 }
 
 void User::Death()
@@ -280,7 +265,7 @@ void User::RequestUserInfo(int _num)
 	RequireUserInfoPacket->userIndex = m_basicInfo.userInfo.userID;
 	RequireUserInfoPacket->socket = m_socket;
 
-	DBCONNECTOR->Send(reinterpret_cast<char*>(RequireUserInfoPacket), RequireUserInfoPacket->size);
+	DBConnector::getSingleton()->Send(reinterpret_cast<char*>(RequireUserInfoPacket), RequireUserInfoPacket->size);
 }
 
 //기본적인 유저의 정보를 보내준다. DB가 있으면 여기서 불러와서 보내줌.
@@ -351,16 +336,6 @@ void User::SetPosition(Position& _position)
 	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
-}
-
-void User::LogInDuplicated()
-{
-	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
-		GetBuffer(sizeof(Packet)));
-	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
-	//m_sendBuffer->Write(LogInFailed->size);
-
-	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 }
 
 bool User::CompareSector(Sector* _sector)

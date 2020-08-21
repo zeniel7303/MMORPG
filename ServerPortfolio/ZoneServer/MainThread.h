@@ -44,9 +44,8 @@ public:
 		EVENT_DISCONNECT,
 		EVENT_MONSTER,
 		EVENT_DBCONNECTOR,
+		EVENT_LOGINSERVER,
 		EVENT_STOREUSER,
-		EVENT_DELETE_TEMPUSER,
-		EVENT_HEARTBEAT,
 		MAX_EVENT
 	};
 
@@ -84,12 +83,12 @@ private:
 	HeartBeatThread*						m_heartBeatThread;
 
 	DoubleQueue<PacketQueuePair_User>		m_userPacketQueue;
-	DoubleQueue<PacketQueuePair_Monster>	m_monsterPacketQueue;
-	DoubleQueue<Packet*>					m_dbPacketQueue;
 	DoubleQueue<SOCKET>						m_connectQueue;
 	DoubleQueue<User*>						m_disconnectQueue;
+	DoubleQueue<PacketQueuePair_Monster>	m_monsterPacketQueue;
+	DoubleQueue<Packet*>					m_dbPacketQueue;
+	DoubleQueue<Packet*>					m_logInServerPacketQueue;
 	DoubleQueue<User*>						m_hashMapQueue;
-	DoubleQueue<User*>						m_deleteTempUserQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
 
@@ -100,7 +99,7 @@ public:
 
 	bool Init();
 	void SetManagers(UserManager* _userManager,
-		FieldManager* _fieldManager, HeartBeatThread* _heartBeatThread);
+		FieldManager* _fieldManager);
 	//완전한 자원이동을 위해 rvalue reference로 받는다.
 	/*void SetManagers(std::unique_ptr<UserManager>&& _userManager,
 		std::unique_ptr<FieldManager>&& _fieldManager);*/
@@ -111,20 +110,18 @@ public:
 	Process processFunc[MAX_EVENT];
 
 	void ProcessUserPacket();
-	void ProcessMonsterPacket();
-	void ProcessDBConnectorPacket();
 	void ConnectUser();
 	void DisConnectUser();
+	void ProcessMonsterPacket();
+	void ProcessDBConnectorPacket();
+	void ProcessLogInServerPacket();
 	void AddToHashMap();
-	void DeleteTempUser();
-	void HeartBeat();
 
 	void AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair);
-	void AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair);
-	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToConnectQueue(SOCKET _socket);
 	void AddToDisConnectQueue(User* _user);
+	void AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair);
+	void AddToDBConnectorPacketQueue(Packet* _packet);
+	void AddToLogInServerPacketQueue(Packet* _packet);
 	void AddToHashMapQueue(User* _user);
-	void AddToDeleteTempUserQueue(User* _user);
-	void HearBeatCheck();
 };

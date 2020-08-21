@@ -27,11 +27,11 @@ public:
 		userPacketFunc[8] = &PacketHandler::OnPacket_UserRevive;				
 		userPacketFunc[9] = nullptr;			
 		userPacketFunc[10] = nullptr;				
-		userPacketFunc[11] = &PacketHandler::OnPacket_RequireInfo;
+		userPacketFunc[11] = &PacketHandler::OnPacket_RequestInfo;
 		userPacketFunc[12] = &PacketHandler::OnPacket_UpdateUser;
 		userPacketFunc[13] = &PacketHandler::OnPacket_ExitUser;
 		userPacketFunc[14] = &PacketHandler::OnPacket_Chatting;
-		userPacketFunc[15] = &PacketHandler::OnPacket_HeartBeat;
+		userPacketFunc[15] = nullptr;
 		userPacketFunc[16] = &PacketHandler::OnPacket_EnterTestUser;		
 		userPacketFunc[17] = &PacketHandler::OnPacket_Chatting_Whisper;
 
@@ -45,6 +45,9 @@ public:
 		dbPacketFunc[7] = &PacketHandler::OnPacket_UpdateUserSuccess;
 		dbPacketFunc[8] = &PacketHandler::OnPacket_UpdateUserFailed;
 		dbPacketFunc[9] = &PacketHandler::OnPakcet_GetMonstersData;
+
+		logInServerPacketFunc[0] = &PacketHandler::OnPacket_HelloFromLogInServer;
+		logInServerPacketFunc[1] = &PacketHandler::OnPacket_DisConnectUser;
 	};
 	~PacketHandler();
 
@@ -60,9 +63,13 @@ public:
 	using DBConnectorPacketFunction = void (PacketHandler::*)(Packet* _packet);
 	DBConnectorPacketFunction dbPacketFunc[100];
 
+	using LogInServerPacketFunction = void (PacketHandler::*)(Packet* _packet);
+	LogInServerPacketFunction logInServerPacketFunc[100];
+
 	void HandleUserPacket(User* _user, Packet* _packet);
 	void HandleMonsterPacket(Monster* _monster, Packet* _packet);
 	void HandleDBConnectorPacket(Packet* _packet);
+	void HandleLogInServerPacket(Packet* _packet);
 
 	void OnPacket_EnterField(User* _user, Packet* _packet);
 	void OnPacket_EnterFieldSuccess(User* _user, Packet* _packet);
@@ -71,11 +78,10 @@ public:
 	void OnPacket_UserAttackFailed(User* _user, Packet* _packet);
 	void OnPacket_UserAttack(User* _user, Packet* _packet);
 	void OnPacket_UserRevive(User* _user, Packet* _packet);
-	void OnPacket_RequireInfo(User* _user, Packet* _packet);
+	void OnPacket_RequestInfo(User* _user, Packet* _packet);
 	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 	void OnPacket_ExitUser(User* _user, Packet* _packet);
 	void OnPacket_Chatting(User* _user, Packet* _packet);
-	void OnPacket_HeartBeat(User* _user, Packet* _packet);
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
 	void OnPacket_Chatting_Whisper(User* _user, Packet* _packet);
 
@@ -89,5 +95,9 @@ public:
 	void OnPacket_UpdateUserFailed(Packet* _packet);
 	void OnPakcet_GetMonstersData(Packet* _packet);
 
-	User* FindUserAtHashMap(SOCKET _socket);
+	//LogIn Server================================================
+	void OnPacket_HelloFromLogInServer(Packet* _packet);
+	void OnPacket_DisConnectUser(Packet* _packet);
+
+	User* FindUserAtHashMap_socket(SOCKET _socket);
 };

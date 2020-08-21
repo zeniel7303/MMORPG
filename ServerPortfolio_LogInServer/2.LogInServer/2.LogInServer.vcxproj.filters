@@ -5,68 +5,101 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Connector">
+      <UniqueIdentifier>{3bde5867-574f-433b-8b2b-cc87c45ea76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Acceptor">
+      <UniqueIdentifier>{c9f11738-15df-4ba1-81f7-930f8aaf0ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\LogInSession">
+      <UniqueIdentifier>{da9efbce-70f0-4f8d-a5b7-2c1c1232e179}</UniqueIdentifier>
+    </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="소스 파일\Thread">
+      <UniqueIdentifier>{597b8b72-aa7c-43e6-9aa4-7edf139fbabc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Thread\HeartBeat">
+      <UniqueIdentifier>{3b5363cb-4b8f-48a4-9558-82452604e456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PacketHandler">
+      <UniqueIdentifier>{285c7d83-c82d-4927-951b-f4c69a8d100c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PacketHandler\Packet">
+      <UniqueIdentifier>{0db0bd70-f833-48c4-a957-dc5d6a6204f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>소스 파일\Connector</Filter>
+    </ClCompile>
     <ClCompile Include="Acceptor.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Acceptor</Filter>
     </ClCompile>
     <ClCompile Include="MainThread.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Thread</Filter>
     </ClCompile>
     <ClCompile Include="LogInServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="LogInSession.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\LogInSession</Filter>
     </ClCompile>
     <ClCompile Include="LogInSessionManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\LogInSession</Filter>
     </ClCompile>
     <ClCompile Include="PacketHandler.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\PacketHandler</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnector.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ZoneConnector.cpp">
+      <Filter>소스 파일\Connector</Filter>
+    </ClCompile>
+    <ClCompile Include="HeartBeatThread.cpp">
+      <Filter>소스 파일\Thread\HeartBeat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DBConnector.h">
+      <Filter>소스 파일\Connector</Filter>
+    </ClInclude>
     <ClInclude Include="Acceptor.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Acceptor</Filter>
     </ClInclude>
     <ClInclude Include="MainThread.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Thread</Filter>
     </ClInclude>
     <ClInclude Include="LogInServer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LogInSession.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LogInSessionManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandList.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="packet.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\PacketHandler\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="LogInSessionManager.h">
+      <Filter>소스 파일\LogInSession</Filter>
+    </ClInclude>
+    <ClInclude Include="LogInSession.h">
+      <Filter>소스 파일\LogInSession</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandList.h">
+      <Filter>소스 파일\PacketHandler\Packet</Filter>
     </ClInclude>
     <ClInclude Include="PacketHandler.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\PacketHandler</Filter>
     </ClInclude>
-    <ClInclude Include="DBConnector.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="ZoneConnector.h">
+      <Filter>소스 파일\Connector</Filter>
+    </ClInclude>
+    <ClInclude Include="HeartBeatThread.h">
+      <Filter>소스 파일\Thread\HeartBeat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

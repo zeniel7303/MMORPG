@@ -16,12 +16,6 @@
     <Filter Include="소스 파일\Application">
       <UniqueIdentifier>{d95ad010-ac13-4868-b34d-c8b72446bdff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\DBConnector">
-      <UniqueIdentifier>{d040608c-a01f-483c-be6c-6244874e456f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Application\Packet">
-      <UniqueIdentifier>{c2049949-9479-4454-829d-9a532cf90acd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Application\Field">
       <UniqueIdentifier>{9fbb36eb-13d4-401b-b5d2-7a39de32045f}</UniqueIdentifier>
     </Filter>
@@ -43,9 +37,6 @@
     <Filter Include="소스 파일\Application\Unit\User">
       <UniqueIdentifier>{21d5d75d-a284-4396-a099-043ba86247f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Thread\HeartBeat">
-      <UniqueIdentifier>{a3aeb354-3619-4ce9-a713-1e166af7f129}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Application\Acceptor">
       <UniqueIdentifier>{76574a5f-4f21-4fe3-b2aa-45eb407fb0bb}</UniqueIdentifier>
     </Filter>
@@ -55,13 +46,19 @@
     <Filter Include="소스 파일\Application\Unit\User\Manager">
       <UniqueIdentifier>{fdb9a7a7-69f7-40b0-934d-079d016e35c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\Connector">
+      <UniqueIdentifier>{d040608c-a01f-483c-be6c-6244874e456f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Application\PacketHandler\Packet">
+      <UniqueIdentifier>{c2049949-9479-4454-829d-9a532cf90acd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandList.h">
-      <Filter>소스 파일\Application\Packet</Filter>
+      <Filter>소스 파일\Application\PacketHandler\Packet</Filter>
     </ClInclude>
     <ClInclude Include="packet.h">
-      <Filter>소스 파일\Application\Packet</Filter>
+      <Filter>소스 파일\Application\PacketHandler\Packet</Filter>
     </ClInclude>
     <ClInclude Include="Sector.h">
       <Filter>소스 파일\Application\Sector</Filter>
@@ -112,7 +109,7 @@
       <Filter>소스 파일\Application</Filter>
     </ClInclude>
     <ClInclude Include="DBConnector.h">
-      <Filter>소스 파일\Application\DBConnector</Filter>
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClInclude>
     <ClInclude Include="Acceptor.h">
       <Filter>소스 파일\Application\Acceptor</Filter>
@@ -123,11 +120,11 @@
     <ClInclude Include="PacketHandler.h">
       <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClInclude>
-    <ClInclude Include="HeartBeatThread.h">
-      <Filter>소스 파일\Application\Thread\HeartBeat</Filter>
-    </ClInclude>
     <ClInclude Include="UserManager.h">
       <Filter>소스 파일\Application\Unit\User\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="LogInConnector.h">
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +162,7 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DBConnector.cpp">
-      <Filter>소스 파일\Application\DBConnector</Filter>
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClCompile>
     <ClCompile Include="Acceptor.cpp">
       <Filter>소스 파일\Application\Acceptor</Filter>
@@ -176,11 +173,11 @@
     <ClCompile Include="PacketHandler.cpp">
       <Filter>소스 파일\Application\PacketHandler</Filter>
     </ClCompile>
-    <ClCompile Include="HeartBeatThread.cpp">
-      <Filter>소스 파일\Application\Thread\HeartBeat</Filter>
-    </ClCompile>
     <ClCompile Include="UserManager.cpp">
       <Filter>소스 파일\Application\Unit\User\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="LogInConnector.cpp">
+      <Filter>소스 파일\Application\Connector</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

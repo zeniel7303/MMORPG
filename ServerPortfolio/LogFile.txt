@@ -7524,3 +7524,78 @@
 [ 2020-08-19 03:08:30 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
 [ 2020-08-19 03:08:39 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
 [ 2020-08-19 03:09:34 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 10:58:08 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-21 11:00:36 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-21 11:01:52 -  zoneserver.cpp : 15 ] 존 서버 구동 시작
+[ 2020-08-21 14:58:00 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:33:15 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:33:23 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:34:53 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:35:12 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:35:13 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:35:55 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:36:33 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:36:35 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:37:00 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:37:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:37:23 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:37:30 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:37:35 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:37:36 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:37:41 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:37:59 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:38:00 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:38:28 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:38:46 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:38:47 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:38:53 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:40:58 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:42:18 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:42:26 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:42:27 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:42:35 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:43:03 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:43:11 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:44:29 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:44:29 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:45:03 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:45:09 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:45:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:46:17 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:48:12 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:51:52 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:53:15 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:55:19 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:57:38 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 16:58:02 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 16:58:18 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:04:41 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:05:56 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:06:07 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:06:37 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:07:30 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:07:33 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:07:40 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:10:57 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:11:01 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:11:02 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:11:11 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:14:05 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:15:27 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:15:27 -  workerthread.cpp : 83 ] [INFO] SESSION IS NULL
+[ 2020-08-21 17:18:53 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:18:57 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:18:59 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:19:24 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 17:19:32 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:19:33 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 17:19:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 19:23:10 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 19:28:16 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 19:30:12 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 19:30:13 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 21:17:17 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-08-21 21:18:38 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-08-21 21:18:38 -  workerthread.cpp : 83 ] [INFO] SESSION IS NULL
+[ 2020-08-21 21:18:50 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure

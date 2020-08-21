@@ -80,7 +80,7 @@ public class PlayerAttackManage : MonoBehaviour
                     new UserAttackPacket(SendCommand.C2Zone_USER_ATTACK_FAILED,
                     myManager.userInfo.userID, 0, direction);
 
-            ServerManager.Instance.SendData(userAttackPacket.GetBytes());
+            ServerManager.Instance.SendData_ZoneServer(userAttackPacket.GetBytes());
 
             return;
         }
@@ -92,7 +92,7 @@ public class PlayerAttackManage : MonoBehaviour
                     new UserAttackPacket(SendCommand.C2Zone_USER_ATTACK_MONSTER,
                     myManager.userInfo.userID, selectedMonstersList[i].monsterInfo.index, direction);
 
-                ServerManager.Instance.SendData(userAttackPacket.GetBytes());
+                ServerManager.Instance.SendData_ZoneServer(userAttackPacket.GetBytes());
             }
         }
     }

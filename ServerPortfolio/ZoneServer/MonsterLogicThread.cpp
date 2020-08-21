@@ -45,7 +45,7 @@ bool MonsterLogicThread::CreateMonsters()
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
 			MonsterData monsterData = 
-				*DBCONNECTOR->GetMonsterData(monsterInfo.monsterType - 10001);
+				*DBConnector::getSingleton()->GetMonsterData(monsterInfo.monsterType - 10001);
 
 			TRYCATCH(monster = new Monster(m_field, m_fieldTilesData, 
 				m_sectorManager, monsterInfo, monsterData));

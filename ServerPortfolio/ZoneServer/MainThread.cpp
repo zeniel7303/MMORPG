@@ -1,7 +1,5 @@
 #include "MainThread.h"
 
-#include "HeartBeatThread.h"
-
 MainThread::MainThread()
 {
 }
@@ -36,19 +34,17 @@ bool MainThread::Init()
 	processFunc[2] = &MainThread::DisConnectUser;
 	processFunc[3] = &MainThread::ProcessMonsterPacket;
 	processFunc[4] = &MainThread::ProcessDBConnectorPacket;
-	processFunc[5] = &MainThread::AddToHashMap;
-	processFunc[6] = &MainThread::DeleteTempUser;
-	processFunc[7] = &MainThread::HeartBeat;
+	processFunc[5] = &MainThread::ProcessLogInServerPacket;
+	processFunc[6] = &MainThread::AddToHashMap;
 
 	return true;
 }
 
 void MainThread::SetManagers(UserManager* _userManager,
-	FieldManager* _fieldManager, HeartBeatThread* _heartBeatThread)
+	FieldManager* _fieldManager)
 {
 	m_userManager = _userManager;
 	m_fieldManager = _fieldManager;
-	m_heartBeatThread = _heartBeatThread;
 
 	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
 
@@ -121,53 +117,6 @@ void MainThread::ProcessUserPacket()
 	}
 }
 
-void MainThread::ProcessMonsterPacket()
-{
-	m_monsterPacketQueue.Swap();
-
-	std::queue<PacketQueuePair_Monster>& monsterPacketQueue = m_monsterPacketQueue.GetSecondaryQueue();
-
-	size_t size = monsterPacketQueue.size();
-
-	for(int i = 0; i < size; i++)
-	{
-		const PacketQueuePair_Monster& PacketQueuePair_Monster = monsterPacketQueue.front();
-		Packet* packet = PacketQueuePair_Monster.packet;
-		Monster* monster = PacketQueuePair_Monster.monster;
-
-		//해당 몬스터가 죽어있다면 패스
-		if (monster->IsDeath()) continue;
-
-		m_packetHandler->HandleMonsterPacket(monster, packet);
-
-		monsterPacketQueue.pop();
-	}
-}
-
-void MainThread::ProcessDBConnectorPacket()
-{
-	//if (!Connector->GetIsConnected())
-	//{
-	//	//재접속
-	//	Connector->Connect();
-	//}
-
-	m_dbPacketQueue.Swap();
-
-	std::queue<Packet*>& dbPacketQueue = m_dbPacketQueue.GetSecondaryQueue();
-
-	size_t size = dbPacketQueue.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		Packet* packet = dbPacketQueue.front();
-
-		m_packetHandler->HandleDBConnectorPacket(packet);
-
-		dbPacketQueue.pop();
-	}
-}
-
 void MainThread::ConnectUser()
 {
 	//유저가 Connect된 경우
@@ -223,11 +172,84 @@ void MainThread::DisConnectUser()
 			tempUser->GetField()->ExitUser(tempUser);
 		}
 
-		//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
-		m_userManager->ReturnUser(tempUser);
-		MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
+		if (tempUser->m_isInHashMap)
+		{
+			//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
+			m_userManager->ReturnUser(tempUser);
+			MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
+		}
+		else
+		{
+			m_userManager->DeleteTempUser(tempUser, true);
+			MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
+		}
 
 		disconnectQueue.pop();
+	}
+}
+
+void MainThread::ProcessMonsterPacket()
+{
+	m_monsterPacketQueue.Swap();
+
+	std::queue<PacketQueuePair_Monster>& monsterPacketQueue = m_monsterPacketQueue.GetSecondaryQueue();
+
+	size_t size = monsterPacketQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		const PacketQueuePair_Monster& PacketQueuePair_Monster = monsterPacketQueue.front();
+		Packet* packet = PacketQueuePair_Monster.packet;
+		Monster* monster = PacketQueuePair_Monster.monster;
+
+		//해당 몬스터가 죽어있다면 패스
+		if (monster->IsDeath()) continue;
+
+		m_packetHandler->HandleMonsterPacket(monster, packet);
+
+		monsterPacketQueue.pop();
+	}
+}
+
+void MainThread::ProcessDBConnectorPacket()
+{
+	//if (!Connector->GetIsConnected())
+	//{
+	//	//재접속
+	//	Connector->Connect();
+	//}
+
+	m_dbPacketQueue.Swap();
+
+	std::queue<Packet*>& dbPacketQueue = m_dbPacketQueue.GetSecondaryQueue();
+
+	size_t size = dbPacketQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		Packet* packet = dbPacketQueue.front();
+
+		m_packetHandler->HandleDBConnectorPacket(packet);
+
+		dbPacketQueue.pop();
+	}
+}
+
+void MainThread::ProcessLogInServerPacket()
+{
+	m_logInServerPacketQueue.Swap();
+
+	std::queue<Packet*>& logInServerQueue = m_logInServerPacketQueue.GetSecondaryQueue();
+
+	size_t size = logInServerQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		Packet* packet = logInServerQueue.front();
+
+		m_packetHandler->HandleLogInServerPacket(packet);
+
+		logInServerQueue.pop();
 	}
 }
 
@@ -245,37 +267,13 @@ void MainThread::AddToHashMap()
 
 		m_userManager->DeleteTempUser(tempUser, false);
 		m_userManager->AddUser(tempUser);
+		tempUser->m_isInHashMap = true;
 
 		MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
 		MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
 
 		hashMapQueue.pop();
 	}
-}
-
-void MainThread::DeleteTempUser()
-{
-	m_deleteTempUserQueue.Swap();
-
-	std::queue<User*>& tempUserQueue = m_deleteTempUserQueue.GetSecondaryQueue();
-
-	size_t size = tempUserQueue.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		User* tempUser = tempUserQueue.front();
-
-		m_userManager->DeleteTempUser(tempUser, true);
-
-		MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
-
-		tempUserQueue.pop();
-	}
-}
-
-void MainThread::HeartBeat()
-{
-	m_heartBeatThread->HeartBeat();
 }
 
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)
@@ -285,20 +283,6 @@ void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQue
 	m_userPacketQueue.AddObject(_userPacketQueuePair);
 
 	SetEvent(m_hEvent[EVENT_RECV]);
-}
-
-void MainThread::AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair)
-{
-	m_monsterPacketQueue.AddObject(_monsterPacketQueuePair);
-
-	SetEvent(m_hEvent[EVENT_MONSTER]);
-}
-
-void MainThread::AddToDBConnectorPacketQueue(Packet* _packet)
-{
-	m_dbPacketQueue.AddObject(_packet);
-
-	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
 }
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
@@ -315,21 +299,30 @@ void MainThread::AddToDisConnectQueue(User* _user)
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }
 
+void MainThread::AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair)
+{
+	m_monsterPacketQueue.AddObject(_monsterPacketQueuePair);
+
+	SetEvent(m_hEvent[EVENT_MONSTER]);
+}
+
+void MainThread::AddToDBConnectorPacketQueue(Packet* _packet)
+{
+	m_dbPacketQueue.AddObject(_packet);
+
+	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
+}
+
+void MainThread::AddToLogInServerPacketQueue(Packet* _packet)
+{
+	m_logInServerPacketQueue.AddObject(_packet);
+
+	SetEvent(m_hEvent[EVENT_LOGINSERVER]);
+}
+
 void MainThread::AddToHashMapQueue(User* _user)
 {
 	m_hashMapQueue.AddObject(_user);
 
 	SetEvent(m_hEvent[EVENT_STOREUSER]);
-}
-
-void MainThread::AddToDeleteTempUserQueue(User* _user)
-{
-	m_deleteTempUserQueue.AddObject(_user);
-
-	SetEvent(m_hEvent[EVENT_DELETE_TEMPUSER]);
-}
-
-void MainThread::HearBeatCheck()
-{
-	SetEvent(m_hEvent[EVENT_HEARTBEAT]);
 }

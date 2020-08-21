@@ -177,7 +177,6 @@
     <ClInclude Include="HeaderFiles\Receiver.h" />
     <ClInclude Include="HeaderFiles\Sender.h" />
     <ClInclude Include="HeaderFiles\WorkerThread.h" />
-    <ClInclude Include="HeaderFiles\TimeSchedular.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CppFiles\ClientSession.cpp" />
@@ -192,7 +191,6 @@
     <ClCompile Include="CppFiles\Receiver.cpp" />
     <ClCompile Include="CppFiles\Sender.cpp" />
     <ClCompile Include="CppFiles\WorkerThread.cpp" />
-    <ClCompile Include="CppFiles\TimeSchedular.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

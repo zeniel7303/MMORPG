@@ -97,7 +97,7 @@ public class GameManager : Singleton<GameManager>
         updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
         updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
 
-        ServerManager.Instance.SendData(updateInfoPacket.GetBytes());
+        ServerManager.Instance.SendData_ZoneServer(updateInfoPacket.GetBytes());
 
         Debug.Log("업데이트할 info 전송 - 비정상 종료");
     }

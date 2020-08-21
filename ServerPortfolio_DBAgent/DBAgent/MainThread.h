@@ -23,7 +23,6 @@ public:
 	enum eHandle : int
 	{
 		EVENT_RECV,
-		EVENT_SEND,
 		EVENT_CONNECT,
 		EVENT_DISCONNECT,
 		MAX_EVENT
@@ -44,8 +43,7 @@ private:
 
 	DoubleQueue<SOCKET>				m_connectQueue;
 	DoubleQueue<DBAgent*>			m_disconnectQueue;
-	DoubleQueue<PacketQueuePair>			m_recvQueue;
-	DoubleQueue<PacketQueuePair>			m_sendQueue;
+	DoubleQueue<PacketQueuePair>	m_recvQueue;
 
 	DBAgent*						m_dbAgent;
 	DBConnectorManager*				m_dbConnectorManager;
@@ -65,10 +63,8 @@ public:
 	void ConnectUser();
 	void DisConnectUser();
 	void ProcessRecv();
-	void ProcessSend();
 
 	void AddToConnectQueue(SOCKET _socket);
 	void AddToDisConnectQueue(DBAgent* _session);
 	void AddToRecvQueue(const PacketQueuePair& _packetQueuePair);
-	void AddToSendQueue(const PacketQueuePair& _packetQueuePair);
 };

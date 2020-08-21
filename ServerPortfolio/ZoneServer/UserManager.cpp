@@ -49,6 +49,8 @@ void UserManager::DeleteTempUser(User* _t, bool _returnBool)
 	{
 		if (_returnBool)
 		{
+			_t->Reset();
+
 			m_objectPool.ReturnObject(_t);
 		}
 	}

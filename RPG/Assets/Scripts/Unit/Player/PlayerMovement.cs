@@ -179,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
                 myManager.userInfo.userID, new Position(direction, position.x, position.z));
         }
 
-        ServerManager.Instance.SendData(positionPacket.GetBytes());
+        ServerManager.Instance.SendData_ZoneServer(positionPacket.GetBytes());
     }
 
     private void HorizontalMovement()

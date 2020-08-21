@@ -32,6 +32,11 @@ struct LogInPacket : Packet
 	char password[15];
 };
 
+struct UserNumPacket : Packet
+{
+	int userIndex;
+};
+
 //=================================================
 
 struct PacketWithSocket : Packet

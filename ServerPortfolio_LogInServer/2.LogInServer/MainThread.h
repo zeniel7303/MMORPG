@@ -8,6 +8,10 @@
 
 #include "PacketHandler.h"
 
+class ZoneConnector;
+
+class HeartBeatThread;
+
 class MainThread : public Thread<MainThread>
 {
 public:
@@ -20,10 +24,12 @@ public:
 
 	enum eHandle : int
 	{
-		EVENT_RECV,
 		EVENT_CONNECT,
 		EVENT_DISCONNECT,
+		EVENT_STOREUSER,
 		EVENT_DBCONNECTOR,
+		EVENT_ZONESERVER,
+		EVENT_HEARTBEAT,
 		MAX_EVENT
 	};
 
@@ -42,36 +48,49 @@ public:
 private:
 	MainThread();
 
-	DoubleQueue<PacketQueuePair>			m_recvQueue;
-	DoubleQueue<SOCKET>						m_connectQueue;
-	DoubleQueue<LogInSession*>				m_disconnectQueue;
-	DoubleQueue<Packet*>					m_dbPacketQueue;
+	DoubleQueue<SOCKET>				m_connectQueue;
+	DoubleQueue<LogInSession*>		m_disconnectQueue;
+	DoubleQueue<Packet*>			m_dbPacketQueue;
+	DoubleQueue<Packet*>			m_zoneServerPacketQueue;
+	DoubleQueue<LogInSession*>		m_hashMapQueue;
 
-	HANDLE									m_hEvent[MAX_EVENT];
+	HANDLE							m_hEvent[MAX_EVENT];
 
-	LogInSessionManager*					m_logInSessionManager;
+	LogInSessionManager*			m_logInSessionManager;
 
-	PacketHandler*							m_packetHandler;
+	PacketHandler*					m_packetHandler;
+
+	HeartBeatThread*				m_heartBeatThread;
+
+	ZoneConnector*					m_zoneConnector;
 
 public:	
 	~MainThread();
 
 	bool Init();
-	void SetManagers(LogInSessionManager* _logInSessionManager);
+	void SetManagers(LogInSessionManager* _logInSessionManager, HeartBeatThread* _heartBeatThread);
 
 	void LoopRun();
 
 	using Process = void (MainThread::*)();
 	Process processFunc[MAX_EVENT];
 
-	void ProcessPacket();
 	void ConnectUser();
 	void DisConnectUser();
+	void AddToHashMap();
 	void ProcessDBConnectorPacket();
+	void ProcessZoneServerPacket();
+	void ProcessHeartBeat();
 
-	void AddToUserPacketQueue(const PacketQueuePair& _packetQueuePair);
+	void ConnectWithZoneServer(SOCKET _socket);
+
 	void AddToConnectQueue(SOCKET _socket);
 	void AddToDisConnectQueue(LogInSession* _session);
+	void AddToHashMapQueue(LogInSession* _session);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
+	void AddToZoneServerPacketQueue(Packet* _packet);
+	void HearBeatCheck();
+
+	ZoneConnector* GetZoneConnector() { return m_zoneConnector; }
 };
 

@@ -24,8 +24,8 @@ private:
 
 	std::vector<MonsterData>	m_monsterDataVec;
 
-public:
 	DBConnector();
+public:
 	~DBConnector();
 
 	bool Connect(const char* _ip, const unsigned short _portNum);

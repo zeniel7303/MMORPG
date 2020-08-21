@@ -8,16 +8,17 @@ public class ServerManager : Singleton<ServerManager>
     public int userID;
     bool isConnect;
     public string ip;
-    public ushort port;
+    public ushort logInServerPort;
+    public ushort zoneServerPort;
 
     private Session session = new Session();
+    private Session logInSession = new Session();
 
     public MapManager mapManager;
 
     public bool isLogInConnect;
     public bool isRegisterConnect;
     public bool isStartConnect;
-    public bool isReConnect;
 
     private float TimeLeft = 1.0f;
     private float nextTime = 0.0f;
@@ -28,7 +29,6 @@ public class ServerManager : Singleton<ServerManager>
         isLogInConnect = false;
         isRegisterConnect = false;
         isStartConnect = false;
-        isReConnect = false;
 
         Init();
     }
@@ -37,12 +37,7 @@ public class ServerManager : Singleton<ServerManager>
     void Update()
     {
         session.Update();
-
-        if(isReConnect)
-        {
-            Connect(30002);
-            isReConnect = false;
-        }
+        logInSession.Update();
 
         if (!isStartConnect) return;
 
@@ -57,19 +52,20 @@ public class ServerManager : Singleton<ServerManager>
     public void Init()
     {
         session.Init();
+        logInSession.Init();
     }
 
-    public void Connect()
+    public void ZoneServerConnect()
     {
-        session.Connect(ip, port);
+        session.Connect(ip, zoneServerPort);
     }
 
-    public void Connect(int _port)
+    public void logInServerConnect()
     {
-        session.Connect(ip, _port);
+        logInSession.Connect(ip, logInServerPort);
     }
 
-    public void SendData(byte[] _buffer)
+    public void SendData_ZoneServer(byte[] _buffer)
     {
         if (!session.isConnect)
         {
@@ -80,14 +76,37 @@ public class ServerManager : Singleton<ServerManager>
         session.SendData(_buffer);
     }
 
-    public void SendData(byte[] _buffer, int _size)
+    public void SendData_LogInServer(byte[] _buffer)
     {
         if (!session.isConnect)
         {
             Disconnect();
             return;
         }
+
+        logInSession.SendData(_buffer);
+    }
+
+    public void SendData_ZoneServer(byte[] _buffer, int _size)
+    {
+        if (!session.isConnect)
+        {
+            Disconnect();
+            return;
+        }
+
         session.SendData(_buffer, _size);
+    }
+
+    public void SendData_LogInServer(byte[] _buffer, int _size)
+    {
+        if (!session.isConnect)
+        {
+            Disconnect();
+            return;
+        }
+
+        logInSession.SendData(_buffer, _size);
     }
 
     public void Disconnect()
@@ -104,14 +123,14 @@ public class ServerManager : Singleton<ServerManager>
     {
         isLogInConnect = true;
 
-        session.Connect(ip, port);
+        logInServerConnect();
     }
 
     public void Register()
     {
         isRegisterConnect = true;
 
-        session.Connect(ip, port);
+        logInServerConnect();
     }
 
     public void HeartBeat()
@@ -120,7 +139,7 @@ public class ServerManager : Singleton<ServerManager>
 
         Packet CheckAlivePacket = new Packet(SendCommand.C2Zone_CHECK_ALIVE);
 
-        SendData(CheckAlivePacket.GetBytes());
+        SendData_LogInServer(CheckAlivePacket.GetBytes());
     }
 
     public void SendExitUser()
@@ -130,7 +149,7 @@ public class ServerManager : Singleton<ServerManager>
         updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
         updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
 
-        SendData(updateInfoPacket.GetBytes());
+        SendData_ZoneServer(updateInfoPacket.GetBytes());
 
         session.mySocket.Disconnect(false);
 

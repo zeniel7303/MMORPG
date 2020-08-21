@@ -8,6 +8,8 @@
 #include "LogInSession.h"
 #include "LogInSessionManager.h"
 
+#include "HeartBeatThread.h"
+
 #include "MainThread.h"
 #include "DBConnector.h"
 
@@ -19,6 +21,8 @@ private:
 	IOCPClass&				m_IOCPClass;
 
 	LogInSessionManager*	m_logInSessionManager;
+
+	HeartBeatThread*		m_heartBeatThread;
 
 public:
 	LogInServer(IOCPClass& _iocpClass)

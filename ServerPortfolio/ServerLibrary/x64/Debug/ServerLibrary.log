@@ -1,54 +1,5 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 'd:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\x64\debug\1.serverlibrary.tlog\lib-link.read.1.tlog' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(ServerLibrary.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 중간 디렉터리(x64\Debug\)에 다른 프로젝트(ServerLibrary.vcxproj)에서 공유하는 파일이 포함되어 있습니다.  이로 인해 잘못된 정리 및 다시 빌드 동작이 수행될 수 있습니다.
   ClientSession.cpp
 c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
   d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\clientsession.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-  AcceptorSession.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(98): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(98): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(98): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(98): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(104): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(104): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(104): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\acceptorsession.cpp(104): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-  CriticalSection.cpp
-  FileLog.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\filelog.cpp(17): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.18362.0\ucrt\stdio.h(1774): note: 'sprintf' 선언을 참조하십시오.
-  RingBuffer.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(166): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(180): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(185): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(193): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\ringbuffer.cpp(197): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  SpinLock.cpp
-  Utils.cpp
-  IOCPClass.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\iocpclass.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-  Session.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\session.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-  Receiver.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\receiver.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\receiver.cpp(49): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\receiver.cpp(49): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\receiver.cpp(49): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\receiver.cpp(49): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-  Sender.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\sender.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-  WorkerThread.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\workerthread.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-  TimeSchedular.cpp
-c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(17): warning C4005: '_WINSOCKAPI_': 매크로 재정의
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\timeschedular.cpp: note: '_WINSOCKAPI_'의 이전 정의를 참조하십시오.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\timeschedular.cpp(16): warning C4101: 'hThread' :참조되지 않은 지역 변수입니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\serverlibrary\cppfiles\timeschedular.cpp(17): warning C4101: 'threadID' :참조되지 않은 지역 변수입니다.
-  코드를 생성하고 있습니다...
   ServerLibrary.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\x64\Debug\1.ServerLibrary.lib

@@ -24,13 +24,33 @@ LogInSession* LogInSessionManager::PopSession()
 
 void LogInSessionManager::AddSession(LogInSession* _t)
 {
-	m_sessionList.AddItem(_t);
+	m_sessionHashMap.AddItem(_t->GetIdx(), _t);
 }
 
 void LogInSessionManager::ReturnSession(LogInSession* _t)
 {
+	if (m_sessionHashMap.DeleteItem(_t->GetIdx()))
+	{
+		_t->Reset();
+
+		m_objectPool.ReturnObject(_t);
+	}
+}
+
+void LogInSessionManager::AddTempSession(LogInSession* _t)
+{
+	m_sessionList.AddItem(_t);
+}
+
+void LogInSessionManager::DeleteTempSession(LogInSession* _t, bool _returnBool)
+{
 	if (m_sessionList.DeleteItem(_t))
 	{
-		m_objectPool.ReturnObject(_t);
+		if (_returnBool)
+		{
+			_t->Reset();
+
+			m_objectPool.ReturnObject(_t);
+		}
 	}
 }

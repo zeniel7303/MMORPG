@@ -6,11 +6,13 @@
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/IpEndPoint.h"
 #include "../ServerLibrary/HeaderFiles/IOCPClass.h"
 
-#include "UserManager.h"
-#include "HeartBeatThread.h"
-
 #include "User.h"
+#include "UserManager.h"
 #include "FieldManager.h"
+
+#include "DBConnector.h"
+#include "LogInConnector.h"
+
 #include "MainThread.h"
 
 //https://chipmaker.tistory.com/entry/dd-1
@@ -32,7 +34,6 @@ private:
 
 	UserManager*			m_userManager;
 	FieldManager*			m_fieldManager;
-	HeartBeatThread*		m_heartBeatThread;
 
 public:
 	ZoneServer(IOCPClass& _iocpClass)

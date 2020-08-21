@@ -30,6 +30,11 @@ class Sector;
 
 class User : public ClientSession
 {
+public:
+	bool				m_isInHashMap;
+
+	bool				m_isAlreadyDisConnected;
+
 private:
 	INFO				m_basicInfo;
 
@@ -43,10 +48,6 @@ private:
 	//===============================================
 	bool				m_isGetUserList;
 
-	int					m_heartBeatCheckedCount;
-	//===============================================
-	std::chrono::high_resolution_clock::time_point	m_start;
-
 public:
 	User();
 	~User();
@@ -56,9 +57,6 @@ public:
 	void Reset();
 
 	void OnRecv();
-
-	//살아있는지 체크
-	void HeartBeatChecked();
 
 	//유저의 정보를 DB에 올리는 함수
 	void UpdateInfo();
@@ -86,9 +84,6 @@ public:
 	//User의 포지션(이동시 호출됨)
 	void SetPosition(Position& _position);
 
-	//로그인 중복됨(이미 접속중임)->실패처리
-	void LogInDuplicated();
-
 	bool CompareSector(Sector* _sector);
 
 	//테스트용
@@ -109,7 +104,5 @@ public:
 
 	bool GetIsGetUserList() { return m_isGetUserList; }
 	void SetIsGetUserList(bool _bool) { m_isGetUserList = _bool; }
-
-	std::chrono::high_resolution_clock::time_point GetStartTime() { return m_start; }
 };
 

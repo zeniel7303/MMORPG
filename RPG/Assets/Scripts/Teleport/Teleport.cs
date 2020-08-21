@@ -32,14 +32,14 @@ public class Teleport : MonoBehaviour
                 FieldNumPacket EnterVillagePacket =
                     new FieldNumPacket(SendCommand.C2Zone_ENTER_VILLAGE, 1);
 
-                ServerManager.Instance.SendData(EnterVillagePacket.GetBytes());
+                ServerManager.Instance.SendData_ZoneServer(EnterVillagePacket.GetBytes());
             }
             else if (sceneName == "Field")
             {
                 FieldNumPacket EnterFieldPacket =
                     new FieldNumPacket(SendCommand.C2Zone_ENTER_FIELD, 2);
 
-                ServerManager.Instance.SendData(EnterFieldPacket.GetBytes());
+                ServerManager.Instance.SendData_ZoneServer(EnterFieldPacket.GetBytes());
             }
         }
     }

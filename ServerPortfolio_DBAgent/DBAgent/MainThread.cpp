@@ -57,13 +57,6 @@ void MainThread::LoopRun()
 			ProcessRecv();
 		}
 			break;
-		case EVENT_SEND:
-		{
-			m_sendQueue.Swap();
-
-			ProcessSend();
-		}
-			break;
 		case EVENT_CONNECT:
 		{
 			//유저가 Connect된 경우
@@ -170,24 +163,6 @@ void MainThread::ProcessRecv()
 	}
 }
 
-void MainThread::ProcessSend()
-{
-	std::queue<PacketQueuePair>& sendQueue = m_sendQueue.GetSecondaryQueue();
-
-	size_t size = sendQueue.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		const PacketQueuePair& packetQueuePair = sendQueue.front();
-		Packet* packet = packetQueuePair.packet;
-		DBAgent* dbAgent = packetQueuePair.agent;
-
-		dbAgent->Send(reinterpret_cast<char*>(packet), packet->size);
-
-		sendQueue.pop();
-	}
-}
-
 void MainThread::AddToConnectQueue(SOCKET _socket)
 {
 	m_connectQueue.AddObject(_socket);
@@ -207,11 +182,4 @@ void MainThread::AddToRecvQueue(const PacketQueuePair& _packetQueuePair)
 	m_recvQueue.AddObject(_packetQueuePair);
 
 	SetEvent(m_hEvent[EVENT_RECV]);
-}
-
-void MainThread::AddToSendQueue(const PacketQueuePair& _packetQueuePair)
-{
-	m_sendQueue.AddObject(_packetQueuePair);
-
-	SetEvent(m_hEvent[EVENT_SEND]);
 }

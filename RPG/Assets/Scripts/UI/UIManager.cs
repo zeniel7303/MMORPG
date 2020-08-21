@@ -32,7 +32,7 @@ public class UIManager : Singleton<UIManager>
     public void Revive()
     {
         Packet UserRevivePacket = new Packet(SendCommand.C2Zone_USER_REVIVE);
-        ServerManager.instance.SendData(UserRevivePacket.GetBytes());
+        ServerManager.instance.SendData_ZoneServer(UserRevivePacket.GetBytes());
     }
 
     public void SetFloatingText(GameObject vr, string damage, bool isEnemy) //몬스터의 위치, 총알의 공격력을 받아옴

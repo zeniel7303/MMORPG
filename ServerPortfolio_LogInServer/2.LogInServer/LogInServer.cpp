@@ -3,6 +3,7 @@
 LogInServer::~LogInServer()
 {
 	if (m_logInSessionManager != nullptr) delete m_logInSessionManager;
+	if (m_heartBeatThread != nullptr) delete m_heartBeatThread;
 
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "로그인 서버 구동 종료");
 }
@@ -36,5 +37,7 @@ bool LogInServer::Start()
 		(unsigned long long)DBConnector::getSingleton());
 	DBConnector::getSingleton()->OnConnect();
 
-	MainThread::getSingleton()->SetManagers(m_logInSessionManager);
+	TRYCATCH(m_heartBeatThread = new HeartBeatThread(*m_logInSessionManager, 10));
+
+	MainThread::getSingleton()->SetManagers(m_logInSessionManager, m_heartBeatThread);
 }

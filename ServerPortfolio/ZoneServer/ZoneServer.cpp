@@ -4,7 +4,6 @@ ZoneServer::~ZoneServer()
 {
 	if (m_userManager != nullptr) delete m_userManager;
 	if (m_fieldManager != nullptr) delete m_fieldManager;
-	if (m_heartBeatThread != nullptr) delete m_heartBeatThread;
 
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "존 서버 구동 종료");
 }
@@ -30,21 +29,29 @@ bool ZoneServer::Start()
 
 	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
-	if (!DBCONNECTOR->Connect("211.221.147.29", 30004))
+	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30004))
 	{
 		return false;
 	}
-	m_IOCPClass.Associate(DBCONNECTOR->GetSocket(),
-		(unsigned long long)DBCONNECTOR);
-	DBCONNECTOR->OnConnect();
+	m_IOCPClass.Associate(DBConnector::getSingleton()->GetSocket(),
+		(unsigned long long)DBConnector::getSingleton());
+	DBConnector::getSingleton()->OnConnect();
+
+	Sleep(500);
+
+	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30003))
+	{
+		return false;
+	}
+	m_IOCPClass.Associate(LogInConnector::getSingleton()->GetSocket(),
+		(unsigned long long)LogInConnector::getSingleton());
+	LogInConnector::getSingleton()->OnConnect();
 
 	TRYCATCH(m_fieldManager = new FieldManager());
 	if (m_fieldManager->IsFailed()) return false;
 
-	TRYCATCH(m_heartBeatThread = new HeartBeatThread(*m_userManager, 10));
-
 	MainThread::getSingleton()->
-		SetManagers(m_userManager, m_fieldManager, m_heartBeatThread);
+		SetManagers(m_userManager, m_fieldManager);
 
 	return true;
 }

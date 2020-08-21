@@ -300,7 +300,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 		logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_INVALID_ID, sizeof(PacketWithSocket));
 		logInFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, logInFailedPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(logInFailedPacket),
+			logInFailedPacket->size);
 	}
 	//해당 id 존재함
 	else
@@ -317,7 +318,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInSuccessPacket->socket = _packet->socket;
 			logInSuccessPacket->userIndex = atoi(mysql_row[2]);
 
-			MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, logInSuccessPacket });
+			m_dbAgent->Send(reinterpret_cast<char*>(logInSuccessPacket),
+				logInSuccessPacket->size);
 		}
 		//비밀번호 불일치
 		else
@@ -328,7 +330,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_WRONG_PASSWORD, sizeof(PacketWithSocket));
 			logInFailedPacket->socket = _packet->socket;
 
-			MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, logInFailedPacket });
+			m_dbAgent->Send(reinterpret_cast<char*>(logInFailedPacket),
+				logInFailedPacket->size);
 		}
 	}
 }
@@ -382,7 +385,8 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 		RegisterSuccessPacket->Init(SendCommand::DB2Zone_REGISTER_SUCCESS, sizeof(PacketWithSocket));
 		RegisterSuccessPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, RegisterSuccessPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(RegisterSuccessPacket),
+			RegisterSuccessPacket->size);
 	}
 	//해당 id가 존재함 - 회원가입 불가능
 	else
@@ -393,7 +397,8 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 		RegisterFailedPacket->Init(SendCommand::DB2Zone_REGISTER_FAILED, sizeof(PacketWithSocket));
 		RegisterFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, RegisterFailedPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(RegisterFailedPacket),
+			RegisterFailedPacket->size);
 	}
 }
 
@@ -416,7 +421,8 @@ void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
 		GetSessionInfoFailedPacket->Init(SendCommand::DB2Zone_GET_USER_DATA_FAILED, sizeof(PacketWithSocket));
 		GetSessionInfoFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, GetSessionInfoFailedPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(GetSessionInfoFailedPacket), 
+			GetSessionInfoFailedPacket->size);
 	}
 	else
 	{
@@ -440,7 +446,8 @@ void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
 		sessionInfoPacket->info.unitInfo.atk = atoi(mysql_row[9]);
 		sessionInfoPacket->info.unitInfo.def = atoi(mysql_row[10]);
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, sessionInfoPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(sessionInfoPacket),
+			sessionInfoPacket->size);
 	}
 }
 
@@ -463,7 +470,8 @@ void DBConnector::UpdateUser(UpdateUserPacket* _packet)
 		updateUserFailedPacket->Init(SendCommand::DB2Zone_UPDATE_USER_FAILED, sizeof(PacketWithSocket));
 		updateUserFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, updateUserFailedPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(updateUserFailedPacket),
+			updateUserFailedPacket->size);
 	}
 	else
 	{
@@ -485,7 +493,8 @@ void DBConnector::UpdateUser(UpdateUserPacket* _packet)
 		updateUserSuccessPacket->Init(SendCommand::DB2Zone_UPDATE_USER_SUCCESS, sizeof(PacketWithSocket));
 		updateUserSuccessPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, updateUserSuccessPacket });
+		m_dbAgent->Send(reinterpret_cast<char*>(updateUserSuccessPacket),
+			updateUserSuccessPacket->size);
 	}
 }
 
@@ -543,7 +552,8 @@ void DBConnector::GetMonsterInfo()
 		+ sizeof(WORD) + sizeof(Packet);
 	monstersInfoPacket->Init(SendCommand::DB2Zone_MONSTERS_DATA, monstersInfoPacket->size);
 
-	MainThread::getSingleton()->AddToSendQueue({ m_dbAgent, monstersInfoPacket });
+	m_dbAgent->Send(reinterpret_cast<char*>(monstersInfoPacket),
+		monstersInfoPacket->size);
 }
 #endif
 
@@ -612,5 +622,6 @@ void DBConnector::LoopRun()
 		m_state = READY;
 
 		//여기에 Mainthread Recv 이벤트 호출하면 되겠다.
+		//swap?
 	}
 }

@@ -104,7 +104,7 @@ public class Chatting : MonoBehaviour
                  new ChattingPacket_Whisper(PlayerManager.instance.userInfo.userID,
                 stringArray[1], PlayerManager.instance.userInfo.name, newString);
 
-            ServerManager.Instance.SendData(chattingPacket_Whisper.GetBytes());
+            ServerManager.Instance.SendData_ZoneServer(chattingPacket_Whisper.GetBytes());
 
             return;
         }
@@ -115,7 +115,7 @@ public class Chatting : MonoBehaviour
                  new ChattingPacket(PlayerManager.instance.userInfo.userID,
                  PlayerManager.instance.userInfo.name, _value);
 
-        ServerManager.Instance.SendData(chattingPacket.GetBytes());
+        ServerManager.Instance.SendData_ZoneServer(chattingPacket.GetBytes());
     }
 
     public void SystemChattingInput(string _value)

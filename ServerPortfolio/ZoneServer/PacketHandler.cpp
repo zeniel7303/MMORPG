@@ -1,6 +1,7 @@
 #include "PacketHandler.h"
 
 #include "DBConnector.h"
+#include "LogInConnector.h"
 
 PacketHandler::~PacketHandler()
 {
@@ -39,7 +40,16 @@ void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
 
 	(this->*dbPacketFunc[packet->cmd % 100])(packet);
 
-	DBCONNECTOR->GetReceiver()->GetRingBuffer()->Read(packet->size);
+	DBConnector::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
+}
+
+void PacketHandler::HandleLogInServerPacket(Packet* _packet)
+{
+	Packet* packet = _packet;
+
+	(this->*logInServerPacketFunc[packet->cmd % 200])(packet);
+
+	LogInConnector::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
@@ -136,18 +146,9 @@ void PacketHandler::OnPacket_MonsterAttack(Monster* _monster, Packet* _packet)
 	user->Hit(monsterAttackPacket->monsterIndex, monsterAttackPacket->damage);
 }
 
-void PacketHandler::OnPacket_RequireInfo(User* _user, Packet* _packet)
+void PacketHandler::OnPacket_RequestInfo(User* _user, Packet* _packet)
 {
 	LogInSuccessPacket* logInSuccessPacket = reinterpret_cast<LogInSuccessPacket*>(_packet);
-
-	//중복 로그인체크(나중에 DB에서 프로시져를 이용해서 하자)
-	if (m_userManager.GetUserHashMap()->IsExist(_user->GetInfo()->userInfo.userID))
-	{
-		//중복 로그인이니 접속하지마라
-		_user->LogInDuplicated();
-
-		return;
-	}
 
 	_user->RequestUserInfo(logInSuccessPacket->userIndex);
 
@@ -182,17 +183,12 @@ void PacketHandler::OnPacket_Chatting(User* _user, Packet* _packet)
 			reinterpret_cast<char*>(_packet), _packet->size);
 }
 
-void PacketHandler::OnPacket_HeartBeat(User* _user, Packet* _packet)
-{
-	_user->HeartBeatChecked();
-}
-
 void PacketHandler::OnPacket_GetUserInfoSuccess(Packet* _packet)
 {
 	GetSessionInfoPacket* getSessionInfoPacket = reinterpret_cast<GetSessionInfoPacket*>(_packet);
 
 	User* tempUser;
-	tempUser = FindUserAtHashMap(getSessionInfoPacket->socket);
+	tempUser = FindUserAtHashMap_socket(getSessionInfoPacket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -205,7 +201,7 @@ void PacketHandler::OnPacket_GetUserInfoFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = FindUserAtHashMap(packetWithSocket->socket);
+	tempUser = FindUserAtHashMap_socket(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -218,7 +214,7 @@ void PacketHandler::OnPacket_UpdateUserSuccess(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = FindUserAtHashMap(packetWithSocket->socket);
+	tempUser = FindUserAtHashMap_socket(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -231,7 +227,7 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 	PacketWithSocket* packetWithSocket = reinterpret_cast<PacketWithSocket*>(_packet);
 
 	User* tempUser;
-	tempUser = FindUserAtHashMap(packetWithSocket->socket);
+	tempUser = FindUserAtHashMap_socket(packetWithSocket->socket);
 
 	if (tempUser != nullptr)
 	{
@@ -242,12 +238,39 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 
 void PacketHandler::OnPakcet_GetMonstersData(Packet* _packet)
 {
-	DBCONNECTOR->GetMonstersData(_packet);
+	DBConnector::getSingleton()->GetMonstersData(_packet);
 
 	m_fieldManager.InitMonsterThread();
 }
 
-User* PacketHandler::FindUserAtHashMap(SOCKET _socket)
+void PacketHandler::OnPacket_HelloFromLogInServer(Packet* _packet)
+{
+	MYDEBUG("[ Connecting With LogInServer Success ]\n");
+}
+
+void PacketHandler::OnPacket_DisConnectUser(Packet* _packet)
+{
+	UserNumPacket* userNumPacket = reinterpret_cast<UserNumPacket*>(_packet);
+
+	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetUserHashMap()->GetItemHashMap();
+
+	auto iter = tempHashMap.find(userNumPacket->userIndex);
+	if (iter == tempHashMap.end())
+	{
+		return;
+	}
+
+	User* tempUser;
+	tempUser = tempHashMap.find(userNumPacket->userIndex)->second;
+
+	if (tempUser != nullptr)
+	{
+		tempUser->DisConnect();
+		tempUser->m_isAlreadyDisConnected = true;
+	}
+}
+
+User* PacketHandler::FindUserAtHashMap_socket(SOCKET _socket)
 {
 	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetUserHashMap()->GetItemHashMap();
 

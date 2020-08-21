@@ -1,19 +1,15 @@
 #include "PacketHandler.h"
 
 #include "DBConnector.h"
+#include "ZoneConnector.h"
 
 PacketHandler::~PacketHandler()
 {
 }
 
-void PacketHandler::HandlePacket(LogInSession* _session, Packet* _packet)
+void PacketHandler::SetZoneConnector(ZoneConnector* _zoneConnector)
 {
-	Packet* packet = _packet;
-	LogInSession* session = _session;
-
-	(this->*packetFunc[packet->cmd])(session, packet);
-
-	session->GetReceiver()->GetRingBuffer()->Read(packet->size);
+	m_zoneConnector = _zoneConnector;
 }
 
 void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
@@ -25,18 +21,13 @@ void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
 	DBConnector::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
-void PacketHandler::OnPacket_Register(LogInSession* _session, Packet* _packet)
+void PacketHandler::HandleZoneServerPacket(Packet* _packet)
 {
-	RegisterUserPacket* registerUserPacket = reinterpret_cast<RegisterUserPacket*>(_packet);	
+	Packet* packet = _packet;
 
-	_session->RegisterUser(registerUserPacket);
-}
+	(this->*zoneServerPacketFunc[packet->cmd % 300])(packet);
 
-void PacketHandler::OnPacket_LogIn(LogInSession* _session, Packet* _packet)
-{
-	LogInPacket* logInPacket = reinterpret_cast<LogInPacket*>(_packet);
-
-	_session->LogInUser(logInPacket);
+	m_zoneConnector->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
@@ -48,7 +39,16 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 
 	if (tempSession != nullptr)
 	{
+		if (m_logInSessionManager.GetSessionHashMap()->IsExist(logInSuccessPacket->userIndex))
+		{
+			tempSession->LogInDuplicated();
+
+			return;
+		}
+
 		tempSession->LogInSuccess(logInSuccessPacket->userIndex);
+
+		MainThread::getSingleton()->AddToHashMapQueue(tempSession);
 	}
 }
 
@@ -88,6 +88,33 @@ void PacketHandler::OnPacket_RegisterFailed(Packet* _packet)
 	if (tempSession != nullptr)
 	{
 		tempSession->RegisterFailed();
+	}
+}
+
+void PacketHandler::OnPacket_HelloFromZone(Packet* _packet)
+{
+	MYDEBUG("[ Connecting With ZoneServer Success ]\n");
+}
+
+void PacketHandler::OnPacket_DisConnectUser(Packet* _packet)
+{
+	UserNumPacket* userNumPacket = reinterpret_cast<UserNumPacket*>(_packet);
+
+	const std::unordered_map<int, LogInSession*> tempHashMap = m_logInSessionManager.GetSessionHashMap()->GetItemHashMap();
+
+	auto iter = tempHashMap.find(userNumPacket->userIndex);
+	if (iter == tempHashMap.end())
+	{
+		return;
+	}
+
+	LogInSession* tempSession;
+	tempSession = tempHashMap.find(userNumPacket->userIndex)->second;
+
+	if (tempSession != nullptr)
+	{
+		tempSession->DisConnect();
+		tempSession->m_isAlreadyDisConnected = true;
 	}
 }
 
