@@ -266,7 +266,6 @@ void PacketHandler::OnPacket_DisConnectUser(Packet* _packet)
 	if (tempUser != nullptr)
 	{
 		tempUser->DisConnect();
-		tempUser->m_isAlreadyDisConnected = true;
 	}
 }
 

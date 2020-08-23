@@ -42,6 +42,8 @@ void LogInSession::DisConnect()
 {
 	if (m_isAlreadyDisConnected) return;
 
+	m_isAlreadyDisConnected = true;
+
 	ClientSession::DisConnect();
 
 	int errorNum = WSAGetLastError();
@@ -127,7 +129,7 @@ void LogInSession::PacketHandle(Packet* _packet)
 		break;
 	case 15:
 	{
-		//HeartBeatChecked();
+		HeartBeatChecked();
 	}
 		break;
 	}

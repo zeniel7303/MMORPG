@@ -114,7 +114,6 @@ void PacketHandler::OnPacket_DisConnectUser(Packet* _packet)
 	if (tempSession != nullptr)
 	{
 		tempSession->DisConnect();
-		tempSession->m_isAlreadyDisConnected = true;
 	}
 }
 

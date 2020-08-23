@@ -53,6 +53,8 @@ void User::DisConnect()
 {
 	if (m_isAlreadyDisConnected) return;
 
+	m_isAlreadyDisConnected = true;
+
 	ClientSession::DisConnect();
 
 	int errorNum = WSAGetLastError();
