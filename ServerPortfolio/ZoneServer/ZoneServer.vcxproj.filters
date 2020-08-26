@@ -126,6 +126,9 @@
     <ClInclude Include="LogInConnector.h">
       <Filter>소스 파일\Application\Connector</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadSchedular.h">
+      <Filter>소스 파일\Application\Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sector.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="LogInConnector.cpp">
       <Filter>소스 파일\Application\Connector</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadSchedular.cpp">
+      <Filter>소스 파일\Application\Thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

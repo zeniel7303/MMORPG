@@ -23,7 +23,8 @@ public enum SendCommand
     C2Zone_EXIT_USER = 13,
     C2Zone_CHATTING = 14,
     C2Zone_CHECK_ALIVE = 15,
-    C2Zone_CHATTING_WHISPER = 17
+    C2Zone_CHATTING_WHISPER = 17,
+    C2Zone_CHANGE_ZONE = 18
 }
 
 public enum RecvCommand
@@ -370,6 +371,13 @@ public class ChattingPacket_Whisper : Packet
 
 [Serializable]
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
+public class ChangeZonePacket : Packet
+{
+    public int zoneNum;
+};
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
 public class RegisterUserPacket : Packet
 {
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
@@ -388,6 +396,8 @@ public class LogInPacket : Packet
 
     [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 15)]
     public string password;
+
+    public int zoneNum;
 };
 
 [Serializable]

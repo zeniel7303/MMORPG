@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\PacketHandler\Packet">
       <UniqueIdentifier>{0db0bd70-f833-48c4-a957-dc5d6a6204f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\ZoneServerManager">
+      <UniqueIdentifier>{134a1047-bb58-4e65-b4a4-922f93bdffbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="HeartBeatThread.cpp">
       <Filter>소스 파일\Thread\HeartBeat</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneServerManager.cpp">
+      <Filter>소스 파일\ZoneServerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneServerAcceptor.cpp">
+      <Filter>소스 파일\Acceptor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="HeartBeatThread.h">
       <Filter>소스 파일\Thread\HeartBeat</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneServerManager.h">
+      <Filter>소스 파일\ZoneServerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneServerAcceptor.h">
+      <Filter>소스 파일\Acceptor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

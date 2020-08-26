@@ -59,6 +59,11 @@ struct EnterFieldPacket : Packet
 	VECTOR2 position;
 };
 
+struct ZoneNumPacket : Packet
+{
+	int zoneNum;
+};
+
 struct FieldNumPacket : Packet
 {
 	WORD fieldNum;
@@ -194,6 +199,18 @@ struct LogInPacket_DBAgent : Packet
 {
 	char id[15];
 	char password[15];
+	SOCKET socket;
+};
+
+struct AuthenticationPacket : Packet
+{
+	int userIndex;
+	SOCKET socket;
+};
+
+struct AuthenticationFailedPacket : Packet
+{
+	int userIndex;
 	SOCKET socket;
 };
 

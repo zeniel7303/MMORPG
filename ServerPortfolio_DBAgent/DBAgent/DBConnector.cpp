@@ -615,6 +615,17 @@ void DBConnector::LoopRun()
 			printf("Update User \n");
 		}
 		break;
+		case RecvCommand::Zone2DB_HEARTBEAT:
+		{
+			MYDEBUG("[ HeartBeat Test ]\n");
+
+			Packet* alivePacket =
+				reinterpret_cast<Packet*>(m_sendBuffer->GetBuffer(sizeof(Packet)));
+			alivePacket->Init(SendCommand::DB2Zone_ALIVE, sizeof(Packet));
+
+			m_dbAgent->Send(reinterpret_cast<char*>(alivePacket), alivePacket->size);
+		}
+		break;
 		}
 
 		m_dbAgent = nullptr;

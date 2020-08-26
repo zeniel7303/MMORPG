@@ -13,6 +13,7 @@ public:
 
 private:
 	int	m_idx;
+	int m_zoneNum;
 
 	int	m_heartBeatCheckedCount;
 	std::chrono::high_resolution_clock::time_point	m_start;
@@ -43,7 +44,10 @@ public:
 	void RegisterSuccess();
 	void RegisterFailed();
 
+	void ChangeZone(int _num);
+
 	int GetIdx() { return m_idx; }
+	int GetZoneNum() { return m_zoneNum; }
 
 	std::chrono::high_resolution_clock::time_point GetStartTime() { return m_start; }
 };

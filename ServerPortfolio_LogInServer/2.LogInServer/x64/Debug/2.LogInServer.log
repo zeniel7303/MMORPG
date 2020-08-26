@@ -1,6 +1,1 @@
-﻿  LogInSession.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio_loginserver\2.loginserver\loginsession.cpp(53): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio_loginserver\2.loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio_loginserver\2.loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio_loginserver\2.loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-  2.LogInServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio_LogInServer\x64\Debug\2.LogInServer.exe
+﻿  Acceptor.cpp

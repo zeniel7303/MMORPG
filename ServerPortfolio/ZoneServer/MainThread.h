@@ -13,6 +13,8 @@
 
 #include "PacketHandler.h"
 
+#include "ThreadSchedular.h"
+
 //=====================================================
 
 //MainThread
@@ -46,6 +48,8 @@ public:
 		EVENT_DBCONNECTOR,
 		EVENT_LOGINSERVER,
 		EVENT_STOREUSER,
+		EVENT_DB_HEARTBEAT,
+		EVENT_LOGIN_HEARTBEAT,
 		MAX_EVENT
 	};
 
@@ -82,6 +86,8 @@ private:
 	PacketHandler*							m_packetHandler;
 	HeartBeatThread*						m_heartBeatThread;
 
+	ThreadSchedular*						m_threadSchedular;
+
 	DoubleQueue<PacketQueuePair_User>		m_userPacketQueue;
 	DoubleQueue<SOCKET>						m_connectQueue;
 	DoubleQueue<User*>						m_disconnectQueue;
@@ -116,6 +122,8 @@ public:
 	void ProcessDBConnectorPacket();
 	void ProcessLogInServerPacket();
 	void AddToHashMap();
+	void HeartBeat_DBAgent();
+	void HeartBeat_LoginServer();
 
 	void AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair);
 	void AddToConnectQueue(SOCKET _socket);

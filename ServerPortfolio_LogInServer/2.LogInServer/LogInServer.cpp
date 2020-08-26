@@ -29,7 +29,7 @@ bool LogInServer::Start()
 
 	MYDEBUG("[ Max Count : %d ]\n", m_logInSessionManager->GetObjectPool()->GetSize());
 
-	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30004))
+	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30002))
 	{
 		return false;
 	}

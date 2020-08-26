@@ -22,6 +22,7 @@ enum class RecvCommand : WORD
 	C2Zone_CHECK_ALIVE					= 15,
 	C2Zone_ENTER_TEST_USER				= 16,
 	C2Zone_CHATTING_WHISPER				= 17,
+	C2Zone_CHANGE_ZONE					= 18,
 
 	DB2Zone_LOGIN_SUCCESS				= 100,
 	DB2Zone_LOGIN_FAILED_INVALID_ID		= 101,
@@ -35,7 +36,9 @@ enum class RecvCommand : WORD
 	DB2Zone_MONSTERS_DATA				= 109,
 
 	Zone2LogIn_HELLO					= 300,
-	Zone2LogIn_DISCONNECT_USER			= 301
+	Zone2LogIn_DISCONNECT_USER			= 301,
+	Zone2LOGIN_HEARTBEAT				= 302,
+	Zone2Login_AUTHENTICATION			= 303
 };
 
 enum class SendCommand : WORD
@@ -48,8 +51,12 @@ enum class SendCommand : WORD
 	Zone2C_CHATTING = 14,
 	Zone2C_CHATTING_WHISPER = 17,
 
-	LogIn2Zone_HELLO = 200,
+	LogIn2Zone_ZONENUM = 200,
 	LogIn2Zone_DISCONNECT_USER = 201,
+	Login2Zone_ALIVE = 202,
+	Login2Zone_AUTHENTICATION_SUCCESS = 203,
+	Login2Zone_AUTHENTICATION_FAILED = 204,
+	Login2Zone_DISCONNECT_USER_CHANGE_ZONE = 205,
 
 	Zone2C_CHATTING_WHISPER_FAIL = 500,
 

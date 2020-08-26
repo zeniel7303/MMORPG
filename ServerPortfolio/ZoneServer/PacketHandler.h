@@ -27,7 +27,7 @@ public:
 		userPacketFunc[8] = &PacketHandler::OnPacket_UserRevive;				
 		userPacketFunc[9] = nullptr;			
 		userPacketFunc[10] = nullptr;				
-		userPacketFunc[11] = &PacketHandler::OnPacket_RequestInfo;
+		userPacketFunc[11] = &PacketHandler::OnPacket_AuthenticationUser;
 		userPacketFunc[12] = &PacketHandler::OnPacket_UpdateUser;
 		userPacketFunc[13] = &PacketHandler::OnPacket_ExitUser;
 		userPacketFunc[14] = &PacketHandler::OnPacket_Chatting;
@@ -44,10 +44,14 @@ public:
 		dbPacketFunc[6] = &PacketHandler::OnPacket_GetUserInfoFailed;
 		dbPacketFunc[7] = &PacketHandler::OnPacket_UpdateUserSuccess;
 		dbPacketFunc[8] = &PacketHandler::OnPacket_UpdateUserFailed;
-		dbPacketFunc[9] = &PacketHandler::OnPakcet_GetMonstersData;
+		dbPacketFunc[9] = &PacketHandler::OnPacket_GetMonstersData;
+		dbPacketFunc[10] = &PacketHandler::OnPacket_DBAgentAlive;
 
 		logInServerPacketFunc[0] = &PacketHandler::OnPacket_HelloFromLogInServer;
 		logInServerPacketFunc[1] = &PacketHandler::OnPacket_DisConnectUser;
+		logInServerPacketFunc[2] = &PacketHandler::OnPacket_LoginServerAlive;
+		logInServerPacketFunc[3] = &PacketHandler::OnPacket_AuthenticationSuccess;
+		logInServerPacketFunc[4] = &PacketHandler::OnPacket_AuthenticationFailed;
 	};
 	~PacketHandler();
 
@@ -71,6 +75,9 @@ public:
 	void HandleDBConnectorPacket(Packet* _packet);
 	void HandleLogInServerPacket(Packet* _packet);
 
+	void OnPacket_AuthenticationUser(User* _user, Packet* _packet);
+	void OnPacket_RequestInfo(User* _user, Packet* _packet);
+	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 	void OnPacket_EnterField(User* _user, Packet* _packet);
 	void OnPacket_EnterFieldSuccess(User* _user, Packet* _packet);
 	void OnPacket_UpdateUserPosition(User* _user, Packet* _packet);
@@ -78,8 +85,6 @@ public:
 	void OnPacket_UserAttackFailed(User* _user, Packet* _packet);
 	void OnPacket_UserAttack(User* _user, Packet* _packet);
 	void OnPacket_UserRevive(User* _user, Packet* _packet);
-	void OnPacket_RequestInfo(User* _user, Packet* _packet);
-	void OnPacket_UpdateUser(User* _user, Packet* _packet);
 	void OnPacket_ExitUser(User* _user, Packet* _packet);
 	void OnPacket_Chatting(User* _user, Packet* _packet);
 	void OnPacket_EnterTestUser(User* _user, Packet* _packet);
@@ -93,11 +98,19 @@ public:
 	void OnPacket_GetUserInfoFailed(Packet* _packet);
 	void OnPacket_UpdateUserSuccess(Packet* _packet);
 	void OnPacket_UpdateUserFailed(Packet* _packet);
-	void OnPakcet_GetMonstersData(Packet* _packet);
+	void OnPacket_GetMonstersData(Packet* _packet);
+	void OnPacket_DBAgentAlive(Packet* _packet);
 
 	//LogIn Server================================================
 	void OnPacket_HelloFromLogInServer(Packet* _packet);
 	void OnPacket_DisConnectUser(Packet* _packet);
+	void OnPacket_LoginServerAlive(Packet* _packet);
+	void OnPacket_AuthenticationSuccess(Packet* _packet);
+	void OnPacket_AuthenticationFailed(Packet* _packet);
+
+	//Send========================================================
+	void SendHeartBeat_DBAgent();
+	void SendHeartBeat_LoginServer();
 
 	User* FindUserAtHashMap_socket(SOCKET _socket);
 };

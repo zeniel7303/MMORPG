@@ -9,7 +9,8 @@ enum class RecvCommand : WORD
 	Zone2DB_REQUEST_USER_DATA = 1036,
 	Zone2DB_REQUEST_MONSTER_DATA = 1037,
 	Zone2DB_UPDATE_USER = 1038,
-	LogIn2DB_HELLO = 1041
+	LogIn2DB_HELLO = 1041,
+	Zone2DB_HEARTBEAT = 1042
 };
 
 enum class SendCommand : WORD
@@ -24,4 +25,5 @@ enum class SendCommand : WORD
 	DB2Zone_UPDATE_USER_SUCCESS = 107,
 	DB2Zone_UPDATE_USER_FAILED = 108,
 	DB2Zone_MONSTERS_DATA = 109,
+	DB2Zone_ALIVE = 110
 };

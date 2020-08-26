@@ -9,6 +9,7 @@ public class TitleUI : MonoBehaviour
     public GameObject registerFailedWindow;
     public GameObject loginFailedWindow;
     public GameObject loginDuplicatedWindow;
+    public GameObject zoneSelectWindow;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class TitleUI : MonoBehaviour
         registerFailedWindow.SetActive(false);
         loginFailedWindow.SetActive(false);
         loginDuplicatedWindow.SetActive(false);
+        zoneSelectWindow.SetActive(false);
     }
 
     // Update is called once per frame
@@ -55,5 +57,15 @@ public class TitleUI : MonoBehaviour
     public void CloseLoginDuplicatedWindow()
     {
         loginDuplicatedWindow.SetActive(false);
+    }
+
+    public void OpenZoneSelectWindow()
+    {
+        zoneSelectWindow.SetActive(true);
+    }
+
+    public void CloseZoneSelectWindow()
+    {
+        zoneSelectWindow.SetActive(false);
     }
 }

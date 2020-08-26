@@ -36,6 +36,8 @@ bool MainThread::Init()
 	processFunc[4] = &MainThread::ProcessDBConnectorPacket;
 	processFunc[5] = &MainThread::ProcessLogInServerPacket;
 	processFunc[6] = &MainThread::AddToHashMap;
+	processFunc[7] = &MainThread::HeartBeat_DBAgent;
+	processFunc[8] = &MainThread::HeartBeat_LoginServer;
 
 	return true;
 }
@@ -47,6 +49,10 @@ void MainThread::SetManagers(UserManager* _userManager,
 	m_fieldManager = _fieldManager;
 
 	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
+
+	m_threadSchedular = new ThreadSchedular();
+	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10);
+	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10);
 
 	Thread<MainThread>::Start(this);
 
@@ -274,6 +280,16 @@ void MainThread::AddToHashMap()
 
 		hashMapQueue.pop();
 	}
+}
+
+void MainThread::HeartBeat_DBAgent()
+{
+	m_packetHandler->SendHeartBeat_DBAgent();
+}
+
+void MainThread::HeartBeat_LoginServer()
+{
+	m_packetHandler->SendHeartBeat_LoginServer();
 }
 
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)

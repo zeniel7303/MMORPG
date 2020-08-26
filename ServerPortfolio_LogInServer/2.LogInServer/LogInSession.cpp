@@ -8,6 +8,7 @@
 LogInSession::LogInSession()
 {
 	m_idx = 0;
+	m_zoneNum = 0;
 
 	m_heartBeatCheckedCount = 0;
 
@@ -68,7 +69,7 @@ void LogInSession::DisConnect()
 		DisConnectUserPacket->userIndex = m_idx;
 		//m_sendBuffer->Write(DisConnectUserPacket->size);
 
-		MainThread::getSingleton()->GetZoneConnector()
+		MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(m_zoneNum)
 			->Send(reinterpret_cast<char*>(DisConnectUserPacket), DisConnectUserPacket->size);
 	}
 
@@ -80,6 +81,7 @@ void LogInSession::Reset()
 	ClientSession::Reset();
 
 	m_idx = 0;
+	m_zoneNum = 0;
 
 	m_isInHashMap = false;
 }
@@ -132,6 +134,13 @@ void LogInSession::PacketHandle(Packet* _packet)
 		HeartBeatChecked();
 	}
 		break;
+	case 18:
+	{
+		ChangeZonePacket* changeZonePacket = reinterpret_cast<ChangeZonePacket*>(packet);
+		
+		ChangeZone(changeZonePacket->zoneNum);
+	}
+		break;
 	}
 }
 
@@ -145,6 +154,7 @@ void LogInSession::LogInUser(LogInPacket* _packet)
 	logInPacket_DBAgent->socket = m_socket;
 	strcpy_s(logInPacket_DBAgent->id, _packet->id);
 	strcpy_s(logInPacket_DBAgent->password, _packet->password);
+	m_zoneNum = _packet->zoneNum;
 
 	DBConnector::getSingleton()->Send(reinterpret_cast<char*>(logInPacket_DBAgent), logInPacket_DBAgent->size);
 }
@@ -255,4 +265,29 @@ void LogInSession::RegisterFailed()
 	Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
 
 	//DisConnect();
+}
+
+void LogInSession::ChangeZone(int _num)
+{
+	ZoneConnector* zoneConnector = MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(_num);
+
+	if (zoneConnector == nullptr)
+	{
+
+		return;
+	}
+
+	ZoneConnector* prevZoneConnector = MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(m_zoneNum);
+	
+	UserNumPacket* userNumPacket = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(UserNumPacket)));
+	userNumPacket->Init(SendCommand::Login2Zone_DISCONNECT_USER_CHANGE_ZONE, sizeof(UserNumPacket));
+	userNumPacket->userIndex = m_idx;
+	//m_sendBuffer->Write(DisConnectUserPacket->size);
+
+	//prevZoneConnector->Send(reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+
+	m_zoneNum = _num;
+
+
 }

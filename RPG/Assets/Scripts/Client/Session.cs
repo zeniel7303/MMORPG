@@ -259,6 +259,7 @@ public class Session : MonoBehaviour
                             logInPacket.SetCmd(SendCommand.C2Zone_LOGIN);
                             logInPacket.id = GameManager.Instance.logInId;
                             logInPacket.password = GameManager.Instance.logInPassword;
+                            logInPacket.zoneNum = 0;
 
                             SendData(logInPacket.GetBytes());
                         }
@@ -321,7 +322,9 @@ public class Session : MonoBehaviour
                     ServerManager.Instance.userID = logInSuccessPacket.userIndex;
                     //Debug.Log(ServerManager.Instance.userID);
 
-                    ServerManager.Instance.ZoneServerConnect();
+                    GameManager.Instance.titleUI.OpenZoneSelectWindow();
+
+                    //ServerManager.Instance.ZoneServerConnect();
                 }
                 break;
             case RecvCommand.Zone2C_LOGIN_FAILED:

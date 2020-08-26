@@ -29,22 +29,18 @@ bool ZoneServer::Start()
 
 	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
-	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30004))
+	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30002, &m_IOCPClass))
 	{
 		return false;
-	}
-	m_IOCPClass.Associate(DBConnector::getSingleton()->GetSocket(),
-		(unsigned long long)DBConnector::getSingleton());
+	}	
 	DBConnector::getSingleton()->OnConnect();
 
 	Sleep(500);
 
-	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30003))
+	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30003, &m_IOCPClass))
 	{
 		return false;
 	}
-	m_IOCPClass.Associate(LogInConnector::getSingleton()->GetSocket(),
-		(unsigned long long)LogInConnector::getSingleton());
 	LogInConnector::getSingleton()->OnConnect();
 
 	TRYCATCH(m_fieldManager = new FieldManager());

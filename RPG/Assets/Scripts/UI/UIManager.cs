@@ -12,6 +12,7 @@ public class UIManager : Singleton<UIManager>
     public Canvas DeathUI;
     public Canvas EscapeUI;
     public Canvas StatUI;
+    public Canvas ZoneSelectUI;
 
     public LevelUpUI LevelUpCanvas;
 
@@ -21,6 +22,7 @@ public class UIManager : Singleton<UIManager>
     {
         DeathUI.gameObject.SetActive(false);
         EscapeUI.gameObject.SetActive(false);
+        ZoneSelectUI.gameObject.SetActive(false);
         StatUI.gameObject.SetActive(false);
     }
 

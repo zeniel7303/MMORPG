@@ -9,7 +9,10 @@ public class ServerManager : Singleton<ServerManager>
     bool isConnect;
     public string ip;
     public ushort logInServerPort;
-    public ushort zoneServerPort;
+    public ushort zoneServerPort_1;
+    public ushort zoneServerPort_2;
+    public ushort zoneServerPort_3;
+    public ushort myZone;
 
     private Session session = new Session();
     private Session logInSession = new Session();
@@ -55,9 +58,44 @@ public class ServerManager : Singleton<ServerManager>
         logInSession.Init();
     }
 
-    public void ZoneServerConnect()
+    public void ZoneServerConnect_1()
     {
-        session.Connect(ip, zoneServerPort);
+        GameManager.Instance.titleUI.CloseZoneSelectWindow();
+        myZone = 1;
+
+        session.Connect(ip, zoneServerPort_1);
+    }
+
+    public void ZoneServerConnect_2()
+    {
+        GameManager.Instance.titleUI.CloseZoneSelectWindow();
+        myZone = 2;
+
+        session.Connect(ip, zoneServerPort_2);
+    }
+
+    public void ZoneServerConnect_3()
+    {
+        GameManager.Instance.titleUI.CloseZoneSelectWindow();
+        myZone = 3;
+
+        session.Connect(ip, zoneServerPort_3);
+    }
+
+    public void ZoneChange(int _num)
+    {
+        if(myZone == _num)
+        {
+
+        }
+        else
+        {
+            ChangeZonePacket changeZonePacket = new ChangeZonePacket();
+            changeZonePacket.SetCmd(SendCommand.C2Zone_CHANGE_ZONE);
+            changeZonePacket.zoneNum = _num;
+
+            SendData_LogInServer(changeZonePacket.GetBytes());
+        }
     }
 
     public void logInServerConnect()

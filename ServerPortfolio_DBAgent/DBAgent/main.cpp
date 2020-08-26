@@ -29,7 +29,7 @@ int main()
 	TRYCATCH(iocpClass = new IOCPClass());
 	if (iocpClass->IsFailed()) return false;
 
-	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30004,
+	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30002,
 		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
 	iocpClass->Associate(acceptor->GetListenSocket(),

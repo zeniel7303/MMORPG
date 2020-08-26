@@ -30,11 +30,17 @@ struct LogInPacket : Packet
 {
 	char id[15];
 	char password[15];
+	int zoneNum;
 };
 
 struct UserNumPacket : Packet
 {
 	int userIndex;
+};
+
+struct ZoneNumPacket : Packet
+{
+	int zoneNum;
 };
 
 //=================================================
@@ -51,6 +57,18 @@ struct LogInPacket_DBAgent : Packet
 	SOCKET socket;
 };
 
+struct AuthenticationPacket : Packet
+{
+	int userIndex;
+	SOCKET socket;
+};
+
+struct AuthenticationFailedPacket : Packet
+{
+	int userIndex;
+	SOCKET socket;
+};
+
 struct LogInSuccessPacket : Packet
 {
 	int userIndex;
@@ -62,6 +80,11 @@ struct RegisterPacket_DBAgent : Packet
 	char id[15];
 	char password[15];
 	SOCKET socket;
+};
+
+struct ChangeZonePacket : Packet
+{
+	int zoneNum;
 };
 
 #pragma pack(pop)

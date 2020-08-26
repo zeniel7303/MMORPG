@@ -9,6 +9,7 @@
 #include "PacketHandler.h"
 
 class ZoneConnector;
+class ZoneServerManager;
 
 class HeartBeatThread;
 
@@ -33,14 +34,14 @@ public:
 		MAX_EVENT
 	};
 
-	struct PacketQueuePair
+	struct PacketQueuePair_ZoneNum
 	{
-		class LogInSession* session;
+		int m_zoneNum;
 		Packet* packet;
 
-		PacketQueuePair(LogInSession* _session, Packet* _packet)
+		PacketQueuePair_ZoneNum(int _num, Packet* _packet)
 		{
-			session = _session;
+			m_zoneNum = _num;
 			packet = _packet;
 		}
 	};
@@ -48,21 +49,23 @@ public:
 private:
 	MainThread();
 
-	DoubleQueue<SOCKET>				m_connectQueue;
-	DoubleQueue<LogInSession*>		m_disconnectQueue;
-	DoubleQueue<Packet*>			m_dbPacketQueue;
-	DoubleQueue<Packet*>			m_zoneServerPacketQueue;
-	DoubleQueue<LogInSession*>		m_hashMapQueue;
+	DoubleQueue<SOCKET>							m_connectQueue;
+	DoubleQueue<LogInSession*>					m_disconnectQueue;
+	DoubleQueue<Packet*>						m_dbPacketQueue;
+	DoubleQueue<PacketQueuePair_ZoneNum>		m_zoneServerPacketQueue;
+	DoubleQueue<LogInSession*>					m_hashMapQueue;
 
-	HANDLE							m_hEvent[MAX_EVENT];
+	HANDLE										m_hEvent[MAX_EVENT];
 
-	LogInSessionManager*			m_logInSessionManager;
+	LogInSessionManager*						m_logInSessionManager;
 
-	PacketHandler*					m_packetHandler;
+	PacketHandler*								m_packetHandler;
 
-	HeartBeatThread*				m_heartBeatThread;
+	HeartBeatThread*							m_heartBeatThread;
 
-	ZoneConnector*					m_zoneConnector;
+	ZoneServerManager*							m_zoneServerManager;
+
+	int											m_num;
 
 public:	
 	~MainThread();
@@ -88,9 +91,9 @@ public:
 	void AddToDisConnectQueue(LogInSession* _session);
 	void AddToHashMapQueue(LogInSession* _session);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
-	void AddToZoneServerPacketQueue(Packet* _packet);
+	void AddToZoneServerPacketQueue(const PacketQueuePair_ZoneNum& _packetQueue);
 	void HearBeatCheck();
 
-	ZoneConnector* GetZoneConnector() { return m_zoneConnector; }
+	ZoneServerManager* GetZoneServerManager() { return m_zoneServerManager; }
 };
 

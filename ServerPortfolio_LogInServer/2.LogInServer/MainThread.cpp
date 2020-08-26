@@ -1,7 +1,9 @@
 #include "MainThread.h"
 
-#include "ZoneConnector.h"
 #include "HeartBeatThread.h"
+
+#include "ZoneConnector.h"
+#include "ZoneServerManager.h"
 
 MainThread::MainThread()
 {
@@ -32,7 +34,7 @@ bool MainThread::Init()
 		}
 	}
 
-	m_zoneConnector = new ZoneConnector();
+	m_num = 0;
 
 	processFunc[0] = &MainThread::ConnectUser;
 	processFunc[1] = &MainThread::DisConnectUser;
@@ -49,7 +51,9 @@ void MainThread::SetManagers(LogInSessionManager* _logInSessionManager, HeartBea
 	m_logInSessionManager = _logInSessionManager;
 	m_heartBeatThread = _heartBeatThread;
 
-	m_packetHandler = new PacketHandler(*_logInSessionManager);
+	m_zoneServerManager = new ZoneServerManager();
+
+	m_packetHandler = new PacketHandler(*_logInSessionManager, *m_zoneServerManager);
 
 	Thread<MainThread>::Start(this);
 
@@ -177,15 +181,17 @@ void MainThread::ProcessZoneServerPacket()
 {
 	m_zoneServerPacketQueue.Swap();
 
-	std::queue<Packet*>& zoneServerPacketQueue = m_zoneServerPacketQueue.GetSecondaryQueue();
+	std::queue<PacketQueuePair_ZoneNum>& zoneServerPacketQueue = m_zoneServerPacketQueue.GetSecondaryQueue();
 
 	size_t size = zoneServerPacketQueue.size();
 
 	for (int i = 0; i < size; i++)
 	{
-		Packet* packet = zoneServerPacketQueue.front();
+		const PacketQueuePair_ZoneNum& packetQueue = zoneServerPacketQueue.front();
+		Packet* packet = packetQueue.packet;
+		int zoneNum = packetQueue.m_zoneNum;
 
-		m_packetHandler->HandleZoneServerPacket(packet);
+		m_packetHandler->HandleZoneServerPacket(zoneNum, packet);
 
 		zoneServerPacketQueue.pop();
 	}
@@ -198,11 +204,20 @@ void MainThread::ProcessHeartBeat()
 
 void MainThread::ConnectWithZoneServer(SOCKET _socket)
 {
-	m_zoneConnector->SetSocket(_socket);
+	ZoneConnector* zoneConnector = new ZoneConnector();
 
-	m_zoneConnector->OnConnect();
+	zoneConnector->SetSocket(_socket);
+	zoneConnector->SetZoneNum(m_num);
 
-	m_packetHandler->SetZoneConnector(m_zoneConnector);
+	zoneConnector->OnConnect();
+
+	m_zoneServerManager->GetZoneConnectorVec()->emplace_back(zoneConnector);
+
+	MYDEBUG("[ %d(%d)¹ø Zone ¿¬°áµÊ ]\n", 
+		zoneConnector->GetZoneNum(), 
+		m_zoneServerManager->GetZoneConnectorVec()->size());
+
+	m_num += 1;
 }
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
@@ -233,9 +248,9 @@ void MainThread::AddToDBConnectorPacketQueue(Packet* _packet)
 	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
 }
 
-void MainThread::AddToZoneServerPacketQueue(Packet* _packet)
+void MainThread::AddToZoneServerPacketQueue(const PacketQueuePair_ZoneNum& _packetQueue)
 {
-	m_zoneServerPacketQueue.AddObject(_packet);
+	m_zoneServerPacketQueue.AddObject(_packetQueue);
 
 	SetEvent(m_hEvent[EVENT_ZONESERVER]);
 }

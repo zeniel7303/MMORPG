@@ -125,6 +125,8 @@
     <ClCompile Include="MainThread.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="ZoneConnector.cpp" />
+    <ClCompile Include="ZoneServerAcceptor.cpp" />
+    <ClCompile Include="ZoneServerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Acceptor.h" />
@@ -138,6 +140,8 @@
     <ClInclude Include="packet.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="ZoneConnector.h" />
+    <ClInclude Include="ZoneServerAcceptor.h" />
+    <ClInclude Include="ZoneServerManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

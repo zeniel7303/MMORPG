@@ -9,7 +9,7 @@ LogInConnector::~LogInConnector()
 	DisConnect();
 }
 
-bool LogInConnector::Connect(const char* _ip, const unsigned short _portNum)
+bool LogInConnector::Connect(const char* _ip, const unsigned short _portNum, IOCPClass* _iocpClass)
 {
 	TRYCATCH(m_ipEndPoint = IpEndPoint(_ip, _portNum));
 
@@ -39,6 +39,9 @@ bool LogInConnector::Connect(const char* _ip, const unsigned short _portNum)
 	{
 		MYDEBUG("[ LogInServer Connecting ]\n");
 
+		m_IOCPClass = _iocpClass;
+		m_IOCPClass->Associate(m_socket, (unsigned long long)this);
+
 		return true;
 	}
 }
@@ -47,10 +50,12 @@ void LogInConnector::OnConnect()
 {
 	ClientSession::OnConnect();
 
+	m_start = std::chrono::high_resolution_clock::now();
+
 	BOOL bVal = TRUE;
 	::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
 
-	Sleep(1);
+	Sleep(100);
 
 	Packet* helloPacket =
 		reinterpret_cast<Packet*>(m_sendBuffer->
@@ -103,4 +108,25 @@ void LogInConnector::OnRecv()
 			break;
 		}
 	}
+}
+
+void LogInConnector::HeartBeat()
+{
+	auto m_end = std::chrono::high_resolution_clock::now();
+	auto m_durationSec = std::chrono::duration_cast<std::chrono::seconds>(m_end - m_start);
+
+	if (m_durationSec.count() > 20)
+	{
+		MYDEBUG("[ Login Server¿Í ¿¬°á ²÷±è ] \n");
+
+		//DisConnect();
+
+		//Connect("211.221.147.29", 30003, m_IOCPClass);
+	}
+
+	Packet* heartBeatPacket =
+		reinterpret_cast<Packet*>(m_sendBuffer->GetBuffer(sizeof(Packet)));
+	heartBeatPacket->Init(SendCommand::Zone2Login_HEARTBEAT, sizeof(Packet));
+
+	Send(reinterpret_cast<char*>(heartBeatPacket), heartBeatPacket->size);
 }

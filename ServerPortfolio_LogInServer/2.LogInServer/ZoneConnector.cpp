@@ -19,12 +19,12 @@ void ZoneConnector::OnConnect()
 
 	Sleep(1);
 
-	Packet* helloPacket =
-		reinterpret_cast<Packet*>(m_sendBuffer->
-			GetBuffer(sizeof(Packet)));
-	helloPacket->Init(SendCommand::LogIn2Zone_HELLO, sizeof(Packet));
-
-	Send(reinterpret_cast<char*>(helloPacket), helloPacket->size);
+	ZoneNumPacket* zoneNumPacket =
+		reinterpret_cast<ZoneNumPacket*>(m_sendBuffer->
+			GetBuffer(sizeof(ZoneNumPacket)));
+	zoneNumPacket->Init(SendCommand::LogIn2Zone_ZONENUM, sizeof(ZoneNumPacket));
+	zoneNumPacket->zoneNum = m_num;
+	Send(reinterpret_cast<char*>(zoneNumPacket), zoneNumPacket->size);
 }
 
 void ZoneConnector::DisConnect()
@@ -59,7 +59,7 @@ void ZoneConnector::OnRecv()
 
 		if (packet == nullptr) break;
 
-		MainThread::getSingleton()->AddToZoneServerPacketQueue(packet);
+		MainThread::getSingleton()->AddToZoneServerPacketQueue({ m_num, packet });
 
 		tempNum--;
 
@@ -70,4 +70,42 @@ void ZoneConnector::OnRecv()
 			break;
 		}
 	}
+}
+
+void ZoneConnector::HeartBeat()
+{
+	MYDEBUG("[ %d ZoneServer HeartBeat ]\n", m_num);
+
+	Packet* alivePacket =
+		reinterpret_cast<Packet*>(m_sendBuffer->GetBuffer(sizeof(Packet)));
+	alivePacket->Init(SendCommand::Login2Zone_ALIVE, sizeof(Packet));
+
+	Send(reinterpret_cast<char*>(alivePacket), alivePacket->size);
+}
+
+void ZoneConnector::AuthenticationSuccess(AuthenticationPacket* _packet)
+{
+	LogInSuccessPacket* authenticationSuccessPacket = reinterpret_cast<LogInSuccessPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(LogInSuccessPacket)));
+	authenticationSuccessPacket->Init(SendCommand::Login2Zone_AUTHENTICATION_SUCCESS, sizeof(LogInSuccessPacket));
+	authenticationSuccessPacket->userIndex = _packet->userIndex;
+	authenticationSuccessPacket->socket = _packet->socket;
+	//m_sendBuffer->Write(LogInSuccess->size);
+	MYDEBUG("[ authentication Success ] \n");
+
+	Send(reinterpret_cast<char*>(authenticationSuccessPacket), authenticationSuccessPacket->size);
+}
+
+void ZoneConnector::AuthenticationFailed(AuthenticationPacket* _packet)
+{
+	AuthenticationFailedPacket* authenticationFailedPacket = reinterpret_cast<AuthenticationFailedPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(AuthenticationFailedPacket)));
+	authenticationFailedPacket->Init(SendCommand::Login2Zone_AUTHENTICATION_FAILED, sizeof(AuthenticationFailedPacket));
+	authenticationFailedPacket->userIndex = _packet->userIndex;
+	authenticationFailedPacket->socket = _packet->socket;
+
+	MYDEBUG("[ authentication Failed ] \n");
+
+	Send(reinterpret_cast<char*>(authenticationFailedPacket), authenticationFailedPacket->size);
+
 }
