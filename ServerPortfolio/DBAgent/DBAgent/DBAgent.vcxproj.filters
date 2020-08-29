@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Acceptor">
+      <UniqueIdentifier>{216c0c6a-157e-40cd-817e-fa87d8641a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DBAgent">
+      <UniqueIdentifier>{4586d278-53ff-4d1b-b9d3-e741fd0afc52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DBAgent\Manager">
+      <UniqueIdentifier>{6b411827-129f-4b72-971c-bccfa5f92e90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DBConnector">
+      <UniqueIdentifier>{95c1b254-429b-4e55-8461-935f7aadc2b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DBConnector\Manager">
+      <UniqueIdentifier>{0eeb8bd3-a929-4633-8104-f606e91f0d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MainThread">
+      <UniqueIdentifier>{ffe51096-0cf1-456d-8014-a165cef5fb46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Packet">
+      <UniqueIdentifier>{1bc68f76-e012-469b-bab8-0e0ea0ed8342}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
+      <Filter>소스 파일\Acceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="DBAgentManager.cpp">
+      <Filter>소스 파일\DBAgent\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="DBAgent.cpp">
+      <Filter>소스 파일\DBAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnector.cpp">
+      <Filter>소스 파일\DBConnector</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnectorManager.cpp">
+      <Filter>소스 파일\DBConnector\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MainThread.cpp">
+      <Filter>소스 파일\MainThread</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Acceptor.h">
+      <Filter>소스 파일\Acceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="DBAgentManager.h">
+      <Filter>소스 파일\DBAgent\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="DBAgent.h">
+      <Filter>소스 파일\DBAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnector.h">
+      <Filter>소스 파일\DBConnector</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnectorManager.h">
+      <Filter>소스 파일\DBConnector\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MainThread.h">
+      <Filter>소스 파일\MainThread</Filter>
+    </ClInclude>
+    <ClInclude Include="packet.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitInfo.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandList.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -316,11 +316,15 @@ public class Session : MonoBehaviour
                 break;
             case RecvCommand.Zone2C_LOGIN_SUCCESS:
                 {
-                    LogInSuccessPacket logInSuccessPacket = new LogInSuccessPacket();
+                    LogInSuccessPacket_PortNum logInSuccessPacket = new LogInSuccessPacket_PortNum();
                     Parsing(_buffer, ref logInSuccessPacket);
 
                     ServerManager.Instance.userID = logInSuccessPacket.userIndex;
                     //Debug.Log(ServerManager.Instance.userID);
+
+                    ServerManager.Instance.zoneServerPort_1 = (ushort)(logInSuccessPacket.portNum + 1);
+                    ServerManager.Instance.zoneServerPort_2 = (ushort)(logInSuccessPacket.portNum + 2);
+                    ServerManager.Instance.zoneServerPort_3 = (ushort)(logInSuccessPacket.portNum + 3);
 
                     GameManager.Instance.titleUI.OpenZoneSelectWindow();
 

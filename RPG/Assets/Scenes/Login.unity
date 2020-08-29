@@ -9677,10 +9677,10 @@ MonoBehaviour:
   userID: 0
   ip: 211.221.147.29
   logInServerPort: 30004
-  zoneServerPort_1: 30005
-  zoneServerPort_2: 30006
-  zoneServerPort_3: 30007
   myZone: 0
+  zoneServerPort_1: 0
+  zoneServerPort_2: 0
+  zoneServerPort_3: 0
   mapManager: {fileID: 0}
   isLogInConnect: 0
   isRegisterConnect: 0

@@ -9,10 +9,10 @@ public class ServerManager : Singleton<ServerManager>
     bool isConnect;
     public string ip;
     public ushort logInServerPort;
+    public ushort myZone;
     public ushort zoneServerPort_1;
     public ushort zoneServerPort_2;
     public ushort zoneServerPort_3;
-    public ushort myZone;
 
     private Session session = new Session();
     private Session logInSession = new Session();

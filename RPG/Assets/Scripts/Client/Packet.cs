@@ -407,3 +407,12 @@ public class LogInSuccessPacket : Packet
     public int userIndex;
     public int socket;
 };
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public class LogInSuccessPacket_PortNum : Packet
+{
+    public int userIndex;
+    public int portNum;
+    public int socket; 
+};
