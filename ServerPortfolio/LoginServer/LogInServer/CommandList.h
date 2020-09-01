@@ -23,6 +23,7 @@ enum class RecvCommand : WORD
 	C2Zone_ENTER_TEST_USER				= 16,
 	C2Zone_CHATTING_WHISPER				= 17,
 	C2Zone_CHANGE_ZONE					= 18,
+	C2Login_SENDZONENUM					= 20,
 
 	DB2Zone_LOGIN_SUCCESS				= 100,
 	DB2Zone_LOGIN_FAILED_INVALID_ID		= 101,

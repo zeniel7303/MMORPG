@@ -31,7 +31,7 @@ FieldManager::FieldManager()
 	m_fieldCount += 1;
 
 	Field* m_testField;
-	TRYCATCH_CONSTRUCTOR(m_testField = new Field(999, VECTOR2(48, 48), "TestScene.fmap"), m_failed);
+	TRYCATCH_CONSTRUCTOR(m_testField = new Field(3, VECTOR2(48, 48), "TestScene.fmap"), m_failed);
 	if (m_testField->IsFailed() || m_failed)
 	{
 		m_failed = true;

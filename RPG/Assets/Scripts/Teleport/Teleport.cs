@@ -41,6 +41,13 @@ public class Teleport : MonoBehaviour
 
                 ServerManager.Instance.SendData_ZoneServer(EnterFieldPacket.GetBytes());
             }
+            else if (sceneName == "TestScene")
+            {
+                FieldNumPacket EnterTestFieldPacket =
+                    new FieldNumPacket(SendCommand.C2Zone_ENTER_TESTFIELD, 3);
+
+                ServerManager.Instance.SendData_ZoneServer(EnterTestFieldPacket.GetBytes());
+            }
         }
     }
 }

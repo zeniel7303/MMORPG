@@ -22,9 +22,7 @@ bool MainThread::Init()
 		if (m_hEvent[i] == NULL)
 		{
 			int num = WSAGetLastError();
-
 			MYDEBUG("[Event Handle Creating Fail - %d Error]\n", num);
-
 			return false;
 		}
 	}
@@ -35,9 +33,10 @@ bool MainThread::Init()
 	processFunc[3] = &MainThread::ProcessMonster;
 	processFunc[4] = &MainThread::ProcessDBConnectorPacket;
 	processFunc[5] = &MainThread::ProcessLogInServerPacket;
-	processFunc[6] = &MainThread::AddToHashMap;
-	processFunc[7] = &MainThread::HeartBeat_DBAgent;
-	processFunc[8] = &MainThread::HeartBeat_LoginServer;
+	processFunc[6] = &MainThread::ProcessPathFindAgentPacket;
+	processFunc[7] = &MainThread::AddToHashMap;
+	processFunc[8] = &MainThread::HeartBeat_DBAgent;
+	processFunc[9] = &MainThread::HeartBeat_LoginServer;
 
 	return true;
 }
@@ -53,7 +52,7 @@ void MainThread::SetManagers(UserManager* _userManager,
 	m_threadSchedular = new ThreadSchedular();
 	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
 	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10000);
-	//m_threadSchedular->CreateSchedule(m_hEvent[EVENT_MONSTER], 1000 / 10);
+	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_MONSTER], 1000 / 10);
 
 	Thread<MainThread>::Start(this);
 
@@ -199,15 +198,19 @@ void MainThread::ProcessMonster()
 {
 	map<WORD, Field*>& tempFieldMap = m_fieldManager->GetFieldMap();
 
-	for (auto iter = tempFieldMap.begin(); iter != tempFieldMap.end(); iter++)
+	for (const auto& pair : tempFieldMap )
 	{
-		Field* field = iter->second;
+		Field* field = pair.second;
+
+		/*
+		//테스트용
+		if (field->GetFieldNum() == 999)
+		{
+			field->GetMonsterManager()->Update();
+		}*/
 
 		//필드에 유저가 없으면 실행하지 않는다.
-		if (field->GetUserList()->GetItemList().size() <= 0)
-		{
-			continue;
-		}
+		//if (field->GetUserList()->GetItemList().size() <= 0) continue;
 
 		field->GetMonsterManager()->Update();
 	}
@@ -252,6 +255,24 @@ void MainThread::ProcessLogInServerPacket()
 		m_packetHandler->HandleLogInServerPacket(packet);
 
 		logInServerQueue.pop();
+	}
+}
+
+void MainThread::ProcessPathFindAgentPacket()
+{
+	m_pathFindAgentPacketQueue.Swap();
+
+	std::queue<Packet*>& pathFindQueue = m_pathFindAgentPacketQueue.GetSecondaryQueue();
+
+	size_t size = pathFindQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		Packet* packet = pathFindQueue.front();
+
+		m_packetHandler->HandlePathFindAgentPacket(packet);
+
+		pathFindQueue.pop();
 	}
 }
 
@@ -323,6 +344,13 @@ void MainThread::AddToLogInServerPacketQueue(Packet* _packet)
 	m_logInServerPacketQueue.AddObject(_packet);
 
 	SetEvent(m_hEvent[EVENT_LOGINSERVER]);
+}
+
+void MainThread::AddToPathFindAgentPacketQueue(Packet* _packet)
+{
+	m_pathFindAgentPacketQueue.AddObject(_packet);
+
+	SetEvent(m_hEvent[EVENT_PATHFINDAGENT]);
 }
 
 void MainThread::AddToHashMapQueue(User* _user)

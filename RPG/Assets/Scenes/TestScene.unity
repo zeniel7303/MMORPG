@@ -529,7 +529,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1031967238
+--- !u!1 &1117707921
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -537,8 +537,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1031967240}
-  - component: {fileID: 1031967239}
+  - component: {fileID: 1117707923}
+  - component: {fileID: 1117707922}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Untagged
@@ -546,13 +546,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1031967239
+--- !u!114 &1117707922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031967238}
+  m_GameObject: {fileID: 1117707921}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 698aeaade1324d74cb1851288493f9d6, type: 3}
@@ -562,15 +562,15 @@ MonoBehaviour:
   uiManagerPrefabs: {fileID: 0}
   visibleUserList: []
   visibleMonsterList: []
---- !u!4 &1031967240
+--- !u!4 &1117707923
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031967238}
+  m_GameObject: {fileID: 1117707921}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17, y: 0.34917122, z: 19}
+  m_LocalPosition: {x: 63.83081, y: 1.2220192, z: 47.586105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

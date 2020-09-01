@@ -23,14 +23,9 @@ public class GameManager : Singleton<GameManager>
     public bool isInGame;
     public bool isNormalExit;
 
-    public Text SurroundingUsersCount;
-    public int surroundingUsers;
-
     // Start is called before the first frame update
     void Start()
     {
-        surroundingUsers = 0;
-
         logInId.Replace("\0", string.Empty);
         logInPassword.Replace("\0", string.Empty);
         registerId.Replace("\0", string.Empty);
@@ -59,11 +54,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         if (mapManager == null) return;
-
-        surroundingUsers = mapManager.visibleUserList.Count;
-
-        SurroundingUsersCount.text =
-            string.Format("Surrounding Users Count : {0}", surroundingUsers);
     }
 
     void SetLogInId(string _string)

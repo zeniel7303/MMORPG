@@ -54,31 +54,48 @@ public class ServerManager : Singleton<ServerManager>
 
     public void Init()
     {
-        session.Init();
         logInSession.Init();
     }
 
     public void ZoneServerConnect_1()
     {
-        GameManager.Instance.titleUI.CloseZoneSelectWindow();
-        myZone = 1;
+        if(GameManager.Instance.titleUI != null)
+        {
+            GameManager.Instance.titleUI.CloseZoneSelectWindow();
+            GameManager.Instance.titleUI = null;
+        }
+        
+        myZone = 0;
 
+        session.Init();
         session.Connect(ip, zoneServerPort_1);
     }
 
     public void ZoneServerConnect_2()
     {
-        GameManager.Instance.titleUI.CloseZoneSelectWindow();
-        myZone = 2;
+        if (GameManager.Instance.titleUI != null)
+        {
+            GameManager.Instance.titleUI.CloseZoneSelectWindow();
+            GameManager.Instance.titleUI = null;
+        }
 
+        myZone = 1;
+
+        session.Init();
         session.Connect(ip, zoneServerPort_2);
     }
 
     public void ZoneServerConnect_3()
     {
-        GameManager.Instance.titleUI.CloseZoneSelectWindow();
-        myZone = 3;
+        if (GameManager.Instance.titleUI != null)
+        {
+            GameManager.Instance.titleUI.CloseZoneSelectWindow();
+            GameManager.Instance.titleUI = null;
+        }
 
+        myZone = 2;
+
+        session.Init();
         session.Connect(ip, zoneServerPort_3);
     }
 
@@ -91,7 +108,7 @@ public class ServerManager : Singleton<ServerManager>
         else
         {
             ChangeZonePacket changeZonePacket = new ChangeZonePacket();
-            changeZonePacket.SetCmd(SendCommand.C2Zone_CHANGE_ZONE);
+            changeZonePacket.SetCmd(SendCommand.C2Login_CHANGE_ZONE);
             changeZonePacket.zoneNum = _num;
 
             SendData_LogInServer(changeZonePacket.GetBytes());
@@ -116,7 +133,7 @@ public class ServerManager : Singleton<ServerManager>
 
     public void SendData_LogInServer(byte[] _buffer)
     {
-        if (!session.isConnect)
+        if (!logInSession.isConnect)
         {
             Disconnect();
             return;
@@ -138,7 +155,7 @@ public class ServerManager : Singleton<ServerManager>
 
     public void SendData_LogInServer(byte[] _buffer, int _size)
     {
-        if (!session.isConnect)
+        if (!logInSession.isConnect)
         {
             Disconnect();
             return;
@@ -217,6 +234,8 @@ public class ServerManager : Singleton<ServerManager>
             if (mapManager == null) return;
 
             mapManager.OtherPlayerSpawn(unitInfo, userInfo);
+
+            mapManager.otherPlayersDic[userInfo.userID].isVisible = false;
         }
     }
 

@@ -6,6 +6,8 @@
 #include "SectorManager.h"
 #include "Sector.h"
 
+#include "PathFinderAgent.h"
+
 Monster::Monster(Field* _field, FieldTilesData* _fieldTilesData, 
 	SectorManager* _sectorManager, MonsterInfo& _info, MonsterData& _data)
 {
@@ -31,6 +33,9 @@ Monster::Monster(Field* _field, FieldTilesData* _fieldTilesData,
 	m_sectorManager = _sectorManager;
 	m_sector = nullptr;
 
+	m_leaveSectorsVec.resize(9);
+	m_enterSectorsVec.resize(9);
+
 	Spawn();
 };
 
@@ -40,6 +45,12 @@ Monster::~Monster()
 
 	m_tileList.clear();
 	m_tileList.resize(0);
+
+	m_leaveSectorsVec.clear();
+	m_leaveSectorsVec.resize(0);
+
+	m_enterSectorsVec.clear();
+	m_enterSectorsVec.resize(0);
 }
 
 void Monster::Reset()
@@ -130,23 +141,28 @@ void Monster::Attack()
 	float magnitude = VECTOR2(m_info.position - m_target->GetInfo()->unitInfo.position).Magnitude();
 
 	//머니까 따라감
-	if (magnitude > m_data.attackDistance * m_data.attackDistance)
+	if (magnitude > (m_data.attackDistance * 2) - m_data.attackDistance)
 	{
 		m_targetTile = m_target->GetTile();
 
 		if (m_targetTile == m_nowTile) return;
 
-		PathFindStart(m_targetTile);
-		m_info.state = STATE::MOVE;
+		//MYDEBUG("따라감 \n");
+
+		PathFindStart(m_targetTile, STATE::MOVE);
+		//m_info.state = STATE::MOVE;
 
 		return;
 	}
+
 	if (m_target->GetInfo()->unitInfo.fieldNum != m_field->GetFieldNum() 
 		|| m_target->IsDeath())
 	{
+		//MYDEBUG("죽었으니 돌아가기 \n");
+
 		m_targetTile = m_homeTile;
-		PathFindStart(m_targetTile);
-		m_info.state = STATE::RETURN;
+		PathFindStart(m_targetTile, STATE::RETURN);
+		//m_info.state = STATE::RETURN;
 
 		return;
 	}
@@ -239,8 +255,11 @@ void Monster::FSM()
 					GetTile(m_homeTile->GetX() + randX, m_homeTile->GetY() + randY);
 			}
 
-			PathFindStart(m_targetTile);
-			m_info.state = STATE::PATROL;
+			PathFindStart(m_targetTile, STATE::PATROL);
+			break;
+		}
+		case STATE::READY:
+		{
 			break;
 		}
 		//정찰
@@ -263,7 +282,7 @@ void Monster::FSM()
 			float magnitude_1 = VECTOR2(m_info.position - m_target->GetInfo()->unitInfo.position).Magnitude();
 
 			//사정거리 내면 공격
-			if (magnitude_1 <= m_data.attackDistance * m_data.attackDistance)
+			if (magnitude_1 <= (m_data.attackDistance * 2) - m_data.attackDistance)
 			{
 				m_info.state = STATE::ATTACK;
 				break;
@@ -272,11 +291,13 @@ void Monster::FSM()
 			float magnitude_2 = VECTOR2(m_info.position - m_spawnPosition).Magnitude();
 
 			//귀환거리보다 멀어질경우 귀환
-			if (magnitude_2 > m_data.returnDistance * m_data.returnDistance)
+			if (magnitude_2 > (m_data.returnDistance * 2) - m_data.returnDistance)
 			{
+				//MYDEBUG("멀어서 귀환 \n");
+
 				m_targetTile = m_homeTile;
-				PathFindStart(m_targetTile);
-				m_info.state = STATE::RETURN;
+				PathFindStart(m_targetTile, STATE::RETURN);
+				//m_info.state = STATE::RETURN;
 
 				break;
 			}
@@ -285,7 +306,7 @@ void Monster::FSM()
 			if (m_targetTile != m_target->GetTile())
 			{
 				m_targetTile = m_target->GetTile();
-				PathFindStart(m_targetTile);
+				PathFindStart(m_targetTile, STATE::MOVE);
 
 				break;
 			}
@@ -344,18 +365,45 @@ void Monster::FSM()
 	}
 }
 
-void Monster::PathFindStart(Tile* _targetTile)
+void Monster::PathFindStart(Tile* _targetTile, STATE _state)
 {
-	PathFinding::PathFind(&m_tileList, m_nowTile, _targetTile);
+	m_info.state = STATE::READY;
 
-	//MYDEBUG("target : %d , %d \n", _targetTile->GetX(), _targetTile->GetY());
+	m_tileList.clear();
+
+	PathFinderAgent::getSingleton()->SendPathFindPacket(m_info.index, m_field->GetFieldNum(), _state,
+		m_nowTile->GetX(), m_nowTile->GetY(), _targetTile->GetX(), _targetTile->GetY());
+
+	/*PathFinding::PathFind(&m_tileList, m_nowTile, _targetTile);
+
+	MYDEBUG("target : %d , %d \n", _targetTile->GetX(), _targetTile->GetY());
 
 	if (m_tileList.size() == 0) return;
 
 	m_targetPosition = m_tileList.front();
 
 	m_tileList.pop_front();
+	m_currentTime = 0;*/
+}
+
+void Monster::PathFindSuccess(PathFindPacket_Success* _packet)
+{
+	for (int i = 0; i < _packet->listCount; i++)
+	{
+		m_tileList.emplace_back(_packet->positionList[i]);
+	}
+
+	m_targetPosition = m_tileList.front();
+
+	m_tileList.pop_front();
+
+	m_info.state = (STATE)_packet->state;
 	m_currentTime = 0;
+}
+
+void Monster::PathFindFailed()
+{
+	m_info.state = STATE::RETURN;
 }
 
 bool Monster::PathMove()
@@ -413,6 +461,8 @@ void Monster::UpdateSector()
 			GetSector(m_info.position.x, m_info.position.y);
 
 		m_sector->GetMonsterList()->AddItem(this);
+
+		//MYDEBUG("spawn : %d \n", m_sector->GetSectorNum());
 	}
 	else
 	{
@@ -420,19 +470,45 @@ void Monster::UpdateSector()
 			GetSector(m_nowTile->GetX(), m_nowTile->GetY());
 
 		Sector* prevSector = m_sector;
-		//현재 섹터와 저장되어있던 나의 섹터가 다름
-		if (prevSector != m_sector)
-		{
-			if (prevSector != nullptr)
-			{
-				//printf("[ Exit Monster (Prev Sector) ]");
-				prevSector->GetMonsterList()->DeleteItem(this);
-			}
 
-			m_sector = nowSector;		
-			m_sector->GetMonsterList()->AddItem(this);
+		//현재 섹터와 저장되어있던 나의 섹터가 같음
+		if (prevSector == nowSector)
+		{
+			//처리 X
+			return;
 		}
 
-		//같으면 처리 X
+		if (prevSector != nullptr)
+		{
+			//printf("[ Exit Monster (Prev Sector) ]");
+
+			/*prevSector->GetMonsterList()->DeleteItem(this);
+
+			m_sector = nowSector;
+			m_sector->GetMonsterList()->AddItem(this);
+
+			std::vector<Sector*>& prevSectorsNeighbor = prevSector->GetRoundSectorsVec();
+			std::vector<Sector*>& nowSectorsNeighbor = nowSector->GetRoundSectorsVec();
+		
+			auto iter1 = std::set_difference(
+				prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
+				nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
+				m_leaveSectorsVec.begin());
+
+			m_leaveSectorsVec.resize(iter1 - m_leaveSectorsVec.begin());
+
+			auto iter2 = std::set_difference(
+				nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
+				prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
+				m_enterSectorsVec.begin());
+
+			m_enterSectorsVec.resize(iter2 - m_enterSectorsVec.begin());
+
+			m_leaveSectorsVec.resize(9);
+			m_enterSectorsVec.resize(9);*/
+		}
+
+		m_sector = nowSector;
+		m_sector->GetMonsterList()->AddItem(this);
 	}
 }

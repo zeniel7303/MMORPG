@@ -1,0 +1,27 @@
+﻿  App.cpp
+  Dummy.cpp
+d:\작업관련\sourcetree\dummyclient\dummyclient\dummy.cpp(116): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\dummyclient\dummyclient\dummy.cpp(115): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\dummyclient\dummyclient\dummy.cpp(124): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  IOCPClass.cpp
+  Session.cpp
+d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(52): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(52): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(52): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(52): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(145): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(145): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(145): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(145): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(171): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(171): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(171): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(171): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(197): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(197): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(197): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\작업관련\sourcetree\dummyclient\dummyclient\session.cpp(197): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+  WorkerThread.cpp
+  main.cpp
+  코드를 생성하고 있습니다...
+  DummyClient.vcxproj -> D:\작업관련\SourceTree\DummyClient\x64\Debug\DummyClient.exe

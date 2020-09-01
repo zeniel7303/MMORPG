@@ -1,5 +1,9 @@
 //라이브러리 추가
+#ifdef _DEBUG
 #pragma comment (lib, "../../ZoneServer/x64/Debug/_ServerLibrary.lib")
+#else
+#pragma comment (lib, "../../ZoneServer/x64/Release/_ServerLibrary.lib")
+#endif
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma warning(disable:4996)

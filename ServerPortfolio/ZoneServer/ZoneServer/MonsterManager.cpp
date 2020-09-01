@@ -1,8 +1,9 @@
 #include "MonsterManager.h"
 #include "Field.h"
-#include "MainThread.h"
 
+#include "MainThread.h"
 #include "DBConnector.h"
+#include "MonsterTable.h"
 
 MonsterManager::MonsterManager(Field* _field, FieldTilesData* _fieldTilesData,
 	SectorManager* _sectorManager)
@@ -45,7 +46,7 @@ bool MonsterManager::CreateMonsters()
 				VECTOR2(static_cast<float>(x), static_cast<float>(y));
 
 			MonsterData monsterData = 
-				*DBConnector::getSingleton()->GetMonsterData(monsterInfo.monsterType - 10001);
+				*MonsterTable::getSingleton()->GetMonsterData(monsterInfo.monsterType - 10001);
 
 			TRYCATCH(monster = new Monster(m_field, m_fieldTilesData, 
 				m_sectorManager, monsterInfo, monsterData));

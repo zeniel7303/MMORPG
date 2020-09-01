@@ -2,6 +2,9 @@
 
 #include "DBConnector.h"
 #include "LogInConnector.h"
+#include "PathFinderAgent.h"
+
+#include "MonsterTable.h"
 
 PacketHandler::~PacketHandler()
 {
@@ -33,6 +36,15 @@ void PacketHandler::HandleLogInServerPacket(Packet* _packet)
 	(this->*logInServerPacketFunc[packet->cmd % 200])(packet);
 
 	LogInConnector::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
+}
+
+void PacketHandler::HandlePathFindAgentPacket(Packet* _packet)
+{
+	Packet* packet = _packet;
+
+	(this->*pathFindAgentPacketFunc[packet->cmd % 500])(packet);
+
+	PathFinderAgent::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::OnPacket_AuthenticationUser(User* _user, Packet* _packet)
@@ -93,7 +105,7 @@ void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
 	Field* prevField = m_fieldManager.GetField(_user->GetInfo()->unitInfo.fieldNum);
 	if (prevField != nullptr)
 	{
-		MYDEBUG("[ Exit User (Prev Field) ]");
+		MYDEBUG("[ Exit User (Prev Field) ]\n");
 		prevField->ExitUser(_user);
 	}
 
@@ -285,7 +297,7 @@ void PacketHandler::OnPacket_UpdateUserFailed(Packet* _packet)
 
 void PacketHandler::OnPacket_GetMonstersData(Packet* _packet)
 {
-	DBConnector::getSingleton()->GetMonstersData(_packet);
+	MonsterTable::getSingleton()->GetMonstersData(_packet);
 
 	m_fieldManager.InitMonsterThread();
 }
@@ -350,6 +362,44 @@ void PacketHandler::OnPacket_AuthenticationFailed(Packet* _packet)
 	{
 		tempUser->DisConnect();
 	}
+}
+
+void PacketHandler::OnPacket_ChangeZone(Packet* _packet)
+{
+	ChangeZonePacket* changeZonePacket = reinterpret_cast<ChangeZonePacket*>(_packet);
+
+	const std::unordered_map<int, User*> tempHashMap = m_userManager.GetUserHashMap()->GetItemHashMap();
+
+	auto iter = tempHashMap.find(changeZonePacket->userIndex);
+	if (iter == tempHashMap.end())
+	{
+		return;
+	}
+
+	User* tempUser = iter->second;
+	tempUser->DisConnect_ChangeZone(changeZonePacket->zoneNum);
+}
+
+void PacketHandler::OnPacket_PathFindSuccess(Packet* _packet)
+{
+	PathFindPacket_Success* pathFindSuccessPacket = reinterpret_cast<PathFindPacket_Success*>(_packet);
+
+	Field* field = m_fieldManager.GetField(pathFindSuccessPacket->fieldNum);
+
+	Monster* monster = field->GetMonsterManager()->GetMonster(pathFindSuccessPacket->monsterNum);
+
+	monster->PathFindSuccess(pathFindSuccessPacket);
+}
+
+void PacketHandler::OnPacket_PathFindFailed(Packet* _packet)
+{
+	PathFindPacket_Failed* pathFindFailedPacket = reinterpret_cast<PathFindPacket_Failed*>(_packet);
+
+	Field* field = m_fieldManager.GetField(pathFindFailedPacket->fieldNum);
+
+	Monster* monster = field->GetMonsterManager()->GetMonster(pathFindFailedPacket->monsterNum);
+
+	monster->PathFindFailed();
 }
 
 void PacketHandler::SendHeartBeat_DBAgent()

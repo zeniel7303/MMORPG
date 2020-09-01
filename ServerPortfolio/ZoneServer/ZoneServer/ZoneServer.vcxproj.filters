@@ -55,6 +55,9 @@
     <Filter Include="소스 파일\Application\Unit\Monster\Manager">
       <UniqueIdentifier>{0e4a9f30-d64f-446b-9607-aa80187413d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Application\Table">
+      <UniqueIdentifier>{9b2c0547-0520-4996-9301-d798d9508f83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandList.h">
@@ -135,6 +138,9 @@
     <ClInclude Include="PathFinderAgent.h">
       <Filter>소스 파일\Application\Connector</Filter>
     </ClInclude>
+    <ClInclude Include="MonsterTable.h">
+      <Filter>소스 파일\Application\Table</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sector.cpp">
@@ -193,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="PathFinderAgent.cpp">
       <Filter>소스 파일\Application\Connector</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterTable.cpp">
+      <Filter>소스 파일\Application\Table</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

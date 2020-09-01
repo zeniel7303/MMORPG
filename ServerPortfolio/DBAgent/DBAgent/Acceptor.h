@@ -1,7 +1,7 @@
 #pragma once
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/AcceptorSession.h"
 
-#pragma comment(lib, "ws2_32.lib")
+//#pragma comment(lib, "ws2_32.lib")
 
 class Acceptor : public AcceptorSession
 {

@@ -9,6 +9,8 @@
 
 #include "packet.h"
 
+#include "MonsterTable.h"
+
 #include "MainThread.h"
 
 class DBConnector : public ClientSession
@@ -28,8 +30,6 @@ private:
 
 	std::chrono::high_resolution_clock::time_point	m_start;
 
-	std::vector<MonsterData>	m_monsterDataVec;
-
 	DBConnector();
 public:
 	~DBConnector();
@@ -43,9 +43,5 @@ public:
 
 	void HeartBeat();
 
-	void GetMonstersData(Packet* _packet);
-
 	void SetStartTime() { m_start = std::chrono::high_resolution_clock::now(); }
-
-	MonsterData* GetMonsterData(int _num) { return &m_monsterDataVec[_num]; }
 };

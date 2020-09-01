@@ -1,5 +1,9 @@
 //라이브러리 추가
+#ifdef _DEBUG
 #pragma comment (lib, "../x64/Debug/_ServerLibrary.lib")
+#else
+#pragma comment (lib, "../x64/Release/_ServerLibrary.lib")
+#endif
 
 #include <memory>
 

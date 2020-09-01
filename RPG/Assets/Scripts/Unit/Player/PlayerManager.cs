@@ -166,7 +166,8 @@ public class PlayerManager : Unit
 
         if (isInTitleOrLoading) return;
 
-        if (unitInfo.state != STATE.ATTACK && 
+        if (unitInfo.state != STATE.ATTACK &&
+            unitInfo.state != STATE.MOVE &&
             !playerAttack.isInAttackCoolTime &&
             Input.GetMouseButtonDown(1))
         {

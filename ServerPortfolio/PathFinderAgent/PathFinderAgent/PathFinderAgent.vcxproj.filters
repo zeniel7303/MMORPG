@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Acceptor">
+      <UniqueIdentifier>{90f21eeb-e82f-4c88-abe6-2462380943ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Field">
+      <UniqueIdentifier>{f4e3d712-7239-41e4-90d4-c831edc8ac7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Field\Manager">
+      <UniqueIdentifier>{303aeba7-ea78-4cc3-8ca9-78b222a97815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PathFinderAgent">
+      <UniqueIdentifier>{63a2149d-742e-4ff8-8a6e-776c7658c80b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MainThread">
+      <UniqueIdentifier>{50c59e30-109c-4233-9c12-aa3d60b87c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PathFinder">
+      <UniqueIdentifier>{d83d400e-7676-4c3d-b8b9-853c13ac1367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PathFinderAgent\Manager">
+      <UniqueIdentifier>{b8db34b0-763e-45c6-a6ab-f8608a9f8021}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PathFinder\Manager">
+      <UniqueIdentifier>{7a11f712-8124-4336-b3d1-71db6762cf85}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
+      <Filter>소스 파일\Acceptor</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldManager.cpp">
+      <Filter>소스 파일\Field\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldTilesData.cpp">
+      <Filter>소스 파일\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="MainThread.cpp">
+      <Filter>소스 파일\MainThread</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>소스 파일\PathFinder</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinderAgentManager.cpp">
+      <Filter>소스 파일\PathFinderAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinderAgent.cpp">
+      <Filter>소스 파일\PathFinderAgent\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinderManager.cpp">
+      <Filter>소스 파일\PathFinder\Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Tile.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceptor.h">
+      <Filter>소스 파일\Acceptor</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldManager.h">
+      <Filter>소스 파일\Field\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldTilesData.h">
+      <Filter>소스 파일\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="MainThread.h">
+      <Filter>소스 파일\MainThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>소스 파일\PathFinder</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinderAgentManager.h">
+      <Filter>소스 파일\PathFinderAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinderAgent.h">
+      <Filter>소스 파일\PathFinderAgent\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinderManager.h">
+      <Filter>소스 파일\PathFinder\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="packet.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandList.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

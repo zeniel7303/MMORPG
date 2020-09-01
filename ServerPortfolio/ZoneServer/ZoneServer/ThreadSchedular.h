@@ -24,7 +24,7 @@ public:
 	{
 		while (1)
 		{
-			//에러 체크
+			//에러 체크해야함
 			WaitForSingleObject(this->GetHandle(), m_time);
 
 			SetEvent(m_handle);

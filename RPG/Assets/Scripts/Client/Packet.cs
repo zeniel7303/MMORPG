@@ -24,7 +24,9 @@ public enum SendCommand
     C2Zone_CHATTING = 14,
     C2Zone_CHECK_ALIVE = 15,
     C2Zone_CHATTING_WHISPER = 17,
-    C2Zone_CHANGE_ZONE = 18
+    C2Login_CHANGE_ZONE = 18,
+    C2Zone_ENTER_TESTFIELD = 19,
+    C2Login_SENDZONENUM = 20
 }
 
 public enum RecvCommand
@@ -36,6 +38,7 @@ public enum RecvCommand
     LogIn2C_UPDATE_INFO = 12,
     Zone2C_CHATTING = 14,
     Zone2C_CHATTING_WHISPER = 17,
+    Zone2C_CHANGE_ZONE = 18,
 
     Zone2C_CHATTING_WHISPER_FAIL = 500,
 
@@ -168,6 +171,13 @@ public class EnterFieldPacket : Packet
 {
     public ushort fieldNum;
     public Vector position;
+};
+
+[Serializable]
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public class ZoneNumPacket : Packet
+{
+    public int zoneNum;
 };
 
 [Serializable]

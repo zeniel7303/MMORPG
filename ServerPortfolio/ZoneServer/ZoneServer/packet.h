@@ -188,6 +188,12 @@ struct TestClientMovePacket : Packet
 	Position position[20];
 };
 
+struct ChangeZonePacket : Packet
+{
+	int zoneNum;
+	int userIndex;
+};
+
 //=================================================
 
 struct PacketWithSocket : Packet
@@ -252,4 +258,31 @@ struct UpdateUserPacket : Packet
 	SOCKET socket;
 };
 
+//==================================================
+
+struct PathFindPacket : Packet
+{
+	int monsterNum;
+	int fieldNum;
+	unsigned short state;
+
+	VECTOR2 nowPosition;
+	VECTOR2 targetPosition;
+};
+
+struct PathFindPacket_Success : Packet
+{
+	int monsterNum;
+	int fieldNum;
+	unsigned short state;
+
+	int listCount;
+	VECTOR2 positionList[100];
+};
+
+struct PathFindPacket_Failed : Packet
+{
+	int monsterNum;
+	int fieldNum;
+};
 #pragma pack(pop)

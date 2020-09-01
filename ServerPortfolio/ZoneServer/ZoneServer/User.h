@@ -54,7 +54,7 @@ public:
 
 	void OnConnect();
 	void DisConnect();
-	void DisConnect_ChangeZone();
+	void DisConnect_ChangeZone(int _num);
 	void Reset();
 
 	void OnRecv();

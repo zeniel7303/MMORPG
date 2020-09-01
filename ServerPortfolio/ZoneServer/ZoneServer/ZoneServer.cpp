@@ -43,6 +43,14 @@ bool ZoneServer::Start()
 	}
 	LogInConnector::getSingleton()->OnConnect();
 
+	Sleep(500);
+
+	if (!PathFinderAgent::getSingleton()->Connect("211.221.147.29", 30009, &m_IOCPClass))
+	{
+		return false;
+	}
+	PathFinderAgent::getSingleton()->OnConnect();
+
 	TRYCATCH(m_fieldManager = new FieldManager());
 	if (m_fieldManager->IsFailed()) return false;
 

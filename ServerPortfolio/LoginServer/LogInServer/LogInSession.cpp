@@ -141,6 +141,14 @@ void LogInSession::PacketHandle(Packet* _packet)
 		ChangeZone(changeZonePacket->zoneNum);
 	}
 		break;
+	case 20:
+	{
+		ZoneNumPacket* zoneNumPacket = reinterpret_cast<ZoneNumPacket*>(packet);
+
+		m_zoneNum = zoneNumPacket->zoneNum;
+		MYDEBUG("%d \n", m_zoneNum);
+	}
+		break;
 	}
 }
 
@@ -274,19 +282,21 @@ void LogInSession::ChangeZone(int _num)
 
 	if (zoneConnector == nullptr)
 	{
+		//¾ø´Â Á¸
 
 		return;
 	}
 
 	ZoneConnector* prevZoneConnector = MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(m_zoneNum);
 	
-	UserNumPacket* userNumPacket = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
-		GetBuffer(sizeof(UserNumPacket)));
-	userNumPacket->Init(SendCommand::Login2Zone_DISCONNECT_USER_CHANGE_ZONE, sizeof(UserNumPacket));
-	userNumPacket->userIndex = m_idx;
+	ChangeZonePacket* changeZonePacket = reinterpret_cast<ChangeZonePacket*>(m_sendBuffer->
+		GetBuffer(sizeof(ChangeZonePacket)));
+	changeZonePacket->Init(SendCommand::Login2Zone_DISCONNECT_USER_CHANGE_ZONE, sizeof(ChangeZonePacket));
+	changeZonePacket->zoneNum = _num;
+	changeZonePacket->userIndex = m_idx;
 	//m_sendBuffer->Write(DisConnectUserPacket->size);
 
-	//prevZoneConnector->Send(reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
+	prevZoneConnector->Send(reinterpret_cast<char*>(changeZonePacket), changeZonePacket->size);
 
 	m_zoneNum = _num;
 }

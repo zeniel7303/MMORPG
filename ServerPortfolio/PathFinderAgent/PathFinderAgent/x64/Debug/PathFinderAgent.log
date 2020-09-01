@@ -1,0 +1,8 @@
+﻿  PathFinder.cpp
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(43): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(42): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(49): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(48): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(80): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\작업관련\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(90): warning C4267: '=': 'size_t'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PathFinderAgent.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\PathFinderAgent\x64\Debug\PathFinderAgent.exe

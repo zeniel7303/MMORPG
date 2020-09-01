@@ -43,6 +43,9 @@ private:
 
 	list<VECTOR2>			m_tileList;
 
+	std::vector<Sector*>	m_leaveSectorsVec;
+	std::vector<Sector*>	m_enterSectorsVec;
+
 	//========================================
 
 	Field*					m_field;
@@ -82,7 +85,11 @@ public:
 
 	void FSM();
 
-	void PathFindStart(Tile* _targetTile);
+	void PathFindStart(Tile* _targetTile, STATE _state);
+
+	void PathFindSuccess(PathFindPacket_Success* _packet);
+	void PathFindFailed();
+
 	bool PathMove();
 
 	void UpdateSector();

@@ -75,6 +75,7 @@ public class MapManager : MonoBehaviour
         if (!otherPlayersDic.ContainsKey(_userIndex)) return;
 
         OtherPlayer player = otherPlayersDic[_userIndex];
+        player.isVisible = false;
         ObjectPoolManager.Instance.otherPlayers.ReturnObject(player);
         otherPlayersDic.Remove(_userIndex);
     }

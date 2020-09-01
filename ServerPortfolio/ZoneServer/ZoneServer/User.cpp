@@ -80,8 +80,15 @@ void User::DisConnect()
 	MainThread::getSingleton()->AddToDisConnectQueue(this);
 }
 
-void User::DisConnect_ChangeZone()
+void User::DisConnect_ChangeZone(int _num)
 {
+	ZoneNumPacket* changeZone = reinterpret_cast<ZoneNumPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(ZoneNumPacket)));
+	changeZone->Init(SendCommand::Zone2C_CHANGE_ZONE, sizeof(ZoneNumPacket));
+	changeZone->zoneNum = _num;
+	//m_sendBuffer->Write(changeZone->size);
+	Send(reinterpret_cast<char*>(changeZone), changeZone->size);
+
 	ClientSession::DisConnect();
 
 	int errorNum = WSAGetLastError();

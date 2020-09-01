@@ -163,6 +163,7 @@
     <ClInclude Include="MonsterManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="MonsterTable.h" />
     <ClInclude Include="packet.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -227,6 +228,7 @@
     <ClCompile Include="MonsterManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="MonsterTable.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
     <ClCompile Include="PathFinderAgent.cpp" />
     <ClCompile Include="Sector.cpp">

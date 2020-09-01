@@ -26,8 +26,6 @@ bool MainThread::Init()
 		}
 	}
 
-	m_dbAgent = nullptr;
-
 	TRYCATCH(m_dbConnectorManager = new DBConnectorManager());
 
 	return true;

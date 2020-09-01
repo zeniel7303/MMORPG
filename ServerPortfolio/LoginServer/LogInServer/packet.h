@@ -43,6 +43,12 @@ struct ZoneNumPacket : Packet
 	int zoneNum;
 };
 
+struct ChangeZonePacket : Packet
+{
+	int zoneNum;
+	int userIndex;
+};
+
 //=================================================
 
 struct PacketWithSocket : Packet
@@ -87,11 +93,6 @@ struct RegisterPacket_DBAgent : Packet
 	char id[15];
 	char password[15];
 	SOCKET socket;
-};
-
-struct ChangeZonePacket : Packet
-{
-	int zoneNum;
 };
 
 #pragma pack(pop)

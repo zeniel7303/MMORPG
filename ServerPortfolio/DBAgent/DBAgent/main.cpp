@@ -1,5 +1,10 @@
 //라이브러리 추가
+
+#ifdef _DEBUG
 #pragma comment (lib, "../../ZoneServer/x64/Debug/_ServerLibrary.lib")
+#else
+#pragma comment (lib, "../../ZoneServer/x64/Release/_ServerLibrary.lib")
+#endif
 
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/FileLog.h"
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/Utils.h"

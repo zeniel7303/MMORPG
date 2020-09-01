@@ -47,6 +47,7 @@ public:
 		EVENT_MONSTER,
 		EVENT_DBCONNECTOR,
 		EVENT_LOGINSERVER,
+		EVENT_PATHFINDAGENT,
 		EVENT_STOREUSER,
 		EVENT_DB_HEARTBEAT,
 		EVENT_LOGIN_HEARTBEAT,
@@ -81,6 +82,7 @@ private:
 	DoubleQueue<User*>						m_disconnectQueue;
 	DoubleQueue<Packet*>					m_dbPacketQueue;
 	DoubleQueue<Packet*>					m_logInServerPacketQueue;
+	DoubleQueue<Packet*>					m_pathFindAgentPacketQueue;
 	DoubleQueue<User*>						m_hashMapQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
@@ -108,6 +110,7 @@ public:
 	void ProcessMonster();
 	void ProcessDBConnectorPacket();
 	void ProcessLogInServerPacket();
+	void ProcessPathFindAgentPacket();
 	void AddToHashMap();
 	void HeartBeat_DBAgent();
 	void HeartBeat_LoginServer();
@@ -117,5 +120,6 @@ public:
 	void AddToDisConnectQueue(User* _user);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToLogInServerPacketQueue(Packet* _packet);
+	void AddToPathFindAgentPacketQueue(Packet* _packet);
 	void AddToHashMapQueue(User* _user);
 };

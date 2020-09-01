@@ -244,6 +244,8 @@ public class Session : MonoBehaviour
                 break;
             case RecvCommand.LogIn2C_ISCONNECTED:
                 {
+                    isConnect = true;
+
                     IsConnectedPacket isConnectedPacket = new IsConnectedPacket();
                     Parsing(_buffer, ref isConnectedPacket);
 
@@ -288,6 +290,12 @@ public class Session : MonoBehaviour
                     logInSuccessPacket.userIndex = userID;
 
                     SendData(logInSuccessPacket.GetBytes());
+
+                    ZoneNumPacket zoneNumPacket = new ZoneNumPacket();
+                    zoneNumPacket.SetCmd(SendCommand.C2Login_SENDZONENUM);
+                    zoneNumPacket.zoneNum = ServerManager.Instance.myZone;
+
+                    ServerManager.Instance.SendData_LogInServer(zoneNumPacket.GetBytes());
                 }
                 break;
             case RecvCommand.Zone2C_REGISTER_USER_SUCCESS:
@@ -364,7 +372,7 @@ public class Session : MonoBehaviour
                     PlayerManager.instance.SetUnitInfo(sessionInfoPacket.info.unitInfo);
 
                     FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 1);
-                    fieldNumPacket.fieldNum = 999;
+                    //fieldNumPacket.fieldNum = 3;
 
                     SendData(fieldNumPacket.GetBytes());
                 }              
@@ -398,7 +406,7 @@ public class Session : MonoBehaviour
                         case 2:
                             SceneManager.LoadScene("Field");
                             break;
-                        case 999:
+                        case 3:
                             SceneManager.LoadScene("TestScene");
                             break;
                     }
@@ -662,6 +670,25 @@ public class Session : MonoBehaviour
                     ServerManager.Instance.SendData_ZoneServer(updateInfoPacket.GetBytes());
       
                     Debug.Log("업데이트할 info 전송 - HeartBeat");
+                }
+                break;
+            case RecvCommand.Zone2C_CHANGE_ZONE:
+                {
+                    ZoneNumPacket zoneNumPacket  = new ZoneNumPacket();
+                    Parsing(_buffer, ref zoneNumPacket);
+
+                    switch (zoneNumPacket.zoneNum)
+                    {
+                        case 0:
+                            ServerManager.Instance.ZoneServerConnect_1();
+                            break;
+                        case 1:
+                            ServerManager.Instance.ZoneServerConnect_2();
+                            break;
+                        case 2:
+                            ServerManager.Instance.ZoneServerConnect_3();
+                            break;
+                    }
                 }
                 break;
         }

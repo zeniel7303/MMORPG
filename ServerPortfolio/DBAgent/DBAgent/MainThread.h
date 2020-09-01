@@ -45,7 +45,6 @@ private:
 	DoubleQueue<DBAgent*>			m_disconnectQueue;
 	DoubleQueue<PacketQueuePair>	m_recvQueue;
 
-	DBAgent*						m_dbAgent;
 	DBConnectorManager*				m_dbConnectorManager;
 	DBAgentManager*					m_dbAgentManager;
 

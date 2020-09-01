@@ -12,6 +12,7 @@
 
 #include "DBConnector.h"
 #include "LogInConnector.h"
+#include "PathFinderAgent.h"
 
 #include "MainThread.h"
 

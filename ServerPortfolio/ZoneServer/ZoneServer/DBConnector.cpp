@@ -6,9 +6,6 @@ DBConnector::DBConnector()
 
 DBConnector::~DBConnector()
 {
-	m_monsterDataVec.clear();
-	m_monsterDataVec.resize(0);
-
 	DisConnect();
 }
 
@@ -67,17 +64,6 @@ void DBConnector::OnConnect()
 
 	Send(reinterpret_cast<char*>(requestMonsterDataPacket), requestMonsterDataPacket->size);
 }
-
-void DBConnector::GetMonstersData(Packet* _packet)
-{
-	MonstersInfoPacket* monstersInfoPacket = reinterpret_cast<MonstersInfoPacket*>(_packet);
-
-	for (int i = 0; i < monstersInfoPacket->count; i++)
-	{
-		m_monsterDataVec.push_back(monstersInfoPacket->monstersData[i]);
-	}
-}
-
 void DBConnector::DisConnect()
 {
 	ClientSession::DisConnect();
@@ -137,9 +123,9 @@ void DBConnector::HeartBeat()
 	{
 		MYDEBUG("[ DB¿Í ¿¬°á ²÷±è ] \n");
 
-		//DisConnect();
+		DisConnect();
 
-		//Connect("211.221.147.29", 30004, m_IOCPClass);
+		Connect("211.221.147.29", 30002, m_IOCPClass);
 	}
 
 	Packet* heartBeatPacket =

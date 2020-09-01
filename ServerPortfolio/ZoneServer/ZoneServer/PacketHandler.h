@@ -34,6 +34,7 @@ public:
 		userPacketFunc[15] = nullptr;
 		userPacketFunc[16] = &PacketHandler::OnPacket_EnterTestUser;		
 		userPacketFunc[17] = &PacketHandler::OnPacket_Chatting_Whisper;
+		userPacketFunc[18] = &PacketHandler::OnPacket_EnterField;
 
 		dbPacketFunc[0] = nullptr;
 		dbPacketFunc[1] = nullptr;
@@ -52,6 +53,10 @@ public:
 		logInServerPacketFunc[2] = &PacketHandler::OnPacket_LoginServerAlive;
 		logInServerPacketFunc[3] = &PacketHandler::OnPacket_AuthenticationSuccess;
 		logInServerPacketFunc[4] = &PacketHandler::OnPacket_AuthenticationFailed;
+		logInServerPacketFunc[5] = &PacketHandler::OnPacket_ChangeZone;
+	
+		pathFindAgentPacketFunc[0] = &PacketHandler::OnPacket_PathFindSuccess;
+		pathFindAgentPacketFunc[1] = &PacketHandler::OnPacket_PathFindFailed;
 	};
 	~PacketHandler();
 
@@ -70,9 +75,13 @@ public:
 	using LogInServerPacketFunction = void (PacketHandler::*)(Packet* _packet);
 	LogInServerPacketFunction logInServerPacketFunc[100];
 
+	using PathFindAgentPacketFunction = void (PacketHandler::*)(Packet* _packet);
+	PathFindAgentPacketFunction pathFindAgentPacketFunc[100];
+
 	void HandleUserPacket(User* _user, Packet* _packet);
 	void HandleDBConnectorPacket(Packet* _packet);
 	void HandleLogInServerPacket(Packet* _packet);
+	void HandlePathFindAgentPacket(Packet* _packet);
 
 	void OnPacket_AuthenticationUser(User* _user, Packet* _packet);
 	void OnPacket_RequestInfo(User* _user, Packet* _packet);
@@ -103,6 +112,11 @@ public:
 	void OnPacket_LoginServerAlive(Packet* _packet);
 	void OnPacket_AuthenticationSuccess(Packet* _packet);
 	void OnPacket_AuthenticationFailed(Packet* _packet);
+	void OnPacket_ChangeZone(Packet* _packet);
+
+	//PathFindAgent===============================================
+	void OnPacket_PathFindSuccess(Packet* _packet);
+	void OnPacket_PathFindFailed(Packet* _packet);
 
 	//Send========================================================
 	void SendHeartBeat_DBAgent();

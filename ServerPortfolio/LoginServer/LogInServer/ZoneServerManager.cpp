@@ -12,7 +12,7 @@ ZoneServerManager::~ZoneServerManager()
 
 ZoneConnector* ZoneServerManager::GetZoneConnector(int _num)
 { 
-	if (_num >= m_zoneConnectorVec.size())
+	if (_num > m_zoneConnectorVec.size())
 	{
 		return nullptr;
 	}
