@@ -290,8 +290,8 @@ void Field::UpdateUserSector(User* _user)
 
 	if (prevSector != nullptr)
 	{
-		/*printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
-			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());*/
+		printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
+			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());
 
 		prevSector->GetUserList()->DeleteItem(_user);
 

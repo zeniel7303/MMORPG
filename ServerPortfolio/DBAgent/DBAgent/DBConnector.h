@@ -30,6 +30,10 @@ enum CONNECTOR_STATE
 
 class DBConnector : public Thread<DBConnector>
 {
+public:
+	DBAgent*				m_dbAgent;
+	Packet*					m_packet;
+
 private:
 	HANDLE					m_hEvent;
 
@@ -54,9 +58,6 @@ private:
 	unsigned int			fieldNum;
 #endif						
 	int						m_num;
-
-	DBAgent*				m_dbAgent;
-	Packet*					m_packet;
 
 	SendBuffer*				m_sendBuffer;
 
@@ -85,6 +86,7 @@ public:
 	void GetUserInfo(RequireUserInfoPacket_DBAgent* _packet);
 	void UpdateUser(UpdateUserPacket* _packet);
 	void GetMonsterInfo();
+	void DBTest(RegisterPacket_DBAgent* _packet);
 
 	void SetDBAgent(DBAgent* _agent);
 	void SetPacket(Packet* _packet);

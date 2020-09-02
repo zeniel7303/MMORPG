@@ -128,6 +128,8 @@ void MainThread::DisConnectUser()
 void MainThread::ProcessRecv()
 {
 	std::queue<PacketQueuePair>& recvQueue = m_recvQueue.GetSecondaryQueue();
+	MYDEBUG("[ primary : %d ]\n", m_recvQueue.GetPrimaryQueueSize());
+	MYDEBUG("[ secondary : %d ]\n", m_recvQueue.GetSecondaryQueueSize());
 
 	size_t size = recvQueue.size();
 
@@ -150,6 +152,8 @@ void MainThread::ProcessRecv()
 		{
 			if (element->GetState() == CONNECTOR_STATE::READY)
 			{
+				element->m_dbAgent = nullptr;
+				element->m_packet = nullptr;
 				element->SetDBAgent(dbAgent);
 				element->SetPacket(packet);
 

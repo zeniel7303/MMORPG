@@ -348,22 +348,22 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 	//해당 id가 존재하지 않음 - 회원가입 가능
 	if ((mysql_row = mysql_fetch_row(m_result)) == NULL)
 	{
-		m_result = this->Query("select *from accounttable");
+		//m_result = this->Query("select *from accounttable");
 
-		if (m_result)
-		{
-			rowNum = mysql_num_rows(m_result);
-			fieldNum = mysql_num_fields(m_result);
-			row = mysql_fetch_row(m_result);
-			field = mysql_fetch_fields(m_result); //pfield[iFieldNum].name;
-		}
-		else
-		{
-			if (mysql_field_count(&m_connect) == 0)
-			{
-				rowNum = mysql_affected_rows(&m_connect);
-			}
-		}
+		//if (m_result)
+		//{
+		//	rowNum = mysql_num_rows(m_result);
+		//	fieldNum = mysql_num_fields(m_result);
+		//	row = mysql_fetch_row(m_result);
+		//	field = mysql_fetch_fields(m_result); //pfield[iFieldNum].name;
+		//}
+		//else
+		//{
+		//	if (mysql_field_count(&m_connect) == 0)
+		//	{
+		//		rowNum = mysql_affected_rows(&m_connect);
+		//	}
+		//}
 
 		char str2[256];
 		sprintf(str2, "INSERT INTO `accounttable` (`ID`, `PASSWORD`) VALUES('%s', '%s')",
@@ -557,6 +557,18 @@ void DBConnector::GetMonsterInfo()
 }
 #endif
 
+void DBConnector::DBTest(RegisterPacket_DBAgent* _packet)
+{
+	char str1[256];
+	sprintf(str1, "select *from accounttable where ID = '%s'", _packet->id);
+
+	m_result = this->Query(str1);
+
+	sprintf(str1, "select *from infotable where userName = '%s'", _packet->id);
+
+	m_result = this->Query(str1);
+}
+
 void DBConnector::SetDBAgent(DBAgent* _agent)
 {
 	m_dbAgent = _agent;
@@ -626,12 +638,18 @@ void DBConnector::LoopRun()
 			m_dbAgent->Send(reinterpret_cast<char*>(alivePacket), alivePacket->size);
 		}
 		break;
+		case RecvCommand::TEST:
+		{
+			//MYDEBUG("[ Test ]\n");
+
+			RegisterPacket_DBAgent* RegisterPacket = static_cast<RegisterPacket_DBAgent*>(m_packet);
+			DBTest(RegisterPacket);
+		}
+		break;
 		}
 
 		m_dbAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
 
-		m_dbAgent = nullptr;
-		m_packet = nullptr;
 		m_state = READY;
 
 		//여기에 Mainthread Recv 이벤트 호출하면 되겠다.

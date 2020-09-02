@@ -10,7 +10,8 @@ enum class RecvCommand : WORD
 	Zone2DB_REQUEST_MONSTER_DATA = 1037,
 	Zone2DB_UPDATE_USER = 1038,
 	LogIn2DB_HELLO = 1041,
-	Zone2DB_HEARTBEAT = 1042
+	Zone2DB_HEARTBEAT = 1042,
+	TEST = 9000
 };
 
 enum class SendCommand : WORD

@@ -2,6 +2,7 @@
 #include "CommandList.h"
 #include "UserInfo.h"
 #include "UnitInfo.h"
+#include "Tile.h"
 
 #pragma pack(push, 1)
 
@@ -262,27 +263,16 @@ struct UpdateUserPacket : Packet
 
 struct PathFindPacket : Packet
 {
-	int monsterNum;
+	/*int monsterNum;
 	int fieldNum;
 	unsigned short state;
 
 	VECTOR2 nowPosition;
-	VECTOR2 targetPosition;
-};
+	VECTOR2 targetPosition;*/
 
-struct PathFindPacket_Success : Packet
-{
-	int monsterNum;
-	int fieldNum;
 	unsigned short state;
 
-	int listCount;
-	VECTOR2 positionList[100];
-};
-
-struct PathFindPacket_Failed : Packet
-{
-	int monsterNum;
-	int fieldNum;
+	Tile* nowTile;
+	Tile* targetTile;
 };
 #pragma pack(pop)

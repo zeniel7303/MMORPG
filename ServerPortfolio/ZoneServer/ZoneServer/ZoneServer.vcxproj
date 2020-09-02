@@ -168,7 +168,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="PacketHandler.h" />
-    <ClInclude Include="PathFinderAgent.h" />
+    <ClInclude Include="PathFinder.h" />
+    <ClInclude Include="PathFinderAgent.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="PathFinderManager.h" />
     <ClInclude Include="PathFinding.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -230,7 +234,11 @@
     </ClCompile>
     <ClCompile Include="MonsterTable.cpp" />
     <ClCompile Include="PacketHandler.cpp" />
-    <ClCompile Include="PathFinderAgent.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
+    <ClCompile Include="PathFinderAgent.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="PathFinderManager.cpp" />
     <ClCompile Include="Sector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

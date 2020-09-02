@@ -2,6 +2,7 @@
 #include <map>
 #include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/Utils.h"
+#include "../ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 
 #include "Monster.h"
 #include "FieldTilesData.h"
@@ -17,7 +18,7 @@
 
 class Field;
 
-class MonsterManager
+class MonsterManager : public Thread<MonsterManager>
 {
 private:
 	Field*					m_field;
@@ -33,7 +34,7 @@ public:
 
 	bool CreateMonsters();
 
-	void Update();
+	void LoopRun();
 
 	void SendMonsterList(User* _user);
 	void SendMonsterList_InRange(User* _user);

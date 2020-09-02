@@ -14,8 +14,6 @@ enum STATE : unsigned short
 	//몬스터용
 	PATROL,
 	//몬스터용
-	READY,
-	//몬스터용
 	RETURN
 };
 

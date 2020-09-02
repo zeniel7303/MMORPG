@@ -3,6 +3,7 @@
 
 #include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
+#include "../ServerLibrary/HeaderFiles/CriticalSection.h"
 #include "../ServerLibrary/HeaderFiles/SendBuffer.h"
 
 #include "packet.h"
@@ -43,9 +44,6 @@ private:
 
 	list<VECTOR2>			m_tileList;
 
-	std::vector<Sector*>	m_leaveSectorsVec;
-	std::vector<Sector*>	m_enterSectorsVec;
-
 	//========================================
 
 	Field*					m_field;
@@ -59,6 +57,8 @@ private:
 	//========================================
 
 	SendBuffer*				m_sendBuffer;
+
+	CRITICAL_SECTION		m_cs;
 
 	//========================================
 
@@ -85,9 +85,9 @@ public:
 
 	void FSM();
 
-	void PathFindStart(Tile* _targetTile, STATE _state);
+	void PathFindStart(Tile* _targetTile/*, STATE _state*/);
 
-	void PathFindSuccess(PathFindPacket_Success* _packet);
+	void PathFindSuccess(unsigned short _state);
 	void PathFindFailed();
 
 	bool PathMove();
@@ -101,6 +101,8 @@ public:
 	Field* GetField() { return m_field; }
 	Sector* GetSector() { return m_sector; }
 	User* GetTarget() { return m_target; }
+
+	list<VECTOR2>* GetTileList() { return &m_tileList; }
 
 	bool IsDeath() { return m_isDeath; }
 };

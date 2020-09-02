@@ -62,14 +62,16 @@ bool MonsterManager::CreateMonsters()
 		}
 	}
 
+	Thread<MonsterManager>::Start(this);
+
 	MYDEBUG("[ %d Field - %d Monsters Spawn ] \n", m_field->GetFieldNum(), monsterCount);
 
 	return true;
 }
 
-void MonsterManager::Update()
+void MonsterManager::LoopRun()
 {
-	//while (1)
+	while (1)
 	{
 		size_t size = m_monsterVec.size();
 
@@ -78,7 +80,7 @@ void MonsterManager::Update()
 			m_monsterVec[i]->Update();
 		}
 
-		//Sleep(1000 / 10);
+		Sleep(1000 / 10);
 	}
 }
 
