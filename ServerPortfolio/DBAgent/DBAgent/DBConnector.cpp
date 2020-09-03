@@ -119,7 +119,7 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInSuccessPacket->socket = _packet->socket;
 			logInSuccessPacket->userIndex = idx;
 
-			MainThread::getSingleton()->AddToSendQueue(logInSuccessPacket);
+			//MainThread::getSingleton()->AddToSendQueue(logInSuccessPacket);
 		}
 		//비밀번호 불일치
 		else
@@ -130,7 +130,7 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_WRONG_PASSWORD, sizeof(PacketWithSocket));
 			logInFailedPacket->socket = _packet->socket;
 
-			MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
+			//MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
 		}
 	}
 	//해당 id 존재하지 않음
@@ -142,7 +142,7 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 		logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_INVALID_ID, sizeof(PacketWithSocket));
 		logInFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
+		//MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
 	}
 }
 
@@ -165,7 +165,7 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 		RegisterFailedPacket->Init(SendCommand::DB2Zone_REGISTER_FAILED, sizeof(PacketWithSocket));
 		RegisterFailedPacket->socket = _packet->socket;
 
-		MainThread::getSingleton()->AddToSendQueue(RegisterFailedPacket);
+		//MainThread::getSingleton()->AddToSendQueue(RegisterFailedPacket);
 	}
 	//해당 id가 존재하지 않음 - 회원가입 가능
 	else

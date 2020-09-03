@@ -471,3 +471,4 @@
 [ 2020-09-02 20:32:24 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-02 20:37:00 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-02 20:37:00 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-03 13:27:44 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure

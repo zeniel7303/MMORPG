@@ -26,7 +26,7 @@ void HeartBeatThread::LoopRun()
 
 void HeartBeatThread::HeartBeat()
 {
-	const std::unordered_map<int, LogInSession*> tempHashMap = m_sessionManager.GetSessionHashMap()->GetItemHashMap();
+	const std::unordered_map<int, LogInSession*>& tempHashMap = m_sessionManager.GetSessionHashMap()->GetItemHashMap();
 
 	LogInSession* session;
 

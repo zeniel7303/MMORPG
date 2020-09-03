@@ -128,8 +128,8 @@ void MainThread::DisConnectUser()
 void MainThread::ProcessRecv()
 {
 	std::queue<PacketQueuePair>& recvQueue = m_recvQueue.GetSecondaryQueue();
-	MYDEBUG("[ primary : %d ]\n", m_recvQueue.GetPrimaryQueueSize());
-	MYDEBUG("[ secondary : %d ]\n", m_recvQueue.GetSecondaryQueueSize());
+	//MYDEBUG("[ primary : %d ]\n", m_recvQueue.GetPrimaryQueueSize());
+	//MYDEBUG("[ secondary : %d ]\n", m_recvQueue.GetSecondaryQueueSize());
 
 	size_t size = recvQueue.size();
 

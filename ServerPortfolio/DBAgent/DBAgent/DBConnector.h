@@ -1,7 +1,7 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 
-//#define _DEFINE_ODBC_
+#define _DEFINE_ODBC_
 
 #include <tchar.h>
 #include <iostream>
