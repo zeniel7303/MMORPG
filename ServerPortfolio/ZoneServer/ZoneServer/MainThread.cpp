@@ -33,9 +33,10 @@ bool MainThread::Init()
 	processFunc[3] = &MainThread::ProcessMonster;
 	processFunc[4] = &MainThread::ProcessDBConnectorPacket;
 	processFunc[5] = &MainThread::ProcessLogInServerPacket;
-	processFunc[6] = &MainThread::AddToHashMap;
-	processFunc[7] = &MainThread::HeartBeat_DBAgent;
-	processFunc[8] = &MainThread::HeartBeat_LoginServer;
+	processFunc[6] = &MainThread::ProcessPathFindAgentPacket;
+	processFunc[7] = &MainThread::AddToHashMap;
+	processFunc[8] = &MainThread::HeartBeat_DBAgent;
+	processFunc[9] = &MainThread::HeartBeat_LoginServer;
 
 	return true;
 }
@@ -47,8 +48,6 @@ void MainThread::SetManagers(UserManager* _userManager,
 	m_fieldManager = _fieldManager;
 
 	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
-
-	//m_pathFinderManager = new PathFinderManager();
 
 	m_threadSchedular = new ThreadSchedular();
 	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
@@ -197,42 +196,23 @@ void MainThread::DisConnectUser()
 
 void MainThread::ProcessMonster()
 {
-	m_monsterPacketQueue.Swap();
-
-	std::queue<PacketQueuePair_Monster>& monsterPacketQueue = m_monsterPacketQueue.GetSecondaryQueue();
-
-	size_t size = monsterPacketQueue.size();
-
-	for (int i = 0; i < size; i++)
-	{
-		const PacketQueuePair_Monster& packetQueuePair_Monster = monsterPacketQueue.front();
-		Packet* packet = packetQueuePair_Monster.packet;
-		Monster* monster = packetQueuePair_Monster.monster;
-
-		if (monster->IsDeath()) continue;
-
-		m_packetHandler->HandleMonsterPacket(monster, packet);
-
-		monsterPacketQueue.pop();
-	}
-
-	/*map<WORD, Field*>& tempFieldMap = m_fieldManager->GetFieldMap();
+	map<WORD, Field*>& tempFieldMap = m_fieldManager->GetFieldMap();
 
 	for (const auto& pair : tempFieldMap )
 	{
 		Field* field = pair.second;
-	
+
 		//테스트용
-		if (field->GetFieldNum() == 3)
+		/*if (field->GetFieldNum() == 3)
 		{
 			field->GetMonsterManager()->Update();
-		}
+		}*/
 
 		//필드에 유저가 없으면 실행하지 않는다.
 		if (field->GetUserList()->GetItemList().size() <= 0) continue;
 
 		field->GetMonsterManager()->Update();
-	}*/
+	}
 }
 
 void MainThread::ProcessDBConnectorPacket()
@@ -274,6 +254,24 @@ void MainThread::ProcessLogInServerPacket()
 		m_packetHandler->HandleLogInServerPacket(packet);
 
 		logInServerQueue.pop();
+	}
+}
+
+void MainThread::ProcessPathFindAgentPacket()
+{
+	m_pathFindAgentPacketQueue.Swap();
+
+	std::queue<Packet*>& pathFindQueue = m_pathFindAgentPacketQueue.GetSecondaryQueue();
+
+	size_t size = pathFindQueue.size();
+
+	for (int i = 0; i < size; i++)
+	{
+		Packet* packet = pathFindQueue.front();
+
+		m_packetHandler->HandlePathFindAgentPacket(packet);
+
+		pathFindQueue.pop();
 	}
 }
 
@@ -347,11 +345,11 @@ void MainThread::AddToLogInServerPacketQueue(Packet* _packet)
 	SetEvent(m_hEvent[EVENT_LOGINSERVER]);
 }
 
-void MainThread::AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair)
+void MainThread::AddToPathFindAgentPacketQueue(Packet* _packet)
 {
-	m_monsterPacketQueue.AddObject(_monsterPacketQueuePair);
+	m_pathFindAgentPacketQueue.AddObject(_packet);
 
-	SetEvent(m_hEvent[EVENT_MONSTER]);
+	SetEvent(m_hEvent[EVENT_PATHFINDAGENT]);
 }
 
 void MainThread::AddToHashMapQueue(User* _user)

@@ -29,27 +29,27 @@ bool ZoneServer::Start()
 
 	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
-	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30002, &m_IOCPClass))
+	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30003, &m_IOCPClass))
 	{
 		return false;
 	}	
 	DBConnector::getSingleton()->OnConnect();
 
-	Sleep(500);
+	//Sleep(500);
 
-	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30003, &m_IOCPClass))
+	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30004, &m_IOCPClass))
 	{
 		return false;
 	}
 	LogInConnector::getSingleton()->OnConnect();
 
-	Sleep(500);
+	//Sleep(500);
 
-	/*if (!PathFinderAgent::getSingleton()->Connect("211.221.147.29", 30009, &m_IOCPClass))
+	if (!PathFinderAgent::getSingleton()->Connect("211.221.147.29", 30001, &m_IOCPClass))
 	{
 		return false;
 	}
-	PathFinderAgent::getSingleton()->OnConnect();*/
+	PathFinderAgent::getSingleton()->OnConnect();
 
 	TRYCATCH(m_fieldManager = new FieldManager());
 	if (m_fieldManager->IsFailed()) return false;

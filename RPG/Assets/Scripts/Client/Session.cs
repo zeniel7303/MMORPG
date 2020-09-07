@@ -371,8 +371,8 @@ public class Session : MonoBehaviour
                     PlayerManager.instance.SetUserInfo(sessionInfoPacket.info.userInfo);
                     PlayerManager.instance.SetUnitInfo(sessionInfoPacket.info.unitInfo);
 
-                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 3);
-                    //fieldNumPacket.fieldNum = 3;
+                    FieldNumPacket fieldNumPacket = new FieldNumPacket(SendCommand.C2Zone_TRY_ENTER_FIELD, 1);
+                    fieldNumPacket.fieldNum = ServerManager.Instance.firstFieldNum;
 
                     SendData(fieldNumPacket.GetBytes());
                 }              

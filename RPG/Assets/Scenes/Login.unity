@@ -9560,7 +9560,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userID: 0
   ip: 211.221.147.29
-  logInServerPort: 30004
+  logInServerPort: 30005
+  firstFieldNum: 3
   myZone: 0
   zoneServerPort_1: 0
   zoneServerPort_2: 0

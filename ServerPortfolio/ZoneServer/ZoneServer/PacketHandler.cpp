@@ -20,22 +20,6 @@ void PacketHandler::HandleUserPacket(User* _user, Packet* _packet)
 	user->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
-void PacketHandler::HandleMonsterPacket(Monster* _monster, Packet* _packet)
-{
-	Packet* packet = _packet;
-	Monster* monster = _monster;
-
-	switch (static_cast<SendCommand>(packet->cmd))
-	{
-	case SendCommand::Zone2C_MONSTER_ATTACK:
-		OnPacket_MonsterAttack(monster, packet);
-		break;
-	default:
-		monster->GetField()->SectorSendAll(monster->GetSector()->GetRoundSectorsVec(),
-			reinterpret_cast<char*>(packet), packet->size);
-	}
-}
-
 void PacketHandler::HandleDBConnectorPacket(Packet* _packet)
 {
 	Packet* packet = _packet;
@@ -52,6 +36,24 @@ void PacketHandler::HandleLogInServerPacket(Packet* _packet)
 	(this->*logInServerPacketFunc[packet->cmd % 200])(packet);
 
 	LogInConnector::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
+}
+
+void PacketHandler::HandlePathFindAgentPacket(Packet* _packet)
+{
+	Packet* packet = _packet;
+
+	if (packet->cmd != 500 && packet->cmd != 501)
+	{
+		MYDEBUG("Test \n");
+
+		PathFinderAgent::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
+
+		return;
+	}
+	
+	(this->*pathFindAgentPacketFunc[packet->cmd % 500])(packet);
+
+	PathFinderAgent::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
 }
 
 void PacketHandler::OnPacket_AuthenticationUser(User* _user, Packet* _packet)
@@ -96,8 +98,11 @@ void PacketHandler::OnPacket_UpdateUser(User* _user, Packet* _packet)
 {
 	SessionInfoPacket* sessionInfoPacket = reinterpret_cast<SessionInfoPacket*>(_packet);
 
+	Position tempPosition = _user->GetInfo()->unitInfo.position;
+
 	_user->GetInfo()->unitInfo = sessionInfoPacket->info.unitInfo;
 	_user->GetInfo()->userInfo = sessionInfoPacket->info.userInfo;
+	_user->GetInfo()->unitInfo.position = tempPosition;
 
 	_user->UpdateInfo();
 }
@@ -249,16 +254,6 @@ void PacketHandler::OnPacket_Chatting_Whisper(User* _user, Packet* _packet)
 	_user->Send(reinterpret_cast<char*>(whisperFailpacket), whisperFailpacket->size);
 }
 
-void PacketHandler::OnPacket_MonsterAttack(Monster* _monster, Packet* _packet)
-{
-	MonsterAttackPacket* monsterAttackPacket = reinterpret_cast<MonsterAttackPacket*>(_packet);
-
-	User* user = _monster->GetTarget();
-	if (user == nullptr) return;
-
-	user->Hit(monsterAttackPacket->monsterIndex, monsterAttackPacket->damage);
-}
-
 void PacketHandler::OnPacket_GetUserInfoSuccess(Packet* _packet)
 {
 	GetSessionInfoPacket* getSessionInfoPacket = reinterpret_cast<GetSessionInfoPacket*>(_packet);
@@ -395,6 +390,28 @@ void PacketHandler::OnPacket_ChangeZone(Packet* _packet)
 
 	User* tempUser = iter->second;
 	tempUser->DisConnect_ChangeZone(changeZonePacket->zoneNum);
+}
+
+void PacketHandler::OnPacket_PathFindSuccess(Packet* _packet)
+{
+	PathFindPacket_Success* pathFindSuccessPacket = static_cast<PathFindPacket_Success*>(_packet);
+
+	Field* field = m_fieldManager.GetField(pathFindSuccessPacket->fieldNum);
+
+	Monster* monster = field->GetMonsterManager()->GetMonster(pathFindSuccessPacket->monsterNum);
+
+	monster->PathFindSuccess(pathFindSuccessPacket);
+}
+
+void PacketHandler::OnPacket_PathFindFailed(Packet* _packet)
+{
+	PathFindPacket_Failed* pathFindFailedPacket = static_cast<PathFindPacket_Failed*>(_packet);
+
+	Field* field = m_fieldManager.GetField(pathFindFailedPacket->fieldNum);
+
+	Monster* monster = field->GetMonsterManager()->GetMonster(pathFindFailedPacket->monsterNum);
+
+	monster->PathFindFailed();
 }
 
 void PacketHandler::SendHeartBeat_DBAgent()

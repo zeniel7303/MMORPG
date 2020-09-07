@@ -70,6 +70,12 @@ void WorkerThread::LoopRun()
 			MYDEBUG("[INFO] GetQueuedCompletionStatus Failure\n");
 			LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "[INFO] GetQueuedCompletionStatus Failure");
 
+			/*int errorNum = WSAGetLastError();
+			if (errorNum != 0)
+			{
+				MYDEBUG("[ %d Error ]\n", errorNum);
+			}*/
+
 			if (overlapped == nullptr)
 			{
 				MYDEBUG("[INFO] OVERLAPPED IS NULL\n");

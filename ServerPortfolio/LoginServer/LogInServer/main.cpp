@@ -46,14 +46,14 @@ int main()
 		return 0;
 	}
 
-	TRYCATCH(zoneServerAcceptor = new ZoneServerAcceptor("192.168.0.13", 30003,
+	TRYCATCH(zoneServerAcceptor = new ZoneServerAcceptor("192.168.0.13", 30004,
 		iocpClass->GetIOCPHandle(), 0));
 	if (zoneServerAcceptor->IsFailed()) return false;
 	iocpClass->Associate(zoneServerAcceptor->GetListenSocket(),
 		(unsigned long long)zoneServerAcceptor->GetListenSocket());
 
 	//211.221.147.29
-	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30004,
+	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30005,
 		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
 	iocpClass->Associate(acceptor->GetListenSocket(),

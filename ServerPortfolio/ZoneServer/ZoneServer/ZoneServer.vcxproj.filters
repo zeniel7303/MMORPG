@@ -58,15 +58,6 @@
     <Filter Include="소스 파일\Application\Table">
       <UniqueIdentifier>{9b2c0547-0520-4996-9301-d798d9508f83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Application\Connector\PathFinderAgent">
-      <UniqueIdentifier>{0c3f81d6-4f01-421e-a10b-2ad49b2103cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Application\PathFinder">
-      <UniqueIdentifier>{f5347d09-c6a8-415e-ad34-8bce8ca78511}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Application\PathFinder\Manager">
-      <UniqueIdentifier>{331b720d-04e8-4b46-9e8e-f2b9bf11f95e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandList.h">
@@ -144,17 +135,11 @@
     <ClInclude Include="MonsterManager.h">
       <Filter>소스 파일\Application\Unit\Monster\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="PathFinderAgent.h">
+      <Filter>소스 파일\Application\Connector</Filter>
+    </ClInclude>
     <ClInclude Include="MonsterTable.h">
       <Filter>소스 파일\Application\Table</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFinder.h">
-      <Filter>소스 파일\Application\PathFinder</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFinderManager.h">
-      <Filter>소스 파일\Application\PathFinder\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="PathFinderAgent.h">
-      <Filter>소스 파일\Application\Connector\PathFinderAgent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -212,17 +197,11 @@
     <ClCompile Include="MonsterManager.cpp">
       <Filter>소스 파일\Application\Unit\Monster\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinderAgent.cpp">
+      <Filter>소스 파일\Application\Connector</Filter>
+    </ClCompile>
     <ClCompile Include="MonsterTable.cpp">
       <Filter>소스 파일\Application\Table</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinder.cpp">
-      <Filter>소스 파일\Application\PathFinder</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinderManager.cpp">
-      <Filter>소스 파일\Application\PathFinder\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinderAgent.cpp">
-      <Filter>소스 파일\Application\Connector\PathFinderAgent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

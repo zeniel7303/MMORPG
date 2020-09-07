@@ -10,7 +10,6 @@
 #include "packet.h"
 #include "UserManager.h"
 #include "FieldManager.h"
-//#include "PathFinderManager.h"
 
 #include "PacketHandler.h"
 
@@ -48,6 +47,7 @@ public:
 		EVENT_MONSTER,
 		EVENT_DBCONNECTOR,
 		EVENT_LOGINSERVER,
+		EVENT_PATHFINDAGENT,
 		EVENT_STOREUSER,
 		EVENT_DB_HEARTBEAT,
 		EVENT_LOGIN_HEARTBEAT,
@@ -65,18 +65,6 @@ public:
 			packet = _packet;
 		}
 	};
-
-	struct PacketQueuePair_Monster
-	{
-		class Monster* monster;
-		Packet* packet;
-
-		PacketQueuePair_Monster(Monster* _monster, Packet* _packet)
-		{
-			monster = _monster;
-			packet = _packet;
-		}
-	};
 		
 private:
 	UserManager*							m_userManager;
@@ -87,17 +75,15 @@ private:
 	PacketHandler*							m_packetHandler;
 	HeartBeatThread*						m_heartBeatThread;
 
-	//PathFinderManager*						m_pathFinderManager;
-
 	ThreadSchedular*						m_threadSchedular;
 
 	DoubleQueue<PacketQueuePair_User>		m_userPacketQueue;
 	DoubleQueue<SOCKET>						m_connectQueue;
 	DoubleQueue<User*>						m_disconnectQueue;
-	DoubleQueue<PacketQueuePair_Monster>	m_monsterPacketQueue;
 	DoubleQueue<Packet*>					m_dbPacketQueue;
 	DoubleQueue<Packet*>					m_logInServerPacketQueue;
-	DoubleQueue<User*>						m_hashMapQueue;	
+	DoubleQueue<Packet*>					m_pathFindAgentPacketQueue;
+	DoubleQueue<User*>						m_hashMapQueue;
 
 	HANDLE									m_hEvent[MAX_EVENT];
 
@@ -124,6 +110,7 @@ public:
 	void ProcessMonster();
 	void ProcessDBConnectorPacket();
 	void ProcessLogInServerPacket();
+	void ProcessPathFindAgentPacket();
 	void AddToHashMap();
 	void HeartBeat_DBAgent();
 	void HeartBeat_LoginServer();
@@ -133,6 +120,6 @@ public:
 	void AddToDisConnectQueue(User* _user);
 	void AddToDBConnectorPacketQueue(Packet* _packet);
 	void AddToLogInServerPacketQueue(Packet* _packet);
-	void AddToMonsterPacketQueue(const PacketQueuePair_Monster& _monsterPacketQueuePair);
+	void AddToPathFindAgentPacketQueue(Packet* _packet);
 	void AddToHashMapQueue(User* _user);
 };

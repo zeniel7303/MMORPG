@@ -3,8 +3,8 @@
 
 #include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
-#include "../ServerLibrary/HeaderFiles/CriticalSection.h"
 #include "../ServerLibrary/HeaderFiles/SendBuffer.h"
+#include "../ServerLibrary/HeaderFiles/CriticalSection.h"
 
 #include "packet.h"
 #include "UnitInfo.h"
@@ -85,9 +85,9 @@ public:
 
 	void FSM();
 
-	void PathFindStart(Tile* _targetTile/*, STATE _state*/);
+	void PathFindStart(Tile* _targetTile, STATE _state);
 
-	void PathFindSuccess(unsigned short _state);
+	void PathFindSuccess(PathFindPacket_Success* _packet);
 	void PathFindFailed();
 
 	bool PathMove();
@@ -101,8 +101,6 @@ public:
 	Field* GetField() { return m_field; }
 	Sector* GetSector() { return m_sector; }
 	User* GetTarget() { return m_target; }
-
-	list<VECTOR2>* GetTileList() { return &m_tileList; }
 
 	bool IsDeath() { return m_isDeath; }
 };

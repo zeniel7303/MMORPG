@@ -1,16 +1,1 @@
-﻿  Acceptor.cpp
-  DBConnector.cpp
-  HeartBeatThread.cpp
-  LogInServer.cpp
-  LogInSession.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(56): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(56): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(56): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(56): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-  LogInSessionManager.cpp
-  MainThread.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\mainthread.cpp(216): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 4의 형식이 'unsigned __int64'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\mainthread.cpp(216): note: 서식 문자열에서 '%zd'을(를) 사용하는 것이 좋습니다.
-  코드를 생성하고 있습니다...
-d:\작업관련\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginserver.cpp(43): warning C4715: 'LogInServer::Start': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  2.LogInServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\LoginServer\x64\Debug\LogInServer.exe
+﻿  2.LogInServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\LoginServer\x64\Debug\LogInServer.exe

@@ -232,7 +232,7 @@ void LogInSession::LogInSuccess(int _num)
 		GetBuffer(sizeof(LogInSuccessPacket_PortNum)));
 	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(LogInSuccessPacket_PortNum));
 	LogInSuccess->userIndex = m_idx;
-	LogInSuccess->portNum = 30004;
+	LogInSuccess->portNum = 30005;
 	//m_sendBuffer->Write(LogInSuccess->size);
 	MYDEBUG("[ Login Success ] \n");
 

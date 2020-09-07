@@ -130,8 +130,8 @@ void MainThread::ProcessRecv()
 		{
 			if (element->GetState() == STATE::READY)
 			{
-				//element->m_packet = nullptr;
-				//element->m_pathFinderAgent = nullptr;
+				element->m_packet = nullptr;
+				element->m_pathFinderAgent = nullptr;
 
 				element->m_packet = packet;
 				element->m_pathFinderAgent = agent;

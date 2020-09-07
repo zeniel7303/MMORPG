@@ -93,7 +93,7 @@ void ClientSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 			DisConnect();
 
 			/*if (bytes < 0)
-			{
+			
 				DisConnect();
 			}*/
 
@@ -141,5 +141,9 @@ void ClientSession::Send(char* _data, DWORD _bytes)
 		}
 	}*/
 
-	send(m_socket, _data, _bytes, 0);
+	//WORD size = *(WORD*)_data;
+	//printf("size : %d \n", _bytes);
+
+	/*int size = */send(m_socket, _data, _bytes, 0);
+	/*printf("size : %d \n", size);*/
 }

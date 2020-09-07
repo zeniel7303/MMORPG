@@ -62,16 +62,14 @@ bool MonsterManager::CreateMonsters()
 		}
 	}
 
-	Thread<MonsterManager>::Start(this);
-
 	MYDEBUG("[ %d Field - %d Monsters Spawn ] \n", m_field->GetFieldNum(), monsterCount);
 
 	return true;
 }
 
-void MonsterManager::LoopRun()
+void MonsterManager::Update()
 {
-	while (1)
+	//while (1)
 	{
 		size_t size = m_monsterVec.size();
 
@@ -80,7 +78,7 @@ void MonsterManager::LoopRun()
 			m_monsterVec[i]->Update();
 		}
 
-		Sleep(1000 / 10);
+		//Sleep(1000 / 10);
 	}
 }
 
@@ -127,7 +125,7 @@ void MonsterManager::SendMonsterList_InRange(User* _user)
 
 	monsterInfoListPacket_InRange->monsterNum = 0;
 
-	const std::vector<Sector*>& tempVec = _user->GetSector()->GetRoundSectorsVec();
+	std::vector<Sector*>& tempVec = _user->GetSector()->GetRoundSectorsVec();
 
 	for (const auto& tempSector : tempVec)
 	{

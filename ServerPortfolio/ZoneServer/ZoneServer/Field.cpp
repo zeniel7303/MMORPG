@@ -290,27 +290,27 @@ void Field::UpdateUserSector(User* _user)
 
 	if (prevSector != nullptr)
 	{
-		printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
-			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());
+		/*printf("[ Exit User (Prev Sector) ] %s User : Now Sector : %d\n",
+			_user->GetInfo()->userInfo.userName, _user->GetSector()->GetSectorNum());*/
 
 		prevSector->GetUserList()->DeleteItem(_user);
 
 		_user->SetSector(nowSector);
 		_user->GetSector()->GetUserList()->AddItem(_user);
 
-		std::vector<Sector*>& prevSectorsNeighbor = prevSector->GetRoundSectorsVec();
-		std::vector<Sector*>& nowSectorsNeighbor = nowSector->GetRoundSectorsVec();
+		std::vector<Sector*>* prevSectorsNeighbor = &prevSector->GetRoundSectorsVec();
+		std::vector<Sector*>* nowSectorsNeighbor = &nowSector->GetRoundSectorsVec();
 
 		auto iter1 = std::set_difference(
-			prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
-			nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
+			prevSectorsNeighbor->begin(), prevSectorsNeighbor->end(),
+			nowSectorsNeighbor->begin(), nowSectorsNeighbor->end(),
 			m_leaveSectorsVec.begin());
 
 		m_leaveSectorsVec.resize(iter1 - m_leaveSectorsVec.begin());
 
 		auto iter2 = std::set_difference(
-			nowSectorsNeighbor.begin(), nowSectorsNeighbor.end(),
-			prevSectorsNeighbor.begin(), prevSectorsNeighbor.end(),
+			nowSectorsNeighbor->begin(), nowSectorsNeighbor->end(),
+			prevSectorsNeighbor->begin(), prevSectorsNeighbor->end(),
 			m_enterSectorsVec.begin());
 
 		m_enterSectorsVec.resize(iter2 - m_enterSectorsVec.begin());
@@ -471,33 +471,9 @@ void Field::SendVisibleUserList(User* _user)
 		{
 			if (element == nullptr) break;
 
-			//해당 Sector내의 유저가 이동중일 경우 검증 필요?
-			//(유령이 생길 가능성이 가장 큰 곳이라 생각됨)
-			/*if (element->GetInfo()->unitInfo.state == STATE::MOVE)
-			{
-				//어떻게 교차검증?
-				for (const auto& roundSector : *_user->GetSector()->GetRoundSectorsVec())
-				{
-					if (roundSector->Manager_List<User>::FindItem(element))
-					{
-						userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
-						userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
-
-						tempNum++;
-						userListPacket_Visible->userNum++;
-
-						break;
-					}
-				}
-			}
-			else
-			{
-				userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
-				userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;
-
-				tempNum++;
-				userListPacket_Visible->userNum++;
-			}*/
+			/*printf("posi : %f, %f \n", 
+				element->GetInfo()->unitInfo.position.x, 
+				element->GetInfo()->unitInfo.position.y);*/
 
 			userListPacket_Visible->info[tempNum].userID = element->GetInfo()->userInfo.userID;
 			userListPacket_Visible->info[tempNum].position = element->GetInfo()->unitInfo.position;

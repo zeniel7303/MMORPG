@@ -35,7 +35,7 @@ void PathFinder::LoopRun()
 
 		PathFindPacket* pathFindPacket = 
 			static_cast<PathFindPacket*>(m_packet);
-
+		
 		m_nowTile =
 		MainThread::getSingleton()->GetFieldManager()->
 			GetFieldData(pathFindPacket->fieldNum)->
@@ -45,13 +45,45 @@ void PathFinder::LoopRun()
 		m_targetTile =
 			MainThread::getSingleton()->GetFieldManager()->
 			GetFieldData(pathFindPacket->fieldNum)->
-			GetTile(pathFindPacket->targetPosition.x, 
+			GetTile(pathFindPacket->targetPosition.x,
 				pathFindPacket->targetPosition.y);
+
+		//MYDEBUG("now : %d, %d / target : %d , %d \n", m_nowTile->GetX(), m_nowTile->GetY(), m_targetTile->GetX(), m_targetTile->GetY());
+
+		//잘못된 타일이면 or 찾는 타일이 막힌 타일 or 찾는 타일이 나 자신이면 다시
+		if (m_targetTile == nullptr || m_targetTile->GetType() == TileType::BLOCK
+			|| m_targetTile == m_nowTile)
+		{
+			MYDEBUG("1 Failed \n");
+
+			//실패처리
+			PathFindPacket_Failed* pathFindPacket_Failed =
+				reinterpret_cast<PathFindPacket_Failed*>(m_sendBuffer->
+					GetBuffer(sizeof(PathFindPacket_Failed)));
+			pathFindPacket_Failed->Init(SendCommand::Path2Zone_PATHFIND_FAILED,
+				sizeof(PathFindPacket_Failed));
+
+			pathFindPacket_Failed->monsterNum = pathFindPacket->monsterNum;
+			pathFindPacket_Failed->fieldNum = pathFindPacket->fieldNum;
+
+			//MYDEBUG("size : %d \n", pathFindPacket_Failed->size);
+
+			m_pathFinderAgent->Send(reinterpret_cast<char*>(pathFindPacket_Failed),
+				pathFindPacket_Failed->size);
+
+			m_pathFinderAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
+
+			m_state = READY;
+
+			return;
+		}
 
 		m_pathFind.PathFind(&m_tileList, m_nowTile, m_targetTile);
 
 		if (m_tileList.size() <= 0)
 		{
+			MYDEBUG("2 Failed \n");
+
 			//실패처리
 			PathFindPacket_Failed* pathFindPacket_Failed =
 				reinterpret_cast<PathFindPacket_Failed*>(m_sendBuffer->
@@ -69,6 +101,8 @@ void PathFinder::LoopRun()
 		}
 		else
 		{
+			MYDEBUG("%d monster Success \n", pathFindPacket->monsterNum);
+
 			PathFindPacket_Success* pathFindPacket_Success =
 				reinterpret_cast<PathFindPacket_Success*>(m_sendBuffer->
 					GetBuffer(sizeof(PathFindPacket_Success)));
@@ -83,11 +117,13 @@ void PathFinder::LoopRun()
 			for (const auto& element : m_tileList)
 			{
 				pathFindPacket_Success->positionList[i] = element;
+
 				i++;
+				//pathFindPacket_Success->listCount++;
 			}
 
 			pathFindPacket_Success->size = (sizeof(VECTOR2) * pathFindPacket_Success->listCount)
-				+ sizeof(int) + sizeof(int) + sizeof(int) + sizeof(unsigned short) + sizeof(Packet);
+				+ sizeof(int) + sizeof(int) + sizeof(unsigned short) + sizeof(int) + sizeof(Packet);
 			pathFindPacket_Success->Init(SendCommand::Path2Zone_PATHFIND_SUCCESS, 
 				pathFindPacket_Success->size);
 
@@ -96,6 +132,8 @@ void PathFinder::LoopRun()
 			m_pathFinderAgent->Send(reinterpret_cast<char*>(pathFindPacket_Success),
 				pathFindPacket_Success->size);
 		}
+
+		m_pathFinderAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
 
 		m_state = READY;
 	}

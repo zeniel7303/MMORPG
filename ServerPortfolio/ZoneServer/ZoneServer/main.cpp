@@ -26,8 +26,8 @@ int main()
 {
 	std::cout << "<< 몇 번째 Zone인지 입력(1부터) >>" << endl;
 	std::cin >> portNum;
-	portNum += 30004;
-	//port는 30005부터
+	portNum += 30005;
+	//port는 30006부터
 
 	system("cls");
 
@@ -52,7 +52,7 @@ int main()
 	}
 
 	TRYCATCH(acceptor = new Acceptor("192.168.0.13", portNum,
-		iocpClass->GetIOCPHandle(), 06));
+		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
 	iocpClass->Associate(acceptor->GetListenSocket(),
 		(unsigned long long)acceptor->GetListenSocket());

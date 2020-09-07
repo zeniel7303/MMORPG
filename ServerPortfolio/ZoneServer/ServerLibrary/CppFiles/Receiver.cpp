@@ -7,7 +7,7 @@ Receiver::Receiver()
 	m_recvBytes = 0;
 	m_flag = 0;
 
-	TRYCATCH_CONSTRUCTOR(m_recvBuffer = new RingBuffer(30000, 10000), m_failed);
+	TRYCATCH_CONSTRUCTOR(m_recvBuffer = new RingBuffer(10000, 3000), m_failed);
 }
 
 Receiver::~Receiver()

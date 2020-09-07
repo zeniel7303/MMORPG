@@ -7,7 +7,7 @@ int main()
 
 	IpEndPoint ipEndPoint;
 	//ipEndPoint = IpEndPoint("192.168.0.13", 30005);
-	ipEndPoint = IpEndPoint("211.221.147.29", 30005);
+	ipEndPoint = IpEndPoint("211.221.147.29", 30006);
 
 	app.Init(400);
 

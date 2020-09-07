@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <winsock2.h>
 
 #include "../HeaderFiles/SendBuffer.h"
