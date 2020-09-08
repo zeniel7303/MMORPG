@@ -150,6 +150,8 @@ void LogInSession::PacketHandle(Packet* _packet)
 	}
 		break;
 	}
+
+	m_receiver->GetRingBuffer()->Read(packet->size);
 }
 
 void LogInSession::LogInUser(LogInPacket* _packet)

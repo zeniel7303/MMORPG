@@ -196,3 +196,4 @@
 [ 2020-09-08 04:04:50 -  workerthread.cpp : 83 ] [INFO] SESSION IS NULL
 [ 2020-09-08 04:05:57 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-08 04:06:57 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-08 04:41:18 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
