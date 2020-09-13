@@ -199,7 +199,7 @@ void MainThread::ProcessZoneServerPacket()
 
 void MainThread::ProcessHeartBeat()
 {
-	//m_heartBeatThread->HeartBeat();
+	m_heartBeatThread->HeartBeat();
 }
 
 void MainThread::ConnectWithZoneServer(SOCKET _socket)

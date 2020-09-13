@@ -44,7 +44,7 @@ void HeartBeatThread::HeartBeat()
 			//¿¬°á ²÷±â
 			session->DisConnect();
 
-			MYDEBUG("[ HeartBeat Checking Failed ]\n");
+			MYDEBUG("[ %d User HeartBeat Checking Failed ]\n", session->GetIdx());
 		}
 	}
 

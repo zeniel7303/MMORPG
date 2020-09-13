@@ -34,10 +34,12 @@ void ZoneConnector::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		printf("%d Error \n", errorNum);
+		MYDEBUG("===== [ close socket : %d, %d Error - ZoneConnector ] ===== \n", m_socket, errorNum);
 	}
-
-	//MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	else
+	{
+		MYDEBUG("===== [ close socket : %d - ZoneConnector ] ===== \n", m_socket);
+	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown ÀÌÈÄ close
@@ -91,7 +93,7 @@ void ZoneConnector::AuthenticationSuccess(AuthenticationPacket* _packet)
 	authenticationSuccessPacket->userIndex = _packet->userIndex;
 	authenticationSuccessPacket->socket = _packet->socket;
 	//m_sendBuffer->Write(LogInSuccess->size);
-	MYDEBUG("[ authentication Success ] \n");
+	//MYDEBUG("[ authentication Success ] \n");
 
 	Send(reinterpret_cast<char*>(authenticationSuccessPacket), authenticationSuccessPacket->size);
 }
@@ -104,7 +106,6 @@ void ZoneConnector::AuthenticationFailed(AuthenticationPacket* _packet)
 	authenticationFailedPacket->userIndex = _packet->userIndex;
 	authenticationFailedPacket->socket = _packet->socket;
 
-	MYDEBUG("[ authentication Failed ] \n");
-
+	//MYDEBUG("[ authentication Failed ] \n");
 	Send(reinterpret_cast<char*>(authenticationFailedPacket), authenticationFailedPacket->size);
 }

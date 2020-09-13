@@ -60,10 +60,12 @@ void User::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		printf("%d Error \n", errorNum);
+		MYDEBUG("===== [ close socket : %d, %d Error ] ===== \n", m_socket, errorNum);
 	}
-
-	MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	else
+	{
+		MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown 이후 close
@@ -89,10 +91,12 @@ void User::DisConnect_ChangeZone(int _num)
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		printf("%d Error \n", errorNum);
+		MYDEBUG("===== [ close socket : %d, %d Error ] ===== \n", m_socket, errorNum);
 	}
-
-	MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	else
+	{
+		MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown 이후 close

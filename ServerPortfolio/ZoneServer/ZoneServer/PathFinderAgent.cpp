@@ -61,10 +61,12 @@ void PathFinderAgent::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		MYDEBUG("[ %d Error ]\n", errorNum);
+		MYDEBUG("===== [ close socket : %d, %d Error - PathFinderAgent ] ===== \n", m_socket, errorNum);
 	}
-
-	//MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	else
+	{
+		MYDEBUG("===== [ close socket : %d - PathFinderAgent ] ===== \n", m_socket);
+	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown ¿Ã»ƒ close

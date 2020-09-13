@@ -50,8 +50,8 @@ void MainThread::SetManagers(UserManager* _userManager,
 	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
 
 	m_threadSchedular = new ThreadSchedular();
-	//m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
-	//m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10000);
+	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
+	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10000);
 	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_MONSTER], 1000 / 10);
 
 	Thread<MainThread>::Start(this);

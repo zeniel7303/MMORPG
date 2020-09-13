@@ -71,10 +71,12 @@ void DBConnector::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		printf("%d Error \n", errorNum);
+		MYDEBUG("===== [ close socket : %d, %d Error - DBConnector ] ===== \n", m_socket, errorNum);
 	}
-
-	//MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+	else
+	{
+		MYDEBUG("===== [ close socket : %d - DBConnector ] ===== \n", m_socket);
+	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown ¿Ã»ƒ close
