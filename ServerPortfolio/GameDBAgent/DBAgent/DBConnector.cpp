@@ -54,17 +54,18 @@ bool DBConnector::Connect(const char* host,
 
 	// ######### 여기 중요      드라이버 이름                            ID                               비번
 	m_retcode = SQLConnectA(m_hdbc, (SQLCHAR*) "odbcTest", SQL_NTS, (SQLCHAR*) "admin_odbc", SQL_NTS, (SQLCHAR *) "asd123!", SQL_NTS);
-	m_retcode = SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
 
 	if (m_retcode != 0)
 	{
-		printf("[ DB Connect Failed ]\n");
+		printf("[ %d Connector - DB Connect Failed ]\n", m_num);
 
 		return false;
 	}
 	else
 	{
 		m_isConnect = true;
+
+		printf("[ %d Connector - DB Connect Success ]\n", m_num);
 
 		return true;
 	}
@@ -87,8 +88,11 @@ bool DBConnector::Query(const char* query)
 
 void DBConnector::Login(LogInPacket_DBAgent* _packet)
 {
-	SQLLEN len1, len2, len3;
+	SQLPrepareA(m_hstmt, (SQLCHAR*)"call GetAllAccountTable()", SQL_NTS);
 
+	SQLExecute(m_hstmt);
+
+	SQLLEN len1, len2, len3;
 	SQLWCHAR userID[15], password[15];
 	SQLINTEGER idx;
 
@@ -96,16 +100,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 	SQLBindCol(m_hstmt, 2, SQL_CHAR, &password, sizeof(password), &len2);
 	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &idx, sizeof(idx), &len3);
 
-	char str1[256];
-	sprintf(str1, "select *from accounttable where ID = '%s'", _packet->id);
-
-	if (this->Query(str1))
-	{
-
-	}
-
 	//해당 id 존재함
-	if ((SQLFetch(m_hstmt) != SQL_NO_DATA))
+	if (SQLFetch(m_hstmt) != SQL_NO_DATA)
 	{
 		int result = strcmp((const char*)(password), _packet->password);
 
@@ -119,7 +115,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInSuccessPacket->socket = _packet->socket;
 			logInSuccessPacket->userIndex = idx;
 
-			//MainThread::getSingleton()->AddToSendQueue(logInSuccessPacket);
+			m_dbAgent->Send(reinterpret_cast<char*>(logInSuccessPacket),
+				logInSuccessPacket->size);
 		}
 		//비밀번호 불일치
 		else
@@ -130,7 +127,8 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 			logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_WRONG_PASSWORD, sizeof(PacketWithSocket));
 			logInFailedPacket->socket = _packet->socket;
 
-			//MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
+			m_dbAgent->Send(reinterpret_cast<char*>(logInFailedPacket),
+				logInFailedPacket->size);
 		}
 	}
 	//해당 id 존재하지 않음
@@ -142,22 +140,33 @@ void DBConnector::Login(LogInPacket_DBAgent* _packet)
 		logInFailedPacket->Init(SendCommand::DB2Zone_LOGIN_FAILED_INVALID_ID, sizeof(PacketWithSocket));
 		logInFailedPacket->socket = _packet->socket;
 
-		//MainThread::getSingleton()->AddToSendQueue(logInFailedPacket);
+		m_dbAgent->Send(reinterpret_cast<char*>(logInFailedPacket),
+			logInFailedPacket->size);
 	}
 }
 
 void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 {
+	SQLHDESC hIpd = NULL;
+	SQLLEN cbValue = SQL_NTS;
+
 	char str1[256];
-	sprintf(str1, "select *from accounttable where ID = '%s'", _packet->id);
+	sprintf(str1, "call GetAccount_UsingID(?)");
 
-	if (this->Query(str1))
-	{
+	SQLPrepareA(m_hstmt, (SQLCHAR*)str1, SQL_NTS);
+	SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, 15, 0, _packet->id, 15, &cbValue);
+	SQLExecute(m_hstmt);
 
-	}
+	SQLLEN len1, len2, len3;
+	SQLWCHAR userID[15], password[15];
+	SQLINTEGER idx;
+
+	SQLBindCol(m_hstmt, 1, SQL_CHAR, &userID, sizeof(userID), &len1);
+	SQLBindCol(m_hstmt, 2, SQL_CHAR, &password, sizeof(password), &len2);
+	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &idx, sizeof(idx), &len3);
 
 	//해당 id가 존재함 - 회원가입 불가능
-	if ((SQLFetch(m_hstmt) != SQL_NO_DATA))
+	if (SQLFetch(m_hstmt) != SQL_NO_DATA)
 	{
 		PacketWithSocket* RegisterFailedPacket =
 			reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
@@ -165,30 +174,272 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 		RegisterFailedPacket->Init(SendCommand::DB2Zone_REGISTER_FAILED, sizeof(PacketWithSocket));
 		RegisterFailedPacket->socket = _packet->socket;
 
-		//MainThread::getSingleton()->AddToSendQueue(RegisterFailedPacket);
+		m_dbAgent->Send(reinterpret_cast<char*>(RegisterFailedPacket),
+			RegisterFailedPacket->size);
 	}
 	//해당 id가 존재하지 않음 - 회원가입 가능
 	else
 	{
-		/*char str2[256];
-		sprintf(str2, "INSERT INTO `accounttable` (`ID`, `PASSWORD`, `idNum`) VALUES('%s', '%s', '%d')",
-			_packet->id, _packet->password, (int)(rowNum + 1));*/
+		SQLFreeHandle(SQL_HANDLE_STMT, m_hstmt);
+
+		SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+
+		SQLHDESC hIpd = NULL;
+		SQLLEN cbValue = SQL_NTS;
+
+		char str1[256];
+		sprintf(str1, "call RegisterAccount(?, ?)");
+
+		SQLPrepareA(m_hstmt, (SQLCHAR*)str1, SQL_NTS);
+		SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, 15, 0, _packet->id, 15, &cbValue);
+		SQLBindParameter(m_hstmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR, 15, 0, _packet->password, 15, &cbValue);
+		SQLExecute(m_hstmt);
+
+		PacketWithSocket* RegisterSuccessPacket =
+			reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
+				GetBuffer(sizeof(PacketWithSocket)));
+		RegisterSuccessPacket->Init(SendCommand::DB2Zone_REGISTER_SUCCESS, sizeof(PacketWithSocket));
+		RegisterSuccessPacket->socket = _packet->socket;
+
+		m_dbAgent->Send(reinterpret_cast<char*>(RegisterSuccessPacket),
+			RegisterSuccessPacket->size);
 	}
 }
 
 void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
 {
+	SQLHDESC hIpd = NULL;
+	SQLLEN cbValue = SQL_NTS;
 
+	int tempNum = _packet->userIndex;
+
+	char str1[256];
+	sprintf(str1, "call GetUserInfo(?)");
+
+	SQLPrepareA(m_hstmt, (SQLCHAR*)str1, SQL_NTS);
+	SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &tempNum, 0, &cbValue);
+	SQLExecute(m_hstmt);
+
+	SQLLEN len[11];
+	SQLWCHAR userName[20];
+	SQLINTEGER idx, level, curHp, maxHp, curMp, maxMp, curExp, maxExp, atk, def;
+
+	SQLBindCol(m_hstmt, 1, SQL_INTEGER, &idx, sizeof(idx), &len[0]);
+	SQLBindCol(m_hstmt, 2, SQL_CHAR, &userName, sizeof(userName), &len[1]);
+	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &level, sizeof(level), &len[2]);
+	SQLBindCol(m_hstmt, 4, SQL_INTEGER, &curHp, sizeof(curHp), &len[3]);
+	SQLBindCol(m_hstmt, 5, SQL_INTEGER, &maxHp, sizeof(maxHp), &len[4]);
+	SQLBindCol(m_hstmt, 6, SQL_INTEGER, &curMp, sizeof(curMp), &len[5]);
+	SQLBindCol(m_hstmt, 7, SQL_INTEGER, &maxMp, sizeof(maxMp), &len[6]);
+	SQLBindCol(m_hstmt, 8, SQL_INTEGER, &curExp, sizeof(curExp), &len[7]);
+	SQLBindCol(m_hstmt, 9, SQL_INTEGER, &maxExp, sizeof(maxExp), &len[8]);
+	SQLBindCol(m_hstmt, 10, SQL_INTEGER, &atk, sizeof(atk), &len[9]);
+	SQLBindCol(m_hstmt, 11, SQL_INTEGER, &def, sizeof(def), &len[10]);
+
+	//해당 id 존재함
+	if (SQLFetch(m_hstmt) != SQL_NO_DATA)
+	{
+		//성공
+		GetSessionInfoPacket* sessionInfoPacket =
+			reinterpret_cast<GetSessionInfoPacket*>(m_sendBuffer->
+				GetBuffer(sizeof(GetSessionInfoPacket)));
+		sessionInfoPacket->Init(SendCommand::DB2Zone_GET_USER_DATA_SUCCESS, sizeof(GetSessionInfoPacket));
+		sessionInfoPacket->socket = _packet->socket;
+
+		sessionInfoPacket->info.userInfo.userID = _packet->userIndex;
+		sessionInfoPacket->info.unitInfo.fieldNum = 0;
+		sprintf(sessionInfoPacket->info.userInfo.userName, (const char*)userName);
+		sessionInfoPacket->info.unitInfo.level = level;
+		sessionInfoPacket->info.unitInfo.hp.currentValue = curHp;
+		sessionInfoPacket->info.unitInfo.hp.maxValue = maxHp;
+		sessionInfoPacket->info.unitInfo.mp.currentValue = curMp;
+		sessionInfoPacket->info.unitInfo.mp.maxValue = maxMp;
+		sessionInfoPacket->info.unitInfo.exp.currentValue = curExp;
+		sessionInfoPacket->info.unitInfo.exp.maxValue = maxExp;
+		sessionInfoPacket->info.unitInfo.atk = atk;
+		sessionInfoPacket->info.unitInfo.def = def;
+
+		m_dbAgent->Send(reinterpret_cast<char*>(sessionInfoPacket),
+			sessionInfoPacket->size);
+	}
+	else
+	{
+		//실패
+		PacketWithSocket* GetSessionInfoFailedPacket =
+			reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
+				GetBuffer(sizeof(PacketWithSocket)));
+		GetSessionInfoFailedPacket->Init(SendCommand::DB2Zone_GET_USER_DATA_FAILED, sizeof(PacketWithSocket));
+		GetSessionInfoFailedPacket->socket = _packet->socket;
+
+		m_dbAgent->Send(reinterpret_cast<char*>(GetSessionInfoFailedPacket),
+			GetSessionInfoFailedPacket->size);
+	}
 }
 
 void DBConnector::UpdateUser(UpdateUserPacket* _packet)
 {
+	SQLRETURN retcode;
 
+	SQLHDESC hIpd = NULL;
+	SQLLEN cbValue = SQL_NTS;
+
+	char str1[256];
+	sprintf(str1, "call GetUserInfo(?)");
+
+	SQLPrepareA(m_hstmt, (SQLCHAR*)str1, SQL_NTS);
+	SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->userIndex, 0, &cbValue);
+	SQLExecute(m_hstmt);
+
+	/*SQLLEN len[11];
+	SQLWCHAR userName[15];
+	SQLINTEGER idx, level, curHp, maxHp, curMp, maxMp, curExp, maxExp, atk, def;
+
+	SQLBindCol(m_hstmt, 1, SQL_INTEGER, &idx, sizeof(idx), &len[0]);
+	SQLBindCol(m_hstmt, 2, SQL_CHAR, &userName, sizeof(userName), &len[1]);
+	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &level, sizeof(level), &len[2]);
+	SQLBindCol(m_hstmt, 1, SQL_INTEGER, &curHp, sizeof(curHp), &len[3]);
+	SQLBindCol(m_hstmt, 2, SQL_INTEGER, &maxHp, sizeof(maxHp), &len[4]);
+	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &curMp, sizeof(curMp), &len[5]);
+	SQLBindCol(m_hstmt, 1, SQL_INTEGER, &maxMp, sizeof(maxMp), &len[6]);
+	SQLBindCol(m_hstmt, 2, SQL_INTEGER, &curExp, sizeof(curExp), &len[7]);
+	SQLBindCol(m_hstmt, 3, SQL_INTEGER, &maxExp, sizeof(maxExp), &len[8]);
+	SQLBindCol(m_hstmt, 1, SQL_INTEGER, &atk, sizeof(atk), &len[9]);
+	SQLBindCol(m_hstmt, 2, SQL_INTEGER, &def, sizeof(def), &len[10]);*/
+
+	if ((SQLFetch(m_hstmt) != SQL_NO_DATA))
+	{
+		SQLFreeHandle(SQL_HANDLE_STMT, m_hstmt);
+
+		SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+
+		char str2[256];
+		sprintf(str2, "call UpdateUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+		retcode = SQLPrepareA(m_hstmt, (SQLCHAR*)str2, SQL_NTS);
+
+		SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->userIndex, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 2, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.level, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 3, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.hp.currentValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 4, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.hp.maxValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 5, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.mp.currentValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 6, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.mp.maxValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 7, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.exp.currentValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 8, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.exp.maxValue, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 9, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.atk, 0, &cbValue);
+		SQLBindParameter(m_hstmt, 10, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &_packet->unitInfo.def, 0, &cbValue);
+		SQLExecute(m_hstmt);
+
+		printf("%d \n", retcode);
+		if (retcode != 0)
+		{
+			//실패
+			PacketWithSocket* updateUserFailedPacket =
+				reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
+					GetBuffer(sizeof(PacketWithSocket)));
+			updateUserFailedPacket->Init(SendCommand::DB2Zone_UPDATE_USER_FAILED, sizeof(PacketWithSocket));
+			updateUserFailedPacket->socket = _packet->socket;
+
+			m_dbAgent->Send(reinterpret_cast<char*>(updateUserFailedPacket),
+				updateUserFailedPacket->size);
+		}
+
+		PacketWithSocket* updateUserSuccessPacket =
+			reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
+				GetBuffer(sizeof(PacketWithSocket)));
+		updateUserSuccessPacket->Init(SendCommand::DB2Zone_UPDATE_USER_SUCCESS, sizeof(PacketWithSocket));
+		updateUserSuccessPacket->socket = _packet->socket;
+
+		m_dbAgent->Send(reinterpret_cast<char*>(updateUserSuccessPacket),
+			updateUserSuccessPacket->size);
+	}
+	else
+	{
+		//실패
+		PacketWithSocket* updateUserFailedPacket =
+			reinterpret_cast<PacketWithSocket*>(m_sendBuffer->
+				GetBuffer(sizeof(PacketWithSocket)));
+		updateUserFailedPacket->Init(SendCommand::DB2Zone_UPDATE_USER_FAILED, sizeof(PacketWithSocket));
+		updateUserFailedPacket->socket = _packet->socket;
+
+		m_dbAgent->Send(reinterpret_cast<char*>(updateUserFailedPacket),
+			updateUserFailedPacket->size);
+	}
 }
 
 void DBConnector::GetMonsterInfo()
 {
+	std::vector<MonsterData> monsterDataVec;
 
+	for (int i = 1; i < 1000; i++)
+	{
+		SQLHDESC hIpd = NULL;
+		SQLLEN cbValue = SQL_NTS;
+
+		char str1[256];
+		sprintf(str1, "call GetMonsterInfo(?)");
+
+		SQLPrepareA(m_hstmt, (SQLCHAR*)str1, SQL_NTS);
+		SQLBindParameter(m_hstmt, 1, SQL_PARAM_INPUT, SQL_INTEGER, SQL_INTEGER, 0, 0, &i, 0, &cbValue);
+		SQLExecute(m_hstmt);
+
+		SQLLEN len[11];
+		SQLINTEGER monsterType, hp, attackDamage, patrolRange, dropExp;
+		SQLINTEGER attackDelay, attackDistance, moveSpeed, patrolDelay, returnDistance;
+
+		SQLBindCol(m_hstmt, 1, SQL_INTEGER, &monsterType, sizeof(monsterType), &len[0]);
+		SQLBindCol(m_hstmt, 2, SQL_INTEGER, &hp, sizeof(hp), &len[1]);
+		SQLBindCol(m_hstmt, 3, SQL_INTEGER, &attackDelay, sizeof(attackDelay), &len[2]);
+		SQLBindCol(m_hstmt, 4, SQL_INTEGER, &attackDamage, sizeof(attackDamage), &len[3]);
+		SQLBindCol(m_hstmt, 5, SQL_INTEGER, &attackDistance, sizeof(attackDistance), &len[4]);
+		SQLBindCol(m_hstmt, 6, SQL_INTEGER, &moveSpeed, sizeof(moveSpeed), &len[5]);
+		SQLBindCol(m_hstmt, 7, SQL_INTEGER, &patrolRange, sizeof(patrolRange), &len[6]);
+		SQLBindCol(m_hstmt, 8, SQL_INTEGER, &patrolDelay, sizeof(patrolDelay), &len[7]);
+		SQLBindCol(m_hstmt, 9, SQL_INTEGER, &returnDistance, sizeof(returnDistance), &len[8]);
+		SQLBindCol(m_hstmt, 10, SQL_INTEGER, &dropExp, sizeof(dropExp), &len[9]);
+
+		if (SQLFetch(m_hstmt) != SQL_NO_DATA)
+		{
+			MonsterData tempData;
+
+			tempData.monsterType = monsterType;
+			tempData.hp.currentValue = hp;
+			tempData.hp.maxValue = hp;
+			tempData.attackDelay = attackDelay;
+			tempData.attackDamage = attackDamage;
+			tempData.attackDistance = attackDistance;
+			tempData.moveSpeed = moveSpeed;
+			tempData.patrolRange = patrolRange;
+			tempData.patrolDelay = patrolDelay;
+			tempData.returnDistance = returnDistance;
+			tempData.dropExp = dropExp;
+
+			monsterDataVec.push_back(tempData);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if (monsterDataVec.size() <= 0) return;
+
+	MonstersInfoPacket* monstersInfoPacket =
+		reinterpret_cast<MonstersInfoPacket*>(m_sendBuffer->
+			GetBuffer(sizeof(GetSessionInfoPacket)));
+
+	monstersInfoPacket->count = monsterDataVec.size();
+
+	for (int i = 0; i < monsterDataVec.size(); i++)
+	{
+		monstersInfoPacket->monstersData[i] = monsterDataVec[i];
+	}
+
+	monstersInfoPacket->size = (sizeof(MonsterData) * monsterDataVec.size())
+		+ sizeof(WORD) + sizeof(Packet);
+	monstersInfoPacket->Init(SendCommand::DB2Zone_MONSTERS_DATA, monstersInfoPacket->size);
+
+	m_dbAgent->Send(reinterpret_cast<char*>(monstersInfoPacket),
+		monstersInfoPacket->size);
 }
 #else
 DBConnector::DBConnector(int _num)
@@ -374,7 +625,7 @@ void DBConnector::Register(RegisterPacket_DBAgent* _packet)
 		char str3[1024];
 		sprintf(str3, "INSERT INTO `infotable` \
 			(`userName`, `level`, `curHp`, `maxHp`, `curMp`, `maxMp`, `curExp`, `maxExp`, `atk`, `def`) \
-			VALUES ('%s', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d')", 
+			VALUES ('%s', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d', '%d')",
 			_packet->id, 1, 100, 100, 100, 100, 0, 100, 20, 0);
 
 		this->Query(str3);
@@ -421,7 +672,7 @@ void DBConnector::GetUserInfo(RequireUserInfoPacket_DBAgent* _packet)
 		GetSessionInfoFailedPacket->Init(SendCommand::DB2Zone_GET_USER_DATA_FAILED, sizeof(PacketWithSocket));
 		GetSessionInfoFailedPacket->socket = _packet->socket;
 
-		m_dbAgent->Send(reinterpret_cast<char*>(GetSessionInfoFailedPacket), 
+		m_dbAgent->Send(reinterpret_cast<char*>(GetSessionInfoFailedPacket),
 			GetSessionInfoFailedPacket->size);
 	}
 	else
@@ -576,6 +827,8 @@ void DBConnector::LoopRun()
 
 		m_state = ACTIVE;
 
+		SQLAllocHandle(SQL_HANDLE_STMT, m_hdbc, &m_hstmt);
+
 		switch (static_cast<RecvCommand>(m_packet->cmd))
 		{
 		case RecvCommand::Zone2DB_LOGIN:
@@ -629,6 +882,8 @@ void DBConnector::LoopRun()
 		}
 
 		m_dbAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
+
+		SQLFreeHandle(SQL_HANDLE_STMT, m_hstmt);
 
 		m_dbAgent = nullptr;
 		m_packet = nullptr;

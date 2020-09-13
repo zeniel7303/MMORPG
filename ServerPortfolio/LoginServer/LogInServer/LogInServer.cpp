@@ -8,9 +8,9 @@ LogInServer::~LogInServer()
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "로그인 서버 구동 종료");
 }
 
-bool LogInServer::Start()
+bool LogInServer::Start(int _num)
 {
-	MYDEBUG("[ 로그인 서버 구동 시작 ]\n");
+	MYDEBUG("[ %d 로그인 서버 구동 시작 ]\n", _num);
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "로그인 서버 구동 시작");
 
 	if (!MainThread::getSingleton()->Init())

@@ -27,6 +27,7 @@ public class Session : MonoBehaviour
     private int readPoint;
 
     public bool isConnect;
+    public bool isLoginSession;
 
     //http://www.csharpstudy.com/Threads/lock.aspx
     private object lockObject = new object();
@@ -82,6 +83,11 @@ public class Session : MonoBehaviour
                                 packetBuffer, 0,
                                 readPoint - packet.GetSize());
 
+                            //if (!isLoginSession)
+                            //{
+                            //    Debug.Log(readPoint);
+                            //}
+
                             readPoint -= packet.GetSize();
 
                             //Debug.Log(readPoint);
@@ -111,8 +117,14 @@ public class Session : MonoBehaviour
             ProtocolType.Tcp);
 
         isConnect = false;
+        isLoginSession = false;
 
-        userID = 0;
+        //userID = 0;
+
+        Array.Clear(recvBuffer, 0x0, recvBuffer.Length);
+        Array.Clear(packetBuffer, 0x0, packetBuffer.Length);
+
+        readPoint = 0;
     }
 
     public bool Connect(string _ip, int _port)
@@ -235,7 +247,7 @@ public class Session : MonoBehaviour
                 break;
             case RecvCommand.Zone2C_CHECK_ALIVE:
                 {
-                    Debug.Log("나 살아있어요.");
+                    //Debug.Log("나 살아있어요.");
 
                     Packet CheckAlivePacket = new Packet(SendCommand.C2Zone_CHECK_ALIVE);
 
@@ -330,9 +342,7 @@ public class Session : MonoBehaviour
                     ServerManager.Instance.userID = logInSuccessPacket.userIndex;
                     //Debug.Log(ServerManager.Instance.userID);
 
-                    ServerManager.Instance.zoneServerPort_1 = (ushort)(logInSuccessPacket.portNum + 1);
-                    ServerManager.Instance.zoneServerPort_2 = (ushort)(logInSuccessPacket.portNum + 2);
-                    ServerManager.Instance.zoneServerPort_3 = (ushort)(logInSuccessPacket.portNum + 3);
+                    ServerManager.Instance.zoneServerPort = (ushort)(logInSuccessPacket.portNum + 1);
 
                     GameManager.Instance.titleUI.OpenZoneSelectWindow();
 
@@ -384,7 +394,7 @@ public class Session : MonoBehaviour
                     EnterFieldPacket enterFieldPacket = new EnterFieldPacket();
                     Parsing(_buffer, ref enterFieldPacket);
 
-                    if(PlayerManager.instance.unitInfo.zoneNum != 0)
+                    //if(PlayerManager.instance.unitInfo.zoneNum != 0)
                     {
                         if(ServerManager.Instance.mapManager != null)
 
@@ -396,7 +406,7 @@ public class Session : MonoBehaviour
                     PlayerManager.instance.unitInfo.zoneNum = enterFieldPacket.fieldNum;
                     PlayerManager.instance.unitInfo.position.position = enterFieldPacket.position;
 
-                    Debug.Log(PlayerManager.instance.unitInfo.position.position);
+                    //Debug.Log(PlayerManager.instance.unitInfo.position.position);
 
                     switch (PlayerManager.instance.unitInfo.zoneNum)
                     {
@@ -468,7 +478,9 @@ public class Session : MonoBehaviour
                     UserPositionPacket userPositionPacket = new UserPositionPacket();
                     Parsing(_buffer, ref userPositionPacket);
 
-                    Debug.Log("MOVE");
+                    //Debug.Log("MOVE");
+                    //Debug.Log("Move x " + userPositionPacket.position.position.x);
+                    //Debug.Log("Move y " + userPositionPacket.position.position.z);
 
                     ServerManager.Instance.StartUserMove(userPositionPacket);
                 }
@@ -478,7 +490,9 @@ public class Session : MonoBehaviour
                     UserPositionPacket userPositionPacket = new UserPositionPacket();
                     Parsing(_buffer, ref userPositionPacket);
 
-                    Debug.Log("FINISH");
+                    //Debug.Log("FINISH");
+                    //Debug.Log("Finish x " + userPositionPacket.position.position.x);
+                    //Debug.Log("Finish y " + userPositionPacket.position.position.z);
 
                     ServerManager.Instance.EndUserMove(userPositionPacket);
                 }                
@@ -488,7 +502,7 @@ public class Session : MonoBehaviour
                     UserListPacket_Light userListPacket = new UserListPacket_Light();
                     Parsing(_buffer, ref userListPacket);
 
-                    Debug.Log("Invisible List : " + userListPacket.userNum);
+                    //Debug.Log("Invisible List : " + userListPacket.userNum);
 
                     ServerManager.Instance.GetUserListInvisible(userListPacket);
                 }
@@ -500,7 +514,7 @@ public class Session : MonoBehaviour
 
                     if (userNumPacket.userIndex == PlayerManager.instance.userInfo.userID) break;
 
-                    Debug.Log("Leave Sector UserNum : " + userNumPacket.userIndex);
+                    //Debug.Log("Leave Sector UserNum : " + userNumPacket.userIndex);
 
                     ServerManager.Instance.mapManager.
                         otherPlayersDic[userNumPacket.userIndex].isVisible = false;
@@ -511,7 +525,7 @@ public class Session : MonoBehaviour
                     UserListPacket_Light userListPacket = new UserListPacket_Light();
                     Parsing(_buffer, ref userListPacket);
 
-                    Debug.Log("Visible List : " + userListPacket.userNum);
+                    //Debug.Log("Visible List : " + userListPacket.userNum);
 
                     ServerManager.Instance.GetUserListVisible(userListPacket);
                 }
@@ -621,7 +635,7 @@ public class Session : MonoBehaviour
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
 
-                    Debug.Log("Invisible List : " + monsterListPacket.monsterNum);
+                    //Debug.Log("Invisible List : " + monsterListPacket.monsterNum);
 
                     ServerManager.Instance.GetMonsterListInvisible(monsterListPacket);
                 }
@@ -631,7 +645,7 @@ public class Session : MonoBehaviour
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
 
-                    Debug.Log("Visible List : " + monsterListPacket.monsterNum);
+                    //Debug.Log("Visible List : " + monsterListPacket.monsterNum);
 
                     ServerManager.Instance.GetMonsterListVisible(monsterListPacket);
                 }
@@ -662,13 +676,6 @@ public class Session : MonoBehaviour
                 break;
             case RecvCommand.LogIn2C_UPDATE_INFO:
                 {
-                    SessionInfoPacket updateInfoPacket = new SessionInfoPacket();
-                    updateInfoPacket.SetCmd(SendCommand.C2Zone_UPDATE_INFO);
-                    updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
-                    updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
-
-                    ServerManager.Instance.SendData_ZoneServer(updateInfoPacket.GetBytes());
-      
                     Debug.Log("업데이트할 info 전송 - HeartBeat");
                 }
                 break;
@@ -676,6 +683,8 @@ public class Session : MonoBehaviour
                 {
                     ZoneNumPacket zoneNumPacket  = new ZoneNumPacket();
                     Parsing(_buffer, ref zoneNumPacket);
+                    
+                    //ServerManager.Instance.zoneSessionDisConnect();
 
                     switch (zoneNumPacket.zoneNum)
                     {
@@ -692,5 +701,10 @@ public class Session : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void ShutdownSocket()
+    {
+        mySocket.Shutdown(SocketShutdown.Both);
     }
 }

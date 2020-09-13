@@ -51,6 +51,7 @@ enum class SendCommand : WORD
 	LogIn2C_UPDATE_INFO = 12,
 	Zone2C_CHATTING = 14,
 	Zone2C_CHATTING_WHISPER = 17,
+	Login2C_CHANGE_ZONE = 18,
 
 	LogIn2Zone_ZONENUM = 200,
 	LogIn2Zone_DISCONNECT_USER = 201,

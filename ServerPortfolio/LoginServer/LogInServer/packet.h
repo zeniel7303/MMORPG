@@ -95,4 +95,10 @@ struct RegisterPacket_DBAgent : Packet
 	SOCKET socket;
 };
 
+struct TestClientEnterPacket : Packet
+{
+	int userNum;
+	int fieldNum;
+};
+
 #pragma pack(pop)

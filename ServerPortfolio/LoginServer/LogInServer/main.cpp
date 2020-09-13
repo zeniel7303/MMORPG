@@ -24,8 +24,41 @@ IOCPClass* iocpClass;
 Acceptor* acceptor;
 ZoneServerAcceptor* zoneServerAcceptor;
 
+int num;
+int portNum_1;
+int portNum_2;
+
 int main()
 {
+	//std::cout << "<< 몇 번째 LoginServer(+ worldServer)인지 입력(1부터 3까지) >>" << endl;
+	//std::cin >> num;
+
+	//switch (num)
+	//{
+	//case 1:
+	//	portNum_1 = 30004;
+	//	portNum_2 = 30005;
+	//	break;
+	//case 2:
+	//	//portNum_1 = 30009;
+	//	//portNum_2 = 30010;
+	//	return 0;
+	//	break;
+	//case 3:
+	//	//portNum_1 = 30014;
+	//	//portNum_2 = 30015;
+	//	return 0;
+	//	break;
+	//default:
+	//	return 0;
+	//	break;
+	//}
+
+	//system("cls");
+
+	portNum_1 = 30004;
+	portNum_2 = 30005;
+
 	if (WSAStartup(MAKEWORD(2, 2), &m_wsaData) != 0)
 	{
 		printf("[ Failed WSAStartup() ] \n");
@@ -37,7 +70,7 @@ int main()
 	if (iocpClass->IsFailed()) return false;
 
 	LogInServer* logInServer = new LogInServer(*iocpClass);
-	if (!logInServer->Start())
+	if (!logInServer->Start(num))
 	{
 		printf("[ LogInServer Initializing Fail ]\n");
 
@@ -46,14 +79,14 @@ int main()
 		return 0;
 	}
 
-	TRYCATCH(zoneServerAcceptor = new ZoneServerAcceptor("192.168.0.13", 30004,
+	TRYCATCH(zoneServerAcceptor = new ZoneServerAcceptor("192.168.0.13", portNum_1,
 		iocpClass->GetIOCPHandle(), 0));
 	if (zoneServerAcceptor->IsFailed()) return false;
 	iocpClass->Associate(zoneServerAcceptor->GetListenSocket(),
 		(unsigned long long)zoneServerAcceptor->GetListenSocket());
 
 	//211.221.147.29
-	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30005,
+	TRYCATCH(acceptor = new Acceptor("192.168.0.13", portNum_2,
 		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
 	iocpClass->Associate(acceptor->GetListenSocket(),

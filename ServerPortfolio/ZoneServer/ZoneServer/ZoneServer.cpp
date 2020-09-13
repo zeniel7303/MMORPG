@@ -8,9 +8,9 @@ ZoneServer::~ZoneServer()
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "존 서버 구동 종료");
 }
 
-bool ZoneServer::Start()
+bool ZoneServer::Start(int _num)
 {
-	MYDEBUG("[ 존 서버 구동 시작 ]\n");
+	MYDEBUG("[ %d 존 서버 구동 시작 ]\n", _num);
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "존 서버 구동 시작");
 
 	if (!MainThread::getSingleton()->Init())

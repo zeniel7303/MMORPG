@@ -45,6 +45,6 @@ public:
 
 	~ZoneServer();
 
-	bool Start();
+	bool Start(int _num);
 };
 

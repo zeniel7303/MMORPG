@@ -20,13 +20,51 @@ WSADATA m_wsaData;
 IOCPClass* iocpClass;
 Acceptor* acceptor;
 
+int num;
 int portNum;
 
 int main()
 {
-	std::cout << "<< 몇 번째 Zone인지 입력(1부터) >>" << endl;
-	std::cin >> portNum;
-	portNum += 30005;
+	std::cout << "<< 몇 번째 Zone인지 입력(0부터) >>" << endl;
+	std::cin >> num;
+
+	switch (num)
+	{
+	case 0:
+		portNum = 30006;
+		break;
+	case 1:
+		portNum = 30007;
+		break;
+	case 2:
+		portNum = 30008;
+		break;
+	case 3:
+		portNum = 30009;
+		break;
+	case 4:
+		portNum = 30010;
+		break;
+	case 5:
+		portNum = 30011;
+		break;
+	case 6:
+		portNum = 30012;
+		break;
+	case 7:
+		portNum = 30013;
+		break;
+	case 8:
+		portNum = 30014;
+		break;
+	case 9:
+		portNum = 30015;
+		break;
+	default:
+		return 0;
+		break;
+	}
+
 	//port는 30006부터
 
 	system("cls");
@@ -42,7 +80,7 @@ int main()
 	if (iocpClass->IsFailed()) return false;
 
 	ZoneServer* zoneServer = new ZoneServer(*iocpClass);
-	if (!zoneServer->Start())
+	if (!zoneServer->Start(num))
 	{
 		MYDEBUG("[ Zone Server Initializing Fail ]\n");
 

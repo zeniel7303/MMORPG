@@ -51,7 +51,7 @@ void User::OnConnect()
 
 void User::DisConnect()
 {
-	if (m_isAlreadyDisConnected) return;
+	if (m_isAlreadyDisConnected || !m_isConnected) return;
 
 	m_isAlreadyDisConnected = true;
 
@@ -82,12 +82,7 @@ void User::DisConnect()
 
 void User::DisConnect_ChangeZone(int _num)
 {
-	ZoneNumPacket* changeZone = reinterpret_cast<ZoneNumPacket*>(m_sendBuffer->
-		GetBuffer(sizeof(ZoneNumPacket)));
-	changeZone->Init(SendCommand::Zone2C_CHANGE_ZONE, sizeof(ZoneNumPacket));
-	changeZone->zoneNum = _num;
-	//m_sendBuffer->Write(changeZone->size);
-	Send(reinterpret_cast<char*>(changeZone), changeZone->size);
+	if (m_isAlreadyDisConnected || !m_isConnected) return;
 
 	ClientSession::DisConnect();
 
@@ -104,6 +99,14 @@ void User::DisConnect_ChangeZone(int _num)
 	closesocket(m_socket); //순서상 다른 곳에서 해도된다.
 
 	MainThread::getSingleton()->AddToDisConnectQueue(this);
+
+	UserNumPacket* ReadyToChangeZone = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
+		GetBuffer(sizeof(UserNumPacket)));
+	ReadyToChangeZone->Init(SendCommand::Zone2Login_READYTOCHANGEZONE, sizeof(UserNumPacket));
+	ReadyToChangeZone->userIndex = m_basicInfo.userInfo.userID;
+	//m_sendBuffer->Write(ReadyToChangeZone->size);
+	LogInConnector::getSingleton()
+		->Send(reinterpret_cast<char*>(ReadyToChangeZone), ReadyToChangeZone->size);
 }
 
 void User::Reset()
@@ -315,7 +318,7 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 
 	Send(reinterpret_cast<char*>(sessionInfoPacket), sessionInfoPacket->size);
 
-	MYDEBUG("[ REGISTER_USER 전송 완료 ]\n");
+	//MYDEBUG("[ REGISTER_USER 전송 완료 ]\n");
 }
 
 void User::RequestUserInfoFailed()
@@ -350,7 +353,7 @@ void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
 
 	Send(reinterpret_cast<char*>(enterFieldPacket), enterFieldPacket->size);
 
-	MYDEBUG("[ ENTER_FIELD 전송 완료 ]\n");
+	MYDEBUG("[ ENTER_FIELD ]\n");
 }
 
 void User::SetPosition(Position& _position)

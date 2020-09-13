@@ -101,7 +101,7 @@ void PathFinder::LoopRun()
 		}
 		else
 		{
-			MYDEBUG("%d monster Success \n", pathFindPacket->monsterNum);
+			//MYDEBUG("%d monster Success \n", pathFindPacket->monsterNum);
 
 			PathFindPacket_Success* pathFindPacket_Success =
 				reinterpret_cast<PathFindPacket_Success*>(m_sendBuffer->

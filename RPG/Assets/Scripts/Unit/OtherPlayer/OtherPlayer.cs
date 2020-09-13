@@ -18,6 +18,7 @@ public class OtherPlayer : Unit
 
     private Vector2 targetPosition;
     private Vector3 targetDirection;
+    private Vector3 zeroDirection;
 
     public float moveSpeed = 3.0f;
 
@@ -44,6 +45,8 @@ public class OtherPlayer : Unit
         animator = this.GetComponent<Animator>();
         myTransform = this.transform;
         isMove = false;
+
+        zeroDirection = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
     // Update is called once per frame
@@ -107,7 +110,10 @@ public class OtherPlayer : Unit
             characterPosition.z = targetPosition.y;
             myTransform.position = characterPosition;
 
-            this.transform.forward = targetDirection;
+            if(targetDirection != zeroDirection)
+            {
+                this.transform.forward = targetDirection;
+            }
 
             animator.SetBool("Move", false);
             isMove = false;
@@ -132,7 +138,17 @@ public class OtherPlayer : Unit
 
         myTransform.position = respawnPosition;
 
-        this.transform.forward = new Vector3(syncPosition.direction.x, 0.0f, syncPosition.direction.z);
+        if (targetDirection != zeroDirection)
+        {
+            this.transform.forward = targetDirection;
+        }
+
+        Vector3 tempDirection = new Vector3(syncPosition.direction.x, 0.0f, syncPosition.direction.z);
+
+        if(tempDirection != zeroDirection)
+        {
+            this.transform.forward = tempDirection;
+        }
 
         userMesh.SetActive(false);
         isVisible = false;
@@ -210,7 +226,10 @@ public class OtherPlayer : Unit
         if (Vector2.SqrMagnitude(new Vector2(myTransform.position.x, myTransform.position.z)
             - targetPosition) < 0.1f)
         {
-            this.transform.forward = targetDirection;
+            if (targetDirection != zeroDirection)
+            {
+                this.transform.forward = targetDirection;
+            }
 
             Vector3 characterPosition = myTransform.position;
             characterPosition.x = targetPosition.x;

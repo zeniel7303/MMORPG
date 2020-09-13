@@ -134,6 +134,17 @@ void LogInSession::PacketHandle(Packet* _packet)
 		HeartBeatChecked();
 	}
 		break;
+	case 16:
+	{
+		TestClientEnterPacket* testClientEnterPacket = 
+			reinterpret_cast<TestClientEnterPacket*>(packet);
+
+		m_idx = testClientEnterPacket->userNum;
+		m_isTestClient = true;
+
+		MainThread::getSingleton()->AddToHashMapQueue(this);
+	}
+		break;
 	case 18:
 	{
 		ChangeZonePacket* changeZonePacket = reinterpret_cast<ChangeZonePacket*>(packet);
@@ -146,7 +157,7 @@ void LogInSession::PacketHandle(Packet* _packet)
 		ZoneNumPacket* zoneNumPacket = reinterpret_cast<ZoneNumPacket*>(packet);
 
 		m_zoneNum = zoneNumPacket->zoneNum;
-		MYDEBUG("%d \n", m_zoneNum);
+		//MYDEBUG("%d \n", m_zoneNum);
 	}
 		break;
 	}

@@ -57,7 +57,7 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 			return;
 		}
 
-		ZoneConnector* zoneConnector = m_zoneServerManager.GetZoneConnector(tempSession->GetZoneNum());
+		/*ZoneConnector* zoneConnector = m_zoneServerManager.GetZoneConnector(tempSession->GetZoneNum());
 		if (zoneConnector == nullptr)
 		{
 			MYDEBUG("[ 존재하지 않는 Zone	 ]\n");
@@ -65,7 +65,7 @@ void PacketHandler::OnPacket_LogInSuccess(Packet* _packet)
 			tempSession->LogInFailed();
 
 			return;
-		}
+		}*/
 
 		tempSession->LogInSuccess(logInSuccessPacket->userIndex);
 
@@ -158,6 +158,27 @@ void PacketHandler::OnPacket_AuthenticationUser(ZoneConnector* _zone, Packet* _p
 	}
 
 	_zone->AuthenticationSuccess(authenticationPacket);
+}
+
+void PacketHandler::OnPacket_ReadyToChangeZone(ZoneConnector* _zone, Packet* _packet)
+{
+	UserNumPacket* ReadyToChangeZone = reinterpret_cast<UserNumPacket*>(_packet);
+
+	const std::unordered_map<int, LogInSession*> tempHashMap = m_logInSessionManager.GetSessionHashMap()->GetItemHashMap();
+
+	auto iter = tempHashMap.find(ReadyToChangeZone->userIndex);
+	if (iter == tempHashMap.end())
+	{
+		return;
+	}
+
+	ZoneNumPacket* changeZone = reinterpret_cast<ZoneNumPacket*>(iter->second->GetSendBuffer()->
+		GetBuffer(sizeof(ZoneNumPacket)));
+	changeZone->Init(SendCommand::Login2C_CHANGE_ZONE, sizeof(ZoneNumPacket));
+	changeZone->zoneNum = iter->second->GetZoneNum();
+	//m_sendBuffer->Write(changeZone->size);
+
+	iter->second->Send(reinterpret_cast<char*>(changeZone), changeZone->size);
 }
 
 LogInSession* PacketHandler::FindSession(SOCKET _socket)

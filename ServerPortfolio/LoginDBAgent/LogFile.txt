@@ -1,0 +1,14 @@
+[ 2020-09-09 01:16:17 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 01:35:58 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 01:42:29 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 01:45:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 01:47:22 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 01:51:38 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 02:37:50 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-09 02:46:12 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-11 18:24:31 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-11 18:25:45 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-11 18:26:37 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-11 18:27:20 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-11 18:27:48 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-13 15:28:27 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure

@@ -38,7 +38,7 @@ public:
 			//https://twpower.github.io/71-use-sort-and-stable_sort-in-cpp
 			openList.sort(IsTileChecked);
 
-			//if (openList.size() <= 0) return;
+			if (openList.size() <= 0) return;
 
 			currentTile = openList.front();
 

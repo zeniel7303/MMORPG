@@ -24,6 +24,11 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
     {
         base.Awake();
 
+        Init();
+    }
+
+    public void Init()
+    {
         otherPlayers = new ObjectPool<OtherPlayer>();
 
         GameObject otherPlayersGameObject = new GameObject();
@@ -34,7 +39,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
 
         monsters = new Dictionary<ushort, ObjectPool<Monster>>();
 
-        for(int i = 0; i < monstersPrefabs.Length; i++)
+        for (int i = 0; i < monstersPrefabs.Length; i++)
         {
             GameObject monster = new GameObject();
             monster.transform.SetParent(this.transform);

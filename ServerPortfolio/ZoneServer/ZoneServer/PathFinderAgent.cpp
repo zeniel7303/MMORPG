@@ -87,7 +87,7 @@ void PathFinderAgent::OnRecv()
 		MYDEBUG("[ 1. %d Error ]\n", errorNum);
 	}*/
 
-	MYDEBUG("writable size : %d \n", m_receiver->GetRingBuffer()->GetWriteableSize());
+	//MYDEBUG("writable size : %d \n", m_receiver->GetRingBuffer()->GetWriteableSize());
 
 	int tempNum = 20;
 

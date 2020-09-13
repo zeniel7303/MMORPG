@@ -11,9 +11,7 @@ public class ServerManager : Singleton<ServerManager>
     public ushort logInServerPort;
     public ushort firstFieldNum;
     public ushort myZone;
-    public ushort zoneServerPort_1;
-    public ushort zoneServerPort_2;
-    public ushort zoneServerPort_3;
+    public ushort zoneServerPort;
 
     private Session session = new Session();
     private Session logInSession = new Session();
@@ -24,8 +22,10 @@ public class ServerManager : Singleton<ServerManager>
     public bool isRegisterConnect;
     public bool isStartConnect;
 
-    private float TimeLeft = 1.0f;
-    private float nextTime = 0.0f;
+    private float heartbeatTime = 0.0f;
+
+    private float time = 0.0f;
+    private bool isChangeZone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,21 +41,74 @@ public class ServerManager : Singleton<ServerManager>
     void Update()
     {
         session.Update();
+
         logInSession.Update();
 
         if (!isStartConnect) return;
 
+        heartbeatTime += Time.deltaTime;
+
         //2초마다 실행
-        if (Time.time > nextTime)
+        if (heartbeatTime >= 2.0f)
         {
-            nextTime = Time.time + TimeLeft;
             HeartBeat();
+
+            heartbeatTime = 0.0f;
         }
+
+        //if(isChangeZone)
+        //{
+        //    time += Time.deltaTime;
+
+        //    if (time >= 5.0f)
+        //    {
+        //        time = 0.0f;
+        //        isChangeZone = false;
+        //    }
+        //}
     }
 
     public void Init()
     {
         logInSession.Init();
+        logInSession.isLoginSession = true;
+    }
+
+    public void ZoneServerConnect(ushort _num)
+    {
+        if (GameManager.Instance.titleUI != null)
+        {
+            GameManager.Instance.titleUI.CloseZoneSelectWindow();
+            GameManager.Instance.titleUI = null;
+        }
+
+        myZone = _num;
+        session.Init();
+
+        switch (_num)
+        {
+            case 0:             
+                session.Connect(ip, zoneServerPort);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+        }
     }
 
     public void ZoneServerConnect_1()
@@ -69,7 +122,7 @@ public class ServerManager : Singleton<ServerManager>
         myZone = 0;
 
         session.Init();
-        session.Connect(ip, zoneServerPort_1);
+        session.Connect(ip, zoneServerPort);
     }
 
     public void ZoneServerConnect_2()
@@ -83,7 +136,7 @@ public class ServerManager : Singleton<ServerManager>
         myZone = 1;
 
         session.Init();
-        session.Connect(ip, zoneServerPort_2);
+        session.Connect(ip, zoneServerPort + 1);
     }
 
     public void ZoneServerConnect_3()
@@ -97,23 +150,36 @@ public class ServerManager : Singleton<ServerManager>
         myZone = 2;
 
         session.Init();
-        session.Connect(ip, zoneServerPort_3);
+        session.Connect(ip, zoneServerPort + 2);
     }
 
     public void ZoneChange(int _num)
     {
-        if(myZone == _num)
+        if (myZone == _num)
         {
 
         }
         else
         {
+            SessionInfoPacket updateInfoPacket = new SessionInfoPacket();
+            updateInfoPacket.SetCmd(SendCommand.C2Zone_UPDATE_INFO);
+            updateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
+            updateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
+
+            SendData_ZoneServer(updateInfoPacket.GetBytes());
+
             ChangeZonePacket changeZonePacket = new ChangeZonePacket();
             changeZonePacket.SetCmd(SendCommand.C2Login_CHANGE_ZONE);
             changeZonePacket.zoneNum = _num;
 
             SendData_LogInServer(changeZonePacket.GetBytes());
         }
+    }
+
+    public void zoneSessionDisConnect()
+    {
+        session.ShutdownSocket();
+        session.mySocket.Close();
     }
 
     public void logInServerConnect()
@@ -191,7 +257,7 @@ public class ServerManager : Singleton<ServerManager>
 
     public void HeartBeat()
     {
-        Debug.Log("나 살아있어요.");
+        //Debug.Log("나 살아있어요.");
 
         Packet CheckAlivePacket = new Packet(SendCommand.C2Zone_CHECK_ALIVE);
 
@@ -480,5 +546,13 @@ public class ServerManager : Singleton<ServerManager>
 
         GameManager.Instance.chattingUI.
             ChattingInput_Whisper(userIndex, targetId, id, chatting);
+    }
+
+    public void RemoveAll()
+    {
+        foreach(var pair in mapManager.otherPlayersDic)
+        {
+
+        }
     }
 }

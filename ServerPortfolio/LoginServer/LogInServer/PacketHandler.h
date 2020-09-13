@@ -25,6 +25,7 @@ public:
 		zoneServerPacketFunc[1] = &PacketHandler::OnPacket_DisConnectUser;
 		zoneServerPacketFunc[2] = &PacketHandler::OnPacket_HeartBeat;
 		zoneServerPacketFunc[3] = &PacketHandler::OnPacket_AuthenticationUser;
+		zoneServerPacketFunc[4] = &PacketHandler::OnPacket_ReadyToChangeZone;
 	};
 	~PacketHandler();
 
@@ -48,6 +49,7 @@ public:
 	void OnPacket_DisConnectUser(ZoneConnector* _zone, Packet* _packet);
 	void OnPacket_HeartBeat(ZoneConnector* _zone, Packet* _packet);
 	void OnPacket_AuthenticationUser(ZoneConnector* _zone, Packet* _packet);
+	void OnPacket_ReadyToChangeZone(ZoneConnector* _zone, Packet* _packet);
 
 	LogInSession* FindSession(SOCKET _socket);
 };

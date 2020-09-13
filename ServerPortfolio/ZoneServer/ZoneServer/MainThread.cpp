@@ -50,8 +50,8 @@ void MainThread::SetManagers(UserManager* _userManager,
 	m_packetHandler = new PacketHandler(*_userManager, *_fieldManager);
 
 	m_threadSchedular = new ThreadSchedular();
-	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
-	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10000);
+	//m_threadSchedular->CreateSchedule(m_hEvent[EVENT_LOGIN_HEARTBEAT], 10000);
+	//m_threadSchedular->CreateSchedule(m_hEvent[EVENT_DB_HEARTBEAT], 10000);
 	m_threadSchedular->CreateSchedule(m_hEvent[EVENT_MONSTER], 1000 / 10);
 
 	Thread<MainThread>::Start(this);
@@ -153,7 +153,7 @@ void MainThread::ConnectUser()
 
 		m_userManager->AddTempuser(tempUser);
 
-		MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
+		//MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
 
 		connectQueue.pop();
 	}
@@ -182,12 +182,12 @@ void MainThread::DisConnectUser()
 		{
 			//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
 			m_userManager->ReturnUser(tempUser);
-			MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
+			//MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
 		}
 		else
 		{
 			m_userManager->DeleteTempUser(tempUser, true);
-			MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
+			//MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
 		}
 
 		disconnectQueue.pop();
@@ -291,8 +291,8 @@ void MainThread::AddToHashMap()
 		m_userManager->AddUser(tempUser);
 		tempUser->m_isInHashMap = true;
 
-		MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
-		MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
+		//MYDEBUG("tempUserList Size : %zd \n", m_userManager->GetUserList()->GetItemList().size());
+		//MYDEBUG("hashmapSize : %zd \n", m_userManager->GetUserHashMap()->GetItemHashMap().size());
 
 		hashMapQueue.pop();
 	}

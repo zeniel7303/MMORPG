@@ -16,7 +16,7 @@
 class LogInServer
 {
 private:
-	const int				USERMAXCOUNT = 2000;
+	const int				USERMAXCOUNT = 10000;
 
 	IOCPClass&				m_IOCPClass;
 
@@ -32,6 +32,6 @@ public:
 	};
 	~LogInServer();
 
-	bool Start();
+	bool Start(int _num);
 };
 

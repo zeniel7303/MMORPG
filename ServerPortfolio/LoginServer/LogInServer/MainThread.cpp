@@ -101,7 +101,7 @@ void MainThread::ConnectUser()
 
 		m_logInSessionManager->AddTempSession(tempSession);
 
-		MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
+		//MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
 
 		connectQueue.pop();
 	}
@@ -124,12 +124,12 @@ void MainThread::DisConnectUser()
 		{
 			//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.
 			m_logInSessionManager->ReturnSession(tempSession);
-			MYDEBUG("sessionHashmapSize : %zd \n", m_logInSessionManager->GetSessionHashMap()->GetItemHashMap().size());
+			//MYDEBUG("sessionHashmapSize : %zd \n", m_logInSessionManager->GetSessionHashMap()->GetItemHashMap().size());
 		}
 		else
 		{
 			m_logInSessionManager->DeleteTempSession(tempSession, true);
-			MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
+			//MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
 		}
 
 		disconnectQueue.pop();
@@ -152,7 +152,7 @@ void MainThread::AddToHashMap()
 		m_logInSessionManager->AddSession(tempSession);
 		tempSession->m_isInHashMap = true;
 
-		MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
+		//MYDEBUG("tempSessionList Size : %zd \n", m_logInSessionManager->GetSessionList()->GetItemList().size());
 		MYDEBUG("sessionHashmapSize : %zd \n", m_logInSessionManager->GetSessionHashMap()->GetItemHashMap().size());
 
 		hashMapQueue.pop();
@@ -199,7 +199,7 @@ void MainThread::ProcessZoneServerPacket()
 
 void MainThread::ProcessHeartBeat()
 {
-	m_heartBeatThread->HeartBeat();
+	//m_heartBeatThread->HeartBeat();
 }
 
 void MainThread::ConnectWithZoneServer(SOCKET _socket)

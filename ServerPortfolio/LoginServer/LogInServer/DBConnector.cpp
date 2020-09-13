@@ -85,11 +85,6 @@ void DBConnector::OnRecv()
 
 		if (packet == nullptr) break;
 
-		if (tempNum <= 18)
-		{
-			printf("check \n");
-		}
-
 		MainThread::getSingleton()->AddToDBConnectorPacketQueue(packet);
 
 		tempNum--;

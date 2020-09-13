@@ -16,7 +16,7 @@ public class MapManager : MonoBehaviour
     public List<Monster> visibleMonsterList;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         //https://codingmania.tistory.com/166
         if (GameManager.Instance == null)
