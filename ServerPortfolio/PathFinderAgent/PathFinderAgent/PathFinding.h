@@ -38,7 +38,26 @@ public:
 			//https://twpower.github.io/71-use-sort-and-stable_sort-in-cpp
 			openList.sort(IsTileChecked);
 
-			if (openList.size() <= 0) return;
+			if (openList.size() <= 0)
+			{
+				list<Tile*>::iterator openIterEnd = openList.end();
+				list<Tile*>::iterator closeIterEnd = closeList.end();
+				Tile* tile;
+
+				for (list<Tile*>::iterator iter = openList.begin(); iter != openIterEnd; iter++)
+				{
+					tile = *iter;
+					tile->SetIsOpened(false);
+				}
+
+				for (list<Tile*>::iterator iter = closeList.begin(); iter != closeIterEnd; iter++)
+				{
+					tile = *iter;
+					tile->SetIsClosed(false);
+				}
+
+				return;
+			}
 
 			currentTile = openList.front();
 
