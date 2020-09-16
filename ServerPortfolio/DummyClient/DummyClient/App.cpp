@@ -37,6 +37,8 @@ void App::Init(int _num)
 
 void App::Begin(IpEndPoint& _ipEndPoint)
 {
+	ThreadClass<App>::Start(this);
+
 	Dummy* dummy = nullptr;
 
 	for (int i = 0; i < dummyVec.size(); i++)
@@ -56,8 +58,6 @@ void App::Begin(IpEndPoint& _ipEndPoint)
 	}
 
 	//Sleep(3000);
-
-	ThreadClass<App>::Start(this);
 }
 
 void App::LoopRun()

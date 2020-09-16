@@ -27,8 +27,6 @@
 
 //=====================================================
 
-class HeartBeatThread;
-
 class MainThread : public Thread<MainThread>
 {
 public:
@@ -73,7 +71,6 @@ private:
 	std::shared_ptr<FieldManager>			m_fieldManager;*/
 
 	PacketHandler*							m_packetHandler;
-	HeartBeatThread*						m_heartBeatThread;
 
 	ThreadSchedular*						m_threadSchedular;
 

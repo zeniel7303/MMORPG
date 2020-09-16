@@ -12,3 +12,24 @@
 [ 2020-09-11 18:27:20 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-11 18:27:48 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-13 15:28:27 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:14:47 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:14:49 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:14:56 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:17 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:18 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:19 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:15:22 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:17:53 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:18:35 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:20:05 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:20:35 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:22:19 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:24:21 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:25:35 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 17:44:24 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-16 17:47:19 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 17:55:32 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure

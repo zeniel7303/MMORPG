@@ -41,15 +41,6 @@ void PacketHandler::HandleLogInServerPacket(Packet* _packet)
 void PacketHandler::HandlePathFindAgentPacket(Packet* _packet)
 {
 	Packet* packet = _packet;
-
-	if (packet->cmd != 500 && packet->cmd != 501)
-	{
-		MYDEBUG("Test \n");
-
-		PathFinderAgent::getSingleton()->GetReceiver()->GetRingBuffer()->Read(packet->size);
-
-		return;
-	}
 	
 	(this->*pathFindAgentPacketFunc[packet->cmd % 500])(packet);
 
@@ -316,8 +307,6 @@ void PacketHandler::OnPacket_GetMonstersData(Packet* _packet)
 
 void PacketHandler::OnPacket_DBAgentAlive(Packet* _packet)
 {
-	//MYDEBUG("[ DBAgent HeartBeat ]\n");
-
 	DBConnector::getSingleton()->SetStartTime();
 }
 
@@ -421,8 +410,6 @@ void PacketHandler::SendHeartBeat_DBAgent()
 
 void PacketHandler::SendHeartBeat_LoginServer()
 {
-	//MYDEBUG("[ LoginServer HeartBeat ]\n");
-
 	LogInConnector::getSingleton()->HeartBeat();
 }
 

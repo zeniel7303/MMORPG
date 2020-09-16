@@ -69,16 +69,9 @@ bool MonsterManager::CreateMonsters()
 
 void MonsterManager::Update()
 {
-	//while (1)
+	for (auto& element : m_monsterVec)
 	{
-		size_t size = m_monsterVec.size();
-
-		for (int i = 0; i < size; i++)
-		{
-			m_monsterVec[i]->Update();
-		}
-
-		//Sleep(1000 / 10);
+		element->Update();
 	}
 }
 
@@ -91,13 +84,9 @@ void MonsterManager::SendMonsterList(User* _user)
 	monsterInfoListPacket->monsterNum = WORD(m_monsterVec.size());
 
 	int i = 0;
-	Monster* monster;
-
 	for (const auto& element : m_monsterVec)
 	{
-		monster = element;
-
-		monsterInfoListPacket->info[i] = monster->GetInfo();
+		monsterInfoListPacket->info[i] = element->GetInfo();
 
 		i++;
 	}

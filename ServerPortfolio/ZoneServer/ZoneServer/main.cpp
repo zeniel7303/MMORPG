@@ -6,6 +6,7 @@
 #endif
 
 #include <memory>
+#include <fstream>
 
 #include "../ServerLibrary/HeaderFiles/FileLog.h"
 #include "../ServerLibrary/HeaderFiles/Utils.h"
@@ -18,6 +19,7 @@
 WSADATA m_wsaData;
 
 IOCPClass* iocpClass;
+ZoneServer* zoneServer;
 Acceptor* acceptor;
 
 int num;
@@ -25,49 +27,19 @@ int portNum;
 
 int main()
 {
-	std::cout << "<< 몇 번째 Zone인지 입력(0부터) >>" << endl;
-	std::cin >> num;
+	char tmp[256];
+	ifstream readFile;
+	readFile.open("zoneNum.txt");
 
-	switch (num)
+	if (readFile.is_open())
 	{
-	case 0:
-		portNum = 30006;
-		break;
-	case 1:
-		portNum = 30007;
-		break;
-	case 2:
-		portNum = 30008;
-		break;
-	case 3:
-		portNum = 30009;
-		break;
-	case 4:
-		portNum = 30010;
-		break;
-	case 5:
-		portNum = 30011;
-		break;
-	case 6:
-		portNum = 30012;
-		break;
-	case 7:
-		portNum = 30013;
-		break;
-	case 8:
-		portNum = 30014;
-		break;
-	case 9:
-		portNum = 30015;
-		break;
-	default:
-		return 0;
-		break;
+		readFile.getline(tmp, 256);
 	}
 
-	//port는 30006부터
+	int num = atoi(tmp);
+	portNum = num + 30006;
 
-	system("cls");
+	readFile.close();
 
 	if (WSAStartup(MAKEWORD(2, 2), &m_wsaData) != 0)
 	{
@@ -79,7 +51,7 @@ int main()
 	TRYCATCH(iocpClass = new IOCPClass());
 	if (iocpClass->IsFailed()) return false;
 
-	ZoneServer* zoneServer = new ZoneServer(*iocpClass);
+	TRYCATCH(zoneServer = new ZoneServer(*iocpClass));
 	if (!zoneServer->Start(num))
 	{
 		MYDEBUG("[ Zone Server Initializing Fail ]\n");

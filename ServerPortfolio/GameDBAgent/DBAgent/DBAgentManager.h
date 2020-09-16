@@ -7,6 +7,7 @@
 class DBAgentManager
 {
 private:
+	std::vector<DBAgent*>		m_agentVec;
 	ObjectPool<DBAgent>			m_objectPool;
 	Manager_List<DBAgent>		m_agentList;
 
@@ -15,6 +16,7 @@ public:
 	~DBAgentManager();
 
 	void AddObject(DBAgent* _t);
+	void CopyToObjectPool();
 
 	DBAgent* PopAgent();
 	void AddAgent(DBAgent* _t);

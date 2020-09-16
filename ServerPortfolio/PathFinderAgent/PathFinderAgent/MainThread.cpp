@@ -6,6 +6,7 @@ MainThread::MainThread()
 
 MainThread::~MainThread()
 {
+	if (m_pathFinderManager != nullptr) delete m_pathFinderManager;
 }
 
 bool MainThread::Init()
@@ -132,6 +133,8 @@ void MainThread::ProcessRecv()
 			{
 				element->m_packet = nullptr;
 				element->m_pathFinderAgent = nullptr;
+				element->m_nowTile = nullptr;
+				element->m_targetTile = nullptr;
 
 				element->m_packet = packet;
 				element->m_pathFinderAgent = agent;
@@ -147,14 +150,14 @@ void MainThread::ProcessRecv()
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
 {
-	m_connectQueue.AddObject(_socket);
+	m_connectQueue.GetPrimaryQueue().emplace(_socket);
 
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
 
 void MainThread::AddToDisConnectQueue(PathFinderAgent* _agent)
 {
-	m_disconnectQueue.AddObject(_agent);
+	m_disconnectQueue.GetPrimaryQueue().emplace(_agent);
 
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }

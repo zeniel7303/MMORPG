@@ -28,9 +28,6 @@ SectorManager::~SectorManager()
 	}
 }
 
-//단순히 찾거나 접근하는건 동기화가 필요없다.
-//
-
 Sector* SectorManager::GetSector(int _x, int _y)
 {
 	int x = _x / SIZE;
@@ -114,25 +111,6 @@ void SectorManager::GetNeighborSectors(std::vector<Sector*>& _sectorsVec, Sector
 	}
 		break;
 	}
-
-	//선택정렬
-	//불필요
-	/*for (int i = 0; i < (*_sectorsVec).size(); i++)
-	{
-		int minNum = (*_sectorsVec)[i]->GetSectorNum();
-		int location = i;
-
-		for (int j = i + 1; j < (*_sectorsVec).size(); j++)
-		{
-			if (minNum > (*_sectorsVec)[j]->GetSectorNum())
-			{
-				minNum = (*_sectorsVec)[j]->GetSectorNum();
-				location = j;
-			}
-		}
-
-		swap((*_sectorsVec)[i], (*_sectorsVec)[location]);
-	}*/
 
 	sort(_sectorsVec.begin(), _sectorsVec.end());
 }

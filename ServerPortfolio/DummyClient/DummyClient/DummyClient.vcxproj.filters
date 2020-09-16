@@ -85,7 +85,7 @@
       <Filter>소스 파일\FieldData</Filter>
     </ClInclude>
     <ClInclude Include="loginDummy.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Dummy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,7 @@
       <Filter>소스 파일\FieldData</Filter>
     </ClCompile>
     <ClCompile Include="loginDummy.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

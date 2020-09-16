@@ -6,6 +6,9 @@ MainThread::MainThread()
 
 MainThread::~MainThread()
 {
+	if (m_threadSchedular != nullptr) delete m_threadSchedular;
+	if (m_packetHandler != nullptr) delete m_packetHandler;
+
 	for (int i = MAX_EVENT; i > 0 ; --i)
 	{
 		if (m_hEvent[i-1]) { CloseHandle(m_hEvent[i-1]); m_hEvent[i-1] = 0; }
@@ -109,15 +112,7 @@ void MainThread::ProcessUserPacket()
 			continue;
 		}
 
-		//테스트용 패킷 처리
-		if (packet->cmd == 12345)
-		{
-			MYDEBUG("Test Checking \n");
-		}
-		else
-		{
-			m_packetHandler->HandleUserPacket(user, packet);
-		}
+		m_packetHandler->HandleUserPacket(user, packet);
 
 		userPacketQueue.pop();
 	}
@@ -202,27 +197,21 @@ void MainThread::ProcessMonster()
 	{
 		Field* field = pair.second;
 
-		//테스트용
+		//필드에 유저가 없으면 실행하지 않는다.
+		if (field->GetUserList()->GetItemList().size() <= 0) continue;
+
+		field->GetMonsterManager()->Update();
+
 		/*if (field->GetFieldNum() == 3)
 		{
 			field->GetMonsterManager()->Update();
 		}*/
 
-		//필드에 유저가 없으면 실행하지 않는다.
-		if (field->GetUserList()->GetItemList().size() <= 0) continue;
-
-		field->GetMonsterManager()->Update();
 	}
 }
 
 void MainThread::ProcessDBConnectorPacket()
 {
-	//if (!Connector->GetIsConnected())
-	//{
-	//	//재접속
-	//	Connector->Connect();
-	//}
-
 	m_dbPacketQueue.Swap();
 
 	std::queue<Packet*>& dbPacketQueue = m_dbPacketQueue.GetSecondaryQueue();
@@ -311,7 +300,6 @@ void MainThread::HeartBeat_LoginServer()
 void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQueuePair)
 {
 	//2개의 속도 체크
-	//m_userPacketQueue.GetPrimaryQueue().emplace(this, packet);
 	m_userPacketQueue.AddObject(_userPacketQueuePair);
 
 	SetEvent(m_hEvent[EVENT_RECV]);
@@ -319,42 +307,42 @@ void MainThread::AddToUserPacketQueue(const PacketQueuePair_User& _userPacketQue
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
 {
-	m_connectQueue.AddObject(_socket);
+	m_connectQueue.GetPrimaryQueue().emplace(_socket);
 
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
 
 void MainThread::AddToDisConnectQueue(User* _user)
 {
-	m_disconnectQueue.AddObject(_user);
+	m_disconnectQueue.GetPrimaryQueue().emplace(_user);
 
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }
 
 void MainThread::AddToDBConnectorPacketQueue(Packet* _packet)
 {
-	m_dbPacketQueue.AddObject(_packet);
+	m_dbPacketQueue.GetPrimaryQueue().emplace(_packet);
 
 	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
 }
 
 void MainThread::AddToLogInServerPacketQueue(Packet* _packet)
 {
-	m_logInServerPacketQueue.AddObject(_packet);
+	m_logInServerPacketQueue.GetPrimaryQueue().emplace(_packet);
 
 	SetEvent(m_hEvent[EVENT_LOGINSERVER]);
 }
 
 void MainThread::AddToPathFindAgentPacketQueue(Packet* _packet)
 {
-	m_pathFindAgentPacketQueue.AddObject(_packet);
+	m_pathFindAgentPacketQueue.GetPrimaryQueue().emplace(_packet);
 
 	SetEvent(m_hEvent[EVENT_PATHFINDAGENT]);
 }
 
 void MainThread::AddToHashMapQueue(User* _user)
 {
-	m_hashMapQueue.AddObject(_user);
+	m_hashMapQueue.GetPrimaryQueue().emplace(_user);
 
 	SetEvent(m_hEvent[EVENT_STOREUSER]);
 }

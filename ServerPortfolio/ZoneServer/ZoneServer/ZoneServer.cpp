@@ -2,13 +2,13 @@
 
 ZoneServer::~ZoneServer()
 {
-	if (m_userManager != nullptr) delete m_userManager;
 	if (m_fieldManager != nullptr) delete m_fieldManager;
+	if (m_userManager != nullptr) delete m_userManager;
 
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "존 서버 구동 종료");
 }
 
-bool ZoneServer::Start(int _num)
+bool ZoneServer::Start(const int _num)
 {
 	MYDEBUG("[ %d 존 서버 구동 시작 ]\n", _num);
 	LOG::FileLog("../LogFile.txt", __FILENAME__, __LINE__, "존 서버 구동 시작");
@@ -27,6 +27,8 @@ bool ZoneServer::Start(int _num)
 		m_userManager->AddObject(user);
 	}
 
+	m_userManager->CopyToObjectPool();
+
 	MYDEBUG("[ User Max Count : %d ]\n", m_userManager->GetObjectPool()->GetSize());
 
 	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30003, &m_IOCPClass))
@@ -35,17 +37,13 @@ bool ZoneServer::Start(int _num)
 	}	
 	DBConnector::getSingleton()->OnConnect();
 
-	//Sleep(500);
-
 	if (!LogInConnector::getSingleton()->Connect("211.221.147.29", 30004, &m_IOCPClass))
 	{
 		return false;
 	}
 	LogInConnector::getSingleton()->OnConnect();
 
-	//Sleep(500);
-
-	if (!PathFinderAgent::getSingleton()->Connect("211.221.147.29", 30001, &m_IOCPClass))
+	if (!PathFinderAgent::getSingleton()->Connect("211.221.147.29", _num + 30016, &m_IOCPClass))
 	{
 		return false;
 	}

@@ -52,9 +52,6 @@ void DBConnector::OnConnect()
 
 	m_start = std::chrono::high_resolution_clock::now();
 
-	BOOL bVal = TRUE;
-	::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
-
 	Sleep(1);
 
 	Packet* requestMonsterDataPacket =
@@ -71,16 +68,19 @@ void DBConnector::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		MYDEBUG("===== [ close socket : %d, %d Error - DBConnector ] ===== \n", m_socket, errorNum);
+		MYDEBUG("===== [ close socket : %ld, %d Error - DBConnector ] ===== \n", m_socket, errorNum);
 	}
 	else
 	{
-		MYDEBUG("===== [ close socket : %d - DBConnector ] ===== \n", m_socket);
+		MYDEBUG("===== [ close socket : %ld - DBConnector ] ===== \n", m_socket);
 	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown ¿Ã»ƒ close
 	closesocket(m_socket);
+
+	Connect("211.221.147.29", 30003, m_IOCPClass);
+	OnConnect();
 }
 
 void DBConnector::Reset()

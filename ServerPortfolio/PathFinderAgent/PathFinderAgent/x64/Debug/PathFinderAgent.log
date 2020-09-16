@@ -1,1 +1,21 @@
-﻿  PathFinderAgent.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\PathFinderAgent\x64\Debug\PathFinderAgent.exe
+﻿  Acceptor.cpp
+  FieldManager.cpp
+  FieldTilesData.cpp
+  main.cpp
+  MainThread.cpp
+  PathFinder.cpp
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(48): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(47): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(54): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(53): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(120): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinder.cpp(132): warning C4267: '=': 'size_t'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PathFinderAgent.cpp
+d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinderagent.cpp(29): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinderagent.cpp(29): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinderagent.cpp(29): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\pathfinderagent\pathfinderagent\pathfinderagent.cpp(29): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+  PathFinderAgentManager.cpp
+  PathFinderManager.cpp
+  코드를 생성하고 있습니다...
+  PathFinderAgent.vcxproj -> D:\Work\SourceTree\MMORPG\ServerPortfolio\PathFinderAgent\x64\Debug\PathFinderAgent.exe

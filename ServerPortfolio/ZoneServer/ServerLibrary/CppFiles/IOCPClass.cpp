@@ -36,12 +36,12 @@ IOCPClass::IOCPClass()
 
 IOCPClass::~IOCPClass()
 {
-	if (m_hIOCP) { CloseHandle(m_hIOCP); m_hIOCP = 0; }
-
 	for (int i = m_threadCount; i > 0; i--)
 	{
 		delete m_workThreadBuffer[i];
 	}
+
+	if (m_hIOCP) { CloseHandle(m_hIOCP); m_hIOCP = 0; }
 }
 
 void IOCPClass::Reset()

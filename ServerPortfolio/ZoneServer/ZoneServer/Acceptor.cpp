@@ -13,6 +13,5 @@ Acceptor::~Acceptor()
 
 void Acceptor::OnAccept()
 {
-	//연결 클라의 IP도 보내주자. -> m_premote
 	MainThread::getSingleton()->AddToConnectQueue(m_socket);
 }

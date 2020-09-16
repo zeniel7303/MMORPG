@@ -6,7 +6,7 @@ MainThread::MainThread()
 
 MainThread::~MainThread()
 {
-
+	if (m_dbConnectorManager != nullptr) delete m_dbConnectorManager;
 }
 
 bool MainThread::Init()
@@ -162,14 +162,14 @@ void MainThread::ProcessRecv()
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
 {
-	m_connectQueue.AddObject(_socket);
+	m_connectQueue.GetPrimaryQueue().emplace(_socket);
 
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
 
 void MainThread::AddToDisConnectQueue(DBAgent* _session)
 {
-	m_disconnectQueue.AddObject(_session);
+	m_disconnectQueue.GetPrimaryQueue().emplace(_session);
 
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }

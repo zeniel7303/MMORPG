@@ -28,7 +28,7 @@ struct INFO
 class Field;
 class Sector;
 
-class User : public ClientSession
+class User final : public ClientSession
 {
 public:
 	bool				m_isInHashMap;
@@ -65,7 +65,7 @@ public:
 	//죽음
 	void Death();
 	//부활 및 첫스폰
-	void Respawn(VECTOR2 _spawnPosition);
+	void Respawn(const VECTOR2& _spawnPosition);
 	//맞음
 	void Hit(int _index, int _damage);
 
@@ -81,14 +81,14 @@ public:
 	//유저의 정보 받기 실패
 	void RequestUserInfoFailed();
 	//Field 입장 시
-	void EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition);
+	void EnterField(Field *_field, int _fieldNum, const VECTOR2& _spawnPosition);
 	//User의 포지션(이동시 호출됨)
 	void SetPosition(Position& _position);
 
 	bool CompareSector(Sector* _sector);
 
 	//테스트용
-	void TestClientEnterField(Field* _Field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition);
+	void TestClientEnterField(Field* _Field, int _fieldNum, int _dummyNum, const VECTOR2& _spawnPosition);
 
 	Tile* GetTile() { return m_tile; }
 	INFO* GetInfo() { return &m_basicInfo; }

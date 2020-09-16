@@ -80,7 +80,6 @@ void AcceptorSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 	CreateIoCompletionPort(reinterpret_cast <HANDLE>(m_socket),
 		m_hIOCP, (unsigned long long)m_socket, 0);
 
-	//연결 클라의 IP도 보내주자. -> m_premote
 	OnAccept();
 
 	GenerateOverlappedIO();

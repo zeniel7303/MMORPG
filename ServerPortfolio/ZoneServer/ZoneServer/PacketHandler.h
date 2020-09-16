@@ -60,12 +60,6 @@ public:
 	};
 	~PacketHandler();
 
-	//현업에서 많이 씀
-	//2014 이전 방식
-	/*typedef void (PacketHandler::*UserPacketFunc1)(User* _user, Packet* _packet);
-	UserPacketFunc1  packFunc[100];*/
-
-	//2014 이후 방식(c++11)
 	using UserPacketFunction = void (PacketHandler::*)(User* _user, Packet* _packet);
 	UserPacketFunction userPacketFunc[100];
 

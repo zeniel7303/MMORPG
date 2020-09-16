@@ -7,15 +7,40 @@ UserManager::UserManager()
 
 UserManager::~UserManager()
 {
-	while (m_objectPool.GetSize() != 0)
+	for (const auto& element : m_tempUserList.GetItemList())
 	{
-		delete m_objectPool.PopObject();
+		delete element;
 	}
+
+	for (const auto& element : m_userHashMap.GetItemHashMap())
+	{
+		delete element.second;
+	}
+
+	m_objectPool.~ObjectPool();
+
+	for (const auto& element : m_userVec)
+	{
+		delete element;
+	}
+
+	m_userVec.clear();
+	m_userVec.resize(0);
 }
 
 void UserManager::AddObject(User* _t)
 {
-	m_objectPool.AddObject(_t);
+	m_userVec.emplace_back(_t);
+
+	//m_objectPool.AddObject(_t);
+}
+
+void UserManager::CopyToObjectPool()
+{
+	for (const auto& element : m_userVec)
+	{
+		m_objectPool.AddObject(element);
+	}
 }
 
 User* UserManager::PopUser()

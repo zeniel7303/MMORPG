@@ -27,6 +27,8 @@ bool LogInServer::Start(int _num)
 		m_logInSessionManager->AddObject(logInSession);
 	}
 
+	m_logInSessionManager->CopyToObjectPool();
+
 	MYDEBUG("[ Max Count : %d ]\n", m_logInSessionManager->GetObjectPool()->GetSize());
 
 	if (!DBConnector::getSingleton()->Connect("211.221.147.29", 30002))
@@ -40,4 +42,6 @@ bool LogInServer::Start(int _num)
 	TRYCATCH(m_heartBeatThread = new HeartBeatThread(*m_logInSessionManager, 10));
 
 	MainThread::getSingleton()->SetManagers(m_logInSessionManager, m_heartBeatThread);
+
+	return true;
 }

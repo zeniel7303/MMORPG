@@ -213,37 +213,36 @@ void MainThread::ConnectWithZoneServer(SOCKET _socket)
 
 	m_zoneServerManager->GetZoneConnectorVec()->emplace_back(zoneConnector);
 
-	MYDEBUG("[ %d(%d)¹ø Zone ¿¬°áµÊ ]\n", 
-		zoneConnector->GetZoneNum(), 
-		m_zoneServerManager->GetZoneConnectorVec()->size());
+	MYDEBUG("[ %d¹ø Zone ¿¬°áµÊ ]\n", 
+		zoneConnector->GetZoneNum());
 
 	m_num += 1;
 }
 
 void MainThread::AddToConnectQueue(SOCKET _socket)
 {
-	m_connectQueue.AddObject(_socket);
+	m_connectQueue.GetPrimaryQueue().emplace(_socket);
 
 	SetEvent(m_hEvent[EVENT_CONNECT]);
 }
 
 void MainThread::AddToDisConnectQueue(LogInSession* _session)
 {
-	m_disconnectQueue.AddObject(_session);
+	m_disconnectQueue.GetPrimaryQueue().emplace(_session);
 
 	SetEvent(m_hEvent[EVENT_DISCONNECT]);
 }
 
 void MainThread::AddToHashMapQueue(LogInSession* _session)
 {
-	m_hashMapQueue.AddObject(_session);
+	m_hashMapQueue.GetPrimaryQueue().emplace(_session);
 
 	SetEvent(m_hEvent[EVENT_STOREUSER]);
 }
 
 void MainThread::AddToDBConnectorPacketQueue(Packet* _packet)
 {
-	m_dbPacketQueue.AddObject(_packet);
+	m_dbPacketQueue.GetPrimaryQueue().emplace(_packet);
 
 	SetEvent(m_hEvent[EVENT_DBCONNECTOR]);
 }

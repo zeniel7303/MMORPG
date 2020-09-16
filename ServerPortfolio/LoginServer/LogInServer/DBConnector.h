@@ -20,10 +20,7 @@ public:
 private:
 	IpEndPoint					m_ipEndPoint;
 
-	DBConnector()
-	{
-
-	};
+	DBConnector();
 public:	
 	~DBConnector();
 

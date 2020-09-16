@@ -7,7 +7,7 @@ FieldManager::FieldManager()
 	m_fieldCount = 0;
 
 	Field* m_villageField;
-	TRYCATCH_CONSTRUCTOR(m_villageField = new Field(1, VECTOR2(17, 19), "Village.fmap"), m_failed);
+	TRYCATCH_CONSTRUCTOR(m_villageField = new Field(1, new VECTOR2(17, 19), "Village.fmap"), m_failed);
 	if (m_villageField->IsFailed() || m_failed)
 	{
 		m_failed = true;
@@ -19,7 +19,7 @@ FieldManager::FieldManager()
 	m_fieldCount += 1;
 
 	Field* m_fieldField;
-	TRYCATCH_CONSTRUCTOR(m_fieldField = new Field(2, VECTOR2(77, 75), "Field.fmap"), m_failed);
+	TRYCATCH_CONSTRUCTOR(m_fieldField = new Field(2, new VECTOR2(77, 75), "Field.fmap"), m_failed);
 	if (m_fieldField->IsFailed() || m_failed)
 	{
 		m_failed = true;
@@ -31,7 +31,7 @@ FieldManager::FieldManager()
 	m_fieldCount += 1;
 
 	Field* m_testField;
-	TRYCATCH_CONSTRUCTOR(m_testField = new Field(3, VECTOR2(48, 48), "TestScene.fmap"), m_failed);
+	TRYCATCH_CONSTRUCTOR(m_testField = new Field(3, new VECTOR2(48, 48), "TestScene.fmap"), m_failed);
 	if (m_testField->IsFailed() || m_failed)
 	{
 		m_failed = true;

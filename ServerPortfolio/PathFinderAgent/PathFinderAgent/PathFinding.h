@@ -44,13 +44,15 @@ public:
 				list<Tile*>::iterator closeIterEnd = closeList.end();
 				Tile* tile;
 
-				for (list<Tile*>::iterator iter = openList.begin(); iter != openIterEnd; iter++)
+				for (list<Tile*>::iterator iter = openList.begin(); 
+					iter != openIterEnd; iter++)
 				{
 					tile = *iter;
 					tile->SetIsOpened(false);
 				}
 
-				for (list<Tile*>::iterator iter = closeList.begin(); iter != closeIterEnd; iter++)
+				for (list<Tile*>::iterator iter = closeList.begin(); 
+					iter != closeIterEnd; iter++)
 				{
 					tile = *iter;
 					tile->SetIsClosed(false);

@@ -1,11 +1,11 @@
 #include "Field.h"
 
-Field::Field(int _num, VECTOR2 _spawnPosition, const char* _name)
+Field::Field(int _num, VECTOR2* _spawnPosition, const char* _name)
 {
 	m_failed = false;
 
 	m_fieldNum = _num;
-	m_spawnPosition = _spawnPosition;
+	m_spawnPosition = *_spawnPosition;
 
 	TRYCATCH_CONSTRUCTOR(m_fieldTilesData = new FieldTilesData(), m_failed);
 	if (!m_fieldTilesData->GetMap(_name) || m_failed)
@@ -339,11 +339,6 @@ void Field::LeaveSector(User* _user)
 	userNumPacket_Exit->Init(SendCommand::Zone2C_LEAVE_SECTOR_USER_INFO, sizeof(UserNumPacket));
 	userNumPacket_Exit->userIndex = _user->GetInfo()->userInfo.userID;
 	m_sendBuffer->Write(userNumPacket_Exit->size);
-
-	//20200516
-	//유니티 클라이언트에서 이 패킷을 받지 않아서 유령이 생기는 현상이 발생함. = m_leaveSectorsVec 내에 없었다는 의미
-	// -> Visible을 안받게 하면되나?
-	//해결
 
 	//자신이 있던 섹터 범위 내의 다른 유저들에게 자신이 나갔다고 알려주는 함수
 	SectorSendAll(m_leaveSectorsVec, reinterpret_cast<char*>(userNumPacket_Exit), userNumPacket_Exit->size);

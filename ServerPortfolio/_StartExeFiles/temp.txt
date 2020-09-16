@@ -1,0 +1,17 @@
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\GameDBAgent\x64\Debug" /b GameDBAgent.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\LoginDBAgent\x64\Debug" /b LoginDBAgent.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\PathFinderAgent\x64\Debug" /b PathFinderAgent.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\LoginServer\x64\Debug" /b LogInServer.exe
+
+timeout /t 1
+
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\1ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\2ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\3ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\4ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\5ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\6ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\7ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\8ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\9ch" /b ZoneServer.exe
+start /d "D:\Work\SourceTree\MMORPG\ServerPortfolio\_StartExeFiles\ZoneServer\10ch" /b ZoneServer.exe

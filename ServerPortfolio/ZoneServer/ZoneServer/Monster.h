@@ -96,8 +96,8 @@ public:
 
 	bool IsFailed() { return m_failed; }
 
-	MonsterInfo GetInfo() { return m_info; }
-	MonsterData GetData() { return m_data; }
+	MonsterInfo& GetInfo() { return m_info; }
+	MonsterData& GetData() { return m_data; }
 	Field* GetField() { return m_field; }
 	Sector* GetSector() { return m_sector; }
 	User* GetTarget() { return m_target; }

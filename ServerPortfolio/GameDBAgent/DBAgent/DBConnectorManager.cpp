@@ -24,4 +24,11 @@ DBConnectorManager::DBConnectorManager()
 
 DBConnectorManager::~DBConnectorManager()
 {
+	for (const auto& element : m_DBConnectorList)
+	{
+		delete element;
+	}
+
+	m_DBConnectorList.clear();
+	m_DBConnectorList.resize(0);
 }

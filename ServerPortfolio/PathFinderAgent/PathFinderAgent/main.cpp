@@ -26,6 +26,20 @@ PathFinderAgentManager* pathFinderAgentManager;
 
 int main()
 {
+	char tmp[256];
+	ifstream readFile;
+	readFile.open("portNum.txt");
+
+	if (readFile.is_open())
+	{
+		readFile.getline(tmp, 256);
+	}
+
+	int num = atoi(tmp);
+	num += 30016;
+
+	readFile.close();
+
 	if (WSAStartup(MAKEWORD(2, 2), &m_wsaData) != 0)
 	{
 		printf("[ Failed WSAStartup() ] \n");
@@ -36,7 +50,7 @@ int main()
 	TRYCATCH(iocpClass = new IOCPClass());
 	if (iocpClass->IsFailed()) return false;
 
-	TRYCATCH(acceptor = new Acceptor("192.168.0.13", 30001,
+	TRYCATCH(acceptor = new Acceptor("192.168.0.13", num,
 		iocpClass->GetIOCPHandle(), 0));
 	if (acceptor->IsFailed()) return false;
 	iocpClass->Associate(acceptor->GetListenSocket(),
@@ -58,12 +72,16 @@ int main()
 		pathFinderAgentManager->AddObject(agent);
 	}
 
+	pathFinderAgentManager->CopyToObjectPool();
+
 	MYDEBUG("[ Max Count : %d ]\n", pathFinderAgentManager->GetObjectPool()->GetSize());
 
 	MainThread::getSingleton()->SetManagers(pathFinderAgentManager, fieldManager);
 
 	WaitForSingleObject(MainThread::getSingleton()->GetHandle(), INFINITE);
 
+	delete pathFinderAgentManager;
+	delete fieldManager;
 	delete acceptor;
 	delete iocpClass;
 

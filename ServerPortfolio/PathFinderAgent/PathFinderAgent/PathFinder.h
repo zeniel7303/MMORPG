@@ -21,14 +21,16 @@ public:
 	Packet*				m_packet;
 	PathFinderAgent*	m_pathFinderAgent;
 
+	Tile*				m_nowTile;
+	Tile*				m_targetTile;
+
 	HANDLE				m_hEvent;
 
 private:
 	STATE				m_state;
 
 	PathFinding			m_pathFind;
-	Tile*				m_nowTile;
-	Tile*				m_targetTile;
+	
 	std::list<VECTOR2>	m_tileList;
 
 	SendBuffer*			m_sendBuffer;

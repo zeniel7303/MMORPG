@@ -31,9 +31,9 @@ public:
 		SectorManager* _sectorManager);
 	~MonsterManager();
 
-	bool CreateMonsters();
+	bool CreateMonsters(void);
 
-	void Update();
+	void Update(void);
 
 	void SendMonsterList(User* _user);
 	void SendMonsterList_InRange(User* _user);

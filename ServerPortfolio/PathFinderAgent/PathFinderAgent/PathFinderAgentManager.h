@@ -9,6 +9,7 @@
 class PathFinderAgentManager
 {
 private:
+	std::vector<PathFinderAgent*>		m_agentVec;
 	ObjectPool<PathFinderAgent>			m_objectPool;
 	Manager_List<PathFinderAgent>		m_agentList;
 
@@ -17,6 +18,7 @@ public:
 	~PathFinderAgentManager();
 
 	void AddObject(PathFinderAgent* _t);
+	void CopyToObjectPool();
 
 	PathFinderAgent* PopAgent();
 	void AddAgent(PathFinderAgent* _t);

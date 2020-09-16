@@ -14,9 +14,6 @@ void ZoneConnector::OnConnect()
 {
 	ClientSession::OnConnect();
 
-	BOOL bVal = TRUE;
-	::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
-
 	Sleep(1);
 
 	ZoneNumPacket* zoneNumPacket =

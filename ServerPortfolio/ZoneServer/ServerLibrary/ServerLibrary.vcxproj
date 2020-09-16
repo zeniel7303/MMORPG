@@ -153,7 +153,6 @@
     <ClInclude Include="HeaderFiles\CriticalSection.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\DurationChecker.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\IpEndPoint.h" />
-    <ClInclude Include="HeaderFiles\OnlyHeaders\ItemManager.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\ManagerFrame_List.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\ManagerFrame_UnorderedMap.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\ObjectPool.h" />
@@ -162,14 +161,8 @@
     <ClInclude Include="HeaderFiles\OnlyHeaders\Thread.h" />
     <ClInclude Include="HeaderFiles\SendBuffer.h" />
     <ClInclude Include="HeaderFiles\Utils.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\IpEndPoint.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\ManagerFrame_List.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\ObjectPool.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\SharedQueue.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\SingletonBase.h" />
     <ClInclude Include="HeaderFiles\SpinLock.h" />
     <ClInclude Include="HeaderFiles\RingBuffer.h" />
-    <ClInclude Include="HeaderFiles\SubHeaders\Thread.h" />
     <ClInclude Include="HeaderFiles\OnlyHeaders\DoubleQueue.h" />
     <ClInclude Include="HeaderFiles\FileLog.h" />
     <ClInclude Include="HeaderFiles\IOCPClass.h" />

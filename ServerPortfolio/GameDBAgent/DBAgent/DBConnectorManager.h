@@ -12,6 +12,6 @@ public:
 	DBConnectorManager();
 	~DBConnectorManager();
 
-	std::list<DBConnector*> GetConnectorList() { return m_DBConnectorList; }
+	std::list<DBConnector*>& GetConnectorList() { return m_DBConnectorList; }
 };
 

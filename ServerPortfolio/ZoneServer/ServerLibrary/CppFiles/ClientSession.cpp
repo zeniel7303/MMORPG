@@ -23,8 +23,8 @@ ClientSession::ClientSession()
 
 ClientSession::~ClientSession()
 {
-	if (m_receiver != nullptr) delete m_receiver;
 	if (m_sendBuffer != nullptr) delete m_sendBuffer;
+	if (m_receiver != nullptr) delete m_receiver;
 }
 
 void ClientSession::OnConnect()

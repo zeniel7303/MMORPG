@@ -1,45 +1,70 @@
 ﻿  Acceptor.cpp
   DBConnector.cpp
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(71): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(71): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(71): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(71): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(75): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(75): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(75): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\dbconnector.cpp(75): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   Field.cpp
   FieldManager.cpp
   FieldTilesData.cpp
   LogInConnector.cpp
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(72): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(72): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(72): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(72): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(76): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(76): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(76): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\loginconnector.cpp(76): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   main.cpp
   Monster.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\monster.cpp(386): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\monster.cpp(387): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\monster.cpp(388): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\monster.cpp(389): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\monster.cpp(489): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   MonsterManager.cpp
   MonsterTable.cpp
   PacketHandler.cpp
   PathFinderAgent.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(124): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(125): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(126): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(127): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(61): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(61): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(61): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(61): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(65): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(65): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(65): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\pathfinderagent.cpp(65): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   Sector.cpp
   SectorManager.cpp
   MainThread.cpp
   ThreadSchedular.cpp
   Unit.cpp
   User.cpp
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(66): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(66): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(66): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(66): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(93): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(93): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(93): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(93): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(316): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(316): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(316): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\작업관련\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(316): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(63): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(63): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(63): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(63): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(67): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(67): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(67): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(67): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(94): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(94): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(94): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(94): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(98): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(98): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(98): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(98): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(330): warning C4477: 'printf' : 서식 문자열 '%ld'에 'long' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(330): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(330): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\serverportfolio\zoneserver\zoneserver\user.cpp(330): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   UserManager.cpp
   ZoneServer.cpp
   코드를 생성하고 있습니다.
-  All 1982 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  2039 of 2051 functions (99.4%) were compiled, the rest were copied from previous compilation.
+    93 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
-  ZoneServer.vcxproj -> D:\작업관련\SourceTree\MMORPG\ServerPortfolio\ZoneServer\x64\Release\ZoneServer.exe
+  ZoneServer.vcxproj -> D:\Work\SourceTree\MMORPG\ServerPortfolio\ZoneServer\x64\Release\ZoneServer.exe

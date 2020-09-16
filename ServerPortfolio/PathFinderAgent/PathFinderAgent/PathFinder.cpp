@@ -23,6 +23,11 @@ PathFinder::PathFinder()
 
 PathFinder::~PathFinder()
 {
+	if (m_nowTile != nullptr) delete m_nowTile;
+	if (m_targetTile != nullptr) delete m_targetTile;
+	if (m_packet != nullptr) delete m_packet;
+	if (m_pathFinderAgent != nullptr) delete m_pathFinderAgent;
+	if(m_sendBuffer != nullptr) delete m_sendBuffer;
 }
 
 void PathFinder::LoopRun()
@@ -51,7 +56,8 @@ void PathFinder::LoopRun()
 		//MYDEBUG("now : %d, %d / target : %d , %d \n", m_nowTile->GetX(), m_nowTile->GetY(), m_targetTile->GetX(), m_targetTile->GetY());
 
 		//잘못된 타일이면 or 찾는 타일이 막힌 타일 or 찾는 타일이 나 자신이면 다시
-		if (m_targetTile == nullptr || m_targetTile->GetType() == TileType::BLOCK
+		if (m_nowTile == nullptr || m_targetTile == nullptr 
+			|| m_targetTile->GetType() == TileType::BLOCK
 			|| m_targetTile == m_nowTile)
 		{
 			MYDEBUG("1 Failed \n");

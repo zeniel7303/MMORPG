@@ -6,15 +6,35 @@ PathFinderAgentManager::PathFinderAgentManager()
 
 PathFinderAgentManager::~PathFinderAgentManager()
 {
-	while (m_objectPool.GetSize() != 0)
+	for (const auto& element : m_agentList.GetItemList())
 	{
-		delete m_objectPool.PopObject();
+		delete element;
 	}
+
+	m_objectPool.~ObjectPool();
+
+	for (const auto& element : m_agentVec)
+	{
+		delete element;
+	}
+
+	m_agentVec.clear();
+	m_agentVec.resize(0);
 }
 
 void PathFinderAgentManager::AddObject(PathFinderAgent* _t)
 {
-	m_objectPool.AddObject(_t);
+	m_agentVec.emplace_back(_t);
+
+	//m_objectPool.AddObject(_t);
+}
+
+void PathFinderAgentManager::CopyToObjectPool()
+{
+	for (const auto& element : m_agentVec)
+	{
+		m_objectPool.AddObject(element);
+	}
 }
 
 PathFinderAgent* PathFinderAgentManager::PopAgent()

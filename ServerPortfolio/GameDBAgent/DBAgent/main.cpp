@@ -54,12 +54,15 @@ int main()
 		dbAgentManager->AddObject(dbAgent);
 	}
 
+	dbAgentManager->CopyToObjectPool();
+
 	MYDEBUG("[ Max Count : %d ]\n", dbAgentManager->GetObjectPool()->GetSize());
 
 	MainThread::getSingleton()->SetManagers(dbAgentManager);
 
 	WaitForSingleObject(MainThread::getSingleton()->GetHandle(), INFINITE);
 
+	delete dbAgentManager;
 	delete acceptor;
 	delete iocpClass;
 

@@ -2,3 +2,12 @@
 [ 2020-09-09 01:41:07 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-09 02:46:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-13 15:28:25 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:13:54 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:17:51 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:18:32 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:20:05 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:20:34 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:22:15 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 15:25:33 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-16 17:44:25 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-16 17:47:18 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure

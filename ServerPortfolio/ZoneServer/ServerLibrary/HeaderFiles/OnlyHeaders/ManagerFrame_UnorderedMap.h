@@ -9,7 +9,7 @@ protected:
 
 public:
 	Manager_UnorderedMap() {}
-	virtual ~Manager_UnorderedMap()
+	~Manager_UnorderedMap()
 	{
 		m_itemHashMap.clear();
 	}

@@ -7,10 +7,20 @@ int portNum_zone;
 
 int main()
 {
-	std::cout << "<< 몇 번째 Zone에 입장할지 입력(0부터) >>" << endl;
-	std::cin >> num;
+	char tmp[256];
+	ifstream readFile;
+	readFile.open("zoneNum.txt");
 
-	system("cls");
+	if (readFile.is_open())
+	{
+		readFile.getline(tmp, 256);
+	}
+
+	num = atoi(tmp);
+
+	readFile.close();
+
+	printf("%d zone 입장 \n", num);
 
 	App app;
 

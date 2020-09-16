@@ -21,8 +21,8 @@
 WSADATA m_wsaData;
 
 IOCPClass* iocpClass;
-Acceptor* acceptor;
 ZoneServerAcceptor* zoneServerAcceptor;
+Acceptor* acceptor;
 
 int num;
 int portNum_1;
@@ -32,7 +32,7 @@ int main()
 {
 	//std::cout << "<< 몇 번째 LoginServer(+ worldServer)인지 입력(1부터 3까지) >>" << endl;
 	//std::cin >> num;
-
+	
 	//switch (num)
 	//{
 	//case 1:
@@ -97,6 +97,7 @@ int main()
 	WaitForSingleObject(MainThread::getSingleton()->GetHandle(), INFINITE);
 
 	delete acceptor;
+	delete zoneServerAcceptor;
 	delete iocpClass;
 
 	WSACleanup();

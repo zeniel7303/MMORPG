@@ -49,9 +49,6 @@ bool PathFinderAgent::Connect(const char* _ip, const unsigned short _portNum, IO
 void PathFinderAgent::OnConnect()
 {
 	ClientSession::OnConnect();
-
-	//BOOL bVal = TRUE;
-	//::setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&bVal, sizeof(BOOL));
 }
 
 void PathFinderAgent::DisConnect()
@@ -61,18 +58,18 @@ void PathFinderAgent::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		MYDEBUG("===== [ close socket : %d, %d Error - PathFinderAgent ] ===== \n", m_socket, errorNum);
+		MYDEBUG("===== [ close socket : %ld, %d Error - PathFinderAgent ] ===== \n", m_socket, errorNum);
 	}
 	else
 	{
-		MYDEBUG("===== [ close socket : %d - PathFinderAgent ] ===== \n", m_socket);
+		MYDEBUG("===== [ close socket : %ld - PathFinderAgent ] ===== \n", m_socket);
 	}
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown ÀÌÈÄ close
 	closesocket(m_socket);
 
-	Connect("211.221.147.29", 30009, m_IOCPClass);
+	Connect("211.221.147.29", 30001, m_IOCPClass);
 	OnConnect();
 }
 
@@ -83,14 +80,6 @@ void PathFinderAgent::Reset()
 
 void PathFinderAgent::OnRecv()
 {
-	/*int errorNum = WSAGetLastError();
-	if (errorNum != 0)
-	{
-		MYDEBUG("[ 1. %d Error ]\n", errorNum);
-	}*/
-
-	//MYDEBUG("writable size : %d \n", m_receiver->GetRingBuffer()->GetWriteableSize());
-
 	int tempNum = 20;
 
 	while (1)
@@ -123,10 +112,10 @@ void PathFinderAgent::SendPathFindPacket(int _index, int _fieldNum, unsigned sho
 	pathFindPacket->fieldNum = _fieldNum;
 	pathFindPacket->state = _state;
 
-	pathFindPacket->nowPosition.x = _nowTileX;
-	pathFindPacket->nowPosition.y = _nowTileY;
-	pathFindPacket->targetPosition.x = _targetTileX;
-	pathFindPacket->targetPosition.y = _targetTileY;
+	pathFindPacket->nowPosition.x = (float)_nowTileX;
+	pathFindPacket->nowPosition.y = (float)_nowTileY;
+	pathFindPacket->targetPosition.x = (float)_targetTileX;
+	pathFindPacket->targetPosition.y = (float)_targetTileY;
 
 	m_sendBuffer->Write(pathFindPacket->size);
 

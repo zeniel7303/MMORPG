@@ -44,7 +44,7 @@ private:
 	Manager_List<User>		m_userList;
 
 public:
-	Field(int _num, VECTOR2 _spawnPosition, const char* _name);
+	Field(int _num, VECTOR2* _spawnPosition, const char* _name);
 	~Field();
 
 	void InitMonsterThread();

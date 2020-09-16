@@ -9,7 +9,7 @@ protected:
 
 public:
 	Manager_List() {}
-	virtual ~Manager_List() {
+	~Manager_List() {
 		m_itemList.clear();
 		m_itemList.resize(0);
 	}

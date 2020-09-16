@@ -255,7 +255,7 @@ void Monster::FSM()
 		}
 		case STATE::READY:
 		{
-			if (m_currentTime <= 10.0f) break;
+			if (m_currentTime <= 30.0f) break;
 
 			MYDEBUG("[ %d monster : ReSend ] \n", m_info.index);
 			m_targetTile = m_homeTile;
@@ -383,17 +383,15 @@ void Monster::PathFindStart(Tile* _targetTile, STATE _state)
 	pathFindPacket->fieldNum = m_field->GetFieldNum();
 	pathFindPacket->state = _state;
 
-	pathFindPacket->nowPosition.x = m_nowTile->GetX();
-	pathFindPacket->nowPosition.y = m_nowTile->GetY();
-	pathFindPacket->targetPosition.x = _targetTile->GetX();
-	pathFindPacket->targetPosition.y = _targetTile->GetY();
+	pathFindPacket->nowPosition.x = (float)m_nowTile->GetX();
+	pathFindPacket->nowPosition.y = (float)m_nowTile->GetY();
+	pathFindPacket->targetPosition.x = (float)_targetTile->GetX();
+	pathFindPacket->targetPosition.y = (float)_targetTile->GetY();
 
 	//m_sendBuffer->Write(pathFindPacket->size);
 
 	PathFinderAgent::getSingleton()->
 		Send(reinterpret_cast<char*>(pathFindPacket), pathFindPacket->size);
-
-	m_info.state = STATE::IDLE;
 
 	/*PathFinderAgent::getSingleton()->SendPathFindPacket(m_info.index, m_field->GetFieldNum(), _state,
 		m_nowTile->GetX(), m_nowTile->GetY(), _targetTile->GetX(), _targetTile->GetY());*/
@@ -486,7 +484,7 @@ void Monster::UpdateSector()
 	if(m_sector == nullptr)
 	{
 		m_sector = m_sectorManager->
-			GetSector(m_info.position.x, m_info.position.y);
+			GetSector((int)m_info.position.x, (int)m_info.position.y);
 
 		m_sector->GetMonsterList()->AddItem(this);
 

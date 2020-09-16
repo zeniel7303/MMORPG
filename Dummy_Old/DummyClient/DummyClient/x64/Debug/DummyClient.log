@@ -1,2 +1,37 @@
-﻿  main.cpp
-  DummyClient.vcxproj -> D:\작업관련\SourceTree\MMORPG\DummyClient\x64\Debug\DummyClient.exe
+﻿  App.cpp
+  Dummy.cpp
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\dummy.cpp(134): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\dummy.cpp(133): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\dummy.cpp(142): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  FieldTilesData.cpp
+  IOCPClass.cpp
+  loginDummy.cpp
+  main.cpp
+  RingBuffer.cpp
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(133): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(147): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(152): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(160): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(164): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(172): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\ringbuffer.cpp(176): warning C4244: 'return': '__int64'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Session.cpp
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(54): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(54): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(54): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(54): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(147): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(147): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(147): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(147): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(173): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(173): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(173): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(173): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(199): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'SOCKET'입니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(199): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(199): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
+  d:\work\sourcetree\mmorpg\dummy_old\dummyclient\dummyclient\session.cpp(199): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
+  WorkerThread.cpp
+  코드를 생성하고 있습니다...
+  DummyClient.vcxproj -> D:\Work\SourceTree\MMORPG\Dummy_Old\DummyClient\x64\Debug\DummyClient.exe

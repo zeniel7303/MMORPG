@@ -6,7 +6,7 @@ Sender::Sender()
 
 Sender::~Sender()
 {
-	delete m_sendBuffer;
+	if (m_sendBuffer != nullptr) delete m_sendBuffer;
 }
 
 void Sender::Init()

@@ -31,13 +31,18 @@ public:
 	~ObjectPool()
 	{
 		DeleteCriticalSection(&m_cs);
+
+		while (!objects.empty())
+		{
+			objects.pop();
+		}
 	}
 
 	void AddObject(T* _object)
 	{
 		//CSLock csLock(m_cs);
 
-		objects.push(_object);
+		objects.emplace(_object);
 	}
 
 	// 오브젝트를 꺼낸다.

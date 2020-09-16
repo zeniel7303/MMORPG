@@ -12,9 +12,9 @@ private:
 public:
 	SharedQueue() {}
 	~SharedQueue() {
-		while (!m_itemQueue.empty())
+		for (auto& element : m_itemQueue)
 		{
-			m_itemQueue.pop();
+			delete m_itemQueue;
 		}
 	}
 

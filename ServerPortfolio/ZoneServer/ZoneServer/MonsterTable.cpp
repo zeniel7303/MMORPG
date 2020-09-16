@@ -18,7 +18,6 @@ void MonsterTable::GetMonstersData(Packet* _packet)
 
 	for (int i = 0; i < monstersInfoPacket->count; i++)
 	{
-		//m_monsterDataVec.push_back(monstersInfoPacket->monstersData[i]);
 		m_monsterDataVec.emplace_back(monstersInfoPacket->monstersData[i]);
 	}
 }

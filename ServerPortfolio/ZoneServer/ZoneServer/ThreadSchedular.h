@@ -28,8 +28,6 @@ public:
 			WaitForSingleObject(this->GetHandle(), m_time);
 
 			SetEvent(m_handle);
-
-			//MYDEBUG("Test \n");
 		}
 	}
 

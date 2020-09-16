@@ -25,13 +25,11 @@ RingBuffer::RingBuffer(int _size, int _tempSize)
 
 RingBuffer::~RingBuffer()
 {
-	Reset();
+	SAFE_DELETE_ARRAY(buffer);
 }
 
 void RingBuffer::Reset()
 {
-	//SAFE_DELETE_ARRAY(buffer);
-
 	bufferStartPoint = readPoint = parsingPoint = writePoint;
 	dataInBuffer = 0;
 }

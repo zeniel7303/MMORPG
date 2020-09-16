@@ -60,11 +60,11 @@ void User::DisConnect()
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		MYDEBUG("===== [ close socket : %d, %d Error ] ===== \n", m_socket, errorNum);
+		MYDEBUG("===== [ close socket : %ld, %d Error ] ===== \n", m_socket, errorNum);
 	}
 	else
 	{
-		MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+		MYDEBUG("===== [ close socket : %ld ] ===== \n", m_socket);
 	}
 
 	shutdown(m_socket, SD_BOTH);
@@ -91,11 +91,11 @@ void User::DisConnect_ChangeZone(int _num)
 	int errorNum = WSAGetLastError();
 	if (errorNum != 0)
 	{
-		MYDEBUG("===== [ close socket : %d, %d Error ] ===== \n", m_socket, errorNum);
+		MYDEBUG("===== [ close socket : %ld, %d Error ] ===== \n", m_socket, errorNum);
 	}
 	else
 	{
-		MYDEBUG("===== [ close socket : %d ] ===== \n", m_socket);
+		MYDEBUG("===== [ close socket : %ld ] ===== \n", m_socket);
 	}
 
 	shutdown(m_socket, SD_BOTH);
@@ -187,7 +187,7 @@ void User::Death()
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), reinterpret_cast<char*>(userNumPacket), userNumPacket->size);
 }
 
-void User::Respawn(VECTOR2 _spawnPosition)
+void User::Respawn(const VECTOR2& _spawnPosition)
 {
 	m_basicInfo.unitInfo.state = STATE::IDLE;
 
@@ -327,13 +327,13 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 
 void User::RequestUserInfoFailed()
 {
-	MYDEBUG("[ GetUserInfo Failed, Disconnect %d Socket User ]\n", m_socket);
+	MYDEBUG("[ GetUserInfo Failed, Disconnect %ld Socket User ]\n", m_socket);
 
 	DisConnect();
 }
 
 //받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
-void User::EnterField(Field *_field, int _fieldNum, VECTOR2 _spawnPosition)
+void User::EnterField(Field *_field, int _fieldNum, const VECTOR2& _spawnPosition)
 {
 	EnterFieldPacket* enterFieldPacket =
 		reinterpret_cast<EnterFieldPacket*>(m_sendBuffer->
@@ -388,7 +388,7 @@ bool User::CompareSector(Sector* _sector)
 }
 
 //테스트용
-void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VECTOR2 _spawnPosition)
+void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, const VECTOR2& _spawnPosition)
 {
 	m_isTestClient = true;
 

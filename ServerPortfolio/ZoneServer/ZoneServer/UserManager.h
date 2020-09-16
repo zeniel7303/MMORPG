@@ -19,6 +19,8 @@
 class UserManager
 {
 private:
+	//유저 데이터 관리를 위해 유저 전부 저장해두는 벡터
+	std::vector<User*>			m_userVec;
 	ObjectPool<User>			m_objectPool;
 	Manager_UnorderedMap<User>	m_userHashMap;
 	Manager_List<User>			m_tempUserList;
@@ -28,6 +30,7 @@ public:
 	~UserManager();
 
 	void AddObject(User* _t);
+	void CopyToObjectPool();
 
 	User* PopUser();
 	void AddUser(User* _t);
