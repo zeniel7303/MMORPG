@@ -1,6 +1,7 @@
 #pragma once
-#include <winsock2.h>
+#pragma warning(disable:4005)
 
+#include <winsock2.h>
 #include "../HeaderFiles/FileLog.h"
 #include "../HeaderFiles/Utils.h"
 
@@ -18,6 +19,7 @@ struct ST_OVERLAPPED : public WSAOVERLAPPED
 {
 	class Session*	session;
 	IO_STATE		state;
+	int				count;
 };
 
 class Session

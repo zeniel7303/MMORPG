@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4005)
 #include "../HeaderFiles/Session.h"
 #include "../HeaderFiles/Receiver.h"
 #include "../HeaderFiles/SendBuffer.h"

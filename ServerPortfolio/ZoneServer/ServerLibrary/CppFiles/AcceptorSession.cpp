@@ -94,13 +94,13 @@ void AcceptorSession::DisConnect()
 		printf("%d Error \n", errorNum);
 	}
 
-	printf("===== [ close listenSocket : %d ] ===== \n", m_listenSocket);
+	printf("===== [ close listenSocket : %ld ] ===== \n", m_listenSocket);
 
 	shutdown(m_listenSocket, SD_BOTH);
 	//shutdown 이후 close
 	closesocket(m_listenSocket);
 
-	printf("===== [ close socket : %d ] ===== \n", m_socket);
+	printf("===== [ close socket : %ld ] ===== \n", m_socket);
 
 	shutdown(m_socket, SD_BOTH);
 	//shutdown 이후 close

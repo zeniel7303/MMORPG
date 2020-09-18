@@ -123,7 +123,7 @@ void LogInConnector::HeartBeat()
 
 		DisConnect();
 
-		Connect("211.221.147.29", 30003, m_IOCPClass);
+		Connect("211.221.147.29", 30004, m_IOCPClass);
 	}
 
 	Packet* heartBeatPacket =

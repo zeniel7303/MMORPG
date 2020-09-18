@@ -100,11 +100,18 @@ void ClientSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 			return;
 		}
 
+		/*if (bytes == 0)
+		{
+			MYDEBUG("[INFO] %d BYTES == 0\n", m_socket);
+		}*/
+
 		m_receiver->Write(bytes);
 
 		OnRecv();
 
 		GenerateOverlappedIO();
+
+		m_overlapped.count -= 1;
 	}
 }
 

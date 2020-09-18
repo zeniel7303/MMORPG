@@ -11,7 +11,9 @@ PathFinderAgent::~PathFinderAgent()
 
 bool PathFinderAgent::Connect(const char* _ip, const unsigned short _portNum, IOCPClass* _iocpClass)
 {
-	TRYCATCH(m_ipEndPoint = IpEndPoint(_ip, _portNum));
+	portNum = _portNum;
+
+	TRYCATCH(m_ipEndPoint = IpEndPoint(_ip, portNum));
 
 	// 1. 家南积己
 	m_socket = WSASocketW(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
@@ -69,7 +71,7 @@ void PathFinderAgent::DisConnect()
 	//shutdown 捞饶 close
 	closesocket(m_socket);
 
-	Connect("211.221.147.29", 30001, m_IOCPClass);
+	Connect("211.221.147.29", portNum, m_IOCPClass);
 	OnConnect();
 }
 

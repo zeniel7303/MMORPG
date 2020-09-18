@@ -1,37 +1,13 @@
 ﻿  Acceptor.cpp
   DBConnector.cpp
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(68): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(68): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(68): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(68): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(72): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(72): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(72): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\dbconnector.cpp(72): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   HeartBeatThread.cpp
   LogInServer.cpp
   LogInSession.cpp
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(53): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(53): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(57): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(57): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(57): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\loginsession.cpp(57): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   LogInSessionManager.cpp
   main.cpp
   MainThread.cpp
   PacketHandler.cpp
   ZoneConnector.cpp
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(34): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(34): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(34): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(34): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
-d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(38): warning C4477: 'printf' : 서식 문자열 '%d'에 'int' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'SOCKET'입니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(38): note: 서식 문자열에서 '%lld'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(38): note: 서식 문자열에서 '%Id'을(를) 사용하는 것이 좋습니다.
-  d:\work\sourcetree\mmorpg\serverportfolio\loginserver\loginserver\zoneconnector.cpp(38): note: 서식 문자열에서 '%I64d'을(를) 사용하는 것이 좋습니다.
   ZoneServerAcceptor.cpp
   ZoneServerManager.cpp
   코드를 생성하고 있습니다...

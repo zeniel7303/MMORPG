@@ -14,6 +14,8 @@ PathFinderAgent::~PathFinderAgent()
 void PathFinderAgent::OnConnect()
 {
 	ClientSession::OnConnect();
+
+	MYDEBUG("%d socket \n", m_socket);
 }
 
 void PathFinderAgent::DisConnect()

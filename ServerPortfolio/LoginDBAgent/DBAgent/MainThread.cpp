@@ -136,6 +136,15 @@ void MainThread::ProcessRecv()
 		Packet* packet = packetQueuePair.packet;
 		DBAgent* dbAgent = packetQueuePair.agent;
 
+		if (packet == nullptr)
+		{
+			MYDEBUG("Packet is nullptr \n");
+
+			recvQueue.pop();
+
+			break;
+		}
+
 		if (packet->cmd == static_cast<WORD>(RecvCommand::LogIn2DB_HELLO))
 		{
 			MYDEBUG("[ LogInServer Connected ]\n");

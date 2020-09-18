@@ -816,6 +816,17 @@ void DBConnector::SetDBAgent(DBAgent* _agent)
 void DBConnector::SetPacket(Packet* _packet)
 {
 	m_packet = _packet;
+
+	if (m_dbAgent == nullptr || m_packet == nullptr)
+	{
+		m_dbAgent = nullptr;
+		m_packet = nullptr;
+
+		MYDEBUG("Check");
+
+		return;
+	}
+
 	SetEvent(m_hEvent);
 }
 
@@ -824,6 +835,13 @@ void DBConnector::LoopRun()
 	while (1)
 	{
 		WaitForSingleObject(m_hEvent, INFINITE);
+
+		if (m_packet == nullptr)
+		{
+			MYDEBUG("Packet is nullptr \n");
+
+			continue;
+		}
 
 		m_state = ACTIVE;
 
@@ -870,7 +888,7 @@ void DBConnector::LoopRun()
 		break;
 		case RecvCommand::Zone2DB_HEARTBEAT:
 		{
-			MYDEBUG("[ HeartBeat Test ]\n");
+			//MYDEBUG("[ HeartBeat Test ]\n");
 
 			Packet* alivePacket =
 				reinterpret_cast<Packet*>(m_sendBuffer->GetBuffer(sizeof(Packet)));

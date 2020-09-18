@@ -13,6 +13,7 @@ public class UIManager : Singleton<UIManager>
     public Canvas EscapeUI;
     public Canvas StatUI;
     public Canvas ZoneSelectUI;
+    public Text zoneNumText;
 
     public LevelUpUI LevelUpCanvas;
 
@@ -28,7 +29,7 @@ public class UIManager : Singleton<UIManager>
 
     public void Update()
     {
-        
+        zoneNumText.text = "현재 채널 : " + (ServerManager.Instance.myZone + 1).ToString();
     }
 
     public void Revive()

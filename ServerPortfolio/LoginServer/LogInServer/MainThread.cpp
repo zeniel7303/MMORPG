@@ -120,6 +120,13 @@ void MainThread::DisConnectUser()
 	{
 		LogInSession* tempSession = disconnectQueue.front();
 
+		if (tempSession == nullptr)
+		{
+			disconnectQueue.pop();
+
+			continue;
+		}
+
 		if (tempSession->m_isInHashMap)
 		{
 			//세션매니저에서 유저를 삭제해줌과 동시에 오브젝트풀에 반환해준다.

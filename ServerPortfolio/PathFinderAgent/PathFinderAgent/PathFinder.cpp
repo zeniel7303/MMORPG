@@ -18,11 +18,15 @@ PathFinder::PathFinder()
 		MYDEBUG("[Event Handle Creating Fail - %d Error]\n", num);
 	}
 
+	InitializeCriticalSection(&m_cs);
+
 	Thread::Start(this);
 }
 
 PathFinder::~PathFinder()
 {
+	DeleteCriticalSection(&m_cs);
+
 	if (m_nowTile != nullptr) delete m_nowTile;
 	if (m_targetTile != nullptr) delete m_targetTile;
 	if (m_packet != nullptr) delete m_packet;
@@ -76,6 +80,8 @@ void PathFinder::LoopRun()
 
 			m_pathFinderAgent->Send(reinterpret_cast<char*>(pathFindPacket_Failed),
 				pathFindPacket_Failed->size);
+
+			CSLock csLock(m_cs);
 
 			m_pathFinderAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
 
@@ -138,6 +144,8 @@ void PathFinder::LoopRun()
 			m_pathFinderAgent->Send(reinterpret_cast<char*>(pathFindPacket_Success),
 				pathFindPacket_Success->size);
 		}
+
+		CSLock csLock(m_cs);
 
 		m_pathFinderAgent->GetReceiver()->GetRingBuffer()->Read(m_packet->size);
 

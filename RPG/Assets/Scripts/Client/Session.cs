@@ -677,27 +677,23 @@ public class Session : MonoBehaviour
             case RecvCommand.LogIn2C_UPDATE_INFO:
                 {
                     Debug.Log("업데이트할 info 전송 - HeartBeat");
+
+                    SessionInfoPacket UpdateInfoPacket = new SessionInfoPacket();
+                    UpdateInfoPacket.SetCmd(SendCommand.C2Zone_UPDATE_INFO);
+                    UpdateInfoPacket.info.unitInfo = PlayerManager.instance.unitInfo;
+                    UpdateInfoPacket.info.userInfo = PlayerManager.instance.userInfo;
+
+                    ServerManager.Instance.SendData_ZoneServer(UpdateInfoPacket.GetBytes());
                 }
                 break;
             case RecvCommand.Zone2C_CHANGE_ZONE:
                 {
                     ZoneNumPacket zoneNumPacket  = new ZoneNumPacket();
                     Parsing(_buffer, ref zoneNumPacket);
-                    
+
                     //ServerManager.Instance.zoneSessionDisConnect();
 
-                    switch (zoneNumPacket.zoneNum)
-                    {
-                        case 0:
-                            ServerManager.Instance.ZoneServerConnect_1();
-                            break;
-                        case 1:
-                            ServerManager.Instance.ZoneServerConnect_2();
-                            break;
-                        case 2:
-                            ServerManager.Instance.ZoneServerConnect_3();
-                            break;
-                    }
+                    ServerManager.Instance.ZoneServerConnect(zoneNumPacket.zoneNum);
                 }
                 break;
         }

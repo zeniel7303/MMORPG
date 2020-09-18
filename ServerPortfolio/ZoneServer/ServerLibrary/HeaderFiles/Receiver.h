@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable:4005)
+#pragma warning(disable:4477)
 
 #include <winsock2.h>
 

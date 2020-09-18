@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning(disable:4996)
+
 #include <fstream>
 #include <stdarg.h>
 #include <direct.h>

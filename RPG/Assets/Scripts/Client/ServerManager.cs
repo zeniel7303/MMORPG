@@ -74,7 +74,7 @@ public class ServerManager : Singleton<ServerManager>
         logInSession.isLoginSession = true;
     }
 
-    public void ZoneServerConnect(ushort _num)
+    public void ZoneServerConnect(int _num)
     {
         if (GameManager.Instance.titleUI != null)
         {
@@ -82,7 +82,7 @@ public class ServerManager : Singleton<ServerManager>
             GameManager.Instance.titleUI = null;
         }
 
-        myZone = _num;
+        myZone = (ushort)_num;
         session.Init();
 
         switch (_num)
@@ -91,66 +91,33 @@ public class ServerManager : Singleton<ServerManager>
                 session.Connect(ip, zoneServerPort);
                 break;
             case 1:
+                session.Connect(ip, zoneServerPort + 1);
                 break;
             case 2:
+                session.Connect(ip, zoneServerPort + 2);
                 break;
             case 3:
+                session.Connect(ip, zoneServerPort + 3);
                 break;
             case 4:
+                session.Connect(ip, zoneServerPort + 4);
                 break;
             case 5:
+                session.Connect(ip, zoneServerPort + 5);
                 break;
             case 6:
+                session.Connect(ip, zoneServerPort + 6);
                 break;
             case 7:
+                session.Connect(ip, zoneServerPort + 7);
                 break;
             case 8:
+                session.Connect(ip, zoneServerPort + 8);
                 break;
             case 9:
+                session.Connect(ip, zoneServerPort + 9);
                 break;
         }
-    }
-
-    public void ZoneServerConnect_1()
-    {
-        if(GameManager.Instance.titleUI != null)
-        {
-            GameManager.Instance.titleUI.CloseZoneSelectWindow();
-            GameManager.Instance.titleUI = null;
-        }
-        
-        myZone = 0;
-
-        session.Init();
-        session.Connect(ip, zoneServerPort);
-    }
-
-    public void ZoneServerConnect_2()
-    {
-        if (GameManager.Instance.titleUI != null)
-        {
-            GameManager.Instance.titleUI.CloseZoneSelectWindow();
-            GameManager.Instance.titleUI = null;
-        }
-
-        myZone = 1;
-
-        session.Init();
-        session.Connect(ip, zoneServerPort + 1);
-    }
-
-    public void ZoneServerConnect_3()
-    {
-        if (GameManager.Instance.titleUI != null)
-        {
-            GameManager.Instance.titleUI.CloseZoneSelectWindow();
-            GameManager.Instance.titleUI = null;
-        }
-
-        myZone = 2;
-
-        session.Init();
-        session.Connect(ip, zoneServerPort + 2);
     }
 
     public void ZoneChange(int _num)

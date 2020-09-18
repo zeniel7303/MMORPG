@@ -127,7 +127,7 @@ void DBConnector::HeartBeat()
 
 		DisConnect();
 
-		Connect("211.221.147.29", 30002, m_IOCPClass);
+		Connect("211.221.147.29", 30003, m_IOCPClass);
 	}
 
 	Packet* heartBeatPacket =

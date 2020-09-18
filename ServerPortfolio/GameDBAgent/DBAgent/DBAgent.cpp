@@ -51,6 +51,11 @@ void DBAgent::OnRecv()
 
 		if (packet == nullptr) break;
 
+		if (packet->cmd != 1042)
+		{
+			MYDEBUG("Check \n");
+		}
+
 		MainThread::getSingleton()->AddToRecvQueue({ this, packet });
 
 		tempNum--;

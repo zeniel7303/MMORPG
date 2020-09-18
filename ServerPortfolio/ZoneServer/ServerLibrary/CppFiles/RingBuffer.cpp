@@ -158,10 +158,12 @@ char* RingBuffer::Parsing()
 
 DWORD RingBuffer::GetWriteableSize()
 {
+	DWORD size;
+
 	//평범한 경우
 	if (readPoint < writePoint)
 	{
-		return bufferEndPoint - writePoint;
+		size = (DWORD)(bufferEndPoint - writePoint);
 	}
 	else if (readPoint == writePoint)
 	{
@@ -169,31 +171,37 @@ DWORD RingBuffer::GetWriteableSize()
 		//데이터가 있는 경우 == 한바퀴 돌아서 같아짐
 		if (this->GetDataInBuffer() > 0)
 		{
-			return 0;
+			size = 0;
 		}
 		//readPoint와 writePoint가 같은데
 		//데이터가 없는 경우 == ringBuffer가 데이터를 받는 시점이거나 처리할게 없음(문제X)
 		else
 		{
-			return bufferEndPoint - writePoint;
+			size = (DWORD)(bufferEndPoint - writePoint);
 		}
 	}
 	else
 	{
-		return readPoint - writePoint;
+		size = (DWORD)(readPoint - writePoint);
 	}
+
+	return size;
 }
 
 DWORD RingBuffer::GetDataInBuffer()
 {
+	DWORD size;
+
 	if (parsingPoint > writePoint)
 	{
-		return bufferEndPoint - parsingPoint + (writePoint - bufferStartPoint);
+		size = (DWORD)(bufferEndPoint - parsingPoint + (writePoint - bufferStartPoint));
 	}
 	else
 	{
-		return writePoint - parsingPoint;
+		size = (DWORD)(writePoint - parsingPoint);
 	}
+
+	return size;
 }
 
 WORD RingBuffer::GetPacketSize()

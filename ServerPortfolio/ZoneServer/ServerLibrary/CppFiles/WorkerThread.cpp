@@ -59,6 +59,8 @@ void WorkerThread::LoopRun()
 			/*CONTAINING_RECORD(overlapped->session, 
 				ST_OVERLAPPED, session)->session->SetBytes(bytes);*/
 
+			overlapped->count += 1;
+
 			Session* tempSession = overlapped->session;
 			tempSession->SetBytes(bytes);
 
@@ -91,7 +93,10 @@ void WorkerThread::LoopRun()
 				continue;
 			}
 
-			overlapped->session->DisConnect();
+			if (overlapped->count <= 0)
+			{
+				overlapped->session->DisConnect();
+			}
 		}
 	}
 }

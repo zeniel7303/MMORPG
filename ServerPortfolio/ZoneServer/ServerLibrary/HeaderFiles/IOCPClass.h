@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable:4005)
 #include <winsock2.h>
 
 #include "../HeaderFiles/FileLog.h"

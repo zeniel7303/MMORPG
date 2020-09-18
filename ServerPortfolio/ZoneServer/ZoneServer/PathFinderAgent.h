@@ -23,6 +23,8 @@ private:
 
 	IOCPClass*					m_IOCPClass;
 
+	int							portNum;
+
 	PathFinderAgent();
 public:
 	~PathFinderAgent();

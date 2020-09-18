@@ -2,6 +2,7 @@
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/FileLog.h"
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/OnlyHeaders/Thread.h"
 #include "../../ZoneServer/ServerLibrary/HeaderFiles/SendBuffer.h"
+#include "../../ZoneServer/ServerLibrary/HeaderFiles/CriticalSection.h"
 
 #include "packet.h"
 
@@ -32,6 +33,8 @@ private:
 	PathFinding			m_pathFind;
 	
 	std::list<VECTOR2>	m_tileList;
+
+	CRITICAL_SECTION	m_cs;
 
 	SendBuffer*			m_sendBuffer;
 
