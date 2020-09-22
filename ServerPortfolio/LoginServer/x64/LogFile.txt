@@ -18749,3 +18749,244 @@ onStatus Failure
 [ 2020-09-17 14:06:17 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
 [ 2020-09-17 14:06:17 -  acceptorsession.cpp : 29 ] [ Binding Error ]
 [ 2020-09-17 14:06:17 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:08 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 20:10:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:10 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:28 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 20:17:57 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:57 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:57 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:58 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:58 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:17:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:18:00 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:18:01 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 22:47:17 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 22:54:13 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 22:54:13 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-19 22:54:17 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 22:54:17 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-19 23:09:04 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:09:04 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-19 23:09:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:07 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:08 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:12 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:18 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:09:25 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:21:06 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:21:06 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-19 23:23:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:23:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:17 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:24:19 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:19 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:19 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:20 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:20 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:20 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:20 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:21 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:21 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:22 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:24:25 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:29:27 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:29:27 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:30:06 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:33:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:33:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:33:20 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:37:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:37:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:37:10 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-19 23:39:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:39:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:39:34 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:40:11 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:45:33 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:47:45 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:47:46 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:47:46 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:48:21 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:50:30 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:50:46 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-19 23:54:47 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:54:47 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-19 23:58:07 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 23:58:07 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:01:18 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:01:29 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:06:29 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:06:29 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:07:30 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:07:30 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:07:32 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:10:21 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:12:52 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:12:52 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:12:52 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:13:53 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:13:53 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:13:54 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:14:04 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:14:05 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-20 00:14:05 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:15:26 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:15:31 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:15:39 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:15:39 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-20 00:15:39 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:16:52 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:17:23 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:17:24 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:17:36 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:19:16 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:19:16 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:19:38 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:21:48 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:21:48 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:21:48 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:25:07 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:26:38 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:26:40 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:26:42 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:27:24 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:27:25 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:27:34 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:28:58 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:28:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:29:58 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:29:58 -  acceptorsession.cpp : 29 ] [ Binding Error ]
+[ 2020-09-20 00:29:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:29:59 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:30:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:30:06 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:33:01 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:33:01 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:33:03 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:33:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:33:27 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:39:00 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:39:01 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:40:23 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:41:08 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:41:08 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:41:47 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:43:43 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:43:43 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 00:45:11 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:48:32 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 00:56:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 00:56:04 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 01:00:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 01:00:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 02:32:28 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 02:38:16 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 02:38:16 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 02:38:19 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 02:39:43 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 02:39:43 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:07:58 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 03:10:12 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:10:12 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-20 03:17:21 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:17:21 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:17:26 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:35 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 03:29:39 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:39 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:39 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:39 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:40 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:40 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:40 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:41 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:41 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:41 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:29:47 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 03:35:23 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 03:35:24 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 18:01:21 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 18:05:51 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 18:05:51 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 18:05:55 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 18:06:46 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 18:06:46 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 20:16:09 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 20:29:23 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 20:31:42 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-20 20:37:02 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-20 20:37:02 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-21 02:35:42 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 02:50:19 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:50:19 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-21 02:52:32 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:56:19 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 02:57:51 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:57:51 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:58:47 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 02:59:04 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:59:32 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 02:59:36 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 02:59:50 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:00:01 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:01:28 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 03:02:09 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:09:10 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 03:09:44 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:09:52 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 03:10:10 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:10:51 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 03:11:13 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-21 03:11:57 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-21 03:13:54 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:04 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:09:09 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:09:13 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:13 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:14 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:15 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:15 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:15 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:09:35 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:14:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:14:33 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:14:36 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:17:11 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:17:11 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:17:51 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:20:19 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:20:20 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:22:26 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:23:12 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:27:01 -  loginserver.cpp : 14 ] 로그인 서버 구동 시작
+[ 2020-09-22 02:31:03 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:31:03 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-22 02:31:09 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-22 02:31:09 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-22 02:31:15 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure

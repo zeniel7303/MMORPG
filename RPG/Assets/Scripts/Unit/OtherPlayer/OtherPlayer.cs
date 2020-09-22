@@ -11,6 +11,7 @@ public class OtherPlayer : Unit
     private Transform playerTransform;
 
     private Animator animator;
+    private Rigidbody rigidbody;
     public bool isMove;
     public bool isMoveFinish;
 
@@ -43,6 +44,7 @@ public class OtherPlayer : Unit
         floatingChatting.transform.localPosition = Vector3.zero;
 
         animator = this.GetComponent<Animator>();
+        rigidbody = this.GetComponent<Rigidbody>();
         myTransform = this.transform;
         isMove = false;
 
@@ -67,6 +69,18 @@ public class OtherPlayer : Unit
                 userMesh.SetActive(false);
                 GameManager.Instance.mapManager.RemoveVisiblePlayer(this);
             }
+        }
+
+        if (this.transform.position.y <= -10.0f)
+        {
+            rigidbody.useGravity = false;
+
+            Vector3 vec = new Vector3(unitInfo.position.position.x,
+                                  5.0f, unitInfo.position.position.z);
+
+            this.transform.position = vec;
+
+            rigidbody.useGravity = true;
         }
 
         /*if (Vector3.SqrMagnitude(myTransform.position - playerTransform.position) >

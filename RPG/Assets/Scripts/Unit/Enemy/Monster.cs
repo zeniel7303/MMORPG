@@ -21,6 +21,7 @@ public class Monster : MonoBehaviour
     private Transform playerTransform;
 
     private Animator animator;
+    private Rigidbody rigidbody;
 
     public GameObject monsterMesh;
 
@@ -51,6 +52,7 @@ public class Monster : MonoBehaviour
         DamagePivot = transform.Find("DamagePivot").gameObject;
 
         animator = this.GetComponent<Animator>();
+        rigidbody = this.GetComponent<Rigidbody>();
         myTransform = this.transform;
 
         playerDistance = 0.0f;
@@ -86,27 +88,6 @@ public class Monster : MonoBehaviour
         monsterInfoUI.enemyHPText.text =
             string.Format("{0} / {1}", monsterInfo.hp.currentValue, monsterInfo.hp.maxValue);
 
-        /*if (playerTransform == null) return;
-
-        playerDistance = Vector3.SqrMagnitude(myTransform.position - playerTransform.position);
-
-        if (playerDistance > 40.0f * 40.0f)
-        {
-            if (monsterMesh.activeSelf)
-            {
-                monsterMesh.gameObject.SetActive(false);
-                GameManager.Instance.mapManager.RemoveVisibleMonster(this);
-            }
-        }
-        else
-        {
-            if (!monsterMesh.activeSelf)
-            {
-                monsterMesh.gameObject.SetActive(true);
-                GameManager.Instance.mapManager.AddVisibleMonster(this);
-            }
-        }*/
-
         if(isDeath)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Death") &&
@@ -129,6 +110,18 @@ public class Monster : MonoBehaviour
             }
         }
 
+        if (this.transform.position.y <= -10.0f)
+        {
+            rigidbody.useGravity = false;   
+
+            Vector3 vec = new Vector3(monsterInfo.position.x,
+                                  5.0f, monsterInfo.position.z);
+
+            this.transform.position = vec;
+
+            rigidbody.useGravity = true;
+        }
+
         Moving();
     }
 
@@ -145,6 +138,8 @@ public class Monster : MonoBehaviour
 
         monsterMesh.SetActive(false);
         isVisible = false;
+
+        monsterInfoUI.index.text = monsterInfo.index.ToString();
     }
 
     public void Release(MonsterInfo _info)

@@ -333,16 +333,16 @@ void User::RequestUserInfoFailed()
 }
 
 //받아온 Field의 Num값을 User에 넣어주고 완료했다는 패킷 보냄. 이후 클라에선 씬 전환해줄듯
-void User::EnterField(Field *_field, int _fieldNum, const VECTOR2& _spawnPosition)
+void User::EnterField(Field *_field, int _fieldNum, VECTOR2* _spawnPosition)
 {
 	EnterFieldPacket* enterFieldPacket =
 		reinterpret_cast<EnterFieldPacket*>(m_sendBuffer->
 			GetBuffer(sizeof(EnterFieldPacket)));
 	enterFieldPacket->fieldNum = _fieldNum;
 
-	enterFieldPacket->position = _spawnPosition;
-	m_basicInfo.unitInfo.position.x = _spawnPosition.x;
-	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
+	enterFieldPacket->position = *_spawnPosition;
+	m_basicInfo.unitInfo.position.x = _spawnPosition->x;
+	m_basicInfo.unitInfo.position.y = _spawnPosition->y;
 
 	enterFieldPacket->Init(SendCommand::Zone2C_ENTER_FIELD, sizeof(EnterFieldPacket));
 	//m_sendBuffer->Write(enterFieldPacket->size);
@@ -388,7 +388,7 @@ bool User::CompareSector(Sector* _sector)
 }
 
 //테스트용
-void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, const VECTOR2& _spawnPosition)
+void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VECTOR2* _spawnPosition)
 {
 	m_isTestClient = true;
 
@@ -403,8 +403,8 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, con
 		100, 100, 100, 100, 100, 0, 20, 0);
 	m_basicInfo.unitInfo.SetUnitPosition(0, 0);
 
-	m_basicInfo.unitInfo.position.x = _spawnPosition.x;
-	m_basicInfo.unitInfo.position.y = _spawnPosition.y;
+	m_basicInfo.unitInfo.position.x = _spawnPosition->x;
+	m_basicInfo.unitInfo.position.y = _spawnPosition->y;
 
 	m_tile = m_fieldTilesData->GetTile(
 		static_cast<int>(m_basicInfo.unitInfo.position.x),

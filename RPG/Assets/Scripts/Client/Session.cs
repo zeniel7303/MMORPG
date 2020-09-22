@@ -394,6 +394,11 @@ public class Session : MonoBehaviour
                     EnterFieldPacket enterFieldPacket = new EnterFieldPacket();
                     Parsing(_buffer, ref enterFieldPacket);
 
+                    PlayerManager.instance.unitInfo.position.position.x =
+                        enterFieldPacket.position.x;
+                    PlayerManager.instance.unitInfo.position.position.z =
+                        enterFieldPacket.position.z;
+
                     //if(PlayerManager.instance.unitInfo.zoneNum != 0)
                     {
                         if(ServerManager.Instance.mapManager != null)
@@ -401,10 +406,9 @@ public class Session : MonoBehaviour
                         ServerManager.Instance.mapManager.Clear();
                     }
 
-                    Debug.Log(enterFieldPacket.position);
+                    //Debug.Log(enterFieldPacket.position);
 
                     PlayerManager.instance.unitInfo.zoneNum = enterFieldPacket.fieldNum;
-                    PlayerManager.instance.unitInfo.position.position = enterFieldPacket.position;
 
                     //Debug.Log(PlayerManager.instance.unitInfo.position.position);
 
@@ -420,8 +424,6 @@ public class Session : MonoBehaviour
                             SceneManager.LoadScene("TestScene");
                             break;
                     }
-
-                    GameManager.Instance.isInGame = true;
 
                     PlayerManager.instance.Init();
 
@@ -502,7 +504,7 @@ public class Session : MonoBehaviour
                     UserListPacket_Light userListPacket = new UserListPacket_Light();
                     Parsing(_buffer, ref userListPacket);
 
-                    //Debug.Log("Invisible List : " + userListPacket.userNum);
+                    Debug.Log("Invisible List : " + userListPacket.userNum);
 
                     ServerManager.Instance.GetUserListInvisible(userListPacket);
                 }
@@ -514,7 +516,7 @@ public class Session : MonoBehaviour
 
                     if (userNumPacket.userIndex == PlayerManager.instance.userInfo.userID) break;
 
-                    //Debug.Log("Leave Sector UserNum : " + userNumPacket.userIndex);
+                    Debug.Log("Leave Sector UserNum : " + userNumPacket.userIndex);
 
                     ServerManager.Instance.mapManager.
                         otherPlayersDic[userNumPacket.userIndex].isVisible = false;
@@ -525,7 +527,7 @@ public class Session : MonoBehaviour
                     UserListPacket_Light userListPacket = new UserListPacket_Light();
                     Parsing(_buffer, ref userListPacket);
 
-                    //Debug.Log("Visible List : " + userListPacket.userNum);
+                    Debug.Log("Visible List : " + userListPacket.userNum);
 
                     ServerManager.Instance.GetUserListVisible(userListPacket);
                 }
@@ -635,7 +637,7 @@ public class Session : MonoBehaviour
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
 
-                    //Debug.Log("Invisible List : " + monsterListPacket.monsterNum);
+                    Debug.Log("Invisible List : " + monsterListPacket.monsterNum);
 
                     ServerManager.Instance.GetMonsterListInvisible(monsterListPacket);
                 }
@@ -645,7 +647,7 @@ public class Session : MonoBehaviour
                     MonsterInfoListPacket monsterListPacket = new MonsterInfoListPacket();
                     Parsing(_buffer, ref monsterListPacket);
 
-                    //Debug.Log("Visible List : " + monsterListPacket.monsterNum);
+                    Debug.Log("Visible List : " + monsterListPacket.monsterNum);
 
                     ServerManager.Instance.GetMonsterListVisible(monsterListPacket);
                 }

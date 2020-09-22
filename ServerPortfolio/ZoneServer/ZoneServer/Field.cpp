@@ -157,23 +157,23 @@ void Field::EnterUser(User* _user)
 			tempVec.x = 52.0f;
 			tempVec.y = 86.0f;
 
-			_user->EnterField(this, m_fieldNum, tempVec);
+			_user->EnterField(this, m_fieldNum, &tempVec);
 		}
 		else
 		{
-			_user->EnterField(this, m_fieldNum, m_spawnPosition);
+			_user->EnterField(this, m_fieldNum, &m_spawnPosition);
 		}
 	}
 	else
 	{
-		_user->EnterField(this, m_fieldNum, m_spawnPosition);
+		_user->EnterField(this, m_fieldNum, &m_spawnPosition);
 	}
 
 	m_userList.AddItem(_user);
 
-	UpdateUserSector(_user);
-
 	SendEnterUserInfo(_user);
+
+	UpdateUserSector(_user);
 
 	MYDEBUG("[%d Field : User Insert - %d (접속자 수  : %d) ]\n",
 		m_fieldNum, _user->GetInfo()->userInfo.userID, (int)m_userList.GetItemList().size());
@@ -204,7 +204,11 @@ void Field::SendEnterUserInfo(User* _user)
 	userNumPacket_InRange->userIndex = _user->GetInfo()->userInfo.userID;
 	m_sendBuffer->Write(userNumPacket_InRange->size);
 
+	if (_user->GetSector() == nullptr) return;
+
 	const std::vector<Sector*>& tempVec = _user->GetSector()->GetRoundSectorsVec();
+
+	if (tempVec.size() <= 0) return;
 
 	for (const auto& tempSector : tempVec)
 	{
@@ -327,6 +331,14 @@ void Field::UpdateUserSector(User* _user)
 
 	_user->SetSector(nowSector);
 	_user->GetSector()->GetUserList()->AddItem(_user);
+
+	m_enterSectorsVec.resize((int)nowSector->GetRoundSectorsVec().size());
+	std::copy(nowSector->GetRoundSectorsVec().begin(), nowSector->GetRoundSectorsVec().end(),
+		m_enterSectorsVec.begin());
+
+	EnterSector(_user);
+
+	m_enterSectorsVec.resize(9);
 
 	return;
 }
@@ -530,7 +542,7 @@ void Field::SendVisibleMonsterList(User* _user)
 //테스트용
 void Field::EnterTestClient(User* _user, int _num)
 {
-	_user->TestClientEnterField(this, m_fieldNum, _num, m_spawnPosition);
+	_user->TestClientEnterField(this, m_fieldNum, _num, &m_spawnPosition);
 
 	m_userList.AddItem(_user);
 

@@ -41,6 +41,8 @@ public class MapManager : MonoBehaviour
         Packet packet = new Packet(SendCommand.C2Zone_ENTER_FIELD_SUCCESS);
         ServerManager.Instance.SendData_ZoneServer(packet.GetBytes());
         ServerManager.Instance.isStartConnect = true;
+
+        GameManager.Instance.isInGame = true;
     }
 
     // Update is called once per frame

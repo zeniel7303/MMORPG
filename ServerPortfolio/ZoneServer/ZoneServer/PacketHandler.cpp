@@ -100,6 +100,8 @@ void PacketHandler::OnPacket_UpdateUser(User* _user, Packet* _packet)
 
 void PacketHandler::OnPacket_EnterField(User* _user, Packet* _packet)
 {
+	MYDEBUG("Check \n");
+
 	FieldNumPacket* fieldNumPacket = reinterpret_cast<FieldNumPacket*>(_packet);
 
 	Field* field = m_fieldManager.GetField(fieldNumPacket->fieldNum);

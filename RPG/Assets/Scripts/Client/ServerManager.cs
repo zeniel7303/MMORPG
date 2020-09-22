@@ -24,9 +24,6 @@ public class ServerManager : Singleton<ServerManager>
 
     private float heartbeatTime = 0.0f;
 
-    private float time = 0.0f;
-    private bool isChangeZone = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -281,6 +278,8 @@ public class ServerManager : Singleton<ServerManager>
 
             if (mapManager == null) return;
 
+            if (!mapManager.otherPlayersDic.ContainsKey(_packet.info[i].userID)) continue;
+
             mapManager.otherPlayersDic[_packet.info[i].userID].isVisible = true;
         }
     }
@@ -292,6 +291,8 @@ public class ServerManager : Singleton<ServerManager>
             if (_packet.info[i].userID == session.userID) continue;
 
             if (mapManager == null) return;
+
+            if (!mapManager.otherPlayersDic.ContainsKey(_packet.info[i].userID)) continue;
 
             mapManager.otherPlayersDic[_packet.info[i].userID].isVisible = false;
             mapManager.EndMoveOtherPlayer(_packet.info[i].userID, 
@@ -307,10 +308,11 @@ public class ServerManager : Singleton<ServerManager>
 
             if (mapManager == null) return;
 
-            mapManager.otherPlayersDic[_packet.info[i].userID].isVisible = true;
+            if (!mapManager.otherPlayersDic.ContainsKey(_packet.info[i].userID)) continue;
 
+            mapManager.otherPlayersDic[_packet.info[i].userID].isVisible = true;
             Vector3 tempPosi = new Vector3(
-                        _packet.info[i].position.position.x, 0.5f,
+                        _packet.info[i].position.position.x, 5.0f,
                         _packet.info[i].position.position.z);
 
             mapManager.otherPlayersDic[_packet.info[i].userID].transform.position = tempPosi;
@@ -450,6 +452,12 @@ public class ServerManager : Singleton<ServerManager>
         for (int i = 0; i < _packet.monsterNum; i++)
         {
             mapManager.monsterDic[_packet.info[i].index].isVisible = true;
+
+            Vector3 tempPosi = new Vector3(
+                        _packet.info[i].position.x, 0.5f,
+                        _packet.info[i].position.z);
+
+            mapManager.monsterDic[_packet.info[i].index].transform.position = tempPosi;
         }
     }
 
@@ -459,6 +467,8 @@ public class ServerManager : Singleton<ServerManager>
 
         for (int i = 0; i < _packet.monsterNum; i++)
         {
+            if (!mapManager.monsterDic.ContainsKey(_packet.info[i].index)) continue;
+
             mapManager.monsterDic[_packet.info[i].index].isVisible = false;
         }
     }
@@ -469,6 +479,14 @@ public class ServerManager : Singleton<ServerManager>
 
         for (int i = 0; i < _packet.monsterNum; i++)
         {
+            if (!mapManager.monsterDic.ContainsKey(_packet.info[i].index)) continue;
+
+            Vector3 tempPosi = new Vector3(
+                        _packet.info[i].position.x, 0.5f,
+                        _packet.info[i].position.z);
+
+            mapManager.monsterDic[_packet.info[i].index].transform.position = tempPosi;
+
             mapManager.monsterDic[_packet.info[i].index].isVisible = true;
         }
     }

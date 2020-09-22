@@ -1,0 +1,11 @@
+[ 2020-09-19 20:10:08 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:08 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:09 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:09 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:09 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:09 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-09-19 20:10:11 -  workerthread.cpp : 71 ] [INFO] GetQueuedCompletionStatus Failure
