@@ -37,7 +37,7 @@ void App::Init(int _num)
 
 void App::Begin(IpEndPoint& _ipEndPoint)
 {
-	ThreadClass<App>::Start(this);
+	//ThreadClass<App>::Start(this);
 
 	Dummy* dummy = nullptr;
 
@@ -57,6 +57,8 @@ void App::Begin(IpEndPoint& _ipEndPoint)
 		dummy->m_loginDummy->OnConnect(dummy->m_loginDummy->GetSocket());
 	}
 
+	ThreadClass<App>::Start(this);
+
 	//Sleep(3000);
 }
 
@@ -71,8 +73,10 @@ void App::LoopRun()
 			dummy = element;
 
 			dummy->FSM();
+			//dummy->Test();
 		}
 
 		Sleep(1000 / 10);
+		//Sleep(1000);
 	}
 }

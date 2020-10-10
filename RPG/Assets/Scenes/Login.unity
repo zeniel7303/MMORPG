@@ -12093,7 +12093,7 @@ MonoBehaviour:
   userID: 0
   ip: 211.221.147.29
   logInServerPort: 30005
-  firstFieldNum: 1
+  firstFieldNum: 3
   myZone: 0
   zoneServerPort: 0
   mapManager: {fileID: 0}

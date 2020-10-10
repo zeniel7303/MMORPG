@@ -155,7 +155,7 @@ public class PlayerManager : Unit
     {
         isInTitleOrLoading = false;
 
-        this.transform.position.SetY(5.0f);
+        this.transform.position.SetY(3.0f);
     }
 
     // Update is called once per frame

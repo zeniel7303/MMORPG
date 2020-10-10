@@ -48,14 +48,14 @@ void PathFinder::LoopRun()
 		m_nowTile =
 		MainThread::getSingleton()->GetFieldManager()->
 			GetFieldData(pathFindPacket->fieldNum)->
-			GetTile(pathFindPacket->nowPosition.x, 
-				pathFindPacket->nowPosition.y);
+			GetTile((int)pathFindPacket->nowPosition.x, 
+			(int)pathFindPacket->nowPosition.y);
 
 		m_targetTile =
 			MainThread::getSingleton()->GetFieldManager()->
 			GetFieldData(pathFindPacket->fieldNum)->
-			GetTile(pathFindPacket->targetPosition.x,
-				pathFindPacket->targetPosition.y);
+			GetTile((int)pathFindPacket->targetPosition.x,
+			(int)pathFindPacket->targetPosition.y);
 
 		//MYDEBUG("now : %d, %d / target : %d , %d \n", m_nowTile->GetX(), m_nowTile->GetY(), m_targetTile->GetX(), m_targetTile->GetY());
 
@@ -123,7 +123,7 @@ void PathFinder::LoopRun()
 			pathFindPacket_Success->fieldNum = pathFindPacket->fieldNum;
 			pathFindPacket_Success->state = pathFindPacket->state;
 
-			pathFindPacket_Success->listCount = m_tileList.size();
+			pathFindPacket_Success->listCount = (int)(m_tileList.size());
 				
 			int i = 0;
 			for (const auto& element : m_tileList)
@@ -134,8 +134,8 @@ void PathFinder::LoopRun()
 				//pathFindPacket_Success->listCount++;
 			}
 
-			pathFindPacket_Success->size = (sizeof(VECTOR2) * pathFindPacket_Success->listCount)
-				+ sizeof(int) + sizeof(int) + sizeof(unsigned short) + sizeof(int) + sizeof(Packet);
+			pathFindPacket_Success->size = WORD((sizeof(VECTOR2) * pathFindPacket_Success->listCount)
+				+ sizeof(int) + sizeof(int) + sizeof(unsigned short) + sizeof(int) + sizeof(Packet));
 			pathFindPacket_Success->Init(SendCommand::Path2Zone_PATHFIND_SUCCESS, 
 				pathFindPacket_Success->size);
 

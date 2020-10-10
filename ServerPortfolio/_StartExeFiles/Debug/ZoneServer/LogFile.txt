@@ -6315,3 +6315,28 @@ s Failure
 [ 2020-09-22 02:18:46 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
 [ 2020-09-22 02:19:35 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
 [ 2020-09-22 02:19:35 -  workerthread.cpp : 91 ] [INFO] SESSION IS NULL
+[ 2020-09-30 19:34:46 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-09-30 19:34:46 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-10-05 08:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:25 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:26 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:26 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:26 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:26 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:26 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-05 08:07:28 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-10-05 08:07:29 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-10-05 08:07:29 -  workerthread.cpp : 73 ] [INFO] GetQueuedCompletionStatus Failure
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:54:59 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:55:00 -  zoneserver.cpp : 14 ] 존 서버 구동 시작
+[ 2020-10-08 18:55:00 -  zoneserver.cpp : 14 ] 존 서버 구동 시작

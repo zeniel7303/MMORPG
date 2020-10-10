@@ -312,7 +312,7 @@ public class ServerManager : Singleton<ServerManager>
 
             mapManager.otherPlayersDic[_packet.info[i].userID].isVisible = true;
             Vector3 tempPosi = new Vector3(
-                        _packet.info[i].position.position.x, 5.0f,
+                        _packet.info[i].position.position.x, 3.0f,
                         _packet.info[i].position.position.z);
 
             mapManager.otherPlayersDic[_packet.info[i].userID].transform.position = tempPosi;

@@ -45,6 +45,7 @@ public:
 	void RegisterFailed();
 
 	void ChangeZone(int _num);
+	void SendDisconnect();
 
 	int GetIdx() { return m_idx; }
 	int GetZoneNum() { return m_zoneNum; }

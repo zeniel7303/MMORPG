@@ -34,6 +34,7 @@ public:
 	void FSM();
 	void Move();
 	bool PathMove();
+	void Test();
 
 	int GetDummyNum() { return dummyNum; }
 };

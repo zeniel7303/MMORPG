@@ -100,6 +100,7 @@ void Session::CheckCompletion(bool _bool, ST_OVERLAPPED* _overlapped, DWORD _byt
 			return;
 		}
 
+		//printf("Check \n");
 		m_recvBuffer->Write(_bytes);
 
 		Parsing();
@@ -263,6 +264,7 @@ void Session::Parsing()
 
 			m_basicInfo.unitInfo = sessionInfoPacket->info.unitInfo;
 			m_basicInfo.userInfo = sessionInfoPacket->info.userInfo;
+			//printf("REGISTER %d \n", m_basicInfo.userInfo.userID);
 
 			m_basicInfo.unitInfo.state = STATE::IDLE;
 		}
@@ -275,6 +277,14 @@ void Session::Parsing()
 
 			m_basicInfo.unitInfo.position.x = testClientStatePacket->vec2.x;
 			m_basicInfo.unitInfo.position.y = testClientStatePacket->vec2.y;
+		}
+		break;
+		case RecvCommand::Zone2C_TEST:
+		{
+			TestPacket* testPacket = static_cast<TestPacket*>(packet);
+
+			//InterlockedExchange((LPLONG)&count, testPacket->count);
+			//printf("%d : %d \n", m_basicInfo.userInfo.userID, count);
 		}
 		break;
 		}

@@ -174,4 +174,10 @@ struct TestClientStatePacket : Packet
 	STATE state;
 	VECTOR2 vec2;
 };
+
+struct TestPacket : Packet
+{
+	int count;
+	char test[1000];
+};
 #pragma pack(pop)

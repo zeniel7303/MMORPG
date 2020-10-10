@@ -110,12 +110,12 @@ public class Monster : MonoBehaviour
             }
         }
 
-        if (this.transform.position.y <= -10.0f)
+        if (this.transform.position.y <= -5.0f)
         {
             rigidbody.useGravity = false;   
 
             Vector3 vec = new Vector3(monsterInfo.position.x,
-                                  5.0f, monsterInfo.position.z);
+                                  1.0f, monsterInfo.position.z);
 
             this.transform.position = vec;
 

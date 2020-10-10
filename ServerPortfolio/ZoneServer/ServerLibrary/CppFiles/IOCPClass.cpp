@@ -36,7 +36,7 @@ IOCPClass::IOCPClass()
 
 IOCPClass::~IOCPClass()
 {
-	for (int i = m_threadCount; i > 0; i--)
+	for (int i = m_threadCount - 1; i > 0; i--)
 	{
 		delete m_workThreadBuffer[i];
 	}

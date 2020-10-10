@@ -20,6 +20,7 @@ enum class SendCommand : WORD
 	C2Zone_CHATTING = 14,
 	C2Zone_CHECK_ALIVE = 15,
 	C2Zone_ENTER_TEST_USER = 16,
+	C2Zone_TEST = 12345
 };
 
 enum class RecvCommand : WORD
@@ -85,5 +86,7 @@ enum class RecvCommand : WORD
 	Zone2C_REGISTER_TEST_USER = 1039,
 	Zone2C_UPDATE_STATE_TEST_USER = 1040,
 
-	LogIn2DB_HELLO = 1041
+	LogIn2DB_HELLO = 1041,
+
+	Zone2C_TEST = 12345
 };

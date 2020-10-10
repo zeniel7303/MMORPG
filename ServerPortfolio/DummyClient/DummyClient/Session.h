@@ -75,6 +75,8 @@ protected:
 
 	INFO m_basicInfo;
 
+	int count;
+
 private:
 
 public:

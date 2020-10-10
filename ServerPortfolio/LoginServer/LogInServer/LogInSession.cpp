@@ -63,17 +63,9 @@ void LogInSession::DisConnect()
 
 	m_heartBeatCheckedCount = 0;
 
-	if (m_isInHashMap)
-	{
-		UserNumPacket* DisConnectUserPacket = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
-			GetBuffer(sizeof(UserNumPacket)));
-		DisConnectUserPacket->Init(SendCommand::LogIn2Zone_DISCONNECT_USER, sizeof(UserNumPacket));
-		DisConnectUserPacket->userIndex = m_idx;
-		//m_sendBuffer->Write(DisConnectUserPacket->size);
+	SendDisconnect();
 
-		MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(m_zoneNum)
-			->Send(reinterpret_cast<char*>(DisConnectUserPacket), DisConnectUserPacket->size);
-	}
+	//MYDEBUG("%p \n", this);
 
 	MainThread::getSingleton()->AddToDisConnectQueue(this);
 }
@@ -314,4 +306,19 @@ void LogInSession::ChangeZone(int _num)
 	prevZoneConnector->Send(reinterpret_cast<char*>(changeZonePacket), changeZonePacket->size);
 
 	m_zoneNum = _num;
+}
+
+void LogInSession::SendDisconnect()
+{
+	if (m_isInHashMap)
+	{
+		UserNumPacket* DisConnectUserPacket = reinterpret_cast<UserNumPacket*>(m_sendBuffer->
+			GetBuffer(sizeof(UserNumPacket)));
+		DisConnectUserPacket->Init(SendCommand::LogIn2Zone_DISCONNECT_USER, sizeof(UserNumPacket));
+		DisConnectUserPacket->userIndex = m_idx;
+		//m_sendBuffer->Write(DisConnectUserPacket->size);
+
+		MainThread::getSingleton()->GetZoneServerManager()->GetZoneConnector(m_zoneNum)
+			->Send(reinterpret_cast<char*>(DisConnectUserPacket), DisConnectUserPacket->size);
+	}
 }

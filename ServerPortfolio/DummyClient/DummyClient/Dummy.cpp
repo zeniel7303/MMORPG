@@ -13,6 +13,8 @@ Dummy::Dummy(int _num, int _fieldNum, FieldTilesData* _data)
 	intervalTime = (float)(rand() % 20) + 1;
 
 	m_loginDummy = new loginDummy();
+
+	count = 0;
 }
 
 Dummy::~Dummy()
@@ -309,4 +311,16 @@ bool Dummy::PathMove()
 	}
 
 	return true;
+}
+
+void Dummy::Test()
+{
+	TestPacket* testPacket =
+		reinterpret_cast<TestPacket*>(m_sendBuffer->
+			GetBuffer(sizeof(TestPacket)));
+	testPacket->Init(SendCommand::C2Zone_TEST, sizeof(TestPacket));
+	//InterlockedExchange((LPLONG)&testPacket->count, count);
+	Session::GetSendBuffer()->Write(testPacket->size);
+
+	Send(reinterpret_cast<char*>(testPacket), testPacket->size);
 }
