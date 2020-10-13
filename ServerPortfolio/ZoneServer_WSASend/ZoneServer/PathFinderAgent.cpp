@@ -119,6 +119,6 @@ void PathFinderAgent::SendPathFindPacket(int _index, int _fieldNum, unsigned sho
 	pathFindPacket->targetPosition.y = (float)_targetTileY;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(pathFindPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(pathFindPacket));
 	AddToSendQueue(tempPtr);
 }

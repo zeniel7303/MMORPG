@@ -131,12 +131,7 @@ void ClientSession::HandleOverlappedIO(ST_OVERLAPPED* _overlapped)
 				m_sender->m_bytes = 0;
 			}*/
 
-			//printf("%d \n", m_sender->m_queue.size());
 			m_sender->m_queue.pop();
-			//m_sender->m_bytes = 0;
-		}
-		else
-		{
 			//m_sender->m_bytes = 0;
 		}
 
@@ -199,16 +194,10 @@ void ClientSession::AddToSendQueue(SharedPointer<char>& sharedptr)
 		return;
 	}
 
-	//send(m_socket, sharedptr.GetPointer(), *(WORD*)sharedptr.GetPointer(), 0);
-
 	m_sender->m_queue.emplace(sharedptr);
-
-	//m_sender->m_queue.pop();
 
 	if (!m_sender->m_isSend)
 	{
-		//printf("½ÇÇà \n");
-
 		GenerateOverlappedIO(&m_sendOverlapped);
 	}
 

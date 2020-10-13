@@ -55,7 +55,6 @@ void WorkerThread::LoopRun()
 				continue;
 			}
 
-			//쓰긴 쓰는데 어떻게 써야 유의미할까
 			/*CONTAINING_RECORD(overlapped->session, 
 				ST_OVERLAPPED, session)->session->SetBytes(bytes);*/
 

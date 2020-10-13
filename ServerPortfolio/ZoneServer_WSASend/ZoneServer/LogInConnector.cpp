@@ -58,7 +58,7 @@ void LogInConnector::OnConnect()
 	helloPacket->Init(SendCommand::Zone2LogIn_HELLO, sizeof(Packet));
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(helloPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(helloPacket));
 	AddToSendQueue(tempPtr);
 }
 
@@ -120,7 +120,7 @@ void LogInConnector::SendDisConnectUser(int _num)
 	//m_sendBuffer->Write(DisConnectUserPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(DisConnectUserPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(DisConnectUserPacket));
 	AddToSendQueue(tempPtr);
 }
 
@@ -143,6 +143,6 @@ void LogInConnector::HeartBeat()
 
 	MYDEBUG("[ LoginServer HeartBeat ] \n");
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(heartBeatPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(heartBeatPacket));
 	AddToSendQueue(tempPtr);
 }

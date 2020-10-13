@@ -59,7 +59,7 @@ void DBConnector::OnConnect()
 		sizeof(Packet));
 
 	SharedPointer<char> tempPtr = 
-		SharedPointer<char>(reinterpret_cast<char*>(requestMonsterDataPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(requestMonsterDataPacket));
 	AddToSendQueue(tempPtr);
 }
 
@@ -100,11 +100,6 @@ void DBConnector::OnRecv()
 
 		if (packet == nullptr) break;
 
-		if (tempNum <= 18)
-		{
-			printf("check \n");
-		}
-
 		MainThread::getSingleton()->AddToDBConnectorPacketQueue(packet);
 
 		tempNum--;
@@ -137,6 +132,6 @@ void DBConnector::HeartBeat()
 
 	MYDEBUG("[ DB HeartBeat ] \n");
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(heartBeatPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(heartBeatPacket));
 	AddToSendQueue(tempPtr);
 }

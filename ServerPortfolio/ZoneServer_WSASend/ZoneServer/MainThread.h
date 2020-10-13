@@ -92,8 +92,9 @@ public:
 	bool Init();
 	void SetManagers(UserManager* _userManager,
 		FieldManager* _fieldManager);
+	/*
 	//완전한 자원이동을 위해 rvalue reference로 받는다.
-	/*void SetManagers(std::unique_ptr<UserManager>&& _userManager,
+	void SetManagers(std::unique_ptr<UserManager>&& _userManager,
 		std::unique_ptr<FieldManager>&& _fieldManager);*/
 
 	void LoopRun();

@@ -37,8 +37,6 @@ bool Sender::ASyncSend(SOCKET _socket, WSAOVERLAPPED& _overlapped)
 {
 	if (m_queue.empty())
 	{
-		//printf("ºñ¾úÀ½ \n");
-
 		m_isSend = false;
 
 		return true;
@@ -46,11 +44,11 @@ bool Sender::ASyncSend(SOCKET _socket, WSAOVERLAPPED& _overlapped)
 
 	m_isSend = true;
 
-	/*char* temp = m_queue.front().GetPointer();
+	char* temp = m_queue.front().GetPointer();
 	if (m_bytes <= 0)
 	{
 		m_bytes = *(WORD*)temp;
-	}*/
+	}
 
 	m_wsaBuf.buf = m_queue.front().GetPointer();
 	m_wsaBuf.len = *(WORD*)m_wsaBuf.buf;
@@ -75,8 +73,6 @@ bool Sender::ASyncSend(SOCKET _socket, WSAOVERLAPPED& _overlapped)
 			return false;
 		}
 	}
-
-	//printf("º¸³¿ \n");
 
 	return true;
 }

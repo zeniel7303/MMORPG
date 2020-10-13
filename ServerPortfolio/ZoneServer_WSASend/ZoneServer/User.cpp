@@ -43,7 +43,7 @@ void User::OnConnect()
 	isConnectedPacket->isConnected = m_isConnected;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(isConnectedPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(isConnectedPacket));
 	AddToSendQueue(tempPtr);
 
 	//printf("[ isConnectedPacket 전송 완료 ]\n");
@@ -104,7 +104,7 @@ void User::DisConnect_ChangeZone(int _num)
 	//m_sendBuffer->Write(ReadyToChangeZone->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(ReadyToChangeZone), false);
+		SharedPointer<char>(reinterpret_cast<char*>(ReadyToChangeZone));
 	LogInConnector::getSingleton()->AddToSendQueue(tempPtr);
 }
 
@@ -136,7 +136,6 @@ void User::OnRecv()
 
 		if (packet == nullptr) break;
 
-		//상수로 넣는것(상수니까 주소바뀔 수 없다.)
 		MainThread::getSingleton()->AddToUserPacketQueue({ this, packet });
 
 		tempNum--;
@@ -156,13 +155,12 @@ void User::UpdateInfo()
 
 	UpdateUserPacket* updateUserPacket = new UpdateUserPacket();
 	updateUserPacket->Init(SendCommand::Zone2DB_UPDATE_USER, sizeof(UpdateUserPacket));
-	//m_sendBuffer->Write(updateUserPacket->size);
 	updateUserPacket->userIndex = m_basicInfo.userInfo.userID;
 	updateUserPacket->unitInfo = m_basicInfo.unitInfo;
 	updateUserPacket->socket = m_socket;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(updateUserPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(updateUserPacket));
 	DBConnector::getSingleton()->AddToSendQueue(tempPtr);
 }
 
@@ -178,7 +176,7 @@ void User::Death()
 	//m_sendBuffer->Write(userNumPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket));
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 }
 
@@ -202,7 +200,7 @@ void User::Respawn(const VECTOR2& _spawnPosition)
 	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket));
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 }
 
@@ -224,7 +222,7 @@ void User::Hit(int _index, int _damage)
 	//m_sendBuffer->Write(userHitPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userHitPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userHitPacket));
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 
 	if (m_basicInfo.unitInfo.hp.currentValue <= 0)
@@ -244,7 +242,7 @@ void User::PlusExp(int _exp)
 	//m_sendBuffer->Write(userExpPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userExpPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userExpPacket));
 	AddToSendQueue(tempPtr);
 
 	//이후 레벨업 체크해줘야함
@@ -273,7 +271,7 @@ void User::LevelUp()
 	//m_sendBuffer->Write(userNumPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket));
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 
 	//다시 레벨업 체크
@@ -295,7 +293,7 @@ void User::RequestUserInfo(int _num)
 	RequireUserInfoPacket->socket = m_socket;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(RequireUserInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(RequireUserInfoPacket));
 	DBConnector::getSingleton()->AddToSendQueue(tempPtr);
 }
 
@@ -315,7 +313,7 @@ void User::SendInfo(GetSessionInfoPacket* _packet)
 	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket));
 	AddToSendQueue(tempPtr);
 
 	//MYDEBUG("[ REGISTER_USER 전송 완료 ]\n");
@@ -350,7 +348,7 @@ void User::EnterField(Field *_field, int _fieldNum, VECTOR2* _spawnPosition)
 		static_cast<int>(m_basicInfo.unitInfo.position.y));
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(enterFieldPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(enterFieldPacket));
 	AddToSendQueue(tempPtr);
 
 	MYDEBUG("[ ENTER_FIELD ]\n");
@@ -413,6 +411,6 @@ void User::TestClientEnterField(Field* _field, int _fieldNum, int _dummyNum, VEC
 	sessionInfoPacket->info.unitInfo = m_basicInfo.unitInfo;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket));
 	AddToSendQueue(tempPtr);
 }

@@ -95,7 +95,7 @@ void MonsterManager::SendMonsterList(User* _user)
 	monsterInfoListPacket->Init(SendCommand::Zone2C_MONSTER_INFO_LIST, monsterInfoListPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket));
 	_user->AddToSendQueue(tempPtr);
 
 	SendMonsterList_InRange(_user);
@@ -134,7 +134,7 @@ void MonsterManager::SendMonsterList_InRange(User* _user)
 	monsterInfoListPacket_InRange->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_IN_RANGE, monsterInfoListPacket_InRange->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_InRange), false);
+		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_InRange));
 	_user->AddToSendQueue(tempPtr);
 }
 

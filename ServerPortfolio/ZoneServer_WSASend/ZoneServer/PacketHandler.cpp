@@ -72,7 +72,7 @@ void PacketHandler::OnPacket_AuthenticationUser(User* _user, Packet* _packet)
 	authenticationPacket->socket = _user->GetSocket();
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(authenticationPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(authenticationPacket));
 	LogInConnector::getSingleton()->AddToSendQueue(tempPtr);
 
 	MainThread::getSingleton()->AddToHashMapQueue(_user);
@@ -133,7 +133,7 @@ void PacketHandler::OnPacket_UpdateUserPosition(User* _user, Packet* _packet)
 	userPositionPacket_temp->position = userPositionPacket->position;
 	userPositionPacket_temp->Init(SendCommand::Zone2C_USER_MOVE, sizeof(UserPositionPacket));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_temp));
 
 	if (_user->GetInfo()->unitInfo.state == STATE::IDLE)
 	{
@@ -158,7 +158,7 @@ void PacketHandler::OnPacket_UpdateUserPosition_Finish(User* _user, Packet* _pac
 	userPositionPacket_temp->position = userPositionPacket->position;
 	userPositionPacket_temp->Init(SendCommand::Zone2C_USER_MOVE_FINISH, sizeof(UserPositionPacket));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_temp));
 
 	_user->SetState(STATE::IDLE);
 
@@ -181,7 +181,7 @@ void PacketHandler::OnPacket_UserAttackFailed(User* _user, Packet* _packet)
 	userAttackPacket_temp->userIndex = userAttackPacket->userIndex;
 	userAttackPacket_temp->Init(SendCommand::Zone2C_USER_ATTACK_FAILED, sizeof(UserAttackPacket));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userAttackPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userAttackPacket_temp));
 
 	Field* field = _user->GetField();
 	field->SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), tempPtr);
@@ -197,7 +197,7 @@ void PacketHandler::OnPacket_UserAttack(User* _user, Packet* _packet)
 	userAttackPacket_temp->userIndex = userAttackPacket->userIndex;
 	userAttackPacket_temp->Init(SendCommand::Zone2C_USER_ATTACK_MONSTER, sizeof(UserAttackPacket));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userAttackPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userAttackPacket_temp));
 
 	Field* field = _user->GetField();
 
@@ -231,7 +231,7 @@ void PacketHandler::OnPacket_Chatting(User* _user, Packet* _packet)
 	chattingPacket_temp->userIndex = chattingPacket->userIndex;
 	chattingPacket_temp->Init(SendCommand::Zone2C_CHATTING, sizeof(ChattingPacket));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(chattingPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(chattingPacket_temp));
 	//MYDEBUG("%s \n", chattingPacket->id);
 
 	_user->GetField()->
@@ -259,7 +259,7 @@ void PacketHandler::OnPacket_Chatting_Whisper(User* _user, Packet* _packet)
 	whisperChattingPacket_temp->userIndex = whisperChattingPacket->userIndex;
 	whisperChattingPacket_temp->Init(SendCommand::Zone2C_CHATTING_WHISPER, sizeof(ChattingPacket_Whisper));
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(whisperChattingPacket_temp), false);
+		SharedPointer<char>(reinterpret_cast<char*>(whisperChattingPacket_temp));
 
 	//How to search by value in a Map
 	//https://thispointer.com/how-to-search-by-value-in-a-map-c/
@@ -288,7 +288,7 @@ void PacketHandler::OnPacket_Chatting_Whisper(User* _user, Packet* _packet)
 	whisperFailpacket->Init(SendCommand::Zone2C_CHATTING_WHISPER_FAIL, sizeof(Packet));
 
 	SharedPointer<char> tempPtr_2 =
-		SharedPointer<char>(reinterpret_cast<char*>(whisperFailpacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(whisperFailpacket));
 	_user->AddToSendQueue(tempPtr_2);
 }
 
@@ -354,7 +354,7 @@ void PacketHandler::OnPacket_GetMonstersData(Packet* _packet)
 
 void PacketHandler::OnPacket_DBAgentAlive(Packet* _packet)
 {
-	MYDEBUG("[ DB Alive ] \n");
+	//MYDEBUG("[ DB Alive ] \n");
 	DBConnector::getSingleton()->SetStartTime();
 }
 
@@ -375,15 +375,13 @@ void PacketHandler::OnPacket_DisConnectUser(Packet* _packet)
 		return;
 	}
 
-
-
 	//User* tempUser = iter->second;
 	//tempUser->DisConnect();
 }
 
 void PacketHandler::OnPacket_LoginServerAlive(Packet* _packet)
 {
-	MYDEBUG("[ LoginServer Alive ] \n");
+	//MYDEBUG("[ LoginServer Alive ] \n");
 	LogInConnector::getSingleton()->SetStartTime();
 }
 

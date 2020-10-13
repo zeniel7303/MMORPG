@@ -165,7 +165,6 @@ void LogInSession::LogInUser(LogInPacket* _packet)
 		reinterpret_cast<LogInPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(LogInPacket_DBAgent)));
 	logInPacket_DBAgent->Init(SendCommand::LogIn2DB_LOGIN, sizeof(LogInPacket_DBAgent));
-	//m_sendBuffer->Write(logInPacket_DBAgent->size);
 	logInPacket_DBAgent->socket = m_socket;
 	strcpy_s(logInPacket_DBAgent->id, _packet->id);
 	strcpy_s(logInPacket_DBAgent->password, _packet->password);
@@ -180,7 +179,6 @@ void LogInSession::RegisterUser(RegisterUserPacket* _packet)
 		reinterpret_cast<RegisterPacket_DBAgent*>(m_sendBuffer->
 			GetBuffer(sizeof(RegisterPacket_DBAgent)));
 	registerPacket_DBAgent->Init(SendCommand::LogIn2DB_REGISTER, sizeof(RegisterPacket_DBAgent));
-	//m_sendBuffer->Write(registerPacket_DBAgent->size);
 	registerPacket_DBAgent->socket = m_socket;
 	strcpy_s(registerPacket_DBAgent->id, _packet->id);
 	strcpy_s(registerPacket_DBAgent->password, _packet->password);
@@ -224,7 +222,6 @@ void LogInSession::LogInDuplicated()
 	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED_DUPLICATED, sizeof(Packet));
-	//m_sendBuffer->Write(LogInFailed->size);
 
 	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
 
@@ -240,7 +237,7 @@ void LogInSession::LogInSuccess(int _num)
 	LogInSuccess->Init(SendCommand::Zone2C_LOGIN_SUCCESS, sizeof(LogInSuccessPacket_PortNum));
 	LogInSuccess->userIndex = m_idx;
 	LogInSuccess->portNum = 30005;
-	//m_sendBuffer->Write(LogInSuccess->size);
+
 	MYDEBUG("[ Login Success ] \n");
 
 	Send(reinterpret_cast<char*>(LogInSuccess), LogInSuccess->size);
@@ -251,7 +248,7 @@ void LogInSession::LogInFailed()
 	Packet* LogInFailed = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	LogInFailed->Init(SendCommand::Zone2C_LOGIN_FAILED, sizeof(Packet));
-	//m_sendBuffer->Write(LogInFailed->size);
+
 	MYDEBUG("[ Login Failed ] \n");
 
 	Send(reinterpret_cast<char*>(LogInFailed), LogInFailed->size);
@@ -264,7 +261,6 @@ void LogInSession::RegisterSuccess()
 	Packet* RegisterSuccessPacket = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	RegisterSuccessPacket->Init(SendCommand::Zone2C_REGISTER_USER_SUCCESS, sizeof(Packet));
-	//m_sendBuffer->Write(RegisterSuccessPacket->size);
 
 	Send(reinterpret_cast<char*>(RegisterSuccessPacket), RegisterSuccessPacket->size);
 
@@ -276,7 +272,6 @@ void LogInSession::RegisterFailed()
 	Packet* RegisterFailedPacket = reinterpret_cast<Packet*>(m_sendBuffer->
 		GetBuffer(sizeof(Packet)));
 	RegisterFailedPacket->Init(SendCommand::Zone2C_REGISTER_USER_FAILED, sizeof(Packet));
-	//m_sendBuffer->Write(RegisterFailedPacket->size);
 
 	Send(reinterpret_cast<char*>(RegisterFailedPacket), RegisterFailedPacket->size);
 

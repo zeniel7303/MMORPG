@@ -63,7 +63,7 @@ void Field::SectorSendAll(const std::vector<Sector*>& _sectorsVec,
 
 		const std::list<User*> tempList = element_1->GetUserList()->GetItemList();
 
-		if (tempList.size() <= 0) continue;
+		if (tempList.empty()) continue;
 
 		for (const auto& element_2 : tempList)
 		{
@@ -96,7 +96,7 @@ void Field::SendUserList(User* _user)
 	userListPacket->Init(SendCommand::Zone2C_USER_LIST, userListPacket->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userListPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userListPacket));
 	_user->AddToSendQueue(tempPtr);
 
 	SendUserList_InRange(_user);
@@ -139,7 +139,7 @@ void Field::SendUserList_InRange(User* _user)
 	userListPacket_InRange->Init(SendCommand::Zone2C_USER_LIST_IN_RANGE, userListPacket_InRange->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_InRange), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_InRange));
 	_user->AddToSendQueue(tempPtr);
 }
 
@@ -183,7 +183,7 @@ void Field::SendEnterUserInfo(User* _user)
 	sessionInfoPacket->info.unitInfo = _user->GetInfo()->unitInfo;
 
 	SharedPointer<char> tempPtr1 =
-		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(sessionInfoPacket));
 
 	for (const auto& element : m_userList.GetItemList())
 	{
@@ -198,7 +198,7 @@ void Field::SendEnterUserInfo(User* _user)
 	userNumPacket_InRange->userIndex = _user->GetInfo()->userInfo.userID;
 
 	SharedPointer<char> tempPtr2 =
-		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket_InRange), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket_InRange));
 
 	if (_user->GetSector() == nullptr) return;
 
@@ -241,7 +241,7 @@ void Field::SendExitUserInfo(int _num)
 	userPacket->userIndex = _num;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userPacket));
 	FieldSendAll(tempPtr);
 }
 
@@ -254,7 +254,7 @@ bool Field::UserAttack(User * _user, int _monsterIndex)
 	if (packet == nullptr) return false;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(packet), false);
+		SharedPointer<char>(reinterpret_cast<char*>(packet));
 
 	SectorSendAll(_user->GetSector()->GetRoundSectorsVec(), tempPtr);
 
@@ -347,7 +347,7 @@ void Field::LeaveSector(User* _user)
 	userNumPacket_Exit->userIndex = _user->GetInfo()->userInfo.userID;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket_Exit), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userNumPacket_Exit));
 
 	//자신이 있던 섹터 범위 내의 다른 유저들에게 자신이 나갔다고 알려주는 함수
 	SectorSendAll(m_leaveSectorsVec, tempPtr);
@@ -398,7 +398,7 @@ void Field::SendInvisibleUserList(User* _user)
 	userListPacket_Invisible->Init(SendCommand::Zone2C_USER_LIST_INVISIBLE, userListPacket_Invisible->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_Invisible), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_Invisible));
 	_user->AddToSendQueue(tempPtr);
 }
 
@@ -433,7 +433,7 @@ void Field::SendInvisibleMonsterList(User* _user)
 	monsterInfoListPacket_Invisible->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_INVISIBLE, monsterInfoListPacket_Invisible->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_Invisible), false);
+		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_Invisible));
 	_user->AddToSendQueue(tempPtr);
 }
 
@@ -445,7 +445,7 @@ void Field::EnterSector(User* _user)
 	userPositionPacket_Enter->position = _user->GetInfo()->unitInfo.position;
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_Enter), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userPositionPacket_Enter));
 
 	//내가 들어온 섹터 범위 내의 다른 유저들에게 자신이 들어왔다고 알려주는 함수
 	SectorSendAll(m_enterSectorsVec, tempPtr);
@@ -503,7 +503,7 @@ void Field::SendVisibleUserList(User* _user)
 	userListPacket_Visible->Init(SendCommand::Zone2C_USER_LIST_VISIBLE, userListPacket_Visible->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_Visible), false);
+		SharedPointer<char>(reinterpret_cast<char*>(userListPacket_Visible));
 	_user->AddToSendQueue(tempPtr);
 }
 
@@ -537,7 +537,7 @@ void Field::SendVisibleMonsterList(User* _user)
 	monsterInfoListPacket_Visible->Init(SendCommand::Zone2C_MONSTER_INFO_LIST_VISIBLE, monsterInfoListPacket_Visible->size);
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_Visible), false);
+		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoListPacket_Visible));
 	_user->AddToSendQueue(tempPtr);
 }
 

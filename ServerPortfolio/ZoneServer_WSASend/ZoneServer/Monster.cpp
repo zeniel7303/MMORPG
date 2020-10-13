@@ -99,7 +99,7 @@ void Monster::Spawn()
 	monsterInfoPacket->Init(SendCommand::Zone2C_MONSTER_INFO, sizeof(MonsterInfoPacket));
 
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(monsterInfoPacket));
 	//MainThread::getSingleton()->AddToMonsterPacketQueue({ this, monsterInfoPacket });
 	m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 }
@@ -355,7 +355,6 @@ void Monster::PathFindStart(Tile* _targetTile, STATE _state)
 	m_currentTime = 0;
 
 	PathFindPacket* pathFindPacket = new PathFindPacket();
-		//reinterpret_cast<PathFindPacket*>(m_sendBuffer->GetBuffer(sizeof(PathFindPacket)));
 	pathFindPacket->Init(SendCommand::Zone2Path_PATHFIND, sizeof(PathFindPacket));
 
 	pathFindPacket->monsterNum = m_info.index;
@@ -367,10 +366,8 @@ void Monster::PathFindStart(Tile* _targetTile, STATE _state)
 	pathFindPacket->targetPosition.x = (float)_targetTile->GetX();
 	pathFindPacket->targetPosition.y = (float)_targetTile->GetY();
 
-	//m_sendBuffer->Write(pathFindPacket->size);
-
 	SharedPointer<char> tempPtr =
-		SharedPointer<char>(reinterpret_cast<char*>(pathFindPacket), false);
+		SharedPointer<char>(reinterpret_cast<char*>(pathFindPacket));
 	PathFinderAgent::getSingleton()->AddToSendQueue(tempPtr);
 
 	/*PathFinderAgent::getSingleton()->SendPathFindPacket(m_info.index, m_field->GetFieldNum(), _state,
@@ -443,7 +440,7 @@ bool Monster::PathMove()
 			//MYDEBUG("my position : %f , %f \n", m_info.position.x, m_info.position.y);
 
 			SharedPointer<char> tempPtr =
-				SharedPointer<char>(reinterpret_cast<char*>(monsterPositionPacket), false);
+				SharedPointer<char>(reinterpret_cast<char*>(monsterPositionPacket));
 			//MainThread::getSingleton()->AddToMonsterPacketQueue({ this, monsterPositionPacket });
 			m_field->SectorSendAll(m_sector->GetRoundSectorsVec(), tempPtr);
 		}
