@@ -176,7 +176,6 @@ void PacketHandler::OnPacket_ReadyToChangeZone(ZoneConnector* _zone, Packet* _pa
 		GetBuffer(sizeof(ZoneNumPacket)));
 	changeZone->Init(SendCommand::Login2C_CHANGE_ZONE, sizeof(ZoneNumPacket));
 	changeZone->zoneNum = iter->second->GetZoneNum();
-	//m_sendBuffer->Write(changeZone->size);
 
 	iter->second->Send(reinterpret_cast<char*>(changeZone), changeZone->size);
 }

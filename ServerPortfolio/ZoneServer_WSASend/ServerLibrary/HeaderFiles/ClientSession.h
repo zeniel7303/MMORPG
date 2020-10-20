@@ -17,10 +17,6 @@ protected:
 	bool				m_isConnected;
 	bool				m_isActived;
 
-	bool				m_ConstructorBool;
-
-	SpinLock			m_spinLock;
-
 public:
 	ClientSession();
 	virtual ~ClientSession();
