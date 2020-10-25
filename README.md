@@ -13,7 +13,7 @@
 _StartExeFiles | 배치파일 묶음 폴더(절대 경로)
 DummyClient | 더미 클라이언트
 GameDBAgent | MMORPG의 캐릭터 및 몬스터 DB Agent
-LoginDBAgent | MMORPG의 로그인 계정 DB Agent
+LoginDBAgent | MMORPG의 로그인 서버의 로그인 계정 DB Agent
 LoginServer | MMORPG의 로그인 서버이자 WorldServer
 PathFinderAgent | MMORPG의 길찾기 Agent
 ZoneServer_WSASend | MMORPG의 존(채널) 서버
