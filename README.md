@@ -1,5 +1,7 @@
 # MMORPG 서버 포트폴리오
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ff8c094a446f438d98179f8a9dbdae50)](https://www.codacy.com/gh/ahnjm001/MMORPG/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ahnjm001/MMORPG&amp;utm_campaign=Badge_Grade)
+
 # 사용 언어
 - C++
 
