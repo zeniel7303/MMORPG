@@ -7,6 +7,17 @@
 - Windows10
 - Visual Studio 2017
 
+# ServerPortfolio폴더 구성
+폴더 명 | 설명
+---- | ----
+_StartExeFiles | 배치파일 묶음 폴더(절대 경로)
+DummyClient | 더미 클라이언트
+GameDBAgent | MMORPG의 캐릭터 및 몬스터 DB Agent
+LoginDBAgent | MMORPG의 로그인 계정 DB Agent
+LoginServer | MMORPG의 로그인 서버이자 WorldServer
+PathFinderAgent | MMORPG의 길찾기 Agent
+ZoneServer_WSASend | MMORPG의 존(채널) 서버
+
 # PPT
 [PPT 링크](https://drive.google.com/drive/folders/1v13sMrv2-68Zyx4xrQOSftzltMEuMySs?usp=sharing) 
 
