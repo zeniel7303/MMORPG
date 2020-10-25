@@ -30,15 +30,11 @@ Monster::Monster(Field* _field, FieldTilesData* _fieldTilesData,
 	m_sectorManager = _sectorManager;
 	m_sector = nullptr;
 
-	InitializeCriticalSection(&m_cs);
-
 	Spawn();
 };
 
 Monster::~Monster()
 {
-	DeleteCriticalSection(&m_cs);
-
 	m_tileList.clear();
 	m_tileList.resize(0);
 }

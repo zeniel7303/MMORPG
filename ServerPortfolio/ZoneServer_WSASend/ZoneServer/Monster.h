@@ -3,11 +3,9 @@
 
 #include "../ServerLibrary/HeaderFiles/Utils.h"
 #include "../ServerLibrary/HeaderFiles/OnlyHeaders/DoubleQueue.h"
-#include "../ServerLibrary/HeaderFiles/CriticalSection.h"
 
 #include "packet.h"
 #include "UnitInfo.h"
-#include "PathFinding.h"
 #include "FieldTilesData.h"
 
 //=====================================================
@@ -26,7 +24,7 @@ class SectorManager;
 class Sector;
 class MainThread;
 
-class Monster : public PathFinding
+class Monster
 {
 private:
 	bool					m_failed;
@@ -52,10 +50,6 @@ private:
 	Sector*					m_sector;
 
 	User*					m_target;
-
-	//========================================
-
-	CRITICAL_SECTION		m_cs;
 
 	//========================================
 

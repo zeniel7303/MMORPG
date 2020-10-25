@@ -296,6 +296,7 @@ void LogInSession::ChangeZone(int _num)
 	changeZonePacket->Init(SendCommand::Login2Zone_DISCONNECT_USER_CHANGE_ZONE, sizeof(ChangeZonePacket));
 	changeZonePacket->zoneNum = _num;
 	changeZonePacket->userIndex = m_idx;
+	//m_sendBuffer->Write(DisConnectUserPacket->size);
 
 	prevZoneConnector->Send(reinterpret_cast<char*>(changeZonePacket), changeZonePacket->size);
 
