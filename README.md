@@ -2,6 +2,9 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/ff8c094a446f438d98179f8a9dbdae50)](https://www.codacy.com/gh/ahnjm001/MMORPG/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ahnjm001/MMORPG&amp;utm_campaign=Badge_Grade)
 
+# PPT
+[PPT 링크](https://drive.google.com/drive/folders/1v13sMrv2-68Zyx4xrQOSftzltMEuMySs?usp=sharing) 
+
 # 사용 언어
 - C++
 
@@ -19,9 +22,6 @@ LoginDBAgent | MMORPG의 로그인 서버의 로그인 계정 DB Agent
 LoginServer | MMORPG의 로그인 서버이자 WorldServer
 PathFinderAgent | MMORPG의 길찾기 Agent
 ZoneServer_WSASend | MMORPG의 존(채널) 서버
-
-# PPT
-[PPT 링크](https://drive.google.com/drive/folders/1v13sMrv2-68Zyx4xrQOSftzltMEuMySs?usp=sharing) 
 
 # 설명
 - 분산형 MMORPG 게임 서버 개발 시 사용이 가능한 라이브러리입니다.
