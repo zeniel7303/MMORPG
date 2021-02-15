@@ -21,7 +21,7 @@ GameDBAgent | MMORPG의 캐릭터 및 몬스터 DB Agent
 LoginDBAgent | MMORPG의 로그인 서버의 로그인 계정 DB Agent
 LoginServer | MMORPG의 로그인 서버이자 WorldServer
 PathFinderAgent | MMORPG의 길찾기 Agent
-ZoneServer_WSASend | MMORPG의 존(채널) 서버
+ZoneServer | MMORPG의 존(채널) 서버
 
 # 설명
 - 분산형 MMORPG 게임 서버 개발 시 사용이 가능한 라이브러리입니다.
